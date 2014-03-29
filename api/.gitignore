@@ -1,0 +1,13 @@
+*.dat
+*.out
+*.pid
+*.seed
+*.log
+*.csv
+*.gz
+node_modules
+pids
+logs
+results
+.project
+.settings
