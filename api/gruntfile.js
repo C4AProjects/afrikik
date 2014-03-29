@@ -64,7 +64,7 @@ module.exports = function(grunt) {
                     debug: true,
                     delayTime: 1,
                     env: {
-                        PORT: 2015,
+                        PORT: 2014,
                         NODE_ENV:"development"
                     },
                     cwd: __dirname

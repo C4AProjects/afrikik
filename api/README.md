@@ -53,6 +53,10 @@ Development environment, from within afriki/api:
 ```
 NODE_ENV=development grunt
 ```
+You should be able to access the application temporary UI at
+
+http://localapi.afrikik.com:2014/
+
 
 #### REMEMBER TO WRITE YOUR UNIT TEST, THIS IS A TDD PROJECT, ANY NEW FEATURE SHOULD BE CHECKED IN WITH ITS CORRESPONDING TEST
 
