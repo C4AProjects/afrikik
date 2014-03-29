@@ -1,0 +1,25 @@
+<form novalidate class="form"  name="addPostRequestForm">
+	<div class="modal-header">
+		<h3>{{'ADD_POST_REQUEST_FORM_LEGEND'|translate}}</h3>
+	</div>
+	<div class="modal-body">
+		
+				
+		    <div class="form-group"  ng-class="{'has-error':(!addPostRequestForm.word.$valid && addPostRequestForm.word.$dirty )}">
+		        <label  for="word">{{'ADD_POST_REQUEST_FORM_WORD_LABEL'|translate}}:</label>
+		        <input type="text" class="form-control input-lg" ng-model="postRequest.word" id="word" name="word" required/>
+		        <span class="text-error" ng-show="addPostRequestForm.word.$error.required &&addPostRequestForm.word.$dirty">{{'ADD_POST_REQUEST_FORM_WORD_REQUIRED_ERROR'|translate}}</span>
+		    </div>
+		    <div class="form-group" ng-class="{'has-error':(!addPostRequestForm.requestType.$valid && addPostRequestForm.requestType.$dirty )}">
+		        <label  for="definition">{{'ADD_POST_REQUEST_FORM_TRANSLATION_TYPE_LABEL'|translate}}: {{postRequest.type}}</label>
+		        <select ng-model="postRequest.type" class="form-control" name="requestType" ng-options="requestType.value as requestType.label for requestType in translationOptions" required></select>
+		        <span class="text-error" ng-show="addPostRequestForm.requestType.$error.required && addPostRequestForm.requestType.$dirty">{{'ADD_POST_REQUEST_FORM_TRANSLATION_TYPE_REQUIRED_ERROR'|translate}}</span>
+		    </div>
+		   
+		    <input type="hidden" class="form-control" ng-model="postRequest.is_from_request" id="is_from_request" name="is_from_request"/>   
+	</div>
+	<div class="modal-footer">
+		<button type="submit" ng-click="submitPostRequest()" class="btn btn-lg btn-primary"  ng-disabled="!addPostRequestForm.$valid">{{'ADD_POST_REQUEST_FORM_SUBMIT_BTN_LABEL'|translate}}</button>
+		<button class="btn"  ng-click="cancel()">{{'FORM_CANCEL_BTN_LABEL'|translate}}</button>
+	</div>
+</form>

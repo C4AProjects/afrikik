@@ -1,0 +1,13 @@
+<div class="col-md-12">
+<div class="">
+	<div class='alert ' ng-class='type && "alert-" + type'>
+	    <button ng-show='closeable' type='button' class='close' ng-click='close()'>&times;</button>
+	    <h4 ng-show="type === 'success'" class="glyphicon glyphicon-ok"> <strong>It's All Goood!</strong></h4>
+	    <h4 ng-show="type === 'danger'" class="glyphicon glyphicon-hand-right"> <strong>Error</strong></h4>
+	    <span ng-show="type === 'info'" class="glyphicon glyphicon-info-sign"> <strong>Information</strong></span>
+	    <span ng-show="type ==='warning'"class="glyphicon glyphicon-record"> <strong>Warning</strong></span>
+	    <hr class="message-inner-separator">
+	    <h4 ng-transclude></h4>
+	</div>
+</div>
+</div>

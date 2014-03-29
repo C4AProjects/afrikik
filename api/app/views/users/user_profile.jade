@@ -1,0 +1,33 @@
+extends ../layouts/default
+
+block content
+  form.signin.form-horizontal(action="/api/v1/users/#{userId}/profile", method="post")
+    p.error= message
+    .control-group
+      label.control-label(for='username') Username
+      .controls
+        input#username(type='text', value="#{profile.username||''}", name="username", required="true", placeholder='Username')
+    .control-group
+      label.control-label(for='first_name') First name
+      .controls
+        input#first_name(type='text', value="#{profile.first_name||''}", name="first_name", placeholder='First name')
+    .control-group
+      label.control-label(for='last_name') Last name
+      .controls
+        input#last_name(type='text', value="#{profile.last_name||''}", name="last_name", placeholder='Last name')
+    .control-group
+      label.control-label(for='address') Address
+      .controls
+        input#address(type='text', value="#{profile.address||''}", name="address", placeholder='Address')
+    .control-group
+      label.control-label(for='address2') Address 2
+      .controls
+        input#address2(type='text', value="#{profile.address2||''}", name="address2", placeholder='Address 2')
+    .control-group
+      label.control-label(for='phone') Phone number
+      .controls
+        input#phone(type='text', value="#{profile.phone_number||''}", name="phone_number", placeholder='Phone')
+
+    .form-actions
+      button.btn.btn-primary(type='submit') Validate
+      &nbsp;
