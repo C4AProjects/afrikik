@@ -45,7 +45,15 @@ require('./config/routes')(app, passport, auth);
 
 //Start the app by listening on <port>
 var port = process.env.PORT || process.env.VCAP_APP_PORT || 2014;
-app.listen(port,'localapi.afrikik.com');
+if(process.env.NODE_ENV == "development")
+{
+    app.listen(port,'localapi.afrikik.com');
+}
+else
+{
+     app.listen(port);
+}
+
 console.log(config.app.name + 'API started at http://' + os.hostname() + ":" + port + "/");
 
 //Initializing logger 
