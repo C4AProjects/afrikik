@@ -53,7 +53,7 @@ var generate_mongo_url = function(mongoUrlConfig){
     {
           mongoUrlConfig.hostname = (mongoUrlConfig.hostname || 'localhost');
             mongoUrlConfig.port = (mongoUrlConfig.port || 27017);
-            mongoUrlConfig.db = (mongoUrlConfig.db || 'nouchi');
+            mongoUrlConfig.db = (mongoUrlConfig.db || 'afrikik');
             
             if(mongoUrlConfig.username && mongoUrlConfig.password){
                 return "mongodb://" + mongoUrlConfig.username + ":" + mongoUrlConfig.password + "@" + mongoUrlConfig.hostname + ":" + mongoUrlConfig.port + "/" + mongoUrlConfig.db;
