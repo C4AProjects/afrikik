@@ -119,4 +119,22 @@ exports.player = function(req, res, next, id) {
    
 };
 
+/************************************************************************************
+ *          Player searching by name
+ **************************************************************************************/
+
+exports.searchByName = function(req, res){
+    var regex = new RegExp(req.params.name, 'gi');
+    Player
+    .find({fullName:regex})
+    //.sort({createdAt:-1})
+    .limit(req.params.limit||10)
+    .exec(function(err, list){
+       if(err) res.status(401).json({err: err})
+       if (list) {
+        res.status(200).json(list)
+       }
+    })
+}
+
 

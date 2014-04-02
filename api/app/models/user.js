@@ -26,7 +26,14 @@ var UserSchema = new Schema({
     google: {},
     slug:{type: String, required: false},
     created: {type: Date, default: Date.now},
-	modified:{type: Date, default: Date.now},
+    modified:{type: Date, default: Date.now},
+    
+    _profile: {type: Schema.Types.ObjectId, ref: 'UserProfile'},
+    subscribedPlayers: [{type: Schema.ObjectId, ref: 'Player'}],
+    subscribedTeams: [{type: Schema.ObjectId, ref: 'Team'}],
+    followers: [{type: Schema.ObjectId, ref: 'User'}], //_id members that follow member
+    following: [{type: Schema.ObjectId, ref: 'User'}],
+    feeds: [{type: Schema.ObjectId, ref: 'Feed'}], 
 });
 
 /**

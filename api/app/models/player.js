@@ -34,4 +34,64 @@ PlayerSchema.statics = {
     }
 };
 
+/**
+ * Virtuals
+ */
+/*
+SchemaName.virtual('transientFieldName').set(function(param) {
+    
+}).get(function() {
+    
+});
+*/
+
+/**
+Transforms
+*
+*/
+
+/*
+SchemaName.options.toJSON ={
+    transform: function(team, json, options) {
+       
+    }
+}
+*/
+
+/**
+ * Validations
+ */
+
+/*
+SchemaName.path('field').validate(function(field) {
+   
+    return true;    
+}, 'Error validation message');
+*/
+
+/**
+ * Pre-save hook
+ */
+
+/*
+ */
+
+/*SchemaName.pre('save', function(next) {
+    
+});
+*/
+
+/**
+ * Methods
+ */
+
+
+PlayerSchema.methods = {
+    sanitize : function(text) {                
+           return text.replace(/\[-\[\]{\}\(\)\*+?.,\^$|#s\]/, "\$&");
+    
+    }           
+}
+
+
 mongoose.model('Player', PlayerSchema, 'players', true);

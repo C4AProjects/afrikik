@@ -28,4 +28,63 @@ MatchSchema.statics = {
     }
 };
 
+
+/**
+ * Virtuals
+ */
+/*
+SchemaName.virtual('transientFieldName').set(function(param) {
+    
+}).get(function() {
+    
+});
+*/
+
+/**
+Transforms
+*
+*/
+
+/*
+SchemaName.options.toJSON ={
+    transform: function(team, json, options) {
+       
+    }
+}
+*/
+
+/**
+ * Validations
+ */
+
+/*
+SchemaName.path('field').validate(function(field) {
+   
+    return true;    
+}, 'Error validation message');
+*/
+
+/**
+ * Pre-save hook
+ */
+
+/*
+ */
+
+/*SchemaName.pre('save', function(next) {
+    
+});
+*/
+
+/**
+ * Methods
+ */
+
+/*
+SchemaName.methods = {
+                
+}
+*/
+
+
 mongoose.model('Match', MatchSchema, 'matches', true);

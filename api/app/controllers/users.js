@@ -14,7 +14,7 @@ var mongoose = require('mongoose'),
     env = process.env.NODE_ENV || 'development',
     config = require('../../config/config')[env],
     PUBLICLY_VIEWABLE_FIELDS = 'email phone_number username created status user_type profile shop schedule reviews hair'
-    ;
+    , UserProfile = mongoose.model('UserProfile')
     
 
 var ObjectId = mongoose.Types.ObjectId;
@@ -232,10 +232,14 @@ exports.user = function(req, res, next, id) {
             _id: new ObjectId(id)
         })
         .exec(function(err, user) {
-            if (err) return next(err);
+            if (err) {
+                res.status(401).json({
+                    error:err
+                });
+            }
             if (!user) 
             {
-                return res.status(401).json({
+                res.status(401).json({
                     error:"Invalid user"
                 });
             }
@@ -269,7 +273,11 @@ var prepareEmail = function(confirmcode, options, send){
     }
     
     confirmcode.save(function(err){
-        if(err) return err;
+        if(err){
+            res.status(401).json({
+                    error:"Invalid user"
+            });
+        }
     });
     return;
 }
@@ -312,7 +320,7 @@ exports.showResetPasswordForm = function(req, res, next){
     .populate('user')
     .exec(function(err, token){
         if(err) return err;
-        if(!token) return res.status(400).json({errors:'Error in reseting password, you may ready reset it'});
+        if(!token) res.status(400).json({errors:'Error in reseting password, you may ready reset it'});
         res.render('users/reset_password', {
             user: token.user,
             resetPasswordToken: req.params.resetPasswordToken // will be put in a hidden input text
@@ -431,5 +439,22 @@ exports.sendEmailCode = function(req, res){
             });  
             return res.status(200).json({success:true,message: 'An email is sending to ' + user.email });
         });
+}
+
+/************************************************************************************
+ *          User/member searching by name/fullName
+ **************************************************************************************/
+
+exports.searchByName = function(req, res){
+    var regex = new RegExp(req.params.name, 'i');
+    UserProfile.find({fullName:regex})    
+    .limit(req.params.limit||10)
+    .populate('_user')
+    .exec(function(err, list){
+       if(err) res.status(401).json({err: err})
+       if (list) {
+        res.status(200).json(list)
+       }
+    })
 }
 
