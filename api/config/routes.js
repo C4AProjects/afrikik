@@ -53,6 +53,36 @@ module.exports = function(app, passport, auth) {
     app.post('/api/v1/postrequests/:postRequestId/resolve/:userId', passport.authenticate('bearer', { session: false }), postRequests.resolve);
     app.del('/api/v1/postrequests/:postRequestId', passport.authenticate('bearer', { session: false }), postRequests.destroy);
 
+    //Member Routes
+    var members = require('../app/controllers/members');
+    app.get('/api/v1/users/search/:name', members.searchByName );
+    app.post('/api/v1/users/:userId/subscribe/players/:playerId', members.subscribeToPlayer);
+    app.post('/api/v1/users/:userId/subscribe/teams/:teamId', members.subscribeToTeam);
+    app.get('/api/v1/users/:userId/followers/requests', members.getFriendRequests);
+    app.get('/api/v1/users/:userId/players/:playerId/friends', members.getUsersPlayer);
+    app.get('/api/v1/users/:userId/teams/:teamId/friends', members.getUsersTeam);
+    app.post('/api/v1/users/:userId/approve', members.approveFriendRequest);
+    app.post('/api/v1/users/:userId/deny', members.denyFriendRequest);
+    app.post('/api/v1/users/:userId/unfollow', members.unfollowFriend);
+    
+    //Player Routes
+    var players = require('../app/controllers/players');
+    app.get('/api/v1/players/:playerId', players.show );
+    app.post('/api/v1/players', players.create);
+    app.put('/api/v1/players/:playerId', players.update);
+    app.del('/api/v1/players/:playerId', players.destroy);
+    app.get('/api/v1/players/search/:name', players.searchByName );
+    app.get('/api/v1/players/:playerId/share', players.sharePlayerProfile);
+    app.get('/api/v1/users/:userId/teams/:teamId/players', players.getPlayersTeam);
+    
+    //Team Routes
+    var teams = require('../app/controllers/teams');
+    app.get('/api/v1/teams/:teamId', teams.show );
+    app.post('/api/v1/teams', teams.create);
+    app.put('/api/v1/teams/:teamId', teams.update);
+    app.del('/api/v1/teams/:teamId', teams.destroy);
+    app.get('/api/v1/teams/search/:name', teams.searchByName );
+    app.get('/api/v1/teams/:teamId/share', teams.shareTeamrProfile);
     
     //Finish with setting up the userId param
     app.param('userId', users.user);
@@ -60,6 +90,11 @@ module.exports = function(app, passport, auth) {
     app.param('postId', posts.post);
      //Finish with setting up the postRequestId param
     app.param('postRequestId', postRequests.postRequest);
+    
+    //Finish with setting up the playerId param
+    app.param('playerId', players.player);
+    //Finish with setting up the teamId param
+    app.param('teamId', teams.team);
 
     //Setting the facebook oauth routes
     app.get('/auth/facebook', passport.authenticate('facebook', {
