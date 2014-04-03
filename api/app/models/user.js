@@ -33,7 +33,8 @@ var UserSchema = new Schema({
     subscribedTeams: [{type: Schema.ObjectId, ref: 'Team'}],
     followers: [{type: Schema.ObjectId, ref: 'User'}], //_id members that follow member
     following: [{type: Schema.ObjectId, ref: 'User'}],
-    feeds: [{type: Schema.ObjectId, ref: 'Feed'}], 
+    feeds: [{type: Schema.ObjectId, ref: 'Feed'}],
+    requests: [{type: Schema.ObjectId, ref: 'User'}], // friend requests user have to accept    
 });
 
 /**
