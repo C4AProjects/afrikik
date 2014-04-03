@@ -160,21 +160,11 @@ exports.getPlayersTeam = function(req, res){
 /************************************************************************************
  *    <POST> Share player profile : /players/PLAYER_ID/share
  **************************************************************************************/
-
+//TODO
 exports.sharePlayerProfile = function(req, res){
-  var user = req.user
-  if (user.subscribedTeams.indexOf(req.params.teamId)>0) {
-    Player.find({_team: req.team._id})
-    .populate('_team')
-    .exec(function(err, list){
-        if(err) res.status(401).json({err: err})        
-        res.status(200).json(list)
-    })     
-  }
-  else
-  {
-    res.status(401).json({err:  req.params.teamId + ' doesn\'t exist in subscribed team list!', subcribedTeams: user.subscribedTeams }) 
-  }
+  var player = req.player
+  
 }
+
 
 
