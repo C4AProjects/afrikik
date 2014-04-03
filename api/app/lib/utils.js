@@ -20,6 +20,11 @@ exports.uid = function(len) {
   return buf.join('');
 };
 
+exports.sanitize = function(text) {                
+  return text.replace(/\[-\[\]{\}\(\)\*+?.,\^$|#s\]/, "\$&");
+    
+}    
+
 /**
  * Retrun a random int, used by `utils.uid()`
  *

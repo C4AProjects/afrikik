@@ -441,20 +441,4 @@ exports.sendEmailCode = function(req, res){
         });
 }
 
-/************************************************************************************
- *          User/member searching by name/fullName
- **************************************************************************************/
-
-exports.searchByName = function(req, res){
-    var regex = new RegExp(req.params.name, 'i');
-    UserProfile.find({fullName:regex})    
-    .limit(req.params.limit||10)
-    .populate('_user')
-    .exec(function(err, list){
-       if(err) res.status(401).json({err: err})
-       if (list) {
-        res.status(200).json(list)
-       }
-    })
-}
 
