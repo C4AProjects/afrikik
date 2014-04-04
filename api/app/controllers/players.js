@@ -126,7 +126,7 @@ exports.player = function(req, res, next, id) {
 exports.searchByName = function(req, res){
     var regex = new RegExp(req.params.name, 'gi');
     Player
-    .find({fullName:regex})
+    .find({name:regex})
     //.sort({createdAt:-1})
     .limit(req.params.limit||10)
     .exec(function(err, list){
@@ -135,6 +135,44 @@ exports.searchByName = function(req, res){
         res.status(200).json(list)
        }
     })
+}
+
+exports.searchPlayersAndTeam = function(req, res){
+    var regex = new RegExp(req.params.name, 'gi')
+    , result = []
+    
+    Player
+    .find({name:regex})
+    //.sort({createdAt:-1})
+    .limit(req.params.limit||10)
+    .exec(function(err, list){
+       if(err) res.status(401).json({err: err})
+       if (list) {
+        result= list
+       }
+    })
+    
+    Team = mongoose.model('Team')
+    var regex = new RegExp(req.params.name, 'gi');
+    Team.find({name:regex})     
+    .limit(req.params.limit||10)
+    .exec(function(err, list){
+       if(err) res.status(401).json({err: err})
+       if (list) {
+        result.concat(list) //  concat with the players
+       }
+    })
+    //sort the results by name   
+    result.sort(sorter)
+    res.status(200).json(result)
+    
+    var sorter = function (a, b) {
+        if (a.name > b.name)
+          return 1;
+        if (a.name < b.name)
+          return -1;        
+        return 0;
+    }
 }
 
 /************************************************************************************

@@ -74,6 +74,7 @@ module.exports = function(app, passport, auth) {
     app.get('/api/v1/players/search/:name', players.searchByName );
     app.get('/api/v1/players/:playerId/share', players.sharePlayerProfile);
     app.get('/api/v1/users/:userId/teams/:teamId/players', players.getPlayersTeam);
+    app.get('/api/v1/search/:name', players.searchPlayersAndTeam)
     
     //Team Routes
     var teams = require('../app/controllers/teams');
@@ -82,7 +83,7 @@ module.exports = function(app, passport, auth) {
     app.put('/api/v1/teams/:teamId', teams.update);
     app.del('/api/v1/teams/:teamId', teams.destroy);
     app.get('/api/v1/teams/search/:name', teams.searchByName );
-    app.get('/api/v1/teams/:teamId/share', teams.shareTeamrProfile);
+    app.get('/api/v1/teams/:teamId/share', teams.shareTeamrProfile);    
     
     //Finish with setting up the userId param
     app.param('userId', users.user);

@@ -10,7 +10,7 @@ var TrophySchema = new Schema({
 })                
 
 var PlayerSchema = new Schema({                      
-                fullName: String,
+                name: String,
                 dob: Date,
                 nationality: String, // the value may be from country collections
                 club: String,
