@@ -20,7 +20,7 @@ var PlayerSchema = new Schema({
                 picture: String, // url of player picture
                 position: String, // the differents existing positions may be controlled by the API
                 matchs: [{type: Schema.ObjectId, ref: 'Match'}],  // set of _id match participated
-                ratings: [{type: Number}],
+                rating: {type: Number},
                 trophy: [TrophySchema],
                 _photo: {type: Schema.Types.ObjectId, ref: 'Photo' }
 })

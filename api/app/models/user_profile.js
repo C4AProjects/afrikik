@@ -10,7 +10,8 @@ var UserProfileSchema = new Schema({
       dob: Date,
       country: String,
       _user: {type: Schema.Types.ObjectId, ref: 'User' },
-      _photo: {type: Schema.Types.ObjectId, ref: 'Photo' }
+      _photo: {type: Schema.Types.ObjectId, ref: 'Photo' },
+      rating: {type: Number}
 })
 
 UserProfileSchema.plugin(timestamps,MongooseRattle)
