@@ -21,7 +21,8 @@ var PlayerSchema = new Schema({
                 position: String, // the differents existing positions may be controlled by the API
                 matchs: [{type: Schema.ObjectId, ref: 'Match'}],  // set of _id match participated
                 ratings: [{type: Number}],
-                trophy: [TrophySchema]                
+                trophy: [TrophySchema],
+                _photo: {type: Schema.Types.ObjectId, ref: 'Photo' }
 })
 
 PlayerSchema.plugin(timestamps,MongooseRattle)

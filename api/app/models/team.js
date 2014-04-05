@@ -10,7 +10,8 @@ var TeamSchema = new Schema({
                 foundedDate: Date,
                 coachName: String,                
                 profile: {wins: Number, loss: Number, draw: Number},  
-                ratings: [{type:Number}]
+                ratings: [{type:Number}],
+                _photo: {type: Schema.Types.ObjectId, ref: 'Photo' }
 })
 
 TeamSchema.plugin(timestamps,MongooseRattle)

@@ -163,16 +163,14 @@ exports.searchPlayersAndTeam = function(req, res){
        }
     })
     //sort the results by name   
-    result.sort(sorter)
-    res.status(200).json(result)
-    
-    var sorter = function (a, b) {
+    result.sort(function (a, b) {
         if (a.name > b.name)
           return 1;
         if (a.name < b.name)
           return -1;        
         return 0;
-    }
+    })
+    res.status(200).json(result)
 }
 
 /************************************************************************************
