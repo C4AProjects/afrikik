@@ -1,17 +1,19 @@
 /**
- * This controller is for the Team object of the API, for security reasons
+ * This controller is for the Team object of the API
  */
 
 var mongoose = require('mongoose')
   , _ = require('underscore')
   , Team = mongoose.model('Team')
+  , logger = require('winston')
+  , ObjectId = mongoose.Types.ObjectId;
 
 /**
  * Create a new team
  */
 exports.create = function(req, res) {
     var team = new Team(req.body)           
-    Team.save(function(err) 
+    team.save(function(err, team) 
     {
       if(err) {
         res.status(500).json( {
@@ -19,7 +21,9 @@ exports.create = function(req, res) {
             error: err
         });
       }
-      res.status(201).json({succes: true, message:'Team creation succeeded!'})
+      else{
+        res.status(201).json({succes: true, message:'Team creation succeeded!', item: team})
+      }
     })
 };
 
@@ -31,7 +35,7 @@ exports.update = function(req, res){
     var team = req.team
     team = _.extend(team, req.body)
     logger.debug("Team to update %s ", team)
-    Team.save(function(err, team) {
+    team.save(function(err, team) {
         if (err) {
             res.status(500).json( {
                 success:false,
@@ -67,12 +71,31 @@ exports.show = function(req, res) {
 };
 
 /**
+ *  Get all players
+ */
+exports.all = function(req, res) {
+    Team.find({})
+      .limit(req.query.limit||50)  
+      .exec(function(err, list) {
+          if (err) {
+              res.status(500).json( {
+                  success:false,
+                  error: err
+              });
+          } else {
+              res.json(list);
+          }
+    });
+   
+};
+
+
+/**
  *  Remove team
  */
 exports.destroy = function(req, res) {    
     var team = req.team;
-
-    Team.remove(function(err) {
+    team.remove(function(err) {
         if (err) {
             res.status(500).json( {
                 success:false,
@@ -87,7 +110,7 @@ exports.destroy = function(req, res) {
 
 
 /**
- * Find team by d param
+ * Find team by ID param
  */
 exports.team = function(req, res, next, id) {
     logger.debug('Team id parameter: %s', id)
@@ -126,7 +149,7 @@ exports.searchByName = function(req, res){
     var regex = new RegExp(req.params.name, 'gi');
     Team.find({name:regex})
      //.sort({createdAt:-1})
-    .limit(req.params.limit||10)
+    .limit(req.query.limit||50)
     .exec(function(err, list){
        if(err) res.status(401).json({err: err})
        if (list) {

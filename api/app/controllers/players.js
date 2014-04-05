@@ -1,18 +1,20 @@
 /**
- * This controller is for the player object of the API, for security reasons
+ * This controller is for the player object of the API
  */
 
 var mongoose = require('mongoose')
   , async = require('async')
   , _ = require('underscore')
   , Player = mongoose.model('Player')
+  , logger = require('winston')
+  , ObjectId = mongoose.Types.ObjectId;
 
 /**
  * Create a new player
  */
 exports.create = function(req, res) {
-    var player = new Player(req.body)           
-    player.save(function(err) 
+    var player = new Player(req.body)    
+    player.save(function(err, player) 
     {
       if(err) {
         res.status(500).json( {
@@ -20,7 +22,9 @@ exports.create = function(req, res) {
             error: err
         });
       }
-      res.status(201).json({succes: true, message:'Player creation succeeded!'})
+      else{
+        res.status(201).json({succes: true, message:'Player creation succeeded!', item: player})
+      }      
     })
 };
 
@@ -50,7 +54,7 @@ exports.update = function(req, res){
 /**
  *  Show player
  */
-exports.show = function(req, res) {    
+exports.show = function(req, res) {
     Player.findOne({
             _id: req.params.playerId
         })
@@ -68,11 +72,29 @@ exports.show = function(req, res) {
 };
 
 /**
+ *  Get all players
+ */
+exports.all = function(req, res) {
+    Player.find({})
+      .limit(req.query.limit||50)  
+      .exec(function(err, list) {
+          if (err) {
+              res.status(500).json( {
+                  success:false,
+                  error: err
+              });
+          } else {
+              res.json(list);
+          }
+    });
+   
+};
+
+/**
  *  Remove player
  */
 exports.destroy = function(req, res) {    
     var player = req.player;
-
     player.remove(function(err) {
         if (err) {
             res.status(500).json( {
@@ -80,12 +102,11 @@ exports.destroy = function(req, res) {
                 error: err
             });
         } else {
-            res.status(204).json({message: player.fullName + 'succesfully removed !'});
+            res.status(204).json({message: player.name + 'succesfully removed !'});
         }
     });
    
 };
-
 
 /**
  * Find player by id param
@@ -128,7 +149,7 @@ exports.searchByName = function(req, res){
     Player
     .find({name:regex})
     //.sort({createdAt:-1})
-    .limit(req.params.limit||10)
+    .limit(req.query.limit||50)
     .exec(function(err, list){
        if(err) res.status(401).json({err: err})
        if (list) {
@@ -144,7 +165,7 @@ exports.searchPlayersAndTeam = function(req, res){
     Player
     .find({name:regex})
     //.sort({createdAt:-1})
-    .limit(req.params.limit||10)
+    .limit(req.query.limit||50)
     .exec(function(err, list){
        if(err) res.status(401).json({err: err})
        if (list) {
@@ -170,7 +191,11 @@ exports.searchPlayersAndTeam = function(req, res){
           return -1;        
         return 0;
     })
-    res.status(200).json(result)
+    //TODO async module will be used for this function
+    setTimeout(function(){
+      res.status(200).json(result)
+    }, 1000)
+    
 }
 
 /************************************************************************************

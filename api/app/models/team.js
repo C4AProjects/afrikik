@@ -19,7 +19,7 @@ TeamSchema.plugin(timestamps,MongooseRattle)
 TeamSchema.statics = {
     load: function(id, cb) {
         this.findOne({
-            _id: id === 'object'? id: new ObjectId(id)
+            _id: id 
         })
     }
 };

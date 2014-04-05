@@ -67,8 +67,9 @@ module.exports = function(app, passport, auth) {
     
     //Player Routes
     var players = require('../app/controllers/players');
+    app.get('/api/v1/players/', players.all );
     app.get('/api/v1/players/:playerId', players.show );
-    app.post('/api/v1/players', players.create);
+    app.post('/api/v1/players/', players.create);
     app.put('/api/v1/players/:playerId', players.update);
     app.del('/api/v1/players/:playerId', players.destroy);
     app.get('/api/v1/players/search/:name', players.searchByName );
@@ -78,6 +79,7 @@ module.exports = function(app, passport, auth) {
     
     //Team Routes
     var teams = require('../app/controllers/teams');
+    app.get('/api/v1/teams/', teams.all );
     app.get('/api/v1/teams/:teamId', teams.show );
     app.post('/api/v1/teams', teams.create);
     app.put('/api/v1/teams/:teamId', teams.update);

@@ -22,20 +22,16 @@ var env = process.env.NODE_ENV || 'development',
 
 
 var Grid = require('gridfs-stream');
-var fs = require('fs'),
-    gfs = null
+var fs = require('fs') 
 
 //Bootstrap db connection
 var db = mongoose.connect(config.db).connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback () {
-  gfs = Grid(db.db, mongoose.mongo);
   gridfs = require('./app/lib/gridfs')
-  gridfs.gfs = gfs
+  gridfs.gfs = Grid(db.db, mongoose.mongo)
   console.log(config.app.name + " MongoDB Instance is running at: " + config.db);
 });
-
-//process.exit(0)
 
 //Bootstrap models
 var models_path = __dirname + '/app/models';
