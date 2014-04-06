@@ -58,7 +58,7 @@ module.exports = function(app, passport, auth) {
     app.get('/api/v1/users/search/:name', members.searchByName );
     app.post('/api/v1/users/:userId/subscribe/players/:playerId', members.subscribeToPlayer);
     app.post('/api/v1/users/:userId/subscribe/teams/:teamId', members.subscribeToTeam);
-    app.get('/api/v1/users/:userId/followers/requests', members.getFriendRequests);
+    app.get('/api/v1/users/:userId/friends/requests', members.getFriendRequests);
     app.get('/api/v1/users/:userId/players/:playerId/friends', members.getUsersPlayer);
     app.get('/api/v1/users/:userId/teams/:teamId/friends', members.getUsersTeam);
     app.post('/api/v1/users/:userId/approve', members.approveFriendRequest);
@@ -67,7 +67,7 @@ module.exports = function(app, passport, auth) {
     
     //Player Routes
     var players = require('../app/controllers/players');
-    app.get('/api/v1/players/', players.all );
+    app.get('/api/v1/players', players.all );
     app.get('/api/v1/players/:playerId', players.show );
     app.post('/api/v1/players/', players.create);
     app.put('/api/v1/players/:playerId', players.update);
@@ -79,7 +79,7 @@ module.exports = function(app, passport, auth) {
     
     //Team Routes
     var teams = require('../app/controllers/teams');
-    app.get('/api/v1/teams/', teams.all );
+    app.get('/api/v1/teams', teams.all );
     app.get('/api/v1/teams/:teamId', teams.show );
     app.post('/api/v1/teams', teams.create);
     app.put('/api/v1/teams/:teamId', teams.update);
