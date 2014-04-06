@@ -204,9 +204,8 @@ exports.searchPlayersAndTeam = function(req, res){
 
 exports.getPlayersTeam = function(req, res){
   var user = req.user
-  if (user.subscribedTeams.indexOf(req.params.teamId)>0) {
-    Player.find({_team: req.team._id})
-    .populate('_team')
+  if (user.subscribedTeams.indexOf(req.team._id)>=0) {
+    Player.find({'_team': req.team._id})    
     .exec(function(err, list){
         if(err) res.status(401).json({err: err})        
         res.status(200).json(list)
@@ -214,7 +213,7 @@ exports.getPlayersTeam = function(req, res){
   }
   else
   {
-    res.status(401).json({err:  req.params.teamId + ' doesn\'t exist in subscribed team list!', subcribedTeams: user.subscribedTeams }) 
+    res.status(401).json({err:  req.team._id + ' doesn\'t exist in subscribed team list!', subcribedTeams: user.subscribedTeams }) 
   }
 }
 

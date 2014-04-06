@@ -14,7 +14,7 @@ var PlayerSchema = new Schema({
                 dob: {type:Date},
                 nationality: {type:String}, // the value may be from country collections
                 club: {type:String},
-                _team: {type: Schema.Types.ObjectId, ref: 'Team' }, // make reference to international team
+                _team: {type: Schema.Types.ObjectId, ref: 'Team' }, // make reference to national team
                 height: {type:Number}, 
                 weight: {type:Number},
                 picture: {type:String}, // url of player picture

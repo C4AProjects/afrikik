@@ -118,20 +118,26 @@ exports.approveFriendRequest = function(req, res){
         user.requests.forEach(function(item){
             user.followers.addToSet(item)
         })
-        users.requests=[] // empty requests field        
+        users.requests=[] // empty requests field
+        user.save(function(err, user){
+            if(err) res.status(401).json({err: err})        
+            res.status(200).json(user)
+        })
     }
     else
     {   var userId = req.body.friendId||req.query.friendId
-        var index = user.requests.indexOf(userId)
+        var index = user.requests.indexOf(new ObjectId(userId))
+        console.log(user.requests)
+        console.log(new ObjectId(userId))
         if(index>=0){
             user.requests.splice(index)
-            user.followers.addToSet(userId)
+            user.followers.addToSet(new ObjectId(userId))
         }
-    }
-    user.save(function(err, user){
-        if(err) res.status(401).json({err: err})        
-        res.status(200).json(user)
-    })
+        user.save(function(err, user){
+            if(err) res.status(401).json({err: err})        
+            res.status(200).json(user)
+        })
+    }    
 }
 
 /************************************************************************************
@@ -144,7 +150,7 @@ exports.denyFriendRequest = function(req, res){
         users.requests=[] // empty requests field        
     }
     else
-    {   var userId = req.body.friendId        
+    {   var userId = req.body.friendId||req.query.friendId       
         user.requests.remove(userId)
     }
     user.save(function(err, user){
@@ -159,8 +165,8 @@ exports.denyFriendRequest = function(req, res){
 
 exports.unfollowFriend = function(req, res){
     var user = req.user||req.profile
-    var userId = req.body.friendId        
-        user.following(userId)        
+    var userId = req.body.friendId||req.query.friendId        
+    user.following.remove(userId)        
     user.save(function(err, user){
         if(err) res.status(401).json({err: err})        
         res.status(200).json(user)

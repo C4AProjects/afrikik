@@ -163,7 +163,7 @@ exports.searchByName = function(req, res){
  *    <POST> Share team profile : /players/TEAM_ID/share
  **************************************************************************************/
 //TODO
-exports.shareTeamrProfile = function(req, res){
+exports.shareTeamProfile = function(req, res){
   var team = req.team
   
 }
