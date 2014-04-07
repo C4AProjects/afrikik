@@ -14,7 +14,7 @@ var mongoose = require('mongoose'),
     env = process.env.NODE_ENV || 'development',
     config = require('../../config/config')[env],
     PUBLICLY_VIEWABLE_FIELDS = 'email phone_number username created status user_type profile shop schedule reviews hair'
-    , UserProfile = mongoose.model('UserProfile')
+    
     
 
 var ObjectId = mongoose.Types.ObjectId;
@@ -91,7 +91,7 @@ exports.create = function(req, res) {
     user.save(function(err) 
     {
         if (err) {
-            return res.json({
+            res.json({
                 success:false,
                 error: err,
             });
@@ -107,15 +107,18 @@ exports.create = function(req, res) {
         mailer.sendEmail(email_template, values, function(err, message, html, text){
             if(err){
                 logger.error('error','confirmation email could not be sent to user %s', user.email )
-                  return res.json({
+                  res.json({
                     success:true,
                     verificationEmailNotSent:true
                 });
             }
-            logger.debug("Email Sent! Response Status: %s, html:%s, text:%s", message, html, text)
-            return res.json({
-                success:true
-            });
+            else
+            {
+                logger.debug("Email Sent! Response Status: %s, html:%s, text:%s", message, html, text)
+                res.json({
+                    success:true
+                });
+            }
         })      
  
     });
@@ -212,8 +215,8 @@ exports.me = function(req, res) {
         })
         .populate('posts postrequests favorites')
         .exec(function(err, user) {
-            if (err) return next(err);
-            if (!user) return next(new Error('Failed to load User ' + id));
+            if (err) res.status(400).json({errors: err });;
+            if (!user) res.status(400).json({errors:  'Failed to load User ' + id});
             logger.debug("ME information loaded for %s", user)
             res.json(user || null);
            
@@ -244,6 +247,7 @@ exports.user = function(req, res, next, id) {
                 });
             }
             req.profile = user;
+            req.user = user;
             logger.debug('User successfully set in request %j', user)
             next();
         });
@@ -319,7 +323,7 @@ exports.showResetPasswordForm = function(req, res, next){
     ConfirmCode.findOne({code: req.params.resetPasswordToken})
     .populate('user')
     .exec(function(err, token){
-        if(err) return err;
+        if(err) res.status(500).json({errors: err });
         if(!token) res.status(400).json({errors:'Error in reseting password, you may ready reset it'});
         res.render('users/reset_password', {
             user: token.user,
@@ -335,9 +339,9 @@ exports.changePassword = function(req, res) {
     var body = req.body;
      User.findOne({_id: new ObjectId(body._id)})
     .exec(function(err0, user) {
-        if (err0) return res.status(400).json({errors: err0.messages }); 
+        if (err0) res.status(400).json({errors: err0.messages }); 
         if (!user) {
-            return res.status(400).json({ message: 'Unknown user'});
+            res.status(400).json({ message: 'Unknown user'});
         }             
         req.login(user, function(err) {
             if (err) return err;
@@ -345,12 +349,12 @@ exports.changePassword = function(req, res) {
             if(token){
                 ConfirmCode.findOne({user:user, code: token})
                 .exec(function(err, confirmcode){
-                    if(err) return err;
+                    if(err) res.status(400).json({errors: err });
                     //
                     if(body.password){
                         user.password = body.password;
                         user.save(function(err){
-                            if(err) return err;
+                            if(err) res.status(400).json({errors: err });
                             confirmcode.remove(); // Delete the existing ResetPasswordToken
                         });
                     } 
@@ -360,7 +364,7 @@ exports.changePassword = function(req, res) {
                 if(user.authenticate(body.oldPassword)){
                     user.password = body.password;
                     user.save(function(err){
-                        if(err)return err;
+                        if(err)res.status(400).json({errors: err });
                     })
                 }
             }     
@@ -381,8 +385,8 @@ exports.confirm = function(req, res) {
     ConfirmCode.findOne({code: req.params.code})
     .populate('user')
     .exec(function(err, confirmcode){
-        if(err) return res.json({success:false,error: err });
-        if(!confirmcode) return res.json({success:false,error:{errors: {invalid:{message:'This registration code is no longer valid!'}}}});
+        if(err) res.json({success:false,error: err });
+        if(!confirmcode)  res.json({success:false,error:{errors: {invalid:{message:'This registration code is no longer valid!'}}}});
         var searchUserOptions = {email: confirmcode.user.email, status:enums.userStatusOptions.REGISTERED_USER_STATUS};
         console.dir(confirmcode)
       
@@ -433,7 +437,7 @@ exports.sendEmailCode = function(req, res){
             mailer.sendEmail("welcome", values, function(err, message, html, text){
                 if(err){
                      logger.debug("Error Sending Email: %s ",err);
-                     return res.status(400).json({success:false, errors: 'Error in sending email ' + err});
+                    res.status(400).json({success:false, errors: 'Error in sending email ' + err});
                 }
                 logger.debug("Email Sent! Response Status: %s, html:%s, text:%s", message, html, text)
             });  

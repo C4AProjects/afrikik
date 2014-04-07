@@ -6,7 +6,6 @@ var mongoose = require('mongoose')
     , User = mongoose.model('User')
     , utils = require('../lib/utils')
     , logger = require('winston')
-    , UserProfile = mongoose.model('UserProfile')
     , ObjectId = mongoose.Types.ObjectId;
 
 
@@ -16,14 +15,11 @@ var mongoose = require('mongoose')
 
 exports.searchByName = function(req, res){
     var regex = new RegExp(req.params.name, 'i');
-    UserProfile.find({fullName:regex})    
-    .limit(req.params.limit||10)
-    .populate('_user')
+    User.find({'profile.name':regex})    
+    .limit(req.query.limit||50)    
     .exec(function(err, list){
-       if(err) res.status(401).json({err: err})
-       if (list) {
-        res.status(200).json(list)
-       }
+       if(err) res.status(401).json({err: err})       
+       res.status(200).json(list)
     })
 }
 
@@ -33,13 +29,21 @@ exports.searchByName = function(req, res){
  **************************************************************************************/
 
 exports.subscribeToPlayer = function(req, res){
-    var user = req.user
-    if(user.subscribedPlayers.indexOf(req.params.playerId)<0){
-        user.subscribedPlayers.push(req.params.playerId)
-        user.save(function(err, user){
-           if(err) res.status(401).json({err: err})
-           res.status(200).json(user)
-        })
+    var user = req.user||req.profile
+    if(user.subscribedPlayers==null){
+        user.subscribedPlayers = []
+    }
+    else
+    {
+        if(user.subscribedPlayers.indexOf(req.params.playerId)<0){
+            user.subscribedPlayers.push(req.params.playerId)
+            user.save(function(err, user){
+               if(err) res.status(401).json({err: err})
+               res.status(200).json(user)
+            })
+        }else{
+            res.status(200).json(user)
+        }
     }
 }
 
@@ -48,23 +52,30 @@ exports.subscribeToPlayer = function(req, res){
  **************************************************************************************/
 
 exports.subscribeToTeam = function(req, res){
-    var user = req.user
-    if(user.subscribedTeams.indexOf(req.params.teamId)<0){
-        user.subscribedTeams.push(req.params.teamId)
-        user.save(function(err, user){
-           if(err) res.status(401).json({err: err})
-           res.status(200).json(user)
-        })
+    var user = req.user||req.profile
+    if(user.subscribedTeams==null){
+        user.subscribedTeams = []
+    }
+    else
+    {
+        if(user.subscribedTeams.indexOf(req.params.teamId)<0){
+            user.subscribedTeams.push(req.params.teamId)
+            user.save(function(err, user){
+               if(err) res.status(401).json({err: err})
+               res.status(200).json(user)
+            })
+        }
     }
 }
 
 /************************************************************************************
- *          Get friends requests : /users/USER_ID/followers/requests
+ *          Get friends requests : /users/USER_ID/friends/requests
  **************************************************************************************/
 
 exports.getFriendRequests = function(req, res){
-    User.findOne({_id: req.user._id})    
-    .populate('requests')
+    User.findOne({_id: req.user._id||req.profile._id})    
+    .populate('requests requests.profile')
+    .limit(req.query.limit||50)
     .exec(function(err, user){
         if(err) res.status(401).json({err: err})        
         res.status(200).json(user.requests)
@@ -76,10 +87,11 @@ exports.getFriendRequests = function(req, res){
  **************************************************************************************/
 
 exports.getUsersPlayer = function(req, res){
-    User.find({subscribedPlayers: req.player._id})       
+    User.find({'subscribedPlayers': req.player._id})        
+    .limit(req.query.limit||50)
     .exec(function(err, list){
         if(err) res.status(401).json({err: err})        
-        res.status(200).json({count: list.count(), items:list})
+        res.status(200).json({count: list.length, items:list})
     })
 }
 
@@ -88,10 +100,11 @@ exports.getUsersPlayer = function(req, res){
  **************************************************************************************/
 
 exports.getUsersTeam = function(req, res){
-    User.find({subscribedTeams: req.team._id})        
+    User.find({'subscribedTeams': req.team._id})
+    .limit(req.query.limit||50)    
     .exec(function(err, list){
         if(err) res.status(401).json({err: err})        
-        res.status(200).json({count: list.count(), items:list})
+        res.status(200).json({count: list.length, items:list})
     })
 }
 
@@ -100,22 +113,31 @@ exports.getUsersTeam = function(req, res){
  **************************************************************************************/
 
 exports.approveFriendRequest = function(req, res){
-    var user = req.user
-    if (req.body.approveAll||req.params.approveAll) {
+    var user = req.user||req.profile
+    if (req.body.approveAll||req.query.approveAll) {
         user.requests.forEach(function(item){
             user.followers.addToSet(item)
         })
-        users.requests=[] // empty requests field        
+        users.requests=[] // empty requests field
+        user.save(function(err, user){
+            if(err) res.status(401).json({err: err})        
+            res.status(200).json(user)
+        })
     }
     else
-    {   var userId = req.body.friendId
-        user.followers.addToSet(userId)
-        user.requests.pop(userId)
-    }
-    user.save(function(err, user){
-        if(err) res.status(401).json({err: err})        
-        res.status(200).json(user)
-    })
+    {   var userId = req.body.friendId||req.query.friendId
+        var index = user.requests.indexOf(new ObjectId(userId))
+        console.log(user.requests)
+        console.log(new ObjectId(userId))
+        if(index>=0){
+            user.requests.splice(index)
+            user.followers.addToSet(new ObjectId(userId))
+        }
+        user.save(function(err, user){
+            if(err) res.status(401).json({err: err})        
+            res.status(200).json(user)
+        })
+    }    
 }
 
 /************************************************************************************
@@ -123,12 +145,12 @@ exports.approveFriendRequest = function(req, res){
  **************************************************************************************/
 
 exports.denyFriendRequest = function(req, res){
-    var user = req.user
+    var user = req.user||req.profile
     if (req.body.denyAll||req.params.denyAll) {        
         users.requests=[] // empty requests field        
     }
     else
-    {   var userId = req.body.friendId        
+    {   var userId = req.body.friendId||req.query.friendId       
         user.requests.remove(userId)
     }
     user.save(function(err, user){
@@ -142,9 +164,9 @@ exports.denyFriendRequest = function(req, res){
  **************************************************************************************/
 
 exports.unfollowFriend = function(req, res){
-    var user = req.user
-    var userId = req.body.friendId        
-        user.following(userId)        
+    var user = req.user||req.profile
+    var userId = req.body.friendId||req.query.friendId        
+    user.following.remove(userId)        
     user.save(function(err, user){
         if(err) res.status(401).json({err: err})        
         res.status(200).json(user)

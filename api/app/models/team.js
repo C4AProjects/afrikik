@@ -10,7 +10,8 @@ var TeamSchema = new Schema({
                 foundedDate: Date,
                 coachName: String,                
                 profile: {wins: Number, loss: Number, draw: Number},  
-                ratings: [{type:Number}]
+                rating: {type:Number},
+                _photo: {type: Schema.Types.ObjectId, ref: 'Photo' }
 })
 
 TeamSchema.plugin(timestamps,MongooseRattle)
@@ -18,7 +19,7 @@ TeamSchema.plugin(timestamps,MongooseRattle)
 TeamSchema.statics = {
     load: function(id, cb) {
         this.findOne({
-            _id: id === 'object'? id: new ObjectId(id)
+            _id: id 
         })
     }
 };

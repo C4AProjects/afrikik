@@ -6,13 +6,18 @@ var mongoose = require('mongoose')
   , _ = require('underscore')
   , Feed = mongoose.model('Feed')
   , Comment = mongoose.model('Comment')
+  , logger = require('winston')
+  , ObjectId = mongoose.Types.ObjectId
 
 /**
  * Create a new feed
  */
 exports.create = function(req, res) {
-    var feed = new Feed(req.body)           
-    Feed.save(function(err) 
+    var feed = new Feed(req.body)
+    if (req.user||req.profile) {
+      feed._user = req.user||req.profile
+    }
+    feed.save(function(err) 
     {
       if(err) {
         res.status(500).json( {
@@ -32,7 +37,7 @@ exports.update = function(req, res){
     var feed = req.feed
     feed = _.extend(feed, req.body)
     logger.debug("Feed to update %s ", feed)
-    Feed.save(function(err, feed) {
+    feed.save(function(err, feed) {
         if (err) {
             res.status(500).json( {
                 success:false,
@@ -52,20 +57,7 @@ exports.update = function(req, res){
  *  Show player
  */
 exports.show = function(req, res) {    
-    Feed.findOne({
-            _id: req.params.feedId
-        })
-        .exec(function(err, feed) {
-            if (err) {
-                res.status(500).json( {
-                    success:false,
-                    error: err
-                });
-            } else {
-                res.json(feed);
-            }
-    });
-   
+   res.status(200).json(req.feed);
 };
 
 
@@ -131,7 +123,8 @@ exports.feed = function(req, res, next, id) {
               res.status(500).json( {
                 success:false,
                 error: err
-              })}
+              })
+            }
             if (!feed) 
             {
               res.status(401).json({
@@ -149,3 +142,40 @@ exports.feed = function(req, res, next, id) {
 };
 
 
+/*******************************************************************************
+ *     Get feeds on a player /players/PLAYER_ID/feeds
+ *********************************************************************************/
+
+exports.feedsPlayer = function(req, res){
+  Feed.find({'_player': req.player._id})
+  //.populate('_player')
+  .limit(req.query.limit||50)
+  .exec(function(err, list){
+    if (err) {
+      res.status(500).json( {
+        success:false,
+        error: err
+      })
+    }
+    res.status(200).json(list)
+  })
+}
+
+/*******************************************************************************
+ *     Get feeds on a team /teams/TEAM_ID/feeds
+ *********************************************************************************/
+
+exports.feedsTeam = function(req, res){
+  Feed.find({'_team': req.team._id})
+  //.populate('_team')
+  .limit(req.query.limit||50)
+  .exec(function(err, list){
+    if (err) {
+      res.status(500).json( {
+        success:false,
+        error: err
+      })
+    }
+    res.status(200).json(list)
+  })
+}

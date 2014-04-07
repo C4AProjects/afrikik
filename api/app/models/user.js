@@ -17,7 +17,7 @@ var UserSchema = new Schema({
     provider: String,
     posts : [{ type: Schema.ObjectId, ref: 'Post' }],
     postrequests : [{ type: Schema.ObjectId, ref: 'PostRequest' }],
-	favorites : [{ type: Schema.ObjectId, ref: 'Post' }],
+    favorites : [{ type: Schema.ObjectId, ref: 'Post' }],
     hashed_password:  { type: String, select: false },
     salt:  { type: String, select: false },
     facebook: {},
@@ -26,9 +26,14 @@ var UserSchema = new Schema({
     google: {},
     slug:{type: String, required: false},
     created: {type: Date, default: Date.now},
-    modified:{type: Date, default: Date.now},
-    
-    _profile: {type: Schema.Types.ObjectId, ref: 'UserProfile'},
+    modified:{type: Date, default: Date.now},   
+    profile:{
+      name: String,
+      dob: Date,
+      country: String,
+      _photo: {type: Schema.Types.ObjectId, ref: 'Photo' },
+      rating: {type: Number}
+    },
     subscribedPlayers: [{type: Schema.ObjectId, ref: 'Player'}],
     subscribedTeams: [{type: Schema.ObjectId, ref: 'Team'}],
     followers: [{type: Schema.ObjectId, ref: 'User'}], //_id members that follow member

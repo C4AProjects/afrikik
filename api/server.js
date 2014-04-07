@@ -18,14 +18,21 @@ var express = require('express'),
 var env = process.env.NODE_ENV || 'development',
     config = require('./config/config')[env],
     auth = require('./config/middlewares/authorization'),
-    mongoose = require('mongoose');
+    mongoose = require('mongoose')
+
+
+var Grid = require('gridfs-stream');
+var fs = require('fs') 
 
 //Bootstrap db connection
 var db = mongoose.connect(config.db).connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback () {
+  gridfs = require('./app/lib/gridfs')
+  gridfs.gfs = Grid(db.db, mongoose.mongo)
   console.log(config.app.name + " MongoDB Instance is running at: " + config.db);
 });
+
 //Bootstrap models
 var models_path = __dirname + '/app/models';
 fs.readdirSync(models_path).forEach(function(file) {
