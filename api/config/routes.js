@@ -73,7 +73,7 @@ module.exports = function(app, passport, auth) {
     app.put('/api/v1/players/:playerId', players.update);
     app.del('/api/v1/players/:playerId', players.destroy);
     app.get('/api/v1/players/search/:name', players.searchByName );
-    app.get('/api/v1/players/:playerId/share', players.sharePlayerProfile);
+    //app.get('/api/v1/players/:playerId/share', players.sharePlayerProfile);
     app.get('/api/v1/users/:userId/teams/:teamId/players', players.getPlayersTeam);
     app.get('/api/v1/search/:name', players.searchPlayersAndTeam)
     
@@ -85,7 +85,16 @@ module.exports = function(app, passport, auth) {
     app.put('/api/v1/teams/:teamId', teams.update);
     app.del('/api/v1/teams/:teamId', teams.destroy);
     app.get('/api/v1/teams/search/:name', teams.searchByName );
-    app.get('/api/v1/teams/:teamId/share', teams.shareTeamProfile);    
+    //app.get('/api/v1/teams/:teamId/share', teams.shareTeamProfile);
+    
+    //Feed Routes
+    var feeds = require('../app/controllers/feeds');    
+    app.post('/api/v1/users/:userId/feeds', feeds.create);
+    //app.post('/api/v1/feeds', feeds.create); // feeds created by web crawler
+    app.get('/api/v1/users/:userId/feeds/:feedId', feeds.show);
+    app.put('/api/v1/users/:userId/feeds/:feedId', feeds.update);
+    app.del('/api/v1/users/:userId/feeds/:feedId', feeds.destroy);
+
     
     //Finish with setting up the userId param
     app.param('userId', users.user);
@@ -98,6 +107,8 @@ module.exports = function(app, passport, auth) {
     app.param('playerId', players.player);
     //Finish with setting up the teamId param
     app.param('teamId', teams.team);
+    //Finish with setting up the feedId param
+    app.param('feedId', feeds.feed);
 
     //Setting the facebook oauth routes
     app.get('/auth/facebook', passport.authenticate('facebook', {

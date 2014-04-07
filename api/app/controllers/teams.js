@@ -161,6 +161,8 @@ exports.searchByName = function(req, res){
 
 /************************************************************************************
  *    <POST> Share team profile : /players/TEAM_ID/share
+ *    https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin will be used on client side
+ *    for social media sharing, this endpoint will be removed
  **************************************************************************************/
 //TODO
 exports.shareTeamProfile = function(req, res){
