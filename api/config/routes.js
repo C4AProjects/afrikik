@@ -95,6 +95,12 @@ module.exports = function(app, passport, auth) {
     app.put('/api/v1/users/:userId/feeds/:feedId', feeds.update);
     app.del('/api/v1/users/:userId/feeds/:feedId', feeds.destroy);
 
+    //Feed Routes
+    var notifications = require('../app/controllers/notifications');        
+    app.get('/api/v1/users/:userId/notifications/:notificationId', notifications.show);
+    app.get('/api/v1/users/:userId/notifications', notifications.all);
+    app.put('/api/v1/users/:userId/notifications/:notificationId', notifications.setNotificationForUser);
+    app.post('/api/v1/users/:userId/feeds/:feedId/notifications', notifications.create);    
     
     //Finish with setting up the userId param
     app.param('userId', users.user);
@@ -109,6 +115,8 @@ module.exports = function(app, passport, auth) {
     app.param('teamId', teams.team);
     //Finish with setting up the feedId param
     app.param('feedId', feeds.feed);
+    //Finish with setting up the notificationId param
+    app.param('notificationId', notifications.notification)
 
     //Setting the facebook oauth routes
     app.get('/auth/facebook', passport.authenticate('facebook', {
