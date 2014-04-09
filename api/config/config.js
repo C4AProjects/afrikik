@@ -53,7 +53,9 @@ var generate_mongo_url = function(mongoUrlConfig){
     {
           mongoUrlConfig.hostname = (mongoUrlConfig.hostname || 'localhost');
             mongoUrlConfig.port = (mongoUrlConfig.port || 27017);
-            mongoUrlConfig.db = (mongoUrlConfig.db || 'afrikik');
+            mongoUrlConfig.db = (mongoUrlConfig.db ||process.env.MONGODB_AFRIKIK_DB || 'afrikik');
+	    mongoConfig.username = (mongoUrlConfig.username||process.env.MONGODB_AFRIKIK_USER)
+	    mongoConfig.password = (mongoUrlConfig.password||process.env.MONGODB_AFRIKIK_PWD)
             
             if(mongoUrlConfig.username && mongoUrlConfig.password){
                 return "mongodb://" + mongoUrlConfig.username + ":" + mongoUrlConfig.password + "@" + mongoUrlConfig.hostname + ":" + mongoUrlConfig.port + "/" + mongoUrlConfig.db;
