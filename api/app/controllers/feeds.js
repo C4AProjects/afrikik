@@ -8,6 +8,7 @@ var mongoose = require('mongoose')
   , Comment = mongoose.model('Comment')
   , logger = require('winston')
   , ObjectId = mongoose.Types.ObjectId
+  , Notification = mongoose.model('Notification')
 
 /**
  * Create a new feed
@@ -27,6 +28,46 @@ exports.create = function(req, res) {
       }
       res.status(201).json({succes: true, message:'Feed creation succeeded!'})
     })
+    /***** Notification part *****/
+    //Notify all subscribed users
+    var User = mongoose.model('User')
+    if (feed._team) {//team activity
+      User.find({'subscribedTeams':feed._team},{_id:1})
+      .exec(function(err, list){
+        if (err) {
+          res.status(500).json({error: err});
+        }
+        var notification = new Notification({})
+        notification._feed = feed
+        notification.users = list
+        notification.save(function(err, notification) 
+        {
+          if (err) {
+            res.status(500).json({error: err});
+          }
+          logger.debug("Notification done %s ", notification)
+        })
+      })
+    }
+    else //player activity
+    {
+      User.find({'subscribedPlayers':feed._player},{_id:1})
+      .exec(function(err, list){
+        if (err) {
+          res.status(500).json({error: err});
+        }
+        var notification = new Notification({})
+        notification._feed = feed
+        notification.users = list
+        notification.save(function(err, notification) 
+        {
+          if (err) {
+            res.status(500).json({error: err});
+          }
+          logger.debug("Notification done %s ", notification)
+        })
+      })
+    }
 };
 
 
@@ -54,7 +95,7 @@ exports.update = function(req, res){
 
 
 /**
- *  Show player
+ *  Show feed
  */
 exports.show = function(req, res) {    
    res.status(200).json(req.feed);
