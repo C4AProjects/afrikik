@@ -3,21 +3,19 @@
   "description": "API and Web App for Afrikik",
   "version": "0.0.1",
   "private": true,
-  "author": {
-    "name": "Abou Kone"
-  },
+  "author": "Abou Kone",
   "engines": {
     "node": "0.10.x",
     "npm": "1.2.x"
   },
-   "scripts": {
+  "scripts": {
     "start": "node server.js",
     "test": "mocha test/mocha/*.js",
     "preinstall": "echo pre-install hook called!",
     "postinstall": "echo post install hook called!"
   },
   "dependencies": {
-    "express": "latest",
+    "express": "3.5.1",
     "mongoose": "latest",
     "express-resource": "latest",
     "passport": "latest",
@@ -72,8 +70,9 @@
     "simple-oauth2": "~0.1.7"
   },
   "keywords": [],
-  "bugs": {
-    "url": "null"
+  "main": "./server.js",
+  "directories": {
+    "test": "test"
   },
-  "main": "./server.js"
+  "license": "ISC"
 }
