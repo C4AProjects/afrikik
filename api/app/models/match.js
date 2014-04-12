@@ -15,7 +15,8 @@ var MatchSchema = new Schema({
                 goals: [],
                 dateMatch: Date,
                 competition: String, // Africa cup, friendly, league, qualifications, etc.
-                details: String,  
+                details: String,
+                comments: [{type: Schema.Types.ObjectId, ref: 'Comment' }]
 })
 
 MatchSchema.plugin(timestamps,MongooseRattle)

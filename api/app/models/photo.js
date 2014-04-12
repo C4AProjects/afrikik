@@ -9,6 +9,7 @@ var PhotoSchema = new Schema({
                 name: String,                
                 _team: {type: Schema.Types.ObjectId, ref: 'Team' }, 
                 _player: {type: Schema.Types.ObjectId, ref: 'Player' },
+                _user: {type: Schema.Types.ObjectId, ref: 'User' },
                 url:String
 })
 
