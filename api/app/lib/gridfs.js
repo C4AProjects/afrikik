@@ -1,4 +1,3 @@
-var mongoose = require('mongoose');
 var fs = require('fs')
 
 
@@ -16,12 +15,11 @@ exports.writeFile = function(file, options){
   fs.createReadStream(file).pipe(writestream);
   
   writestream.on('close', function (file) {
-    console.log(file.filename);
-    process.exit(0)
+    console.log(file.filename);    
   });
 }
 
-exports.readFile = function(options){
+exports.readFile = function(options, response){
   var readstream = this.gfs.createReadStream(options);
   readstream.pipe(response);
 }

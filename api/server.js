@@ -27,9 +27,7 @@ var fs = require('fs')
 //Bootstrap db connection
 var db = mongoose.connect(config.db).connection;
 db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function callback () {
-  gridfs = require('./app/lib/gridfs')
-  gridfs.gfs = Grid(db.db, mongoose.mongo)
+db.once('open', function callback () { 
   console.log(config.app.name + " MongoDB Instance is running at: " + config.db);
 });
 
@@ -44,6 +42,10 @@ require('./config/passport')(passport, config);
 
 var app = express();
 
+var gridfs = require('./app/lib/gridfs')
+gridfs.gfs = Grid(db.db, mongoose.mongo)
+app.request.gridfs = gridfs;
+  
 //express settings
 require('./config/express')(app, config, passport);
 

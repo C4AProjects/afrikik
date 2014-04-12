@@ -95,12 +95,17 @@ module.exports = function(app, passport, auth) {
     app.put('/api/v1/users/:userId/feeds/:feedId', feeds.update);
     app.del('/api/v1/users/:userId/feeds/:feedId', feeds.destroy);
 
-    //Feed Routes
+    //Notification Routes
     var notifications = require('../app/controllers/notifications');        
     app.get('/api/v1/users/:userId/notifications/:notificationId', notifications.show);
     app.get('/api/v1/users/:userId/notifications', notifications.all);
     app.put('/api/v1/users/:userId/notifications/:notificationId', notifications.setNotificationForUser);
-    app.post('/api/v1/users/:userId/feeds/:feedId/notifications', notifications.create);    
+    app.post('/api/v1/users/:userId/feeds/:feedId/notifications', notifications.create);
+    
+    //Photo Routes
+    var photos = require('../app/controllers/photos');        
+    app.get('/api/v1/users/:userId/photos/:photoId', photos.download);
+    app.post('/api/v1/users/:userId/photos', photos.upload);   
     
     //Finish with setting up the userId param
     app.param('userId', users.user);

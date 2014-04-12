@@ -153,24 +153,44 @@ exports.update = function(req, res){
 /**
  *  Show profile
  */
-exports.show = function(req, res) {
-    var populate=req.query.populate||"profile";
-    User
-    .findOne({
-            _id: req.params.userId
+exports.show = function(req, res) {    
+    res.json(req.user||req.profile)   
+};
+
+/**
+ * Find user by id
+ */
+exports.user = function(req, res, next, id) {   
+    logger.debug('User id parameter: %s', id)    
+    if(id)
+    {
+        User.findOne({
+            _id: new ObjectId(id)
         })
-    .populate(populate).exec(function(err, user) {
-        if (err) {
-            res.status(500).json( {
-                success:false,
-                error: err
-            });
-        } else {
-            res.json(user);
-        }
-    });
+        .exec(function(err, user) {
+            if (err) {
+                res.status(401).json({
+                    error:err
+                });
+            }
+            if (!user) 
+            {
+                res.status(401).json({
+                    error:"Invalid user"
+                });
+            }
+            req.profile = user;
+            req.user = user;
+            logger.debug('User successfully set in request %j', user)
+            next();
+        });
+    }
+    else{
+        next();
+    }
    
 };
+
 
 /**
  * Like a post by a user,also adds the post to the current user's favorite
@@ -222,40 +242,6 @@ exports.me = function(req, res) {
            
         });
     
-};
-
-/**
- * Find user by id
- */
-exports.user = function(req, res, next, id) {
-    logger.debug('User id parameter: %s', id)
-    if(id)
-    {
-        User.findOne({
-            _id: new ObjectId(id)
-        })
-        .exec(function(err, user) {
-            if (err) {
-                res.status(401).json({
-                    error:err
-                });
-            }
-            if (!user) 
-            {
-                res.status(401).json({
-                    error:"Invalid user"
-                });
-            }
-            req.profile = user;
-            req.user = user;
-            logger.debug('User successfully set in request %j', user)
-            next();
-        });
-    }
-    else{
-        next();
-    }
-   
 };
 
 
