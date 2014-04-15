@@ -105,7 +105,9 @@ module.exports = function(app, passport, auth) {
     //Photo Routes
     var photos = require('../app/controllers/photos');        
     app.get('/api/v1/users/:userId/photos/:photoId', photos.download);
-    app.post('/api/v1/users/:userId/photos', photos.upload);   
+    app.post('/api/v1/users/:userId/photos', photos.upload); // member profile photo
+    app.post('/api/v1/admin/photos/users/:userId/teams/:teamId', photos.upload); //team profile photo
+    app.post('/api/v1/admin/photos/users/:userId/players/:playerId', photos.upload); //player profile photo
     
     //Finish with setting up the userId param
     app.param('userId', users.user);
@@ -122,6 +124,8 @@ module.exports = function(app, passport, auth) {
     app.param('feedId', feeds.feed);
     //Finish with setting up the notificationId param
     app.param('notificationId', notifications.notification)
+    //Finish with setting up the photoId param
+    app.param('photoId', photos.photo)
 
     //Setting the facebook oauth routes
     app.get('/auth/facebook', passport.authenticate('facebook', {

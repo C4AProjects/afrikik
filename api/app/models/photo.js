@@ -6,11 +6,13 @@ var mongoose = require('mongoose')
              
 
 var PhotoSchema = new Schema({                      
-                name: String,                
+                name: String,                                
+                url: String,
+                type: String,
+                data: Buffer,
                 _team: {type: Schema.Types.ObjectId, ref: 'Team' }, 
                 _player: {type: Schema.Types.ObjectId, ref: 'Player' },
                 _user: {type: Schema.Types.ObjectId, ref: 'User' },
-                url:String
 })
 
 PhotoSchema.plugin(timestamps,MongooseRattle)
