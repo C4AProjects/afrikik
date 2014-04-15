@@ -21,7 +21,7 @@ var env = process.env.NODE_ENV || 'development',
     mongoose = require('mongoose')
 
 
-var Grid = require('gridfs-stream');
+//var Grid = require('gridfs-stream');
 var fs = require('fs') 
 
 //Bootstrap db connection
