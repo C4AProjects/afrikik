@@ -72,9 +72,9 @@ exports.show = function(req, res) {
 };
 
 /**
- *  Get all players
+ *  Get all players 
  */
-exports.all = function(req, res) {
+exports.all = function(req, res) {  
     Player.find({})
       .limit(req.query.limit||50)  
       .exec(function(err, list) {

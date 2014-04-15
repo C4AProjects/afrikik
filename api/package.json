@@ -17,7 +17,7 @@
     "postinstall": "echo post install hook called!"
   },
   "dependencies": {
-    "express": "latest",
+    "express": "3.5.1",
     "mongoose": "latest",
     "express-resource": "latest",
     "passport": "latest",

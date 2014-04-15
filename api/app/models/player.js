@@ -22,7 +22,8 @@ var PlayerSchema = new Schema({
                 matchs: [{type: Schema.ObjectId, ref: 'Match'}],  // set of _id match participated
                 rating: {type: Number},
                 trophy: [TrophySchema],
-                _photo: {type: Schema.Types.ObjectId, ref: 'Photo' }
+                _photo: {type: Schema.Types.ObjectId, ref: 'Photo' },
+                comments: [{type: Schema.Types.ObjectId, ref: 'Comment' }]
 })
 
 PlayerSchema.plugin(timestamps,MongooseRattle)
