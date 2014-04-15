@@ -42,9 +42,9 @@ require('./config/passport')(passport, config);
 
 var app = express();
 
-var gridfs = require('./app/lib/gridfs')
+/*var gridfs = require('./app/lib/gridfs')
 gridfs.gfs = Grid(db.db, mongoose.mongo)
-app.request.gridfs = gridfs;
+app.request.gridfs = gridfs;*/
   
 //express settings
 require('./config/express')(app, config, passport);

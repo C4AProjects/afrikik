@@ -55,50 +55,9 @@ exports.upload = function(req, res){
     res.json({message: 'Photo saved'})
     
   })
-  
-  
-  //req.gridfs.writeFile('/home/papesdiop/1798616_769919226369656_954325530_n.jpg',{_id:req.user._id,filename:req.user._id.toString(), metadata:{type:'member'}, root:'pics'})
-  /*
-  async.series([
-      function(){
-        var file = req.files.file;
-        req.gridfs.writeFile('/home/papesdiop/1798616_769919226369656_954325530_n.jpg',{filename: req.query.fileName||req.body.fileName||'afrikik.jpg', root:'pics'})
-      },
-      function(){
-      if (req.user ) {
-        user = req.user
-        user.profile._photo = 
-        user.save(function(err, user){
-          if (err) {
-            res.status(500).json({err: err})
-          }
-          res.status(200).json({message:'User profile photo uploaded', item: user})
-        })
-      }else if(req.user && req.team ){
-        team = req.team
-        team._photo = 
-        team.save(function(err, team){
-          if (err) {
-            res.status(500).json({err: err})
-          }
-          res.status(200).json({message:'Team profile photo uploaded', item: team})
-        })
-      }else if(req.user && req.player ){
-        player = req.player
-        player._photo = 
-        player.save(function(err, player){
-          if (err) {
-            res.status(500).json({err: err})
-          }
-          res.status(200).json({message:'Player profile photo uploaded', item: player})
-        })
-      }
-      }
-    ])
-*/}
+}
 
-exports.download = function(req, res){    
-  //req.gridfs.readFile({_id: new ObjectId(req.params.photoId), root:'pics'}, res)
+exports.download = function(req, res){      
   photo = req.photo
   res.contentType(photo.type);
   res.end(photo.data, "binary");
