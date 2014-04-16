@@ -72,12 +72,11 @@ exports.create = function(req, res) {
         file = req.files.file
         
     //Save photo as file system    
+    /*
     fs.rename(file.path, __dirname + "/uploads/"+file.name, function(){
 	console.log('renamed record');
     })
-    
-    //Save photo in mongoDb with gridfs feature    
-    req.gridfs.writeFile(file,{filename: req.query.fileName||req.body.fileName||req.body.name||file.name}) 
+    */
     
     var photo = new Photo(req.body)    
     photo._user = req.user||req.profile
