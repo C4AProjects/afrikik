@@ -32,26 +32,8 @@ module.exports = function(app, passport, auth) {
     app.post('/api/v1/users', users.create);
     app.get('/api/v1/users/:userId/me',  passport.authenticate('bearer', { session: false }), users.me);
     app.get('/api/v1/users/:userId', users.show);
-    app.post('/api/v1/users/:userId/likes/:postId',passport.authenticate('bearer', { session: false }), users.add_like);
-    
+  
     app.get('/logout', users.logout);
-
-     //Post Routes
-    var posts = require('../app/controllers/posts');
-    app.get('/api/v1/posts', posts.all);
-    app.post('/api/v1/posts', passport.authenticate('bearer', { session: false }), posts.create);
-    app.get('/api/v1/posts/:postId', posts.show);
-    app.put('/api/v1/posts/:postId',  posts.update);
-    app.del('/api/v1/posts/:postId', passport.authenticate('bearer', { session: false }), posts.destroy);
-
-     //Post Request Routes
-    var postRequests = require('../app/controllers/post_requests');
-    app.get('/api/v1/postrequests', postRequests.all);
-    app.post('/api/v1/postrequests', postRequests.create);
-    app.get('/api/v1/postrequests/:postRequestId', postRequests.show);
-    app.put('/api/v1/postrequests/:postRequestId', passport.authenticate('bearer', { session: false }),  postRequests.update);
-    app.post('/api/v1/postrequests/:postRequestId/resolve/:userId', passport.authenticate('bearer', { session: false }), postRequests.resolve);
-    app.del('/api/v1/postrequests/:postRequestId', passport.authenticate('bearer', { session: false }), postRequests.destroy);
 
     //Member Routes
     var members = require('../app/controllers/members');
@@ -110,12 +92,7 @@ module.exports = function(app, passport, auth) {
     app.post('/api/v1/admin/photos/users/:userId/players/:playerId', photos.upload); //player profile photo
     
     //Finish with setting up the userId param
-    app.param('userId', users.user);
-    //Finish with setting up the postId param
-    app.param('postId', posts.post);
-     //Finish with setting up the postRequestId param
-    app.param('postRequestId', postRequests.postRequest);
-    
+    app.param('userId', users.user);    
     //Finish with setting up the playerId param
     app.param('playerId', players.player);
     //Finish with setting up the teamId param

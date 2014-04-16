@@ -4,9 +4,7 @@
 var mongoose = require('mongoose'),
     _ = require('underscore'),
     User = mongoose.model('User'),
-    ConfirmCode = mongoose.model('ConfirmCode'),
-    Post = mongoose.model('Post'),
-    PostRequest = mongoose.model('PostRequest'),
+    ConfirmCode = mongoose.model('ConfirmCode'),   
     utils = require('../lib/utils'),
     mailer = require("../../mailer/mailer"),
     logger = require('winston'),
@@ -189,39 +187,6 @@ exports.user = function(req, res, next, id) {
         next();
     }
    
-};
-
-
-/**
- * Like a post by a user,also adds the post to the current user's favorite
- */
-exports.add_like = function(req, res) {
-  
-    var post = req.post;
-    var user = req.profile;
-    post.likes.push(user)
-
-    post.save(function(err, post) {
-        if (err) {
-            res.status(400).json({
-                error:err 
-            });
-        }
-        if(post)
-        {
-            user.favorites.push(post)
-            user.save(function(err, user){
-                if (err) {
-                   res.status(400).json({
-                        error:err 
-                    });
-                }
-                res.json(post);
-
-            })
-        }
-       
-    });
 };
 
 /**
