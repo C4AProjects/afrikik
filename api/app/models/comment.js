@@ -8,6 +8,8 @@ var mongoose = require('mongoose')
 var CommentSchema = new Schema({      
                 _user: {type: Schema.Types.ObjectId, ref: 'User' },
                 _feed: {type: Schema.Types.ObjectId, ref: 'Feed' },
+                _player: {type: Schema.Types.ObjectId, ref: 'Player' },
+                _team: {type: Schema.Types.ObjectId, ref: 'Team' },
                 title: String,
                 message: String,
 })

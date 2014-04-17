@@ -76,6 +76,7 @@ module.exports = function(app, passport, auth) {
     //app.get('/api/v1/players/:playerId/share', players.sharePlayerProfile);
     app.get('/api/v1/users/:userId/teams/:teamId/players', players.getPlayersTeam);
     app.get('/api/v1/search/:name', players.searchPlayersAndTeam)
+    app.post('/api/v1/users/:userId/players/:playerId/comment', players.comment); //comment on player profile
     
     //Team Routes
     var teams = require('../app/controllers/teams');
@@ -86,6 +87,7 @@ module.exports = function(app, passport, auth) {
     app.del('/api/v1/teams/:teamId', teams.destroy);
     app.get('/api/v1/teams/search/:name', teams.searchByName );
     //app.get('/api/v1/teams/:teamId/share', teams.shareTeamProfile);
+    app.post('/api/v1/users/:userId/teams/:teamId/comment', teams.comment); //comment on team profile
     
     //Feed Routes
     var feeds = require('../app/controllers/feeds');    
@@ -94,6 +96,7 @@ module.exports = function(app, passport, auth) {
     app.get('/api/v1/users/:userId/feeds/:feedId', feeds.show);
     app.put('/api/v1/users/:userId/feeds/:feedId', feeds.update);
     app.del('/api/v1/users/:userId/feeds/:feedId', feeds.destroy);
+    app.post('/api/v1/users/:userId/feeds/:feedId/comment', feeds.comment); // comment on feed        
 
     //Notification Routes
     var notifications = require('../app/controllers/notifications');        
@@ -109,6 +112,14 @@ module.exports = function(app, passport, auth) {
     app.post('/api/v1/admin/photos/users/:userId/teams/:teamId', photos.upload); //team profile photo
     app.post('/api/v1/admin/photos/users/:userId/players/:playerId', photos.upload); //player profile photo
     
+    
+    //Comment Routes
+    var comments = require('../app/controllers/comments');        
+    app.get('/api/v1/users/:userId/comments/:commentId', comments.show);
+    app.get('/api/v1/users/:userId/feeds/:feedId/comments', comments.getCommentsByFeed);
+    app.get('/api/v1/users/:userId/teams/:teamId/comments', comments.getCommentsByTeam);
+    app.get('/api/v1/users/:userId/players/:playerId/comments', comments.getCommentsByPlayer);
+
     //Finish with setting up the userId param
     app.param('userId', users.user);
     //Finish with setting up the postId param
@@ -126,6 +137,9 @@ module.exports = function(app, passport, auth) {
     app.param('notificationId', notifications.notification)
     //Finish with setting up the photoId param
     app.param('photoId', photos.photo)
+    
+    //Finish with setting up the commentId param
+    app.param('commentId', comments.comment);
 
     //Setting the facebook oauth routes
     app.get('/auth/facebook', passport.authenticate('facebook', {
