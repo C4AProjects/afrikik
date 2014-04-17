@@ -106,27 +106,31 @@ exports.show = function(req, res) {
  *  Comment a feed
  */
 exports.comment = function(req, res) {
-  var comment = new Comment(req.body)           
-    comment.save(function(err, comment) 
-    {
-      if(err) {
-        res.status(500).json( {
-            success:false,
-            error: err
+  var comment = new Comment(req.body)
+  comment._user = req.user
+  comment.save(function(err, comment) 
+  {
+    if(err) {
+      res.status(500).json({
+          success:false,
+          error: err
+      })
+    }
+    var feed = req.feed;
+    if (feed.comments == null) {
+      feed.comments = []
+    }
+    feed.comments.push(comment._id)
+    feed.save(function(err){
+      if (err) {
+        res.status(500).json({
+          success:false,
+          error: err
         })
       }
-      var feed = req.feed;
-      feed.comments.push(comment._id)
-      feed.save(function(err){
-        if (err) {
-          res.status(500).json({
-            success:false,
-            error: err
-          })
-        }
-        res.status(201).json({succes: true, message:'Feed creation succeeded!'})
-      })
+      res.status(201).json({succes: true, message:'Comment done!'})
     })
+  })
 }
 
 /**
@@ -159,6 +163,8 @@ exports.feed = function(req, res, next, id) {
         Feed.findOne({
             _id: new ObjectId(id)
         })
+        .slice('comments', req.query.limit||-10)  //the last 10 comments if limit 
+        .populate('comments')
         .exec(function(err, feed) {
             if (err){
               res.status(500).json( {
