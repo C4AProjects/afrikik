@@ -6,7 +6,8 @@ var mongoose = require('mongoose')
   , _ = require('underscore')
   , Team = mongoose.model('Team')
   , logger = require('winston')
-  , ObjectId = mongoose.Types.ObjectId;
+  , ObjectId = mongoose.Types.ObjectId
+  ,  Comment = mongoose.model('Comment')
 
 /**
  * Create a new team
@@ -54,19 +55,7 @@ exports.update = function(req, res){
  *  Show team
  */
 exports.show = function(req, res) {    
-    Team.findOne({
-            _id: req.params.teamId
-        })
-        .exec(function(err, team) {
-            if (err) {
-                res.status(500).json( {
-                    success:false,
-                    error: err
-                });
-            } else {
-                res.json(team);
-            }
-    });
+    res.json(req.team)
    
 };
 
@@ -119,6 +108,8 @@ exports.team = function(req, res, next, id) {
         Team.findOne({
             _id: new ObjectId(id)
         })
+        .slice('comments',-5)
+        .populate('comments')
         .exec(function(err, team) {
             if (err){
               res.status(500).json( {
@@ -169,5 +160,40 @@ exports.shareTeamProfile = function(req, res){
   var team = req.team
   
 }
+
+/**
+ *  Comment on team profile
+ */
+exports.comment = function(req, res) {
+  var comment = new Comment(req.body)
+  comment._user = req.user
+  comment._team = req.team
+  comment.save(function(err, comment) 
+  {
+    if(err) {
+      res.status(500).json({
+          success:false,
+          error: err
+      })
+    }
+    var team = req.team;
+    if (team.comments == null) {
+      team.comments = []
+    }
+    team.comments.push(comment._id)
+    team.save(function(err){
+      if (err) {
+        res.status(500).json({
+          success:false,
+          error: err
+        })
+      }
+      res.status(201).json({succes: true, message:'Comment done!'})
+    })
+  })
+}
+
+
+
 
 

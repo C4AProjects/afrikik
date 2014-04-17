@@ -7,7 +7,8 @@ var mongoose = require('mongoose')
   , _ = require('underscore')
   , Player = mongoose.model('Player')
   , logger = require('winston')
-  , ObjectId = mongoose.Types.ObjectId;
+  , ObjectId = mongoose.Types.ObjectId
+  ,  Comment = mongoose.model('Comment')
 
 /**
  * Create a new player
@@ -55,20 +56,7 @@ exports.update = function(req, res){
  *  Show player
  */
 exports.show = function(req, res) {
-    Player.findOne({
-            _id: req.params.playerId
-        })
-        .exec(function(err, player) {
-            if (err) {
-                res.status(500).json( {
-                    success:false,
-                    error: err
-                });
-            } else {
-                res.json(player);
-            }
-    });
-   
+  res.json(req.player);
 };
 
 /**
@@ -118,6 +106,8 @@ exports.player = function(req, res, next, id) {
         Player.findOne({
             _id: new ObjectId(id)
         })
+        .slice('comments',-5)  //the last 5 comments
+        .populate('comments')
         .exec(function(err, player) {
             if (err){
               res.status(500).json( {
@@ -224,6 +214,39 @@ exports.getPlayersTeam = function(req, res){
 exports.sharePlayerProfile = function(req, res){
   var player = req.player
   
+}
+
+
+/**
+ *  Comment on player profile
+ */
+exports.comment = function(req, res) {
+  var comment = new Comment(req.body)
+  comment._user = req.user
+  comment._player = req.player
+  comment.save(function(err, comment) 
+  {
+    if(err) {
+      res.status(500).json({
+          success:false,
+          error: err
+      })
+    }
+    var player = req.player;
+    if (player.comments == null) {
+      player.comments = []
+    }
+    player.comments.push(comment._id)
+    player.save(function(err){
+      if (err) {
+        res.status(500).json({
+          success:false,
+          error: err
+        })
+      }
+      res.status(201).json({succes: true, message:'Comment done!'})
+    })
+  })
 }
 
 
