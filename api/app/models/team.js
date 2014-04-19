@@ -15,7 +15,6 @@ var TeamSchema = new Schema({
                 comments: [{type: Schema.Types.ObjectId, ref: 'Comment' }]
 })
 
-TeamSchema.index({'name':1})
 
 TeamSchema.plugin(timestamps,MongooseRattle)
 
