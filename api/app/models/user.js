@@ -39,7 +39,7 @@ var UserSchema = new Schema({
     requests: [{type: Schema.ObjectId, ref: 'User'}], // friend requests user have to accept    
 });
 
-PlayerSchema.index({'profile.name':1})
+UserSchema.index({'profile.name':1})
 
 /**
  * Virtuals
