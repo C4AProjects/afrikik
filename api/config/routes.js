@@ -7,7 +7,6 @@ module.exports = function(app, passport, auth) {
     app.get('/admin/signup', admins.signup);
     app.get('/admin/signout', admins.signout);
 
-
      //Setting up the admin users api
     app.post('/admin/users', admins.create);
     app.post('/admin/users/session', passport.authenticate('local', {
@@ -90,7 +89,8 @@ module.exports = function(app, passport, auth) {
     //Photo Routes
     var photos = require('../app/controllers/photos');        
     app.get('/api/v1/users/:userId/photos/:photoId', photos.download);
-    app.post('/api/v1/users/:userId/photos', photos.upload); // member profile photo
+    app.post('/api/v1/users/:userId/photos/db', photos.upload); // member profile photo
+    app.post('/api/v1/users/:userId/photos', photos.uploadAsFileSystem); // member profile photo
     app.post('/api/v1/admin/photos/users/:userId/teams/:teamId', photos.upload); //team profile photo
     app.post('/api/v1/admin/photos/users/:userId/players/:playerId', photos.upload); //player profile photo
     
@@ -103,7 +103,7 @@ module.exports = function(app, passport, auth) {
     app.get('/api/v1/users/:userId/players/:playerId/comments', comments.getCommentsByPlayer);
 
     //Finish with setting up the userId param
-    app.param('userId', users.user);    
+    app.param('userId', users.user); 
     //Finish with setting up the playerId param
     app.param('playerId', players.player);
     //Finish with setting up the teamId param
