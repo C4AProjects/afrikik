@@ -26,6 +26,8 @@ var PlayerSchema = new Schema({
                 comments: [{type: Schema.Types.ObjectId, ref: 'Comment' }]
 })
 
+PlayerSchema.index({'name':1})
+
 PlayerSchema.plugin(timestamps,MongooseRattle)
 
 PlayerSchema.statics = {
