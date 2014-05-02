@@ -1,0 +1,11 @@
+{                      
+                "name": "Didier DROGBA",                
+                "nationality": "Ivoirienne", 
+                "club": "Galatasaray",                
+                "height": 1.92, 
+                "weight": 85,
+                "picture": "drogba.jpg", 
+                "position": "Attaquant",                 
+                "rating": 185                
+}
+

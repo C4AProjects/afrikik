@@ -27,6 +27,10 @@ if(process.env.NODE_ENV == "development")
 
 }
 
+    function getenv(arg) {
+	return process.env[arg]
+    }
+
 var getEnvironmentMongoConfig =  function (){
     var config = {};
      //Heroku config
@@ -66,7 +70,7 @@ var generate_mongo_url = function(mongoUrlConfig){
     else
     {
         return mongoUrlConfig;
-    }
+    }	
   
 }
 

@@ -1,0 +1,47 @@
+//Member Routes    
+    GET :   /api/v1/users/search/:name      //search a member by name
+    POST:   /api/v1/users/:userId/subscribe/players/:playerId'   //subscribe a member to a player
+    POST:   /api/v1/users/:userId/subscribe/teams/:teamId	//subscribe a member to a team
+    GET :   /api/v1/users/:userId/friends/requests	//get friends requests of a member
+    GET :   /api/v1/users/:userId/players/:playerId/friends	//get followers's player of subscribed player of userId
+    GET :   /api/v1/users/:userId/teams/:teamId/friends		//get followers's team of subscribed team of userId
+    POST:   /api/v1/users/:userId/approve	//approve a (all) friend request(s) of userId in friendId
+    POST:   /api/v1/users/:userId/deny		//deny a (all) friend request(s) of userId in friendId
+    POST:   /api/v1/users/:userId/unfollow	//unfollow a following (friend) in friendId
+    
+    //Player Routes    
+    GET :   /api/v1/players	//get all players, limit=50 (default)
+    GET :   /api/v1/players/:playerId	//get player by id  
+    POST:   /api/v1/players/	//create a new player
+    PUT :   /api/v1/players/:playerId	//update player
+    DEL :   /api/v1/players/:playerId	//remove player
+    GET :   /api/v1/players/search/:name  //search player by name, limit=50(default)
+    GET :   /api/v1/users/:userId/teams/:teamId/players	//get list players of a defined team
+    GET :   /api/v1/search/:name    //A generic search that returns back a list of players and teams, limit=50 (default)
+    
+    //Team Routes    
+    GET :   /api/v1/teams	//get all teams, limit=50 (default)
+    GET :   /api/v1/teams/:teamId  //get team by id  
+    POST:   /api/v1/teams	//create a new team
+    PUT :   /api/v1/teams/:teamId	//update team
+    DEL :   /api/v1/teams/:teamId	//remove team
+    GET :   /api/v1/teams/search/:name    //search team by name, limit=50(default)
+    
+    //Feed Routes    
+    POST:   /api/v1/users/:userId/feeds
+    GET :   /api/v1/users/:userId/feeds/:feedId
+    PUT :   /api/v1/users/:userId/feeds/:feedId
+    DEL :   /api/v1/users/:userId/feeds/:feedId
+
+    //Notification Routes     
+    GET :   /api/v1/users/:userId/notifications/:notificationId
+    GET :   /api/v1/users/:userId/notifications
+    PUT :   /api/v1/users/:userId/notifications/:notificationId
+    POST:   /api/v1/users/:userId/feeds/:feedId/notifications
+    
+    //Photo Routes
+    GET :   /api/v1/users/:userId/photos/:photoId
+    POST:   /api/v1/users/:userId/photos
+    POST:   /api/v1/admin/photos/users/:userId/teams/:teamId
+    POST:   /api/v1/admin/photos/users/:userId/players/:playerId
+

@@ -1,9 +1,0 @@
-<form name="LoginForm" novalidate ng-submit="login()" class="form-signin">
-    <h1 class="form-signin-heading text-muted">{{'LOGIN_FORM_SIGNIN'|translate}}</h1>
-    <alert ng-repeat="alert in alerts" type="alert.type">{{alert.msg}}</alert>
-    <input type="text" ng-model="auth.email" class="form-control" placeholder="{{'EMAIL_ADDRESS'|translate}}" required autofocus>
-    <input type="password" ng-model="auth.password"  class="form-control" placeholder="{{'PASSWORD'|translate}}" required>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">{{'LOGIN_FORM_SIGNIN'|translate}}</button>
-    <a class="btn btn-lg btn-primary btn-block" href="/auth/facebook">{{'LOGIN_FORM_LOGIN_WITH_FACEBOOK'|translate}} </a>
-    <a class="btn btn-lg btn-info btn-block" ui-sref="register">{{'REGISTRATION_FORM_REGISTER'|translate}}</a>
-</form>
