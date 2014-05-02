@@ -1,0 +1,31 @@
+<div class="container">
+    <div class="row">
+        <!-- Boxes de Acoes -->
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="box">                           
+                <div class="icon">
+                    <div class="image"><i class="fa fa-thumbs-o-up"></i></div>
+                    <div class="info">
+                        <h3 class="title">{{post.word}}</h3>
+                        <p>
+                           {{post.definition}}
+                        </p>
+                       
+                        <blockquote>
+                          <p>{{post.example}}</p>
+                         
+                        </blockquote>
+                        <footer><small class="text-muted"><i class="glyphicon glyphicon-time"></i> {{post.created|localDate}}, {{'POST_BY'|translate}} {{post.creator.username || 'ANONYMOUS'|translate }}</footer>
+                        <p class="text-success"><span class="badge"><i class="glyphicon glyphicon-eye-open"></i> {{post.page_views||0}}</span> {{'POST_VIEWS'|translate}} | <span class="badge"><i class="glyphicon glyphicon-heart"></i> {{post.likes.length|| 0}}</span> {{'POST_PROPS'|translate}}</span>
+                        <div class="more">
+                            <a ui-sref="posts" class="btn btn-success"  title="Title Link">
+                              {{'BACK'|translate}}</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="space"></div>
+            </div> 
+        </div>
+    </div>
+</div>
