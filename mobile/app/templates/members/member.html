@@ -1,0 +1,114 @@
+
+<ion-view >
+  <ion-content >
+    <div class="row afk-member-profile" style="background-image: url('./images/member-small-bg.png');">
+        <div class="col" style="height: auto;text-align: center">         
+          <div class="row">
+            <div class="col">
+                 <center><img class="afk-circle" src="./images/member.png" /></center>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col" style="padding-bottom: 15px;padding-top: 1px">
+              <h3 id="name">Amadou DAFFE</h3>
+              <h6 id="summary">Members Since 2014 <br/>
+              104 Subscriptions - 23 Friends
+              <br/>
+              </h6>
+            </div>
+          </div>            
+        </div>
+    </div>
+    <div class="row" style="background-color: #4a4845;">
+      <div class="col afk-align-center" style="height: 25px">
+        <button class="button afk-btn afk-btn-register afk-member-subscribe-btn">Subscribe</button>
+      </div>
+    </div>  
+    <ion-slide-box style="background-color: #4a4845; padding-top: 0px">      
+      <ion-slide>              
+        <div class="row">
+          <div class="col afk-align-center">
+            <a href="#" class="afk-menu-tab afk-menu-tab-active">SUBSCRIPTIONS</a>
+          </div>
+          <div class="col afk-align-center">
+            <a href="#" class="afk-menu-tab">FRIENDS</a>
+          </div>
+          <div class="col afk-align-center">
+            <a href="#" class="afk-menu-tab">COMMUNITY</a>
+          </div>
+        </div>        
+        <ion-list>
+          <ion-item ng-repeat="pet in pets" type="item-text-wrap" href="#/private/tab/pet/{{pet.id}}">
+            <div class="row" style="height: 50px; padding-top: 0px">
+              <div class="col">
+                <img src="./images/member.png" class="afk-circle-small">
+              </div>
+              <div class="col col-80">
+                <h3>{{pet.title}}</h3>
+                <p>{{pet.description}}</p>
+              </div>
+            </div>            
+          </ion-item>   
+        </ion-list>       
+      </ion-slide>
+      
+      <ion-slide>              
+        <div class="row">
+          <div class="col afk-align-center">
+            <a href="#" class="afk-menu-tab afk-menu-tab">SUBSCRIPTIONS</a>
+          </div>
+          <div class="col afk-align-center">
+            <a href="#" class="afk-menu-tab-active">FRIENDS</a>
+          </div>
+          <div class="col afk-align-center">
+            <a href="#" class="afk-menu-tab">COMMUNITY</a>
+          </div>
+        </div>        
+        <ion-list>
+          <ion-item ng-repeat="pet in pets" type="item-text-wrap" href="#/private/tab/pet/{{pet.id}}">
+            <div class="row" style="height: 50px; padding-top: 0px">
+              <div class="col">
+                <img src="./images/member.png" class="afk-circle-small">
+              </div>
+              <div class="col col-80">
+                <h3>{{pet.title}}</h3>
+                <p>{{pet.description}}</p>
+              </div>
+            </div>            
+          </ion-item>   
+        </ion-list>       
+      </ion-slide>
+      
+      <ion-slide>              
+        <div class="row">
+          <div class="col afk-align-center">
+            <a href="#" class="afk-menu-tab afk-menu-tab">SUBSCRIPTIONS</a>
+          </div>
+          <div class="col afk-align-center">
+            <a href="#" class="afk-menu-tab">FRIENDS</a>
+          </div>
+          <div class="col afk-align-center">
+            <a href="#" class="afk-menu-tab-active">COMMUNITY</a>
+          </div>
+        </div>        
+        <ion-list>
+          <ion-item ng-repeat="pet in pets" type="item-text-wrap" >
+            <div class="row" style="height: 50px; padding-top: 0px">             
+              <div class="col col-80">
+                <h3>{{pet.title}}</h3>
+                <p>{{pet.description}}</p>
+              </div>
+            </div>            
+          </ion-item>   
+        </ion-list>       
+      </ion-slide>
+    </ion-slide-box>  
+    
+    
+    
+  </ion-content>
+ 
+</ion-view>
+
+
+

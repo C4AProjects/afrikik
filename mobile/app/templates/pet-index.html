@@ -1,0 +1,33 @@
+
+<ion-view style="background-color: black">
+  <ion-content style="background-image: url('./images/main-bg.png');opacity: 0.8;background-repeat: no-repeat;background-position: center 0%">
+
+    <!--ion-list>
+
+      <ion-item ng-repeat="pet in pets" type="item-text-wrap" href="#/private/tab/pet/{{pet.id}}">
+        <h3>{{pet.title}}</h3>
+        <p>{{pet.description}}</p>
+      </ion-item>
+      
+    </ion-list-->
+    
+    <div class="row">
+      
+    </div>
+    <div class="row">
+      <div class="col">
+        <a href="#/private/tab/pet/profile" style="color:white;font-weight: bold; text-align: left">Profile</a>
+      </div>
+      <div class="col">
+        <a href="#/private/tab/pet/friends" style="color:white;font-weight: bold; text-align: left">Friends</a>
+      </div>
+      <div class="col">
+        <a href="#/private/tab/pet/following" style="color:white;font-weight: bold; text-align: left">Following</a>
+      </div>
+    </div>
+    <ion-nav-view="my_profile">
+      Here goes content from different profile navigation...
+    </ion-nav-view>
+
+  </ion-content>
+</ion-view>
