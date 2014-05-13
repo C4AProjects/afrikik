@@ -47,7 +47,7 @@ moment.lang('fr', {
 
 moment.lang('fr');
 
-angular.module('config', [])
+var config = angular.module('config', [])
     .constant('envConfiguration',{
         'default':'dev',
         dev:{

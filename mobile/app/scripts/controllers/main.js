@@ -25,7 +25,7 @@ angular.module('Afrikik')
       }
 
       $scope.login=function(){
-      $state.go('private.tab.member');
+      $state.go('private.member');
       _gaq.push(['_trackEvent','Authentication', 'Login', 'Regular Login', $scope.auth.email, false])
       var authentication=Auth.login($scope.auth).then(function(loginResponse){
       //console.dir(loginResponse)

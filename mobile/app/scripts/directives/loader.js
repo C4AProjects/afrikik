@@ -1,4 +1,4 @@
-angular.module('Afrikik')	.directive("loader", function ($rootScope) {
+angular.module('Afrikik').directive("loader", function ($rootScope) {
     return function ($scope, element, attrs) {
 	        $scope.$on("loader_show", function () {
 	            return element.show();

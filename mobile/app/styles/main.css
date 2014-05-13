@@ -29,7 +29,7 @@
   border-color:#1c4065 ;
 }
 
-.afk-btn.afk-btn-register {
+.afk-btn.afk-btn-register,.afk-btn-register {
   /*width: 250px;*/
   background-color: #f97c11;
   border-color:#db6f11;
@@ -134,4 +134,50 @@ input.afk-input {
 
 .afk-menu-tab-active {
   color: white;
+}
+
+#aboutDesc {
+    font-family: fantasy;
+    font-weight: bold;
+    width: 50%;
+}
+#author {
+    font-family: Menlo;
+    font-weight: bold;
+}
+#results, #volume {
+    float: right;
+}
+#volLbl {
+    float:  left;
+}
+.align {
+    margin-top: 10px;
+}
+#homeTxt {
+    text-align: center;
+}
+.bgMain {
+    left-margin: -20px;
+    margin-top: 7%;
+    background-image: url('../img/itunes.jpg');
+    background-size: 250px;
+    background-repeat: no-repeat;
+    background-position:center;
+}
+.bgSearch {
+    background-image: url('../img/itunes.jpg');
+    background-size: 250px;
+    background-repeat: no-repeat;
+    background-position:center;
+}
+@media screen and (max-device-width: 640px){
+    .fade-bar {
+        height: 20px;
+        width: 100%;
+        position: fixed;
+        z-index: 9999;
+        opacity: 0;
+        background-color: #000;
+    }
 }
