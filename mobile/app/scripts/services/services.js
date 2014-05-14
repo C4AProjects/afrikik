@@ -4,24 +4,29 @@ angular.module('Afrikik.services', [])
 /**
  * A simple example service that returns some data.
  */
-.factory('PetService', function() {
+.factory('MemberService', function() {
   // Might use a resource here that returns a JSON array
 
   // Some fake testing data
-  var pets = [
-    { id: 0, title: 'Didier Drogba', description: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
-    { id: 1, title: 'Eto Samuel', description: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
-    { id: 2, title: 'Papis Cisse', description: 'Everyone likes turtles.' },
-    { id: 3, title: 'Senegal', description: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' }
+  var members = [
+    { id: 0, name: 'Didier Drogba', description: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
+    { id: 1, name: 'Eto Samuel', description: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
+    { id: 2, name: 'Papis Cisse', description: 'Everyone likes turtles.' },
+    { id: 3, name: 'Senegal', description: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' },
+    { id: 4, name: 'Didier Drogba', description: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
+    { id: 5, name: 'Eto Samuel', description: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
+    { id: 5, name: 'Papis Cisse', description: 'Everyone likes turtles.' },
+    { id: 7, name: 'Senegal', description: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' }
+
   ];
 
   return {
     all: function() {
-      return pets;
+      return members;
     },
-    get: function(petId) {
+    get: function(memberId) {
       // Simple index lookup
-      return pets[petId];
+      return members[memberId];
     }
   };
 })
@@ -74,5 +79,41 @@ angular.module('Afrikik.services', [])
         subscribe: { method: 'POST', isArray: false, format: 'json', cache: false, params: { teamId: '@teamId', tokenId: '@tokenId', userId: '@userId'} },
         unsubscribe: { method: 'DELETE', isArray: false, format: 'json', cache: false, params: { teamId: '@teamId', tokenId: '@tokenId', userId: '@userId'} }
     })
-});
+})
 
+.factory('MediaService', function($resource, $q){
+    var music = $resource('https://itunes.apple.com/:action',
+        { action: "search", callback: 'JSON_CALLBACK'},
+        { 'get':  {method: 'JSONP'} });
+
+
+    return {
+        search: function(query,type,limit) {
+            var q = $q.defer();
+
+            music.get({
+                term: query, media: type, limit: limit
+            }, function(resp) {
+                q.resolve(resp);
+            }, function(err) {
+                q.reject(err);
+            })
+
+            return q.promise;
+        }
+    }
+})
+
+// Shared data from settings needed by different controllers
+.service('SettingsService', function() {
+    var _variables = {};
+
+    return {
+        get: function(varname) {
+            return (typeof _variables[varname] !== 'undefined') ? _variables[varname] : false;
+        },
+        set: function(varname, value) {
+            _variables[varname] = value;
+        }
+    };
+});

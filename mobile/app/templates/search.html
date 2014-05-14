@@ -1,8 +1,105 @@
-<ion-view title="Search">
-  <ion-nav-buttons side="left">
-    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
-  </ion-nav-buttons>
-  <ion-content class="has-header">
-    <h1>Search</h1>
-  </ion-content>
+<ion-view left-buttons="leftButtons" right-buttons="rightButtons">
+
+    <ion-content has-header="true">        
+
+        <ion-slide-box >      
+      <ion-slide style="background-color: #4a4845;">              
+        <div class="row" style="border-color: #4a4845;">
+          <div class="col afk-align-center">
+            <a href="#" class="afk-menu-tab afk-menu-tab-active">SUBSCRIPTIONS</a>
+          </div>
+          <div class="col afk-align-center">
+            <a href="#" class="afk-menu-tab">FRIENDS</a>
+          </div>
+          <div class="col afk-align-center">
+            <a href="#" class="afk-menu-tab">COMMUNITY</a>
+          </div>
+        </div>
+        
+        <div class="item item-input-inset" style="background-color: grey">
+            <!--label style="margin-right: 0px;">
+                <select ng-model="mediaTypes.type" class="afk-search-bg"  ng-change="search()">
+                    <option value="all" selected>All Type</option>
+                    <option value="musicVideo">Players</option>
+                    <option value="movie">Teams</option> 
+                    <option value="movie">Members</option> 
+                </select>
+            </label-->
+
+            <label class="item-input-wrapper afk-search-bg" style="margin:0px;border-radius: 0px" >
+                <i class="icon ion-search placeholder-icon" class="afk-search-bg"></i>
+                <input type="text" placeholder="Search For Players, Teams" class="afk-search-bg" ng-model="request.query" />
+            </label>
+
+            <button class="button afk-btn-register"  style="margin:0px;" ng-click="search()">
+            Search
+            </button>
+        </div>
+        
+        <ion-list>
+          <ion-item ng-repeat="member in members" class="afk-bg-list item item-avatar item-button-right">
+            <img src="./images/member.png" class="afk-circle">            
+            <a href="#/private/member" class="afk-lnk-detail">
+              <span class="afk-obj-name">{{member.name}}</span>
+            <span class="afk-obj-desc">{{member.description}}</span>
+              View Profile <i class="icon ion-ios7-arrow-forward"></i></a>
+          </ion-item>   
+        </ion-list>
+        
+      </ion-slide>
+      
+      <ion-slide>              
+        <div class="row">
+          <div class="col afk-align-center">
+            <a href="#" class="afk-menu-tab-active">BROWSE PLAYERS</a>
+          </div>
+          <div class="col afk-align-center">
+            <a href="#" class="afk-menu-tab afk-menu-tab">MY SUBSCRIPTIONS</a>
+          </div>
+          <div class="col afk-align-center">
+            <a href="#" class="afk-menu-tab">FRIENDS</a>
+          </div>          
+        </div>        
+        <ion-list>
+          <ion-item ng-repeat="pet in pets" type="item-text-wrap" href="#/private/tab/pet/{{pet.id}}">
+            <div class="row" style="height: 50px; padding-top: 0px">
+              <div class="col">
+                <img src="./images/member.png" class="afk-circle-small">
+              </div>
+              <div class="col col-80">
+                <h3>{{pet.title}}</h3>
+                <p>{{pet.description}}</p>
+              </div>
+            </div>            
+          </ion-item>   
+        </ion-list>       
+      </ion-slide>
+      
+      <ion-slide>              
+        <div class="row">
+          <div class="col afk-align-center">
+            <a href="#" class="afk-menu-tab afk-menu-tab">SUBSCRIPTIONS</a>
+          </div>
+          <div class="col afk-align-center">
+            <a href="#" class="afk-menu-tab">FRIENDS</a>
+          </div>
+          <div class="col afk-align-center">
+            <a href="#" class="afk-menu-tab-active">COMMUNITY</a>
+          </div>
+        </div>        
+        <ion-list>
+          <ion-item ng-repeat="pet in pets" type="item-text-wrap" >
+            <div class="row" style="height: 50px; padding-top: 0px">             
+              <div class="col col-80">
+                <h3>{{pet.title}}</h3>
+                <p>{{pet.description}}</p>
+              </div>
+            </div>            
+          </ion-item>   
+        </ion-list>       
+      </ion-slide>
+    </ion-slide-box>  
+        
+    </ion-content>
+
 </ion-view>

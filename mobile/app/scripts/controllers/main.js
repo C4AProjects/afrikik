@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('Afrikik')
-  .controller('MainCtrl',['$scope', '$filter', '$rootScope', '$state', 'User','authenticationService','envConfiguration','Global', 'ErrorHandler',function ($scope, $filter, $rootScope,$state, User, Auth, config, global, ErrorHandler) {
+angular.module('Afrikik')   
+  .controller('MainCtrl',['$scope', '$filter', '$rootScope', '$state', 'User','authenticationService','envConfiguration','Global', 'ErrorHandler', '$ionicLoading' ,function ($scope, $filter, $rootScope,$state, User, Auth, config, global, ErrorHandler, $ionicLoading) {
       $scope.auth={
             email:'afrikik@afrikik.com',
             password:'tester'
@@ -23,20 +23,40 @@ angular.module('Afrikik')
             password:"tester",
             verifyPassword:"tester"
       }
+     
+    $scope.show = function() {
+      $ionicLoading.show({
+	template: '<i class="icon ion-loading-a"></i>'
+      });
+    };
+    
+    $scope.hide = function(){
+      $ionicLoading.hide();
+    };
+    
+    $scope.lockMember = function() {
+      $ionicLoading.show({
+	template: 'Subscribe to Unlock Member Information'
+      });
+    };
+  
 
       $scope.login=function(){
-      $state.go('private.member');
+	
+	$scope.show();
+	
       _gaq.push(['_trackEvent','Authentication', 'Login', 'Regular Login', $scope.auth.email, false])
       var authentication=Auth.login($scope.auth).then(function(loginResponse){
       //console.dir(loginResponse)
             if(loginResponse.success)
             {
                 var user =  loginResponse.access_token.user
-                window.user = user;     
-                $state.transitionTo('posts')    
+                window.user = user;
+		//$scope.hide();
+                //$state.transitionTo('private.member')    
             }
             else
-            {
+            {	
                  
                   if(loginResponse.alerts)
                   {
@@ -57,7 +77,11 @@ angular.module('Afrikik')
                       }]
                   }
             }
-      })     
+      });
+      setTimeout(function(){
+	$scope.hide();
+      },1000)
+      $state.go('private.search');//TO REMOVE
     }
 
     $scope.logout = function(){

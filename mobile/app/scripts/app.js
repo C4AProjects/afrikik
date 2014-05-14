@@ -32,31 +32,33 @@ var Afrikik = angular.module('Afrikik', ['ionic', 'Afrikik.services', 'Afrikik.c
       controller: 'MainCtrl'
     })
     
+    
     .state('private.search', {
       url: '/search',
       views: {
         'menuContent' :{
-          templateUrl: 'templates/search.html'
+          templateUrl: 'templates/search.html',
+          controller: "MemberCtrl"
         }
       }
     })
     
+    /*.state('private.members', {
+      url: '/members',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/search.html',
+          controller: 'MemberCtrl'
+        }
+      }
+    })*/
+   
     .state('private.member', {
       url: '/member',
       views: {
         'menuContent': {
           templateUrl: 'templates/members/member.html',
-          controller: 'PetIndexCtrl'
-        }
-      }
-    })
-   
-    .state('private.member.detail', {
-      url: '/member/:petId',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/pet-detail.html',
-          controller: 'PetDetailCtrl'
+          controller: 'MemberCtrl'
         }
       }
     })

@@ -2,19 +2,10 @@
 angular.module('Afrikik.controllers', [])
 
 
-// A simple controller that fetches a list of data from a service
-.controller('PetIndexCtrl', function($scope, PetService) {
-  // "Pets" is a service returning mock data (services.js)
-  $scope.pets = PetService.all();
-  
-
-})
-
-
 // A simple controller that shows a tapped item's data
-.controller('PetDetailCtrl', function($scope, $stateParams, PetService) {
+.controller('PetDetailCtrl', function($scope, $stateParams, MemberService) {
   // "Pets" is a service returning mock data (services.js)
-  $scope.pet = PetService.get($stateParams.petId);
+  $scope.pet = MemberService.get($stateParams.petId);
 })
 
 .controller('MainCtrl2', function($scope, $ionicSideMenuDelegate) {
