@@ -7,7 +7,7 @@
 var apiServer;
 
 
-var Afrikik = angular.module('Afrikik', ['ionic', 'Afrikik.services', 'Afrikik.controllers', 'config', 'angularLocalStorage','ui.router','ngResource','infinite-scroll','pascalprecht.translate','underscore'])
+var Afrikik = angular.module('Afrikik', ['ionic', 'Afrikik.services', 'Afrikik.controllers', 'config', 'angularLocalStorage','ui.router','ngResource','infinite-scroll','pascalprecht.translate','underscore','ngAnimate'])
 
 
 .config(function($stateProvider, $urlRouterProvider, envConfiguration) {
@@ -23,6 +23,12 @@ var Afrikik = angular.module('Afrikik', ['ionic', 'Afrikik.services', 'Afrikik.c
       url: '/index',
       templateUrl: 'templates/main.html',
       controller: 'MainCtrl'
+    })
+     
+     .state('scroll', {
+      url: '/scroll',
+      templateUrl: 'templates/infiniteScroll.html',
+      controller: 'MemberCtrl'
     })
     
     .state('private', {
@@ -42,16 +48,6 @@ var Afrikik = angular.module('Afrikik', ['ionic', 'Afrikik.services', 'Afrikik.c
         }
       }
     })
-    
-    /*.state('private.members', {
-      url: '/members',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/search.html',
-          controller: 'MemberCtrl'
-        }
-      }
-    })*/
    
     .state('private.member', {
       url: '/member',
@@ -62,14 +58,34 @@ var Afrikik = angular.module('Afrikik', ['ionic', 'Afrikik.services', 'Afrikik.c
         }
       }
     })
-
-    .state('private.about', {
-      url: '/about',
+    
+    .state('private.player', {
+      url: '/player',
       views: {
         'menuContent': {
-          templateUrl: 'templates/about.html'
+          templateUrl: 'templates/players/player.html',
+          controller: 'PlayerCtrl'
         }
       }
+    })
+    
+    .state('private.team', {
+      url: '/team',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/teams/team.html',
+          controller: 'TeamCtrl'
+        }
+      }
+    })
+
+    .state('about', {
+      url: '/about',      
+      templateUrl: 'templates/about.html',
+      controller: function AboutCtrl($scope){
+        $scope.date = new Date().getFullYear();
+      }
+      
     });
 
   // if none of the above states are matched, use this as the fallback

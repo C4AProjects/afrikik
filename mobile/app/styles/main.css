@@ -26,12 +26,22 @@ border-radius: 50%;
   font-weight: bold;
   color: grey;
   display: block;
+  white-space: nowrap;
+}
+
+.afk-feed{
+  font-size: 13px;
+  font-weight: bold;
+  color: grey;
+  display: block;
+  white-space: pre-wrap;
 }
 
 .afk-obj-desc{ 
   font-size: 10px;
   color: grey;
   display: block;
+  white-space: nowrap;
 }
 
 .afk-lnk-detail{ 
@@ -62,6 +72,12 @@ border-radius: 50%;
   width: inherit;
 }
 
+.afk-header-menu {
+  background-color: #4a4845;
+  border-color: #4a4845;
+  height: 50px;
+}
+
 .afk-btn.afk-btn-fb {
   background-color: #4a90d9;
   border-color:#1c4065 ;
@@ -81,8 +97,6 @@ border-radius: 50%;
   padding-top: 20px;
   padding-bottom: 5px;
 }
-
-
 
 input.afk-input {
   /*width: 250px;*/
@@ -149,6 +163,16 @@ input.afk-input {
   background-position: 50% 0%;
   background-repeat: no-repeat
 }
+
+.afk-player-activity {
+  background-color: white;
+  color: grey;
+  width: 99%;
+  padding: 15px;
+  font-weight: bold;
+  font-size: 11px;
+}
+
 #name, #summary {
   color:white;
   font-weight: bold
@@ -182,7 +206,9 @@ input.afk-input {
 .afk-search-bg {
   height: 45px;
   max-height: 45px;
-  background-color: white
+  background-color: white;
+  margin:1px;
+  border-radius: 0px
 }
 
 #aboutDesc {
