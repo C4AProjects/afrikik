@@ -12,8 +12,7 @@ Afrikik
                       $ionicSlideBoxDelegate.slide(index)
                 }
                 
-                // Method called on infinite scroll
-                // Receives a "done" callback to inform the infinite scroll that we are done
+                // Method called on infinite scroll                
                 $scope.loadMore = function() {                
                   $timeout(function() {
                         
@@ -26,6 +25,14 @@ Afrikik
                     $scope.$broadcast('scroll.infiniteScrollComplete');
                   }, 1000);
         
+                }
+                
+                $scope.moreDataCanBeLoaded = function(){
+                        if ($scope.members.length>=25) {
+                               
+                               return false;
+                        }
+                        return true;
                 }
                             
                                 

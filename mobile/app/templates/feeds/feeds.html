@@ -1,0 +1,114 @@
+<ion-view >
+ 
+<ion-content class="has-header">
+ 
+    <ion-slide-box style="background-color: #4a4845; padding-top: 0px">      
+      <ion-slide>              
+        <div class="row">
+          <div class="col afk-align-center">
+            <a class="afk-menu-tab2 afk-menu-tab-active" >ACTIVITY</a>
+          </div>
+          <div class="col afk-align-center">
+            <a  class="afk-menu-tab2" ng-click="go(1)">SCORES</a>
+          </div>
+          <div class="col afk-align-center">
+            <a  class="afk-menu-tab2" ng-click="go(2)">SUBSCRIPTIONS</a>
+          </div>
+          <div class="col afk-align-center">
+            <a class="afk-menu-tab2" ng-click="go(3)">COMMUNITY</a>
+          </div>
+        </div>
+        
+        <ion-list>
+          <ion-item ng-repeat="player in players" class="afk-bg-list item item-avatar item-icon-right">
+            <img src="./images/ionic.png" class="afk-circle">
+            <a class="afk-lnk-detail">
+                <span class="afk-obj-name"><i style="color: #f97c11">Update: </i> {{player.description}}</span>
+                <span class="afk-obj-desc" >02:00 PM          3 comments</span>
+                <i class="icon ion-arrow-right-b" style="font-size: 13px; color: lightgrey;"></i>
+            </a>
+          </ion-item>   
+        </ion-list>       
+      </ion-slide>
+      
+      <ion-slide>              
+        <div class="row">
+          <div class="col afk-align-center">
+            <a class="afk-menu-tab2" ng-click="go(0)">ACTIVITY</a>
+          </div>
+           <div class="col afk-align-center">
+            <a  class="afk-menu-tab2 afk-menu-tab-active">SCORES</a>
+           </div>
+          <div class="col afk-align-center">
+            <a  class="afk-menu-tab2" ng-click="go(2)">SUBSCRIPTIONS</a>
+          </div>
+          <div class="col afk-align-center">
+            <a class="afk-menu-tab2" ng-click="go(3)">COMMUNITY</a>
+          </div>
+        </div>        
+        <ion-list>
+          <ion-item ng-repeat="player in players" class="afk-bg-list item item-avatar item-button-right">
+            <img src="./images/player.png" class="afk-circle">            
+            <a class="afk-lnk-detail">
+              <span class="afk-obj-name">{{player.name}}</span>
+            <span class="afk-obj-desc">{{player.description}}</span>
+              View Profile <i class="icon ion-ios7-arrow-forward"></i></a>
+          </ion-item>   
+        </ion-list>
+      </ion-slide>
+      
+      <ion-slide>              
+        <div class="row">
+          <div class="col afk-align-center">
+            <a class="afk-menu-tab2" ng-click="go(0)">ACTIVITY</a>
+          </div>
+           <div class="col afk-align-center">
+            <a  class="afk-menu-tab2" ng-click="go(1)">SCORES</a>
+           </div>
+          <div class="col afk-align-center">
+            <a  class="afk-menu-tab2 afk-menu-tab-active">SUBSCRIPTIONS</a>
+          </div>
+          <div class="col afk-align-center">
+            <a class="afk-menu-tab2" ng-click="go(3)">COMMUNITY</a>
+          </div>
+        </div>
+        
+        <ion-list>
+          <ion-item ng-repeat="player in players">                    
+            <span class="afk-feed">{{player.description}}</span>
+            <span class="afk-obj-desc">Posted by Amadou on Thursday Oct 25 at 02:00 PM</span> 
+          </ion-item>   
+        </ion-list>     
+      </ion-slide>
+      
+      <ion-slide>              
+        <div class="row">
+          <div class="col afk-align-center">
+            <a class="afk-menu-tab2" ng-click="go(0)">ACTIVITY</a>
+          </div>
+           <div class="col afk-align-center">
+            <a  class="afk-menu-tab2" ng-click="go(1)">SCORES</a>
+           </div>
+          <div class="col afk-align-center">
+            <a  class="afk-menu-tab2" ng-click="go(2)">SUBSCRIPTIONS</a>
+          </div>
+          <div class="col afk-align-center">
+            <a class="afk-menu-tab2 afk-menu-tab-active">COMMUNITY</a>
+          </div>
+        </div>
+         
+        <ion-list>
+          <ion-item ng-repeat="player in players">                    
+            <span class="afk-feed">{{player.description}}</span>
+            <span class="afk-obj-desc">Posted by Amadou on Thursday Oct 25 at 02:00 PM</span> 
+          </ion-item>   
+        </ion-list>     
+      </ion-slide>
+    </ion-slide-box>  
+
+  </ion-content>
+ 
+</ion-view>
+
+
+

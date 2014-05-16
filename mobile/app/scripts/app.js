@@ -78,6 +78,16 @@ var Afrikik = angular.module('Afrikik', ['ionic', 'Afrikik.services', 'Afrikik.c
         }
       }
     })
+    
+    .state('private.feeds', {
+      url: '/feeds',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/feeds/feeds.html',
+          controller: 'FeedCtrl'
+        }
+      }
+    })
 
     .state('about', {
       url: '/about',      

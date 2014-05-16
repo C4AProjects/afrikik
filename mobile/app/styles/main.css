@@ -37,6 +37,13 @@ border-radius: 50%;
   white-space: pre-wrap;
 }
 
+.afk-obj-info{
+  font-size: 10px;  
+  color: grey;
+  display: block;
+  white-space: pre-wrap;
+}
+
 .afk-obj-desc{ 
   font-size: 10px;
   color: grey;
@@ -197,6 +204,14 @@ input.afk-input {
   text-decoration: none;
 }
 
+.afk-menu-tab2 {
+  color: darkgrey;
+  font-weight: bold;
+  font-size: 11px;
+  border-bottom: 0px;
+  text-decoration: none;
+}
+
 .afk-menu-tab-active {
   color: white;
   text-decoration: none; border-bottom: 3px solid #f97c11;
@@ -211,41 +226,13 @@ input.afk-input {
   border-radius: 0px
 }
 
-#aboutDesc {
-    font-family: fantasy;
-    font-weight: bold;
-    width: 50%;
-}
-#author {
-    font-family: Menlo;
-    font-weight: bold;
-}
-#results, #volume {
-    float: right;
-}
-#volLbl {
-    float:  left;
-}
-.align {
-    margin-top: 10px;
-}
-#homeTxt {
-    text-align: center;
-}
-.bgMain {
-    left-margin: -20px;
-    margin-top: 7%;
-    background-image: url('../img/itunes.jpg');
-    background-size: 250px;
-    background-repeat: no-repeat;
-    background-position:center;
-}
 .bgSearch {
     background-image: url('../img/itunes.jpg');
     background-size: 250px;
     background-repeat: no-repeat;
     background-position:center;
 }
+
 @media screen and (max-device-width: 640px){
     .fade-bar {
         height: 20px;
