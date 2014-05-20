@@ -9,26 +9,29 @@
         <div class="col" style="height: auto;text-align: center">         
           <div class="row">
             <div class="col">
-                 <center><img class="afk-circle" src="./images/member.png" /></center>
+                 <center><img class="afk-circle" ng-src="{{member.picture? apiDir + member.picture :'./images/no-player.png'}}" /></center>
             </div>
           </div>
           <div class="row">
             <div class="col" style="padding-bottom: 15px;padding-top: 1px">
-              <h3 id="name">Amadou DAFFE</h3>
-              <h6 id="summary">Member Since 2014 <br/>
-              104 Subscriptions - 23 Friends
+              <h3 id="name">{{member.name}}</h3>
+              <h6 id="summary">Member Since {{member.createdAt|date:'yyyy'}} <br/>
+              {{member.subscribedPlayers.length}} Subscriptions - {{member.following.length}} Friends
               <br/>
               </h6>
             </div>
           </div>            
         </div>
     </div>
-    <div class="row" style="background-color: #4a4845;">
+    
+    <div class="row" style="background-color: #4a4845;" ng-show="!isFriend(member)">
       <div class="col afk-align-center" style="height: 25px">
-        <button class="button afk-btn afk-btn-register afk-member-subscribe-btn">Subscribe</button>
+        <button class="button afk-btn afk-btn-register afk-member-subscribe-btn" ng-click="subscribe(member)">Subscribe</button>
       </div>
-    </div>  
-    <ion-slide-box style="background-color: #4a4845; padding-top: 0px">      
+    </div>
+    <div style="background-color: grey">
+    <div ng-style="styleLocked">      
+    <ion-slide-box style="background-color: #4a4845; padding-top: 0px">
       <ion-slide>              
         <div class="row">
           <div class="col afk-align-center">
@@ -43,11 +46,11 @@
         </div>
         <div style="background-color: white;width: 100%;height: 5px"></div>
         <ion-list>
-          <ion-item ng-repeat="member in members" class="afk-bg-list item item-avatar item-button-right">
-            <img src="./images/member.png" class="afk-circle">            
-            <a href="#/private/member" class="afk-lnk-detail">
-              <span class="afk-obj-name">{{member.name}}</span>
-            <span class="afk-obj-desc">{{member.description}}</span>
+          <ion-item ng-repeat="player in member.subscribedPlayers" class="afk-bg-list item item-avatar item-button-right">
+            <img ng-src="./images/{{player.picture||'no-player.png'}}" class="afk-circle">            
+            <a class="afk-lnk-detail" ng-click="setCurrentPlayer(player)">
+              <span class="afk-obj-name">{{player.name}}</span>
+            <span class="afk-obj-desc">{{player.description}}</span>
               View Profile <i class="icon ion-ios7-arrow-forward"></i></a>
           </ion-item>   
         </ion-list>
@@ -67,9 +70,9 @@
           </div>
         </div>        
         <ion-list>
-          <ion-item ng-repeat="member in members" class="afk-bg-list item item-avatar item-button-right">
-            <img src="./images/member.png" class="afk-circle">            
-            <a href="#/private/member" class="afk-lnk-detail">
+          <ion-item ng-repeat="member in member.following" class="afk-bg-list item item-avatar item-button-right">
+            <img ng-src="{{member.picture? apiDir + member.picture :'./images/no-member.png'}}" class="afk-circle">            
+            <a ng-click="setCurrentMember(member)" class="afk-lnk-detail">
               <span class="afk-obj-name">{{member.name}}</span>
             <span class="afk-obj-desc">{{member.description}}</span>
               View Profile <i class="icon ion-ios7-arrow-forward"></i></a>
@@ -92,16 +95,19 @@
         </div>        
         <ion-list>
           <ion-item ng-repeat="member in members" class="afk-bg-list item item-button-right">
-            <a href="#/private/member" class="afk-lnk-detail">
+            <a class="afk-lnk-detail">
               <span class="afk-obj-name">{{member.name}}</span>
             <span class="afk-obj-desc">{{member.description}}</span>
-              View Profile <i class="icon ion-ios7-arrow-forward"></i></a>
+            </a>
           </ion-item>   
         </ion-list>
         <ion-infinite-scroll on-infinite="loadMore()"></ion-infinite-scroll>
       </ion-slide>
-    </ion-slide-box>  
-
+    </ion-slide-box>
+    
+    <center>Subscribe To Unlock Member Information</center>
+    </div>
+    </div>
   </ion-content>
  
 </ion-view>

@@ -10,26 +10,32 @@
                         HOME OF THE BESTS IN AFRICAN FOOTBALL
                     </h5>
                 </p>
-                <div style="padding:1px 10% 20px 10%">                 
+                
+                <div style="padding:1px 10% 20px 10%">
+                    <div>
+                    <form name="LoginForm" novalidate ng-submit="login()">
+                    <!--alert ng-repeat="alert in alerts" type="alert.type">{{alert.msg}}</alert-->
                     <div class="row">
                     <div class="col">
-                        <center><input class="afk-input" type="email" placeholder="Email"></center>
+                        <center><input class="afk-input" type="email" placeholder="Email" ng-model="user.email" required autofocus></center>
                     </div>                                    
                     </div>
                     <div class="row">
                     <div class="col">
-                        <center><input class="afk-input" type="password" placeholder="Password"></center>
+                        <center><input class="afk-input" type="password" placeholder="Password" ng-model="user.password"></center>
                     </div>                                    
                     </div>
                     <div class="row">
                     <div class="col">
                         <center>
-                            <button class="button button-block afk-btn afk-btn-register" ng-click="login()">
+                            <button class="button button-block afk-btn afk-btn-register">
                                 Log In
                             </button>
                         </center>
                     </div>                                    
-                    </div>                   
+                    </div>
+                    </form>
+                    </div>
                 
                     <div class="row">
                         <div class="col">

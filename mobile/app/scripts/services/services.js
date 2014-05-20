@@ -5,18 +5,31 @@ angular.module('Afrikik.services', [])
  * A simple example service that returns some data.
  */
 .factory('MemberService', function() {
-  // Might use a resource here that returns a JSON array
 
+  var currentMember = {};
+ // Might use a resource here that returns a JSON array
   // Some fake testing data
+  
+  var friends=[
+	{ _id: 2, name: 'Amadou Daffe', picture:'amadou.png', "createdAt": "2012-04-05T17:14:17.790Z", description: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
+	{ _id: 7, name: 'Abou Kone', picture:'ali.png', description: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
+	{ _id: 3, name: 'Khadim Seck', description: 'Everyone likes turtles.' }
+	],
+      
+      players=[
+	{ _id: 0, name: 'Didier Drogba', picture:'drogba.png', position:'11/Forward', nationality:'The Ivory Coast', club:'Galatasaray S.K', description: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
+	{ _id: 1, name: 'Eto Samuel' , picture:'eto.png', position:'9/Forward', nationality:'Cameroon', club:'Chelsea', description: 'Lovable. Loyal almost to a fault. Smarter than they let on.' }    
+      ];
+      
   var members = [
-    { id: 0, name: 'Didier Drogba', description: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
-    { id: 1, name: 'Eto Samuel', description: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
-    { id: 2, name: 'Papis Cisse', description: 'Everyone likes turtles.' },
-    { id: 3, name: 'Senegal', description: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' },
-    { id: 4, name: 'Didier Drogba', description: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
-    { id: 5, name: 'Eto Samuel', description: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
-    { id: 5, name: 'Papis Cisse', description: 'Everyone likes turtles.' },
-    { id: 7, name: 'Senegal', description: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' }
+    { _id: 0, name: 'Ousmane Samba', following: friends, followers:friends, subscribedPlayers:players, picture:'drogba.png', "createdAt": "2012-04-05T17:14:17.790Z", description: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
+    { _id: 1, name: 'Fatoumata', following: friends, followers:friends, subscribedPlayers:players, picture:'eto.png', description: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
+    { _id: 2, name: 'Amadou Daffe', following: friends, followers:friends, subscribedPlayers:players, description: 'Everyone likes turtles.' },
+    { _id: 3, name: 'Khadim Seck', following: friends, subscribedPlayers:players, description: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' },
+    { _id: 4, name: 'Mansour Fall', following: friends, subscribedPlayers:players, description: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
+    { _id: 5, name: 'HayThem', following: friends, subscribedPlayers:players, description: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
+    { _id: 6, name: 'Kossi Jojo', following: friends, subscribedPlayers:players, description: 'Everyone likes turtles.' },
+    { _id: 7, name: 'Abou Kone', following: friends, subscribedPlayers:players, description: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' }
 
   ];
 
@@ -27,33 +40,76 @@ angular.module('Afrikik.services', [])
     get: function(memberId) {
       // Simple index lookup
       return members[memberId];
+    },
+    getById: function(memberId){      
+      return _.find(members, function(member){
+        return member._id == memberId
+      })
+    },
+    setCurrentMember: function(member){
+      currentMember = member;
+    },
+    getCurrentMember: function(){
+      return currentMember;
     }
   };
 })
 
 .factory('PlayerService', function() {
-  // Might use a resource here that returns a JSON array
-
+  var currentPlayer= {};
+  
+// Might use a resource here that returns a JSON array
   // Some fake testing data
-  var members = [
-    { id: 0, name: 'Didier Drogba', description: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
-    { id: 1, name: 'Eto Samuel', description: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
-    { id: 2, name: 'Papis Cisse', description: 'Everyone likes turtles.' },
-    { id: 3, name: 'Senegal', description: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' },
-    { id: 4, name: 'Didier Drogba', description: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
-    { id: 5, name: 'Eto Samuel', description: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
-    { id: 5, name: 'Papis Cisse', description: 'Everyone likes turtles.' },
-    { id: 7, name: 'Senegal', description: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' }
+  var career ="Didier Drogba, né le 11 mars 1978 à Abidjan, est un footballeur international ivoirien. Depuis janvier 2013 , il évolue au poste d'attaquant dans le club turc de Galatasaray."+
+
+                                "Drogba débute sa carrière en France, au Mans Union Club 72. Il découvre la Ligue 1 avec l'En Avant de Guingamp, puis dispute ses premières rencontres européennes sous les couleurs de l'Olympique de Marseille. L'attaquant est transféré au Chelsea FC en 2004 et remporte notamment l'édition 2011-2012 de la Ligue des champions avec le club britannique. Après son départ, il est élu « meilleur joueur de l'histoire du club » par les supporters."+
+                                
+                                "Didier Drogba fait partie de l'équipe de Côte d'Ivoire depuis 2002. Il est nommé capitaine de la sélection, dont il est le meilleur buteur."+
+                                
+                                "Il possède également la nationalité française.";
+  var players = [
+    { _id: 0, name: 'Didier Drogba', picture:'drogba.png', position:'11/Forward', nationality:'The Ivory Coast', club:'Galatasaray S.K', career: career },
+    { _id: 1, name: 'Eto Samuel' , picture:'eto.png', position:'09/Forward', nationality:'Cameroon', club:'Chelsea', career: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
+    { _id: 2, name: 'Papis Cisse', career: 'Everyone likes turtles.' },
+    { _id: 3, name: 'Webo', position:'29/Forward', nationality:'Cameroon', club:'Espanyol', career: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' },
+    { _id: 4, name: 'El Hadj Diouf', position:'11/Forward', nationality:'Senegal', club:'Liverpool', career: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
+    { _id: 5, name: 'Yaya Toure', position:'08/Middle', nationality:'The Ivory Coast', club:'Manchester City', career: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
+    { _id: 5, name: 'Adebayor', position:'9/Forward', nationality:'Rep. Democratique de Congo', club:'Arsenal', career: 'Everyone likes turtles.' },
+    { _id: 7, name: 'Sadio Mane', position:'10/Forward', nationality:'Senegal', club:'Metz',career: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' }
 
   ];
 
   return {
     all: function() {
-      return members;
+      return players;
     },
-    get: function(memberId) {
+    get: function(playerId) {
       // Simple index lookup
-      return members[memberId];
+      return players[playerId];
+    },
+    getById: function(playerId){      
+      return _.find(players, function(player){
+        return player._id == playerId
+      })
+    },
+    setCurrentPlayer: function(player){
+      currentPlayer = player;
+    },
+    getCurrentPlayer: function(){
+      return currentPlayer;
+    },
+    activities: function(playerId){
+      return _.filter([
+        { _id: 0, _player: 0, message: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
+        { _id: 1, _player: 0, message: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
+        { _id: 2, _player: 0, message: 'Everyone likes turtles.' },
+        { _id: 3, _player: 0, message: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' }    ,
+        { _id: 4, _player: 1, message: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
+        { _id: 5, _player: 1, message: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
+        { _id: 6, _player: 1, message: 'Everyone likes turtles.' }
+      ], function(feed){
+        return feed._player == playerId
+      })
     }
   };
 })

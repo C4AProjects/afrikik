@@ -2,14 +2,56 @@
 
 Afrikik
         // A simple controller that fetches a list of data from a service
-        .controller('MemberCtrl', function($scope, $timeout, $stateParams, $ionicSlideBoxDelegate, MemberService) {
-                // "Members" is a service returning mock data (services.js)          
+        .controller('MemberCtrl', function($stateParams, $window, config,$scope, $state, $timeout, $ionicSlideBoxDelegate, Global, MemberService, TeamService, PlayerService,SettingsService, envConfiguration) {
+                
+                
+                $scope.apiDir =  config.apiDir;
+                
+                
                 $scope.members = MemberService.all();
                 
-                $scope.members2= $scope
+                $scope.setCurrentMember = function(member){
+                        //MemberService.setCurrentMember(member)
+                        //$scope.slide = $ionicSlideBoxDelegate.currentIndex();                        
+                        $state.transitionTo('private.member', {_id: member._id})
+                        //$scope.go($scope.slide)
+                }
+                
+                $scope.user = Global.getUser()
+                $scope.member = MemberService.getById($stateParams._id);
+                
+                $scope.setCurrentPlayer = function(player){
+                        PlayerService.setCurrentPlayer(player)
+                        $state.transitionTo('private.player', {_id: $stateParams._id})
+                }
+                
+                $scope.subscribe = function(member){
+                        $scope.user.following.push(member)
+                        Global.setUser($scope.user);
+                        $window.location.reload();
+                }
                 
                 $scope.go = function(index){               
                       $ionicSlideBoxDelegate.slide(index)
+                }
+                
+                $scope.isFriend = function(member){
+                        var test = false;
+                        $scope.user.following.forEach(function(friend){
+                                if (friend._id === member._id) {
+                                        test = true;
+                                        return;
+                                }                                
+                        })
+                        $scope.styleLocked = {};
+                        if (test===false) {
+                                console.log('do copy')
+                                $scope.members = _.first($scope.members, 1);
+                                $scope.member.following = _.first($scope.member.following, 2);
+                                //$scope.member.subscribedPlayers
+                                $scope.styleLocked = {'filter':'alpha(opacity=50)', 'opacity':0.5};
+                        }
+                        return test;
                 }
                 
                 // Method called on infinite scroll                
@@ -34,103 +76,40 @@ Afrikik
                         }
                         return true;
                 }
-                            
+                
+                $scope.players = PlayerService.all();
+                                
+                
+                                    
+                $scope.loadMore = function() {                
+                  $timeout(function() {        
+                    $scope.players.push(
+                       {
+                        "_id": "53456944264d7a1a15dba892",
+                        "_team": "5340553417956a370e994563",
+                        "club": "Galatasaray",
+                        "createdAt": "2013-04-05T17:14:17.790Z",
+                        "height": 1.92,
+                        "name": "Didier DROGBA",
+                        "description": "The Best football ever at chelsea",
+                        "nationality": "Ivoirienne",
+                        "picture": "drogba.png",
+                        "position": "Attaquant",
+                        "rating": 185,
+                        "updatedAt": "2014-04-05T17:14:17.790Z",
+                        "weight": 85,
+                        "comments": [
+                          "53505c60adc2b8417fec21c1",
+                          "53505c6cadc2b8417fec21c2",
+                          "53505c70adc2b8417fec21c3"
+                        ],
+                        "trophy": [],
+                        "matchs": []                       
+                    });
+                    //console.log('infinite scroll pushed');
+                    $scope.$broadcast('scroll.infiniteScrollComplete');
+                  }, 1000);
+        
+                }                
                                 
         })
-        
-
-        .controller('SearchCtrl', function ($scope,MediaService,$ionicModal,$location,$ionicSideMenuDelegate,SettingsService) {
-                $scope.navTitle = "";
-        
-                $scope.rightButtons =  [{
-                    type: 'button-icon button-clear ion-more',
-                    tap: function(e) {
-                        $scope.openSortModal();
-                    }
-                }];
-                $scope.request = {};
-                $scope.showFlag = false;
-                $scope.mediaTypes = {};
-                $scope.mediaTypes.type = 'all';
-                $scope.sortBy = "artistName";
-                $scope.filterTerm = "";
-        
-                if ($scope.sideMenuController&&$scope.sideMenuController.isOpen())
-                    $scope.sideMenuController.toggleLeft();
-        
-                var doSearch = ionic.debounce(function(query) {
-                    var type = $scope.mediaTypes.type;
-                    if (type=="all")  type="";
-                    if (query!=null) {
-                        // Pass in the query string, the media type and the # of results to return (from SettingsService)
-                        MediaService.search(query,type,SettingsService.get('maxResults')).then(function(resp) {
-                            $scope.mediaResults = resp;
-                            console.log("Result Count " + $scope.mediaResults.resultCount);
-                            $scope.mediaResults = resp;
-        
-                            if ($scope.mediaResults.resultCount == 0)
-                                $scope.infoTxt = 'No matching results found';
-        
-                        });
-                    }
-                }, 500);
-        
-        
-                $scope.search = function() {
-                    $scope.infoTxt = null;
-                    doSearch($scope.request.query);
-                }
-        
-                $scope.checkMedia = function(item) {
-                    console.log("URL " + item.previewUrl + " " + item.kind);
-                    if (item.kind==='song' || item.kind==='music-video') {
-                        $scope.openPlayModal(item);
-                        $scope.infoTxt = null;
-                    }
-                    else $scope.infoTxt = 'No suitable player available for the selected media type.'
-        
-                };
-        
-                $ionicModal.fromTemplateUrl('templates/playModal.html', function(modal) {
-                    $scope.playModal = modal;
-                }, {
-                    scope: $scope,
-                    animation: 'slide-in-up'
-                });
-        
-                $scope.openPlayModal = function(item) {
-                    $scope.url = item.previewUrl;
-                    if  (item.trackName != null) $scope.title = item.trackName
-                    else $scope.title = item.collectionName;
-        
-                    $scope.kind = item.kind;
-                    $scope.artist = item.artistName;
-                    $scope.playModal.show();
-                }
-        
-                $scope.closePlayModal = function() {
-                    $scope.playModal.hide();
-                }
-        
-                $ionicModal.fromTemplateUrl('templates/sortModal.html', function(sortModal) {
-                    $scope.sortModal = sortModal;
-                }, {
-                    scope: $scope,
-                    animation: 'slide-in-up'
-                });
-        
-                $scope.openSortModal = function() {
-                    $scope.sortModal.show();
-                }
-        
-                $scope.closeSortModal = function() {
-                    $scope.sortModal.hide();
-                }
-        
-                $scope.saveSort = function() {
-                    console.log("This filter " + this.filterTerm + " query " + $scope.request.query + " sort " + this.sortBy);
-                    $scope.filterTerm = this.filterTerm;
-                    $scope.sortBy = this.sortBy;
-                    $scope.sortModal.hide();
-                }
-})

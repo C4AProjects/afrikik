@@ -47,9 +47,9 @@ moment.lang('fr', {
 
 moment.lang('fr');
 
-var config = angular.module('config', [])
+var config = angular.module('config', [])    
     .constant('envConfiguration',{
-        'default':'dev',
+        'default':'standalone',
         dev:{
             appName:"Afrikik.com Dev",
             host:"http://localapi.afrikik.com",
@@ -75,6 +75,16 @@ var config = angular.module('config', [])
             host:"http://www.afrikik.com",
             port:"",
             api_base_version:"api/v1",
+            localStorageKeyPrefix:'prod-nouchi-local',
+            localStorageUserKey:'prod-nouchi-local-user',
+            clientKey:"",
+            clientSecret:""
+        },
+        standalone:{
+            appName:"Afrikik.com",
+            host:"",
+            port:"",
+            api_base_version:"",
             localStorageKeyPrefix:'prod-nouchi-local',
             localStorageUserKey:'prod-nouchi-local-user',
             clientKey:"",

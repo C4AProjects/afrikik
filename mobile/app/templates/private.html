@@ -16,7 +16,7 @@
         <img src="./images/logo.png" style="max-height: 36px;max-width: 400px;"/>
       </div>
       <div style="width: 15%;text-align: right; margin: 2px;vertical-align: middle">
-        <button class="button button-icon icon icon ion-plus" style="color: white;background-color:#f97c11;border-radius: 0;"></button>
+         <button class="button button-icon icon icon ion-plus" style="color: white;background-color:#f97c11;border-radius: 0;"></button>
       </div>
     </ion-nav-bar>
     <ion-nav-view name="menuContent" animation="slide-left-right"></ion-nav-view>
@@ -27,27 +27,18 @@
       <h1 class="title" style="color: white;">Afrikik</h1>
     </header>
     <ion-content class="has-header" >
-      <ion-list >
-        <ion-item nav-clear menu-close href="#/private/member" >
-          Member
-        </ion-item>
-        <ion-item nav-clear menu-close href="#/private/player" >
-          Player
-        </ion-item>
-        <ion-item nav-clear menu-close href="#/private/team" >
-          Team
-        </ion-item>
-        <ion-item nav-clear menu-close href="#/private/feeds" >
-          Feeds
-        </ion-item>
+      <ion-list >        
+        <ion-item nav-clear menu-close href="#/private/search" >
+          Home
+        </ion-item>        
         <ion-item nav-clear menu-close href="#/private/search" >
           Search 
         </ion-item>
-        <ion-item nav-clear menu-close href="#/private/news">
-          News
-        </ion-item>
-        <ion-item nav-clear menu-close href="#/about">
-          About
+        <ion-item nav-clear menu-close href="#/private/feeds" >
+          Community Feeds
+        </ion-item>              
+        <ion-item nav-clear menu-close>
+          Notification
         </ion-item>
       </ion-list>
     </ion-content>

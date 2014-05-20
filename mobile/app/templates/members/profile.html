@@ -1,12 +1,12 @@
-<ion-view left-buttons="leftButtons" right-buttons="rightButtons">
+<ion-view>
 
     <ion-content has-header="true">        
 
-        <ion-slide-box style="background-color: #4a4845;">      
-      <ion-slide ng-controller="PlayerCtrl">              
+    <ion-slide-box style="background-color: #4a4845;">      
+      <ion-slide ng-controller="MainCtrl">              
         <div class="row" style="border-color: #4a4845;">
           <div class="col afk-align-center">
-            <a class="afk-menu-tab2 afk-menu-tab-active">BROWSE PLAYERS</a>
+            <a class="afk-menu-tab2 afk-menu-tab-active">MY PROFILE</a>
           </div>
           <div class="col afk-align-center" ng-click="go(1)">
             <a class="afk-menu-tab2">MY SUBSCRIPTIONS</a>
@@ -14,27 +14,7 @@
           <div class="col afk-align-center" ng-click="go(2)">
             <a class="afk-menu-tab2">FRIENDS</a>
           </div>
-        </div>
-        
-        <div class="item item-input-inset" style="background-color: grey">
-            <!--label style="margin-right: 0px;">
-                <select ng-model="mediaTypes.type" class="afk-search-bg"  ng-change="search()">
-                    <option value="all" selected>All Type</option>
-                    <option value="musicVideo">Players</option>
-                    <option value="movie">Teams</option> 
-                    <option value="movie">Members</option> 
-                </select>
-            </label-->
-
-            <label class="item-input-wrapper afk-search-bg" style="margin:0px;border-radius: 0px" >
-                <i class="icon ion-search placeholder-icon" class="afk-search-bg"></i>
-                <input type="text" placeholder="Search For Players, Teams" class="afk-search-bg" ng-model="request.query" />
-            </label>
-
-            <button class="button afk-btn-register"  style="margin:0px;" ng-click="search()">
-            Search
-            </button>
-        </div>
+        </div>            
         
         <ion-list>
           <ion-item ng-repeat="player in players" class="afk-bg-list item item-avatar item-button-right">
@@ -51,7 +31,7 @@
       <ion-slide ng-controller="MainCtrl">              
         <div class="row" style="border-color: #4a4845;">
           <div class="col afk-align-center">
-            <a class="afk-menu-tab2" ng-click="go(0)">BROWSE PLAYERS</a>
+            <a class="afk-menu-tab2" ng-click="go(0)">MY PROFILE</a>
           </div>
           <div class="col afk-align-center">
             <a class="afk-menu-tab2 afk-menu-tab-active">MY SUBSCRIPTIONS</a>
@@ -72,10 +52,10 @@
         </ion-list>   
       </ion-slide>
       
-      <ion-slide ng-controller="MemberCtrl">              
+      <ion-slide ng-controller="MainCtrl">              
         <div class="row" style="border-color: #4a4845;">
           <div class="col afk-align-center" ng-click="go(0)">
-            <a class="afk-menu-tab2">BROWSE PLAYERS</a>
+            <a class="afk-menu-tab2">MY PROFILE</a>
           </div>
           <div class="col afk-align-center" ng-click="go(1)">
             <a class="afk-menu-tab2">MY SUBSCRIPTIONS</a>
@@ -85,8 +65,8 @@
           </div>
         </div>      
         <ion-list>
-          <ion-item ng-repeat="member in user.following" class="afk-bg-list item item-avatar item-button-right">
-            <img ng-src="./images/{{member.picture||'no-member.png'}}" class="afk-circle"> 
+          <ion-item ng-repeat="member in user.followers" class="afk-bg-list item item-avatar item-button-right">
+            <img ng-src="{{getPicture(member.picture||'no-member.png')}}" ng-controller="PlayerCtrl" class="afk-circle"> 
             <a class="afk-lnk-detail"  ng-click="setCurrentMember(member)">
               <span class="afk-obj-name">{{member.name}}</span>
             <span class="afk-obj-desc">{{member.description}}</span>

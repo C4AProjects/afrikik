@@ -1,7 +1,18 @@
 'use strict';
 
 angular.module('Afrikik')   
-  .controller('MainCtrl',['$scope', '$filter', '$rootScope', '$state', 'User','authenticationService','envConfiguration','Global', 'ErrorHandler', '$ionicLoading' ,function ($scope, $filter, $rootScope,$state, User, Auth, config, global, ErrorHandler, $ionicLoading) {
+  .controller('MainCtrl',['$scope', '$ionicSlideBoxDelegate', '$filter', '$rootScope', '$state', 'User','authenticationService','envConfiguration','Global', 'ErrorHandler', '$ionicLoading','PlayerService', 'MemberService', 'config' ,function ($scope, $ionicSlideBoxDelegate, $filter, $rootScope,$state, User, Auth, envConfiguration, global, ErrorHandler, $ionicLoading, PlayerService, MemberService, config) {
+      $scope.go = function(index){               
+	    $ionicSlideBoxDelegate.slide(index)
+      }
+      
+      $scope.apiDir =  config.apiDir;
+     
+      $scope.setCurrentMember = function(member){
+		MemberService.setCurrentMember(member)
+		$state.transitionTo('private.member')
+      } 
+      
       $scope.auth={
             email:'afrikik@afrikik.com',
             password:'tester'
@@ -9,6 +20,7 @@ angular.module('Afrikik')
       $scope.isNavbarCollapsed = true;
       $scope.global=global;
       $scope.user = global.getUser();
+      
       $scope.search={};
       $scope.config = config;
       $scope.showLoginForm = false;
@@ -16,17 +28,35 @@ angular.module('Afrikik')
       $scope.goToCreateAccount = function () {
         $scope.$broadcast('slideBox.nextSlide');
       };
+      
+      $scope.setCurrentPlayer = function(player){
+	    PlayerService.setCurrentPlayer(player)
+	    $state.go('private.member', {_id: member._id})
+      }
+      
       //Remove
+      var friends=[
+    	{ _id: 3, name: 'Khadim Seck', description: 'Everyone likes turtles.' },
+	{ _id: 4, name: 'Mansour Fall', following: friends, subscribedPlayers:players, description: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
+	{ _id: 5, name: 'HayThem', following: friends, subscribedPlayers:players, description: 'Lovable. Loyal almost to a fault. Smarter than they let on.' }
+	],
+      
+      players=[
+	{ _id: 0, name: 'Didier Drogba', picture:'drogba.png', position:'11/Forward', nationality:'The Ivory Coast', club:'Galatasaray S.K', description: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
+	{ _id: 1, name: 'Eto Samuel' , picture:'eto.png', position:'9/Forward', nationality:'Cameroon', club:'Chelsea', description: 'Lovable. Loyal almost to a fault. Smarter than they let on.' }    
+      ];
+      
       $scope.user ={
             email:"afrikik@afrikik.com",
             username:"boobahsiddik",
-            password:"tester",
-            verifyPassword:"tester"
+            password:"",
+            verifyPassword:"tester",
+	    name: 'Didier Drogba', followers:friends, following:friends, subscribedPlayers:players
       }
      
-    $scope.show = function() {
+    $scope.show = function(tpl) {
       $ionicLoading.show({
-	template: '<i class="icon ion-loading-a"></i>'
+	template: tpl? tpl:'<i class="icon ion-loading-a"></i>'
       });
     };
     
@@ -41,9 +71,24 @@ angular.module('Afrikik')
     };
   
 
-      $scope.login=function(){
-	
+    $scope.login=function(){
 	$scope.show();
+	if ($scope.user.email!=$scope.auth.email || $scope.user.password!=$scope.auth.password) {	    
+	    $scope.alerts = [{msg:'Email or password wrong!', type:'danger'}];
+	    var tpl = '';
+	    $scope.alerts.forEach(function(alert){
+		tpl= tpl + alert.msg + '<br/>'
+	    })
+	    $scope.hide();
+	    $scope.show(tpl)
+	    setTimeout(function(){
+		$scope.hide();
+	    },1000)
+	    
+	    return;
+	}
+	
+	global.setUser($scope.user)
 	
       _gaq.push(['_trackEvent','Authentication', 'Login', 'Regular Login', $scope.auth.email, false])
       var authentication=Auth.login($scope.auth).then(function(loginResponse){
@@ -66,7 +111,7 @@ angular.module('Afrikik')
                   else
                   {
                       var message = $filter('translate')('ERROR_SOMETHING_WENT_WRONG')
-                      if(loginResponse && loginResponse.message.indexOf("Invalid resource owner credentials")>=0)
+                      if(loginResponse && loginResponse.message && loginResponse.message.indexOf("Invalid resource owner credentials")>=0)
                       {
                           message = $filter('translate')('ERROR_WRONG_CREDENTIALS')
                           _gaq.push(['_trackEvent','Authentication', 'Wrong Credentials', 'Regular Login', $filter('translate')('ERROR_WRONG_CREDENTIALS'), false])
@@ -78,6 +123,8 @@ angular.module('Afrikik')
                   }
             }
       });
+      
+      //TO REMOVE
       setTimeout(function(){
 	$scope.hide();
       },1000)

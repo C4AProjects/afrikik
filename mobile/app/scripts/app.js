@@ -13,6 +13,7 @@ var Afrikik = angular.module('Afrikik', ['ionic', 'Afrikik.services', 'Afrikik.c
 .config(function($stateProvider, $urlRouterProvider, envConfiguration) {
   
   
+  
   var env = 'dev',
   
   apiServer = envConfiguration[env].host + envConfiguration[env].port + '/' + envConfiguration[env].api_base_version;
@@ -43,14 +44,13 @@ var Afrikik = angular.module('Afrikik', ['ionic', 'Afrikik.services', 'Afrikik.c
       url: '/search',
       views: {
         'menuContent' :{
-          templateUrl: 'templates/search.html',
-          controller: "MemberCtrl"
+          templateUrl: 'templates/search.html'
         }
       }
     })
    
     .state('private.member', {
-      url: '/member',
+      url: '/member/:_id',
       views: {
         'menuContent': {
           templateUrl: 'templates/members/member.html',
@@ -60,7 +60,7 @@ var Afrikik = angular.module('Afrikik', ['ionic', 'Afrikik.services', 'Afrikik.c
     })
     
     .state('private.player', {
-      url: '/player',
+      url: '/player/:_id',
       views: {
         'menuContent': {
           templateUrl: 'templates/players/player.html',
