@@ -48,6 +48,15 @@ var Afrikik = angular.module('Afrikik', ['ionic', 'Afrikik.services', 'Afrikik.c
         }
       }
     })
+    
+    .state('private.profile', {
+      url: '/profile',
+      views: {
+        'menuContent' :{
+          templateUrl: 'templates/members/profile.html'
+        }
+      }
+    })
    
     .state('private.member', {
       url: '/member/:_id',

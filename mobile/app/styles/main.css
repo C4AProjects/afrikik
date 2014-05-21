@@ -226,6 +226,16 @@ input.afk-input {
   border-radius: 0px
 }
 
+.afk-notification {
+  border-radius: 50%;
+  background-color: red;
+  color:white;
+  font-weight: bold;
+  width:20px;
+  height: 20px;
+  display: compact
+}
+
 .bgSearch {
     background-image: url('../img/itunes.jpg');
     background-size: 250px;

@@ -28,10 +28,10 @@
 
             <label class="item-input-wrapper afk-search-bg" style="margin:0px;border-radius: 0px" >
                 <i class="icon ion-search placeholder-icon" class="afk-search-bg"></i>
-                <input type="text" placeholder="Search For Players, Teams" class="afk-search-bg" ng-model="request.query" />
+                <input type="text" placeholder="Search For Players, Teams" class="afk-search-bg" ng-model="searchName" />
             </label>
 
-            <button class="button afk-btn-register"  style="margin:0px;" ng-click="search()">
+            <button class="button afk-btn-register"  style="margin:0px;" ng-click="search(searchName)">
             Search
             </button>
         </div>
@@ -48,7 +48,7 @@
         <ion-infinite-scroll on-infinite="loadMore()"></ion-infinite-scroll>
       </ion-slide>
       
-      <ion-slide ng-controller="MainCtrl">              
+      <ion-slide ng-controller="PlayerCtrl">              
         <div class="row" style="border-color: #4a4845;">
           <div class="col afk-align-center">
             <a class="afk-menu-tab2" ng-click="go(0)">BROWSE PLAYERS</a>

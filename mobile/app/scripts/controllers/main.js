@@ -51,7 +51,9 @@ angular.module('Afrikik')
             username:"boobahsiddik",
             password:"",
             verifyPassword:"tester",
-	    name: 'Didier Drogba', followers:friends, following:friends, subscribedPlayers:players
+	    name: 'Pape S DIOP', followers:friends, following:friends, subscribedPlayers:players,
+	    picture : 'pape.png',
+	    description:'I\'m an fan of all senegal players working hard for propulsing national team high on the top, particulary I support Samuel Eto, he is the best player from all around the world :)'
       }
      
     $scope.show = function(tpl) {

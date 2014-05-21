@@ -1,7 +1,26 @@
 <ion-view>
 
     <ion-content has-header="true">        
-
+    
+    <div class="row afk-member-profile" style="background-image: url('./images/member-small-bg.png');" ng-controller="MainCtrl">
+        <div class="col" style="height: auto;text-align: center">         
+          <div class="row">
+            <div class="col">
+                 <center><img class="afk-circle" ng-src="{{user.picture? apiDir + user.picture :'./images/no-player.png'}}" /></center>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col" style="padding-bottom: 15px;padding-top: 1px">
+              <h3 id="name">{{user.name}}</h3>
+              <h6 id="summary">Member Since {{user.createdAt|date:'yyyy'}} <br/>
+              {{user.subscribedPlayers.length}} Subscriptions - {{user.following.length}} Friends
+              <br/>
+              </h6>
+            </div>
+          </div>            
+        </div>
+    </div>
+    
     <ion-slide-box style="background-color: #4a4845;">      
       <ion-slide ng-controller="MainCtrl">              
         <div class="row" style="border-color: #4a4845;">
@@ -15,20 +34,12 @@
             <a class="afk-menu-tab2">FRIENDS</a>
           </div>
         </div>            
-        
-        <ion-list>
-          <ion-item ng-repeat="player in players" class="afk-bg-list item item-avatar item-button-right">
-            <img ng-src="./images/{{player.picture||'no-player.png'}}" class="afk-circle">            
-            <a class="afk-lnk-detail" ng-click="setCurrentPlayer(player)">
-              <span class="afk-obj-name">{{player.name}}</span>
-            <span class="afk-obj-desc">{{player.description}}</span>
-              View Profile <i class="icon ion-ios7-arrow-forward"></i></a>
-          </ion-item>   
-        </ion-list>
-        <ion-infinite-scroll on-infinite="loadMore()"></ion-infinite-scroll>
+        <div class="afk-player-activity">
+            {{user.description}}
+        </div>
       </ion-slide>
       
-      <ion-slide ng-controller="MainCtrl">              
+      <ion-slide ng-controller="PlayerCtrl">              
         <div class="row" style="border-color: #4a4845;">
           <div class="col afk-align-center">
             <a class="afk-menu-tab2" ng-click="go(0)">MY PROFILE</a>
@@ -52,7 +63,7 @@
         </ion-list>   
       </ion-slide>
       
-      <ion-slide ng-controller="MainCtrl">              
+      <ion-slide ng-controller="MemberCtrl">              
         <div class="row" style="border-color: #4a4845;">
           <div class="col afk-align-center" ng-click="go(0)">
             <a class="afk-menu-tab2">MY PROFILE</a>

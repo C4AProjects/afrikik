@@ -19,12 +19,14 @@
           </div>            
         </div>
     </div>
-    <div class="row" style="background-color: #4a4845;">
+    <div class="row" style="background-color: #4a4845;" ng-show="!isSubscribedOn(player)">
       <div class="col afk-align-center" style="height: 25px">
-        <button class="button afk-btn afk-btn-register afk-member-subscribe-btn">Subscribe</button>
+        <button class="button afk-btn afk-btn-register afk-member-subscribe-btn" ng-click="subscribe(player)">Subscribe</button>
       </div>
     </div> 
    
+   <div style="background-color: grey">
+    <div ng-style="styleLocked">
     <ion-slide-box style="background-color: #4a4845; padding-top: 0px">      
       <ion-slide>              
         <div class="row">
@@ -95,7 +97,9 @@
           </ion-item>   
         </ion-list>     
       </ion-slide>
-    </ion-slide-box>  
+    </ion-slide-box>
+    </div>
+   </div>
 
   </ion-content>
  

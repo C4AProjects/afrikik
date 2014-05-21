@@ -98,7 +98,7 @@ angular.module('Afrikik.services', [])
     getCurrentPlayer: function(){
       return currentPlayer;
     },
-    activities: function(playerId){
+    activitiesPlayer: function(playerId){
       return _.filter([
         { _id: 0, _player: 0, message: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
         { _id: 1, _player: 0, message: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
@@ -110,6 +110,17 @@ angular.module('Afrikik.services', [])
       ], function(feed){
         return feed._player == playerId
       })
+    },
+    activities: function(){
+      return [
+        { _id: 0, _player: 0, message: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
+        { _id: 1, _player: 0, message: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
+        { _id: 2, _player: 0, message: 'Everyone likes turtles.' },
+        { _id: 3, _player: 0, message: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' }    ,
+        { _id: 4, _player: 1, message: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
+        { _id: 5, _player: 1, message: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
+        { _id: 6, _player: 1, message: 'Everyone likes turtles.' }
+      ]
     }
   };
 })
