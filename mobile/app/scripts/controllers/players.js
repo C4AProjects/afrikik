@@ -9,6 +9,8 @@ Afrikik
                 $scope.players = $scope.players || PlayerService.all();
                 
                 $scope.user = Global.getUser()
+                
+                $scope.message = "";
                                 
                 if($stateParams._id){
                         $scope.player = PlayerService.getById($stateParams._id);
@@ -16,10 +18,17 @@ Afrikik
                 
                 $scope.activities = PlayerService.activities()
                 
-                $scope.activitiesPlayer =  PlayerService.activities($stateParams._id||0);
+                $scope.activitiesPlayer = function(){
+                        return PlayerService.activitiesPlayer($stateParams._id||0);
+                }
                 
                 $scope.go = function(index){               
                       $ionicSlideBoxDelegate.slide(index)
+                }
+                
+                $scope.post = function(msg){
+                      PlayerService.addActivity({ _id: -7, _player: $scope.player._id, message: msg, createdAt: new Date(), _user:{name: $scope.player.name}});
+                      //$scope.activitiesPlayer =  PlayerService.activitiesPlayer($stateParams._id||0);
                 }
                 
                 $scope.subscribe = function(player){

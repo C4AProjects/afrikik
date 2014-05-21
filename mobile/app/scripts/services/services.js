@@ -78,8 +78,19 @@ angular.module('Afrikik.services', [])
     { _id: 7, name: 'Sadio Mane', position:'10/Forward', nationality:'Senegal', club:'Metz',career: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' }
 
   ];
+  
+  var activ = [
+        { _id: 0, _player: 0, createdAt: '2014-07-05T17:14:17.790Z', _user:{name:'Amadou Daffe'}, message: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
+        { _id: 1, _player: 0, createdAt: '2014-06-05T17:14:17.790Z', _user:{name:'Ousman Samba'}, message: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
+        { _id: 2, _player: 0, message: 'Everyone likes turtles.' },
+        { _id: 3, _player: 0, createdAt: '2014-05-05T17:14:17.790Z', _user:{name:'Mansour Fall'}, message: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' }    ,
+        { _id: 4, _player: 1, createdAt: '2014-04-05T17:14:17.790Z', _user:{name:'Abou Kone'}, message: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
+        { _id: 5, _player: 1, createdAt: '2013-04-05T17:14:17.790Z', _user:{name:'Fatoumata'}, message: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
+        { _id: 6, _player: 1, createdAt: '2012-04-05T17:14:17.790Z', _user:{name:'Haythem'}, message: 'Everyone likes turtles.' }
+      ];
 
   return {
+    
     all: function() {
       return players;
     },
@@ -98,29 +109,16 @@ angular.module('Afrikik.services', [])
     getCurrentPlayer: function(){
       return currentPlayer;
     },
+    activities: function(){
+      return activ;
+    },
     activitiesPlayer: function(playerId){
-      return _.filter([
-        { _id: 0, _player: 0, message: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
-        { _id: 1, _player: 0, message: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
-        { _id: 2, _player: 0, message: 'Everyone likes turtles.' },
-        { _id: 3, _player: 0, message: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' }    ,
-        { _id: 4, _player: 1, message: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
-        { _id: 5, _player: 1, message: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
-        { _id: 6, _player: 1, message: 'Everyone likes turtles.' }
-      ], function(feed){
+      return _.filter(activ, function(feed){
         return feed._player == playerId
       })
     },
-    activities: function(){
-      return [
-        { _id: 0, _player: 0, message: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
-        { _id: 1, _player: 0, message: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
-        { _id: 2, _player: 0, message: 'Everyone likes turtles.' },
-        { _id: 3, _player: 0, message: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' }    ,
-        { _id: 4, _player: 1, message: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
-        { _id: 5, _player: 1, message: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
-        { _id: 6, _player: 1, message: 'Everyone likes turtles.' }
-      ]
+    addActivity: function(activity){      
+      activ.splice(0, 0, activity)     
     }
   };
 })
