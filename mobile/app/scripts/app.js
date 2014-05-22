@@ -25,12 +25,6 @@ var Afrikik = angular.module('Afrikik', ['ionic', 'Afrikik.services', 'Afrikik.c
       templateUrl: 'templates/main.html',
       controller: 'MainCtrl'
     })
-     
-     .state('scroll', {
-      url: '/scroll',
-      templateUrl: 'templates/infiniteScroll.html',
-      controller: 'MemberCtrl'
-    })
     
     .state('private', {
       url: '/private',
@@ -43,7 +37,7 @@ var Afrikik = angular.module('Afrikik', ['ionic', 'Afrikik.services', 'Afrikik.c
     .state('private.search', {
       url: '/search',
       views: {
-        'menuContent' :{
+        'search' :{
           templateUrl: 'templates/search.html'
         }
       }
@@ -52,7 +46,7 @@ var Afrikik = angular.module('Afrikik', ['ionic', 'Afrikik.services', 'Afrikik.c
     .state('private.profile', {
       url: '/profile',
       views: {
-        'menuContent' :{
+        'profile' :{
           templateUrl: 'templates/members/profile.html'
         }
       }
@@ -97,7 +91,25 @@ var Afrikik = angular.module('Afrikik', ['ionic', 'Afrikik.services', 'Afrikik.c
         }
       }
     })
-
+    
+    .state('private.notifications', {
+      url: '/notifications',
+      views: {
+        'notification': {
+          templateUrl: 'templates/notifications.html'
+        }
+      }
+    })
+    
+    .state('private.community', {
+      url: '/community',
+      views: {
+        'community': {
+          templateUrl: 'templates/feeds/community.html'
+        }
+      }
+    })
+  
     .state('about', {
       url: '/about',      
       templateUrl: 'templates/about.html',

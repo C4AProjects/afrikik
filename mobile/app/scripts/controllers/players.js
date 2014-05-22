@@ -2,7 +2,7 @@
 
 Afrikik
         // A simple controller that fetches a list of data from a service
-        .controller('PlayerCtrl', function($scope, config, $state, $stateParams, $ionicSlideBoxDelegate, Global, PlayerService) {
+        .controller('PlayerCtrl', function($scope, $window, config, $state, $stateParams, $ionicSlideBoxDelegate, Global, PlayerService, ActivityService) {
                 
                 var apiDir =  config.apiDir;
                 
@@ -16,10 +16,10 @@ Afrikik
                         $scope.player = PlayerService.getById($stateParams._id);
                 }
                 
-                $scope.activities = PlayerService.activities()
+                $scope.activities = ActivityService.all()
                 
                 $scope.activitiesPlayer = function(){
-                        return PlayerService.activitiesPlayer($stateParams._id||0);
+                        return ActivityService.activitiesPlayer($stateParams._id||0);
                 }
                 
                 $scope.go = function(index){               
@@ -27,7 +27,7 @@ Afrikik
                 }
                 
                 $scope.post = function(msg){
-                      PlayerService.addActivity({ _id: -7, _player: $scope.player._id, message: msg, createdAt: new Date(), _user:{name: $scope.player.name}});
+                      ActivityService.addActivity({ _id: -7, _player: $scope.player._id, message: msg, createdAt: new Date(), _user:{name: $scope.user.name}});
                       //$scope.activitiesPlayer =  PlayerService.activitiesPlayer($stateParams._id||0);
                 }
                 
@@ -64,10 +64,7 @@ Afrikik
                         })
                         $scope.styleLocked = {};
                         if (test===false) {
-                                console.log('do copy')
-                                //$scope.players = _.first($scope.members, 1);
-                                //$scope.player.following = _.first($scope.member.following, 2);
-                                //$scope.member.subscribedPlayers
+                                $scope.activities = _.first($scope.activities, 2)
                                 $scope.styleLocked = {'filter':'alpha(opacity=50)', 'opacity':0.5};
                         }
                         return test;

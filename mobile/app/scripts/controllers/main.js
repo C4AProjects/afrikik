@@ -53,6 +53,7 @@ angular.module('Afrikik')
             verifyPassword:"tester",
 	    name: 'Pape S DIOP', followers:friends, following:friends, subscribedPlayers:players,
 	    picture : 'pape.png',
+	    createdAt: '2014-05-05T17:14:17.790Z',
 	    description:'I\'m an fan of all senegal players working hard for propulsing national team high on the top, particulary I support Samuel Eto, he is the best player from all around the world :)'
       }
      

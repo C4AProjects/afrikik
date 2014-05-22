@@ -21,37 +21,36 @@ Afrikik
                 $scope.member = MemberService.getById($stateParams._id);
                 
                 $scope.setCurrentPlayer = function(player){
-                        PlayerService.setCurrentPlayer(player)
+                        //PlayerService.setCurrentPlayer(player)
                         $state.transitionTo('private.player', {_id: $stateParams._id})
                 }
                 
                 $scope.subscribe = function(member){
                         $scope.user.following.push(member)
                         Global.setUser($scope.user);
-                        $window.location.reload();
+                        $window.location.reload(); //issue to review
                 }
                 
                 $scope.go = function(index){               
                       $ionicSlideBoxDelegate.slide(index)
                 }
-                
-                $scope.isFriend = function(member){
-                        var test = false;
+                $scope.styleLocked = {};
+                $scope.testOK = false;
+                $scope.isFriend = function(member){                       
                         $scope.user.following.forEach(function(friend){
                                 if (friend._id === member._id) {
-                                        test = true;
+                                        $scope.testOK = true;
                                         return;
                                 }                                
                         })
-                        $scope.styleLocked = {};
-                        if (test===false) {
+                        
+                        if ($scope.testOK===false) {
                                 console.log('do copy')
                                 $scope.members = _.first($scope.members, 1);
                                 $scope.member.following = _.first($scope.member.following, 2);
-                                //$scope.member.subscribedPlayers
                                 $scope.styleLocked = {'filter':'alpha(opacity=50)', 'opacity':0.5};
                         }
-                        return test;
+                        return $scope.testOK;
                 }
                 
                 // Method called on infinite scroll                

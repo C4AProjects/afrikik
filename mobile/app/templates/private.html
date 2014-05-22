@@ -13,14 +13,42 @@
       <button menu-toggle="left" class="button button-icon icon ion-navicon" style="black;color: white"></button>
       </div>
       <div class="afk-align-center" style="width: 70%">
-        <img src="./images/logo.png" style="max-height: 36px;max-width: 400px;"/>
+        <img src="./images/logo.png" style="max-height: 36px;max-width: 400px"/>
       </div>
-      <div style="width: 15%;text-align: right; margin: 2px;vertical-align: middle">
-         <button class="button button-icon icon icon ion-plus" style="color: white;background-color:#f97c11;border-radius: 0;"></button>
+      <div style="width: 15%;text-align: right; margin: 2px;vertical-align: middle;">
+        <img src="./images/ballon-right-header.png" style="max-height: 100%;max-width: 100%"/>
+         <!--button class="button button-icon icon icon ion-plus" style="color: white;background-color:#f97c11;border-radius: 0;"></button-->
       </div>
     </ion-nav-bar>
-    <ion-nav-view name="menuContent" animation="slide-left-right"></ion-nav-view>
+    
+    
+    <ion-tabs class="tabs-dark tabs-icon-top" >
+
+        <ion-tab title="Feed" icon="ion-social-rss" href="#/private/feeds" >
+          <ion-nav-view name="menuContent" animation="slide-left-right"></ion-nav-view>
+        </ion-tab>
+      
+        <ion-tab title="Search" icon="ion-search" href="#/private/search">
+          <ion-nav-view name="search" animation="slide-left-right"></ion-nav-view>
+        </ion-tab>
+      
+        <ion-tab title="Notifications" icon="ion-alert-circled" href="#/private/notifications">
+          <ion-nav-view name="notification" animation="slide-left-right"></ion-nav-view>
+        </ion-tab>
+        
+        <ion-tab title="Community" icon="ion-earth" href="#/private/community">
+         <ion-nav-view name="community" animation="slide-left-right"></ion-nav-view>
+        </ion-tab>
+        
+        <ion-tab title="Profile" icon="ion-person" href="#/private/profile">
+          <ion-nav-view name="profile" animation="slide-left-right"></ion-nav-view>
+        </ion-tab>
+  
+    </ion-tabs>
+    
   </ion-pane>
+  
+  
 
   <ion-side-menu side="left" style="color: white">
     <header class="bar bar-header afk-header-menu">
