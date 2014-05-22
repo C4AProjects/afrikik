@@ -7,7 +7,7 @@
 var apiServer;
 
 
-var Afrikik = angular.module('Afrikik', ['ionic', 'Afrikik.services', 'Afrikik.controllers', 'config', 'angularLocalStorage','ui.router','ngResource','infinite-scroll','pascalprecht.translate','underscore','ngAnimate'])
+var Afrikik = angular.module('Afrikik', ['ionic', 'Afrikik.services', 'Afrikik.controllers', 'config', 'angularLocalStorage','ui.router','ngResource','infinite-scroll','pascalprecht.translate','underscore', 'angular-loading-bar','ngAnimate'])
 
 
 .config(function($stateProvider, $urlRouterProvider, envConfiguration) {
@@ -86,8 +86,8 @@ var Afrikik = angular.module('Afrikik', ['ionic', 'Afrikik.services', 'Afrikik.c
       url: '/feeds',
       views: {
         'menuContent': {
-          templateUrl: 'templates/feeds/feeds.html',
-          controller: 'FeedCtrl'
+          templateUrl: 'templates/activities/activities.html',
+          controller: 'ActivityCtrl'
         }
       }
     })
@@ -105,7 +105,7 @@ var Afrikik = angular.module('Afrikik', ['ionic', 'Afrikik.services', 'Afrikik.c
       url: '/community',
       views: {
         'community': {
-          templateUrl: 'templates/feeds/community.html'
+          templateUrl: 'templates/activities/community.html'
         }
       }
     })

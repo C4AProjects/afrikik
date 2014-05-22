@@ -19,7 +19,7 @@ Afrikik
                 $scope.activities = ActivityService.all()
                 
                 $scope.activitiesPlayer = function(){
-                        return ActivityService.activitiesPlayer($stateParams._id||0);
+                        return ActivityService.activitiesPlayer($stateParams._id||null);
                 }
                 
                 $scope.go = function(index){               

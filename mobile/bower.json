@@ -5,7 +5,6 @@
     "angular": "~1.2.9",
     "jquery": "~1.9.1",
     "underscore": "~1.5.2",
-    
     "momentjs": "latest",
     "uri.js": "~1.11.2",
     "twix": "~0.3.0",
@@ -16,14 +15,13 @@
     "ngInfiniteScroll": "latest",
     "angular-translate": "latest",
     "angular-underscore-module": "*",
-    
     "angular-resource": "1.2.9",
     "angular-cookies": "1.2.9",
-    "ionic": "v1.0.0-beta.4"
+    "ionic": "v1.0.0-beta.4",
+    "angular-loading-bar": "~0.4.2"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.12",
     "angular-scenario": "~1.2.12"
   }
 }
-

@@ -90,7 +90,7 @@
             </button>
         </div>
         <ion-list>
-          <ion-item ng-repeat="activ in activities">                    
+          <ion-item ng-repeat="activ in activitiesPlayer()">                    
             <span class="afk-feed">{{activ.message}}</span>
             <span class="afk-obj-desc">Posted by {{activ._user.name}} on {{activ.createdAt}}</span> 
           </ion-item>   
