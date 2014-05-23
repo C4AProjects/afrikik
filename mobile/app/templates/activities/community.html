@@ -1,7 +1,18 @@
 <ion-view >
     
 <ion-content class="has-header">
-    Community messages go here
+    <div class="afk-header-list">Community</div>
+    
+    <ion-list>
+        <ion-item ng-repeat="message in communities" class="afk-bg-list item item-avatar item-icon-right">
+          <img src="./images/ionic.png" class="afk-circle">
+          <a class="afk-lnk-detail">
+              <span class="afk-obj-name"><i style="color: #f97c11">Update: </i> {{message.message}}</span>
+              <span class="afk-obj-info" >{{message.createdAt}}</span>
+              <i class="icon ion-arrow-right-b" style="font-size: 13px; color: lightgrey;"></i>
+          </a>
+        </ion-item>   
+    </ion-list> 
  
   </ion-content>
 </ion-view>

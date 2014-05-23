@@ -65,7 +65,7 @@
           </div>
         </div>        
            <div class="afk-player-activity">
-            {{player.career}}
+            {{player.career||player.description}}
            </div>
       </ion-slide>
       
@@ -90,9 +90,9 @@
             </button>
         </div>
         <ion-list>
-          <ion-item ng-repeat="activ in activitiesPlayer()">                    
-            <span class="afk-feed">{{activ.message}}</span>
-            <span class="afk-obj-desc">Posted by {{activ._user.name}} on {{activ.createdAt}}</span> 
+          <ion-item ng-repeat="activity in activitiesPlayer()">                    
+            <span class="afk-feed">{{activity.message}}</span>
+            <span class="afk-obj-desc">Posted by {{activity._user.name}} on {{activity.createdAt}}</span> 
           </ion-item>   
         </ion-list>     
       </ion-slide>

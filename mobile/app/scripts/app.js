@@ -73,7 +73,7 @@ var Afrikik = angular.module('Afrikik', ['ionic', 'Afrikik.services', 'Afrikik.c
     })
     
     .state('private.team', {
-      url: '/team',
+      url: '/team/:_id',
       views: {
         'menuContent': {
           templateUrl: 'templates/teams/team.html',
@@ -96,7 +96,8 @@ var Afrikik = angular.module('Afrikik', ['ionic', 'Afrikik.services', 'Afrikik.c
       url: '/notifications',
       views: {
         'notification': {
-          templateUrl: 'templates/notifications.html'
+          templateUrl: 'templates/activities/notifications.html',
+          controller: 'ActivityCtrl'
         }
       }
     })
@@ -105,7 +106,8 @@ var Afrikik = angular.module('Afrikik', ['ionic', 'Afrikik.services', 'Afrikik.c
       url: '/community',
       views: {
         'community': {
-          templateUrl: 'templates/activities/community.html'
+          templateUrl: 'templates/activities/community.html',
+          controller: 'ActivityCtrl'
         }
       }
     })

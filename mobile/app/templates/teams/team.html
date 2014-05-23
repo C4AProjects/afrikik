@@ -25,7 +25,9 @@
       </div>
     </div> 
    
-    <ion-slide-box style="background-color: #4a4845; padding-top: 0px">      
+    <div style="background-color: grey">
+    <div ng-style="styleLocked">
+    <ion-slide-box style="background-color: #4a4845; padding-top: 0px">       
       <ion-slide>              
         <div class="row">
           <div class="col afk-align-center">
@@ -40,15 +42,15 @@
         </div>
         
         <ion-list>
-          <ion-item ng-repeat="player in players" class="afk-bg-list item item-avatar item-icon-right">
+          <ion-item ng-repeat="activity in activities" class="afk-bg-list item item-avatar item-icon-right">
             <img src="./images/ionic.png" class="afk-circle">
             <a class="afk-lnk-detail">
-                <span class="afk-obj-name"><i style="color: #f97c11">Update: </i> {{player.description}}</span>
-                <span class="afk-obj-desc" >02:00 PM          3 comments</span>
+                <span class="afk-obj-name"><i style="color: #f97c11">Update: </i> {{activity.message}}</span>
+                <span class="afk-obj-info" >02:00 PM          3 comments</span>
                 <i class="icon ion-arrow-right-b" style="font-size: 13px; color: lightgrey;"></i>
             </a>
           </ion-item>   
-        </ion-list>       
+        </ion-list>         
       </ion-slide>
       
       <ion-slide>              
@@ -95,14 +97,16 @@
             </button>
         </div>
         <ion-list>
-          <ion-item ng-repeat="player in players">                    
-            <span class="afk-feed">{{player.description}}</span>
-            <span class="afk-obj-desc">Posted by Amadou on Thursday Oct 25 at 02:00 PM</span> 
+          <ion-item ng-repeat="activity in activitiesTeam()">                    
+            <span class="afk-feed">{{activity.message}}</span>
+            <span class="afk-obj-desc">Posted by {{activity._user.name}} on {{activity.createdAt}}</span> 
           </ion-item>   
         </ion-list>     
       </ion-slide>
     </ion-slide-box>  
-
+    </div>
+   </div>
+    
   </ion-content>
  
 </ion-view>

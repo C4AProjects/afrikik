@@ -8,6 +8,8 @@ Afrikik
                 
                 $scope.players = $scope.players || PlayerService.all();
                 
+                $scope.items = PlayerService.allItems()
+                
                 $scope.user = Global.getUser()
                 
                 $scope.message = "";
@@ -43,26 +45,36 @@ Afrikik
                         return pic;
                 }
                 
+                $scope.setCurrentItem = function(item){
+                        if (item.club) {
+                                //PlayerService.setCurrentPlayer(player)
+                                $state.transitionTo('private.player', {_id: item._id})
+                        }else {                                
+                                $state.transitionTo('private.team', {_id: item._id})
+                        }
+                }
+                
                 $scope.setCurrentPlayer = function(player){
                         PlayerService.setCurrentPlayer(player)
                         $state.transitionTo('private.player', {_id: player._id})
                 }                        
                  
-                 $scope.search = function(name){
-                    $scope.players = _.filter(PlayerService.all(),  function(player){
-                        return (player.name.toLowerCase().indexOf(name.toLowerCase()) >= 0)
+                $scope.search = function(name){
+                    $scope.items = _.filter(PlayerService.allItems(),  function(item){
+                        return (item.name.toLowerCase().indexOf(name.toLowerCase()) >= 0)
                     })
-                 }
+                }
                  
-                 $scope.isSubscribedOn = function(player){
+                $scope.styleLocked = {};
+                $scope.isSubscribedOn = function(player){                        
                         var test = false;
                         $scope.user.subscribedPlayers.forEach(function(myplayer){
-                                if (myplayer._id === player._id) {
+                                if (myplayer._id == $stateParams._id) {
                                         test = true;
                                         return;
                                 }                                
                         })
-                        $scope.styleLocked = {};
+                        
                         if (test===false) {
                                 $scope.activities = _.first($scope.activities, 2)
                                 $scope.styleLocked = {'filter':'alpha(opacity=50)', 'opacity':0.5};

@@ -70,7 +70,7 @@ angular.module('Afrikik.services', [])
   var players = [
     { _id: 0, name: 'Didier Drogba', picture:'drogba.png', position:'11/Forward', nationality:'The Ivory Coast', club:'Galatasaray S.K', career: career },
     { _id: 1, name: 'Eto Samuel' , picture:'eto.png', position:'09/Forward', nationality:'Cameroon', club:'Chelsea', career: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
-    { _id: 2, name: 'Papis Cisse', career: 'Everyone likes turtles.' },
+    { _id: 2, name: 'Papis Cisse', position:'09/Forward', nationality:'Cameroon', club:'Chelsea', career: 'Everyone likes turtles.' },
     { _id: 3, name: 'Webo', position:'29/Forward', nationality:'Cameroon', club:'Espanyol', career: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' },
     { _id: 4, name: 'El Hadj Diouf', position:'11/Forward', nationality:'Senegal', club:'Liverpool', career: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
     { _id: 5, name: 'Yaya Toure', position:'08/Middle', nationality:'The Ivory Coast', club:'Manchester City', career: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
@@ -78,11 +78,26 @@ angular.module('Afrikik.services', [])
     { _id: 7, name: 'Sadio Mane', position:'10/Forward', nationality:'Senegal', club:'Metz',career: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' }
 
   ];
+  
+  var teams = [
+    { _id: 0, name: 'TP Mazzembe', country: 'Republique Democratique Congo' },
+    { _id: 1, name: 'Jaaraf', country: 'Senegal'},
+    { _id: 2, name: 'Niarry Tally', country: 'Senegal' },
+    { _id: 3, name: 'Casa FC', country: 'Senegal' },
+    { _id: 4, name: 'Ghazl El Mahallah', country: 'Egypt' },
+    { _id: 5, name: 'FC Inter Lion Ngoma', country: 'Cameroum' },
+    { _id: 6, name: 'Africa Sport', country: 'Ivory Coast' },
+    { _id: 7, name: 'Racing Club de Tunis', country: 'Tunisie' }
+
+  ];
 
   return {
     
     all: function() {
       return players;
+    },
+    allItems: function(){
+      return _.shuffle(_.union(players, teams))
     },
     get: function(playerId) {
       // Simple index lookup
@@ -114,14 +129,26 @@ angular.module('Afrikik.services', [])
 
   // Some fake testing data
   var teams = [
-    { id: 0, name: 'TP Mazzembe', country: 'Republique Democratique Congo' },
-    { id: 1, name: 'Jaaraf', country: 'Senegal'},
-    { id: 2, name: 'Niarry Tally', country: 'Senegal' },
-    { id: 3, name: 'Casa FC', country: 'Senegal' },
-    { id: 4, name: 'Ghazl El Mahallah', country: 'Egypt' },
-    { id: 5, name: 'FC Inter Lion Ngoma', country: 'Cameroum' },
-    { id: 5, name: 'Africa Sport', country: 'Ivory Coast' },
-    { id: 7, name: 'Racing Club de Tunis', country: 'Tunisie' }
+    { _id: 0, name: 'TP Mazzembe', country: 'Republique Democratique Congo' },
+    { _id: 1, name: 'Jaaraf', country: 'Senegal'},
+    { _id: 2, name: 'Niarry Tally', country: 'Senegal' },
+    { _id: 3, name: 'Casa FC', country: 'Senegal' },
+    { _id: 4, name: 'Ghazl El Mahallah', country: 'Egypt' },
+    { _id: 5, name: 'FC Inter Lion Ngoma', country: 'Cameroum' },
+    { _id: 6, name: 'Africa Sport', country: 'Ivory Coast' },
+    { _id: 7, name: 'Racing Club de Tunis', country: 'Tunisie' }
+
+  ];
+  
+  var players = [
+    { _id: 0, name: 'Didier Drogba', _team: 0, picture:'drogba.png', position:'11/Forward', nationality:'The Ivory Coast', club:'Galatasaray S.K', career: 'The best player in africa, champion league on 2012 with Chelsea' },
+    { _id: 1, name: 'Eto Samuel', _team: 0, picture:'eto.png', position:'09/Forward', nationality:'Cameroon', club:'Chelsea', career: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
+    { _id: 2, name: 'Papis Cisse', career: 'Everyone likes turtles.' },
+    { _id: 3, name: 'Webo', position:'29/Forward', nationality:'Cameroon', club:'Espanyol', career: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' },
+    { _id: 4, name: 'El Hadj Diouf', position:'11/Forward', nationality:'Senegal', club:'Liverpool', career: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
+    { _id: 5, name: 'Yaya Toure', position:'08/Middle', nationality:'The Ivory Coast', club:'Manchester City', career: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
+    { _id: 5, name: 'Adebayor', position:'9/Forward', nationality:'Rep. Democratique de Congo', club:'Arsenal', career: 'Everyone likes turtles.' },
+    { _id: 7, name: 'Sadio Mane', position:'10/Forward', nationality:'Senegal', club:'Metz',career: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' }
 
   ];
 
@@ -132,6 +159,16 @@ angular.module('Afrikik.services', [])
     get: function(teamId) {
       // Simple index lookup
       return teams[teamId];
+    },
+    getById: function(teamId){      
+      return _.find(teams, function(team){
+        return team._id == teamId
+      })
+    },
+    playersTeam: function(teamId){      
+      return _.filter(players, function(player){
+        return player._team == teamId
+      })
     }
   };
 })
@@ -139,14 +176,25 @@ angular.module('Afrikik.services', [])
 .factory('ActivityService', function() {
   
   var activities = [
-        { _id: 0, _player: 0, createdAt: '2014-07-05T17:14:17.790Z', comments:[2,4,1], _user:{name:'Amadou Daffe'}, message: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
-        { _id: 1, _player: 0, createdAt: '2014-06-05T15:14:17.790Z', comments:[2,4,1,8,5], _user:{name:'Ousman Samba'}, message: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
-        { _id: 2, _player: 0, createdAt: '2014-05-05T17:14:17.790Z', comments:[2,4], message: 'Everyone likes turtles.' },
-        { _id: 3, _player: 0, createdAt: '2014-05-05T14:14:17.790Z', comments:[2,4,1,25,27,8,11], _user:{name:'Mansour Fall'}, message: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' }    ,
-        { _id: 4, _player: 1, createdAt: '2014-04-05T17:14:17.790Z', _user:{name:'Abou Kone'}, message: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
-        { _id: 5, _player: 1, createdAt: '2013-04-05T10:14:17.790Z', _user:{name:'Fatoumata'}, message: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
-        { _id: 6, _player: 1, createdAt: '2012-04-05T13:14:17.790Z', comments:[2,4,1,4,44,2], _user:{name:'Haythem'}, message: 'Everyone likes turtles.' }
+        { _id: 0, _team: 0, createdAt: '2014-07-05T17:14:17.790Z', comments:[2,4,1], _user:{name:'Amadou Daffe'}, message: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
+        { _id: 1, _team: 0, createdAt: '2014-06-05T15:14:17.790Z', comments:[2,4,1,8,5], _user:{name:'Ousman Samba'}, message: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
+        { _id: 2, _team: 0, createdAt: '2014-05-05T17:14:17.790Z', comments:[2,4], message: 'Everyone likes turtles.' },
+        { _id: 3, _team: 0, createdAt: '2014-05-05T14:14:17.790Z', comments:[2,4,1,25,27,8,11], _user:{name:'Mansour Fall'}, message: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' }    ,
+        { _id: 4, _team: 1, createdAt: '2014-04-05T17:14:17.790Z', _user:{name:'Abou Kone'}, message: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
+        { _id: 5, _team: 1, createdAt: '2013-04-05T10:14:17.790Z', _user:{name:'Fatoumata'}, message: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
+        { _id: 6, _team: 1, createdAt: '2012-04-05T13:14:17.790Z', comments:[2,4,1,4,44,2], _user:{name:'Haythem'}, message: 'Everyone likes turtles.' }
       ];
+  
+  var comments = [
+        { _id: 0, _team: 0, createdAt: '2014-07-05T17:14:17.790Z', _user:{name:'Amadou Daffe'}, message: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
+        { _id: 1, _team: 0, createdAt: '2014-06-05T15:14:17.790Z', comments:[2,4,1,8,5], _user:{name:'Ousman Samba'}, message: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
+        { _id: 2, _team: 0, createdAt: '2014-05-05T17:14:17.790Z', comments:[2,4], message: 'Everyone likes turtles.' },
+        { _id: 3, _team: 0, createdAt: '2014-05-05T14:14:17.790Z', comments:[2,4,1,25,27,8,11], _user:{name:'Mansour Fall'}, message: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' }    ,
+        { _id: 4, _team: 1, createdAt: '2014-04-05T17:14:17.790Z', _user:{name:'Abou Kone'}, message: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
+        { _id: 5, _team: 1, createdAt: '2013-04-05T10:14:17.790Z', _user:{name:'Fatoumata'}, message: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
+        { _id: 6, _team: 1, createdAt: '2012-04-05T13:14:17.790Z', comments:[2,4,1,4,44,2], _user:{name:'Haythem'}, message: 'Everyone likes turtles.' }
+      ];
+  
 
   return {
     
@@ -170,8 +218,34 @@ angular.module('Afrikik.services', [])
         return activity._player == playerId
       })
     },
+    activitiesTeam: function(teamId){
+      if (teamId==null) {
+        return [];
+      }
+      return _.filter(activities, function(activity){
+        return activity._team == teamId
+      })
+    },
     addActivity: function(activity){
       activities.splice(0, 0, activity)     
+    },
+    messageCommunities: function(subscribedList){
+      var list = []
+      for(var i=0; i< subscribedList.length;i++){
+        list.push(subscribedList[i]._id)
+      }
+      return _.filter(comments, function(comment){
+        return (list.indexOf(comment._player)>0)
+      })
+    },
+    notifications: function(subscribedList){
+      var list = []
+      for(var i=0; i< subscribedList.length;i++){
+        list.push(subscribedList[i]._id)
+      }
+      return _.filter(activities, function(activity){
+        return (list.indexOf(activity._player)>0 && activity.createdAt)
+      })
     }
   };
 })
