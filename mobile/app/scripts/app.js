@@ -7,11 +7,37 @@
 var apiServer;
 
 
-var Afrikik = angular.module('Afrikik', ['ionic', 'Afrikik.services', 'Afrikik.controllers', 'config', 'angularLocalStorage','ui.router','ngResource','infinite-scroll','pascalprecht.translate','underscore', 'angular-loading-bar','ngAnimate'])
+var Afrikik = angular.module('Afrikik', ['ionic','openfb', 'Afrikik.services', 'Afrikik.controllers', 'config', 'angularLocalStorage','ui.router','ngResource','infinite-scroll','pascalprecht.translate','underscore', 'angular-loading-bar','ngAnimate'])
+
+.run(function ($http, $rootScope, $state, $ionicPlatform, $window, OpenFB) {
+     
+        OpenFB.init('1422514281357788');
+
+        $ionicPlatform.ready(function () {
+            if (window.StatusBar) {
+                StatusBar.styleDefault();
+            }
+        });
+
+        /*$rootScope.$on('$stateChangeStart', function(event, toState) {
+            if (toState.name !== "index" && toState.name !== "logout" && !$window.sessionStorage['fbtoken']) {
+                $state.go('index');
+                event.preventDefault();
+            }
+        });*/
+
+        $rootScope.$on('OAuthException', function() {
+            $state.go('index');
+        });
+
+    })
 
 
-.config(function($stateProvider, $urlRouterProvider, envConfiguration) {
+.config(function($httpProvider, $stateProvider, $urlRouterProvider, envConfiguration) {
   
+  
+  $httpProvider.defaults.useXDomain = true;
+        delete $httpProvider.defaults.headers.common['X-Requested-With'];
   
   
   var env = 'dev',
@@ -21,6 +47,12 @@ var Afrikik = angular.module('Afrikik', ['ionic', 'Afrikik.services', 'Afrikik.c
   $stateProvider
  
      .state('index', {
+      url: '/index',
+      templateUrl: 'templates/main.html',
+      controller: 'MainCtrl'
+    })
+     
+     .state('logout', {
       url: '/index',
       templateUrl: 'templates/main.html',
       controller: 'MainCtrl'

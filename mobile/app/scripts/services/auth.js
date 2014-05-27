@@ -3,7 +3,7 @@
 angular.module('Afrikik')
   	.service('authenticationService',['$http','envConfiguration','TokenHandler','Global','storage','$state','$stateParams', function Authenticator($http, config, TokenHandler, Global, localStorage, $state, $stateParams) {
 	  	var env = config['default'];
-		var loginUrl = config[env].host  + config[env].port +'/oauth/token';
+		var loginUrl = config[env].host  + config[env].port +'/api/v1/users/login';
 	  	var logoutUrl = config[env].host  + config[env].port +'/logout';
 	  	var resetPasswordUrl = config[env].host + config[env].port  +"/" + config[env].api_base_version + '/users/reset';
 	  	
@@ -15,6 +15,7 @@ angular.module('Afrikik')
 
 		  		var payload = {
 		          	username: user.email,
+				email: user.email,
 		          	password: user.password,
 		          	grant_type: 'password',
 		          	client_id: config[env].clientKey,
@@ -24,6 +25,7 @@ angular.module('Afrikik')
 		        };
 
 			  	return $http.post(loginUrl, payload).then(function(response){
+					console.log(response)
 				  	if(response.data.access_token )
 				  	{
 					  	TokenHandler.set(response.data.access_token.token )

@@ -6,7 +6,7 @@ angular.module('Afrikik')
 		userServiceUrl = config[env].host +  ":port/" + config[env].api_base_version + '/users/:id',
 		userResource = $resource(userServiceUrl,
 		{
-         		id: "@id",
+         		id: "@_id",
          		port:config[env].port
 
      		},
@@ -21,7 +21,7 @@ angular.module('Afrikik')
 		  get:{
 		    method:'GET',
 		    params:{
-		      id:'@id'
+		      id:'@_id'
 		    },
 		    isArray:false
 		  },

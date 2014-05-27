@@ -16,8 +16,8 @@
         <img src="./images/logo.png" style="max-height: 36px;max-width: 400px"/>
       </div>
       <div style="width: 15%;text-align: right; margin: 2px;vertical-align: middle;">
-        <img src="./images/ballon-right-header.png" style="max-height: 100%;max-width: 100%"/>
-         <!--button class="button button-icon icon icon ion-plus" style="color: white;background-color:#f97c11;border-radius: 0;"></button-->
+        <!--img src="./images/ballon-right-header.png" style="max-height: 100%;max-width: 100%"/-->
+         <button class="button button-icon icon ion-loop" ng-click="refresh()" style="color: white;background-color:black;border-radius: 0;"></button>
       </div>
     </ion-nav-bar>
     
@@ -32,7 +32,7 @@
           <ion-nav-view name="search" animation="slide-left-right"></ion-nav-view>
         </ion-tab>
       
-        <ion-tab title="Notifications" icon="ion-alert-circled" href="#/private/notifications">
+        <ion-tab title="Notifications" icon="ion-ios7-information" href="#/private/notifications">
           <ion-nav-view name="notification" animation="slide-left-right"></ion-nav-view>
         </ion-tab>
         
@@ -57,7 +57,7 @@
     <ion-content class="has-header" >
       <ion-list >        
         <ion-item nav-clear menu-close href="#/private/profile" >
-          My Profile
+          Profile
         </ion-item>        
         <ion-item nav-clear menu-close href="#/private/search" >
           Search 
@@ -67,6 +67,12 @@
         </ion-item>              
         <ion-item nav-clear menu-close >
           Notification <span class="afk-notification">12</span>
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/index">
+          Logout
+        </ion-item>
+        <ion-item nav-clear menu-close>
+          <span  ng-click="alert('Quit')">Exit</span>
         </ion-item>
       </ion-list>
     </ion-content>

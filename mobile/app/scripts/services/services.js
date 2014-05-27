@@ -4,13 +4,13 @@ angular.module('Afrikik.services', [])
 /**
  * A simple example service that returns some data.
  */
-.factory('MemberService', function() {
+.factory('MemberService', ['Member',function(Member) {
 
   var currentMember = {};
  // Might use a resource here that returns a JSON array
   // Some fake testing data
   
-  var friends=[
+  /*var friends=[
 	{ _id: 2, name: 'Amadou Daffe', picture:'amadou.png', "createdAt": "2012-04-05T17:14:17.790Z", description: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
 	{ _id: 7, name: 'Abou Kone', picture:'ali.png', description: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
 	{ _id: 3, name: 'Khadim Seck', description: 'Everyone likes turtles.' }
@@ -31,36 +31,28 @@ angular.module('Afrikik.services', [])
     { _id: 6, name: 'Kossi Jojo', following: friends, subscribedPlayers:players, description: 'Everyone likes turtles.' },
     { _id: 7, name: 'Abou Kone', following: friends, subscribedPlayers:players, description: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' }
 
-  ];
+  ];*/
 
   return {
     all: function() {
-      return members;
-    },
-    get: function(memberId) {
-      // Simple index lookup
-      return members[memberId];
+      return [];
     },
     getById: function(memberId){      
-      return _.find(members, function(member){
-        return member._id == memberId
-      })
-    },
-    setCurrentMember: function(member){
-      currentMember = member;
-    },
-    getCurrentMember: function(){
-      return currentMember;
+      var member = Member.get({id:memberId})
+      return member;
     }
   };
-})
-
-.factory('PlayerService', function() {
+}])
+/*************************************************************************************************************
+ *                                        PLAYER SERVICE
+ *
+ ************************************************************************************************************/
+.factory('PlayerService', ['Player', 'Search', function(Player,Search) {
   var currentPlayer= {};
   
 // Might use a resource here that returns a JSON array
   // Some fake testing data
-  var career ="Didier Drogba, né le 11 mars 1978 à Abidjan, est un footballeur international ivoirien. Depuis janvier 2013 , il évolue au poste d'attaquant dans le club turc de Galatasaray."+
+  /*var career ="Didier Drogba, né le 11 mars 1978 à Abidjan, est un footballeur international ivoirien. Depuis janvier 2013 , il évolue au poste d'attaquant dans le club turc de Galatasaray."+
 
                                 "Drogba débute sa carrière en France, au Mans Union Club 72. Il découvre la Ligue 1 avec l'En Avant de Guingamp, puis dispute ses premières rencontres européennes sous les couleurs de l'Olympique de Marseille. L'attaquant est transféré au Chelsea FC en 2004 et remporte notamment l'édition 2011-2012 de la Ligue des champions avec le club britannique. Après son départ, il est élu « meilleur joueur de l'histoire du club » par les supporters."+
                                 
@@ -68,7 +60,7 @@ angular.module('Afrikik.services', [])
                                 
                                 "Il possède également la nationalité française.";
   var players = [
-    { _id: 0, name: 'Didier Drogba', picture:'drogba.png', position:'11/Forward', nationality:'The Ivory Coast', club:'Galatasaray S.K', career: career },
+    { _id: 0, name: 'Didier Drogba', picture:'drogba.png', position:'11/Forward', nationality:'The Ivory Coast', club:'Galatasaray S.K', career: 'Best player african eve have' },
     { _id: 1, name: 'Eto Samuel' , picture:'eto.png', position:'09/Forward', nationality:'Cameroon', club:'Chelsea', career: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
     { _id: 2, name: 'Papis Cisse', position:'09/Forward', nationality:'Cameroon', club:'Chelsea', career: 'Everyone likes turtles.' },
     { _id: 3, name: 'Webo', position:'29/Forward', nationality:'Cameroon', club:'Espanyol', career: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' },
@@ -89,33 +81,31 @@ angular.module('Afrikik.services', [])
     { _id: 6, name: 'Africa Sport', country: 'Ivory Coast' },
     { _id: 7, name: 'Racing Club de Tunis', country: 'Tunisie' }
 
-  ];
+  ];*/
+  
+  var cachedItems = [];
 
-  return {
-    
-    all: function() {
-      return players;
+  return {    
+    cachedItems: function() {
+      return cachedItems;
     },
-    allItems: function(){
-      return _.shuffle(_.union(players, teams))
+    itemsByName: function(name){      
+      return cachedItems = Search.query({name: name})
     },
-    get: function(playerId) {
-      // Simple index lookup
-      return players[playerId];
+    getById: function(playerId){
+      //console.log('and looking for from the API....')
+      var player = Player.get({id:playerId})
+      return player;
     },
-    getById: function(playerId){      
-      return _.find(players, function(player){
-        return player._id == playerId
+    getByIdFromCache: function(teamId){      
+      //console.log('looking for from the cache....')
+      return _.find(cachedItems, function(item){
+        return item._id == teamId
       })
-    },
-    setCurrentPlayer: function(player){
-      currentPlayer = player;
-    },
-    getCurrentPlayer: function(){
-      return currentPlayer;
     }
   };
-})
+}])
+
 /**
  .factory('TeamService', function ($resource) {
     return $resource(serverApi + '/teams/:teamId/:userId', {}, {
@@ -176,23 +166,23 @@ angular.module('Afrikik.services', [])
 .factory('ActivityService', function() {
   
   var activities = [
-        { _id: 0, _team: 0, createdAt: '2014-07-05T17:14:17.790Z', comments:[2,4,1], _user:{name:'Amadou Daffe'}, message: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
-        { _id: 1, _team: 0, createdAt: '2014-06-05T15:14:17.790Z', comments:[2,4,1,8,5], _user:{name:'Ousman Samba'}, message: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
-        { _id: 2, _team: 0, createdAt: '2014-05-05T17:14:17.790Z', comments:[2,4], message: 'Everyone likes turtles.' },
-        { _id: 3, _team: 0, createdAt: '2014-05-05T14:14:17.790Z', comments:[2,4,1,25,27,8,11], _user:{name:'Mansour Fall'}, message: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' }    ,
-        { _id: 4, _team: 1, createdAt: '2014-04-05T17:14:17.790Z', _user:{name:'Abou Kone'}, message: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
-        { _id: 5, _team: 1, createdAt: '2013-04-05T10:14:17.790Z', _user:{name:'Fatoumata'}, message: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
-        { _id: 6, _team: 1, createdAt: '2012-04-05T13:14:17.790Z', comments:[2,4,1,4,44,2], _user:{name:'Haythem'}, message: 'Everyone likes turtles.' }
+        { _id: 0, _team: 0, _player: 0, createdAt: '2014-07-05T17:14:17.790Z', comments:[2,4,1], _user:{name:'Amadou Daffe'}, message: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
+        { _id: 1, _team: 0, _player: 0, createdAt: '2014-06-05T15:14:17.790Z', comments:[2,4,1,8,5], _user:{name:'Ousman Samba'}, message: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
+        { _id: 2, _team: 0, _player: 0, createdAt: '2014-05-05T17:14:17.790Z', comments:[2,4], message: 'Everyone likes turtles.' },
+        { _id: 3, _team: 0, _player: 0, createdAt: '2014-05-05T14:14:17.790Z', comments:[2,4,1,25,27,8,11], _user:{name:'Mansour Fall'}, message: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' }    ,
+        { _id: 4, _team: 1, _player: 1, createdAt: '2014-04-05T17:14:17.790Z', _user:{name:'Abou Kone'}, message: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
+        { _id: 5, _team: 1, _player: 1, createdAt: '2013-04-05T10:14:17.790Z', _user:{name:'Fatoumata'}, message: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
+        { _id: 6, _team: 1, _player: 1, createdAt: '2012-04-05T13:14:17.790Z', comments:[2,4,1,4,44,2], _user:{name:'Haythem'}, message: 'Everyone likes turtles.' }
       ];
   
   var comments = [
-        { _id: 0, _team: 0, createdAt: '2014-07-05T17:14:17.790Z', _user:{name:'Amadou Daffe'}, message: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
-        { _id: 1, _team: 0, createdAt: '2014-06-05T15:14:17.790Z', comments:[2,4,1,8,5], _user:{name:'Ousman Samba'}, message: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
-        { _id: 2, _team: 0, createdAt: '2014-05-05T17:14:17.790Z', comments:[2,4], message: 'Everyone likes turtles.' },
-        { _id: 3, _team: 0, createdAt: '2014-05-05T14:14:17.790Z', comments:[2,4,1,25,27,8,11], _user:{name:'Mansour Fall'}, message: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' }    ,
-        { _id: 4, _team: 1, createdAt: '2014-04-05T17:14:17.790Z', _user:{name:'Abou Kone'}, message: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
-        { _id: 5, _team: 1, createdAt: '2013-04-05T10:14:17.790Z', _user:{name:'Fatoumata'}, message: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
-        { _id: 6, _team: 1, createdAt: '2012-04-05T13:14:17.790Z', comments:[2,4,1,4,44,2], _user:{name:'Haythem'}, message: 'Everyone likes turtles.' }
+        { _id: 0, _team: 0, _player: 0, createdAt: '2014-07-05T17:14:17.790Z', _user:{name:'Amadou Daffe'}, message: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
+        { _id: 1, _team: 0, _player: 0, createdAt: '2014-06-05T15:14:17.790Z', comments:[2,4,1,8,5], _user:{name:'Ousman Samba'}, message: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
+        { _id: 2, _team: 0, _player: 0, createdAt: '2014-05-05T17:14:17.790Z', comments:[2,4], message: 'Everyone likes turtles.' },
+        { _id: 3, _team: 0, _player: 1, createdAt: '2014-05-05T14:14:17.790Z', comments:[2,4,1,25,27,8,11], _user:{name:'Mansour Fall'}, message: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' }    ,
+        { _id: 4, _team: 1, _player: 1, createdAt: '2014-04-05T17:14:17.790Z', _user:{name:'Abou Kone'}, message: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
+        { _id: 5, _team: 1, _player: 1, createdAt: '2013-04-05T10:14:17.790Z', _user:{name:'Fatoumata'}, message: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
+        { _id: 6, _team: 1, _player: 1, createdAt: '2012-04-05T13:14:17.790Z', comments:[2,4,1,4,44,2], _user:{name:'Haythem'}, message: 'Everyone likes turtles.' }
       ];
   
 

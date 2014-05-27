@@ -37,9 +37,13 @@
                     </form>
                     </div>
                 
-                    <div class="row">
+                    <div class="row" >
                         <div class="col">
-                            <button class="button button-block afk-btn afk-btn-fb" >Sign In With Facebook</button>
+                            <!--button class="button button-block afk-btn afk-btn-fb"  ng-click="loginWithFB()">Sign In With Facebook</button-->
+                                <button class="button button-block afk-btn afk-btn-fb" ng-click="loginWithFB()">
+                                    <i class="icon ion-social-facebook"></i>
+                                    &nbsp;Login with Facebook
+                                </button>
                         </div>                                    
                     </div>
                     <div class="row">                   
@@ -53,24 +57,25 @@
                 <div style="padding-top:20px;">
                     <button class="button button-block afk-btn afk-btn-fb">Create With Facebook</button>
                 </div>
-               
-                <div class="afk-container-register">
-                    <div class="afk-label">- OR -</div>
-                    <div class="afk-label">Name</div>
-                    <center><input class="afk-input" type="text" placeholder=""></center>
-                    <div class="afk-label">Email</div>
-                    <center><input class="afk-input" name="email" type="email" placeholder=""></center>
-                    <div class="afk-label">Password</div>
-                    <center><input class="afk-input" name="password" type="password" placeholder=""></center>
-                    <!--div class="afk-label">Confirm Password</div>
-                    <center><input class="afk-input" name="verifyPassword" type="password" placeholder=""></center-->
-                    <!--div class="afk-label"></div>
-                    <ion-toggle style="color: black;font-weight: bold"> I accept terms of use!</ion-toggle>
-                    <a href="#/private/tab/pet/1" style="color:white;font-weight: bold; text-align: left">Read more</a-->
-                </div>
-                <div style="padding-top: 30px;padding-bottom: 50px">
-                    <button class="button button-block afk-btn afk-btn-register">Continue</button>
-                </div>
+               <form name="RegisterForm" novalidate ng-submit="register()">
+                    <div class="afk-container-register">
+                        <div class="afk-label">- OR -</div>
+                        <div class="afk-label">Name</div>
+                        <center><input class="afk-input" type="text" ng-model="user_new.name" placeholder="Your name"></center>
+                        <div class="afk-label">Email</div>
+                        <center><input class="afk-input" name="email" ng-model="user_new.email" type="email" placeholder="Email"></center>
+                        <div class="afk-label">Password</div>
+                        <center><input class="afk-input" name="password" ng-model="user_new.password" type="password" placeholder="Password"></center>
+                        <!--div class="afk-label">Confirm Password</div>
+                        <center><input class="afk-input" name="verifyPassword" type="password" placeholder=""></center-->
+                        <!--div class="afk-label"></div>
+                        <ion-toggle style="color: black;font-weight: bold"> I accept terms of use!</ion-toggle>
+                        <a href="#/private/tab/pet/1" style="color:white;font-weight: bold; text-align: left">Read more</a-->
+                    </div>
+                    <div style="padding-top: 30px;padding-bottom: 50px">
+                        <button class="button button-block afk-btn afk-btn-register">Continue</button>
+                    </div>
+                </form>
             </ion-slide>
             
           </ion-slide-box>

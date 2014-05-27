@@ -3,7 +3,7 @@
     <ion-content has-header="true">        
 
         <ion-slide-box style="background-color: #4a4845;">      
-      <ion-slide ng-controller="PlayerCtrl">              
+      <ion-slide ng-controller="PlayerCtrl" >              
         <div class="row" style="border-color: #4a4845;">
           <div class="col afk-align-center">
             <a class="afk-menu-tab2 afk-menu-tab-active">BROWSE PLAYERS</a>
@@ -38,14 +38,14 @@
         
         <ion-list>
           <ion-item ng-repeat="item in items" class="afk-bg-list item item-avatar item-button-right">
-            <img ng-src="./images/{{item.picture||'no-player.png'}}" class="afk-circle">            
+            <img ng-src="{{item.picture? apiDir + item.picture :'./images/no-player.png'}}" class="afk-circle">              
             <a class="afk-lnk-detail" ng-click="setCurrentItem(item)">
               <span class="afk-obj-name">{{item.name}}</span>
             <span class="afk-obj-desc">{{item.description||item.career}}</span>
               View Profile <i class="icon ion-ios7-arrow-forward"></i></a>
           </ion-item>   
         </ion-list>
-        <ion-infinite-scroll on-infinite="loadMore()"></ion-infinite-scroll>
+        <!--ion-infinite-scroll on-infinite="loadMore()"></ion-infinite-scroll-->
       </ion-slide>
       
       <ion-slide ng-controller="PlayerCtrl">              
@@ -60,11 +60,11 @@
             <a class="afk-menu-tab2">FRIENDS</a>
           </div>
         </div>
-              
+
         <ion-list>
           <ion-item ng-repeat="player in user.subscribedPlayers" class="afk-bg-list item item-avatar item-button-right">
              <img ng-src="./images/{{player.picture||'no-player.png'}}" class="afk-circle"> 
-            <a class="afk-lnk-detail" ng-click="setCurrentPlayer(player)">
+            <a class="afk-lnk-detail" ng-click="setCurrentItem(player)">
               <span class="afk-obj-name">{{player.name}}</span>
             <span class="afk-obj-desc">{{player.description||player.career}}</span>
               View Profile <i class="icon ion-ios7-arrow-forward"></i></a>

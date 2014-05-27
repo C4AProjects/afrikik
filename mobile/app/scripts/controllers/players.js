@@ -6,16 +6,16 @@ Afrikik
                 
                 var apiDir =  config.apiDir;
                 
-                $scope.players = $scope.players || PlayerService.all();
+                //$scope.players = $scope.players || PlayerService.all();
                 
-                $scope.items = PlayerService.allItems()
+                $scope.items = []
                 
-                $scope.user = Global.getUser()
+                $scope.user = $scope.user||Global.getUser()
                 
                 $scope.message = "";
                                 
                 if($stateParams._id){
-                        $scope.player = PlayerService.getById($stateParams._id);
+                        $scope.player = PlayerService.getByIdFromCache($stateParams._id)||PlayerService.getById($stateParams._id);
                 }
                 
                 $scope.activities = ActivityService.all()
@@ -29,8 +29,7 @@ Afrikik
                 }
                 
                 $scope.post = function(msg){
-                      ActivityService.addActivity({ _id: -7, _player: $scope.player._id, message: msg, createdAt: new Date(), _user:{name: $scope.user.name}});
-                      //$scope.activitiesPlayer =  PlayerService.activitiesPlayer($stateParams._id||0);
+                      ActivityService.addActivity({ _player: $scope.player._id, message: msg, createdAt: new Date(), _user:$scope.user});                      
                 }
                 
                 $scope.subscribe = function(player){
@@ -46,7 +45,7 @@ Afrikik
                 }
                 
                 $scope.setCurrentItem = function(item){
-                        if (item.club) {
+                        if (!item.country||item.nationality) {
                                 //PlayerService.setCurrentPlayer(player)
                                 $state.transitionTo('private.player', {_id: item._id})
                         }else {                                
@@ -54,15 +53,16 @@ Afrikik
                         }
                 }
                 
-                $scope.setCurrentPlayer = function(player){
-                        PlayerService.setCurrentPlayer(player)
+                $scope.setSubscribedItem = function(player){
+                        //PlayerService.setCurrentPlayer(player)
                         $state.transitionTo('private.player', {_id: player._id})
                 }                        
                  
                 $scope.search = function(name){
-                    $scope.items = _.filter(PlayerService.allItems(),  function(item){
+                    /*$scope.items = _.filter(PlayerService.allItems(),  function(item){
                         return (item.name.toLowerCase().indexOf(name.toLowerCase()) >= 0)
-                    })
+                    })*/
+                    $scope.items = PlayerService.itemsByName(name);
                 }
                  
                 $scope.styleLocked = {};

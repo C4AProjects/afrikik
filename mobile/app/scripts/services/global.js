@@ -12,8 +12,9 @@ angular.module('Afrikik')
 	    		localStorage.set(config[env].localStorageUserKey, user);
 	    	},
 	    	getUser:function(){
+			console.log('getUser')
 	    		this.user = localStorage.get(config[env].localStorageUserKey)
-	    		window.user = this.user
+			window.user = this.user
 	    		return this.user;
 	    	},
 	    	getUserId:function(){
@@ -29,6 +30,6 @@ angular.module('Afrikik')
 
 
 	    };
-		return global;
+	    return global;
 
 }]);

@@ -9,7 +9,11 @@ Afrikik
                 $scope.user = Global.getUser()
                 
                 $scope.message = "";
-                $scope.players = []
+                $scope.players = [];
+                
+                $ionicSlideBoxDelegate.slide($scope.slide||1)
+                
+                console.log($ionicSlideBoxDelegate)
                                 
                 if($stateParams._id){
                         $scope.team = TeamService.getById($stateParams._id);

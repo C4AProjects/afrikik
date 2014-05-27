@@ -37,14 +37,13 @@ Afrikik
                 $scope.testOK = false;
                 $scope.isFriend = function(member){                       
                         $scope.user.following.forEach(function(friend){
-                                if (friend._id === member._id) {
+                                if (friend._id == member._id) {
                                         $scope.testOK = true;
                                         return;
                                 }                                
                         })
                         
-                        if ($scope.testOK===false) {
-                                console.log('do copy')
+                        if ($scope.testOK===false) {                                
                                 $scope.members = _.first($scope.members, 1);
                                 $scope.member.following = _.first($scope.member.following, 2);
                                 $scope.styleLocked = {'filter':'alpha(opacity=50)', 'opacity':0.5};
@@ -75,35 +74,13 @@ Afrikik
                         return true;
                 }
                 
-                $scope.players = PlayerService.all();
+                //$scope.players = PlayerService.all();
                                 
                 
                                     
                 $scope.loadMore = function() {                
                   $timeout(function() {        
-                    $scope.players.push(
-                       {
-                        "_id": "53456944264d7a1a15dba892",
-                        "_team": "5340553417956a370e994563",
-                        "club": "Galatasaray",
-                        "createdAt": "2013-04-05T17:14:17.790Z",
-                        "height": 1.92,
-                        "name": "Didier DROGBA",
-                        "description": "The Best football ever at chelsea",
-                        "nationality": "Ivoirienne",
-                        "picture": "drogba.png",
-                        "position": "Attaquant",
-                        "rating": 185,
-                        "updatedAt": "2014-04-05T17:14:17.790Z",
-                        "weight": 85,
-                        "comments": [
-                          "53505c60adc2b8417fec21c1",
-                          "53505c6cadc2b8417fec21c2",
-                          "53505c70adc2b8417fec21c3"
-                        ],
-                        "trophy": [],
-                        "matchs": []                       
-                    });
+                    
                     //console.log('infinite scroll pushed');
                     $scope.$broadcast('scroll.infiniteScrollComplete');
                   }, 1000);
