@@ -5,7 +5,9 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     crypto = require('crypto'),
     _ = require('underscore'),
-    authTypes = ['github', 'twitter', 'facebook', 'google'];
+    authTypes = ['github', 'twitter', 'facebook', 'google'],
+    timestamps = require('mongoose-timestamp')
+    
 
 
 /**
@@ -15,15 +17,15 @@ var UserSchema = new Schema({
     email: { type: String, required: true },
     username:  { type: String, required: true, unique:true },
     provider: String,   
-    hashed_password:  { type: String, select: false },
-    salt:  { type: String, select: false },
+    hashed_password:  { type: String, select: true },
+    salt:  { type: String, select: true },
     facebook: {},
     twitter: {},
     github: {},
     google: {},
     slug:{type: String, required: false},
-    created: {type: Date, default: Date.now},
-    modified:{type: Date, default: Date.now},   
+    //created: {type: Date, default: Date.now},
+    //modified:{type: Date, default: Date.now},   
     profile:{
       name: String,
       dob: Date,
@@ -38,6 +40,8 @@ var UserSchema = new Schema({
     feeds: [{type: Schema.ObjectId, ref: 'Feed'}],
     requests: [{type: Schema.ObjectId, ref: 'User'}], // friend requests user have to accept    
 });
+
+UserSchema.plugin(timestamps);
 
 
 /**
@@ -128,7 +132,7 @@ UserSchema.methods = {
      * @return {Boolean}
      * @api public
      */
-    authenticate: function(plainText) {
+    authenticate: function(plainText) {        
         return this.encryptPassword(plainText) === this.hashed_password;
     },
 

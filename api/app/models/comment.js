@@ -12,6 +12,7 @@ var CommentSchema = new Schema({
                 _team: {type: Schema.Types.ObjectId, ref: 'Team' },
                 title: String,
                 message: String,
+                username: {type:String, default:'Anonymous'}
 })
 
 CommentSchema.plugin(timestamps,MongooseRattle)
@@ -71,6 +72,11 @@ SchemaName.path('field').validate(function(field) {
     
 });
 */
+
+/*CommentSchema.post('validate', function (doc) {
+   console.log('Post validate' + doc._user)
+  doc.username = doc._user.name
+})*/
 
 /**
  * Methods

@@ -3,3 +3,9 @@ dist
 .tmp
 .sass-cache
 app/bower_components
+merges
+hooks
+platforms
+plugins
+app/bower_components
+www

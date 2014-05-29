@@ -18,7 +18,50 @@ var mongoose = require('mongoose'),
 var ObjectId = mongoose.Types.ObjectId;
 
 
+/**
+ * Session
+ */
+exports.session = function(req, res) {   
+    req.login(req.body, function(err){
+        return res.redirect('/');
+    })    
+};
 
+/**
+ *Login
+ */
+
+exports.login = function(req, res){
+    var user1 = req.body;
+    User.findOne({
+        email: user1.email
+    })
+        .populate('subscribedPlayers following')//TODO
+        .exec(function(err, user) {
+        if (err) {
+            res.json({
+               alerts:[{message:err}]
+            })
+        }
+        if (!user) {                        
+            res.status(403).json( {
+                alerts: [{message:'Unknown user'}]
+            });
+        }
+        if (!user.authenticate(user1.password)) {
+            res.status(403).json( {
+                alerts: [{message:'Invalid password'}]
+            });
+        }else{
+            res.json({
+               success:true,
+               user:user
+        })
+        }
+    });
+
+    
+}
 
 /**
  * Auth callback
@@ -94,7 +137,7 @@ exports.create = function(req, res) {
                 error: err,
             });
         }
-        var emailSubject ='Un(e) gaou de plus!';
+        var emailSubject ='Subscribe to Afrikik';
         email_template = "welcome";
         
         var values ={
@@ -165,6 +208,7 @@ exports.user = function(req, res, next, id) {
         User.findOne({
             _id: new ObjectId(id)
         })
+        .populate('subscribedPlayers')//TODO
         .exec(function(err, user) {
             if (err) {
                 res.status(401).json({

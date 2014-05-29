@@ -105,3 +105,23 @@ exports.comment = function(req, res, next, id) {
     }
    
 };
+
+/*****************************************************************************
+ *  Get comments of friends user /comments
+ *****************************************************************************/
+
+exports.commentsFriends = function(req, res){
+  Comment.find({'_user': {$in: req.user.following}})
+  .populate('_feed _player _team')
+  .limit(req.query.limit||50)
+  .exec(function(err, list){
+    if (err) {
+      res.status(500).json( {
+        success:false,
+        error: err
+      })
+    }
+    res.status(200).json(list)
+  })
+}
+

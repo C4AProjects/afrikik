@@ -195,7 +195,7 @@ exports.feed = function(req, res, next, id) {
 
 exports.feedsPlayer = function(req, res){
   Feed.find({'_player': req.player._id})
-  //.populate('_player')
+  .populate('comments tags')
   .limit(req.query.limit||50)
   .exec(function(err, list){
     if (err) {
@@ -214,7 +214,27 @@ exports.feedsPlayer = function(req, res){
 
 exports.feedsTeam = function(req, res){
   Feed.find({'_team': req.team._id})
-  //.populate('_team')
+  .populate('comments tags')
+  .limit(req.query.limit||50)
+  .exec(function(err, list){
+    if (err) {
+      res.status(500).json( {
+        success:false,
+        error: err
+      })
+    }
+    res.status(200).json(list)
+  })
+}
+
+/*********************************************************************************
+ *  Get all last feeds related to subscribed Players or teams   /feeds
+ *********************************************************************************/
+
+
+exports.all = function(req, res){
+  Feed.find({'_player': {$in: req.user.subscribedPlayers}})
+  .populate('comments tags')
   .limit(req.query.limit||50)
   .exec(function(err, list){
     if (err) {

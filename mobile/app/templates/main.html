@@ -1,0 +1,83 @@
+
+<ion-view style="background-color: black">
+    <center><img src="./images/main-bg.png" style="opacity: 0.2;"></center>
+  <ion-content padding="false" style="height: inherit;text-align: center">       
+        <ion-slide-box>
+            <ion-slide scroll="false">                
+                <img src="./images/logo.png" class="afk-logo" style="padding-top: 50px"/>
+                <p style="padding-top: 5px">
+                    <h5 style="color: rgb(255,255,255); font-weight: bold">
+                        HOME OF THE BESTS IN AFRICAN FOOTBALL
+                    </h5>
+                </p>
+                
+                <div style="padding:1px 10% 20px 10%">
+                    <div>
+                    <form name="LoginForm" novalidate ng-submit="login()">
+                    <!--alert ng-repeat="alert in alerts" type="alert.type">{{alert.msg}}</alert-->
+                    <div class="row">
+                    <div class="col">
+                        <center><input class="afk-input" type="email" placeholder="Email" ng-model="user.email" required autofocus></center>
+                    </div>                                    
+                    </div>
+                    <div class="row">
+                    <div class="col">
+                        <center><input class="afk-input" type="password" placeholder="Password" ng-model="user.password"></center>
+                    </div>                                    
+                    </div>
+                    <div class="row">
+                    <div class="col">
+                        <center>
+                            <button class="button button-block afk-btn afk-btn-register">
+                                Log In
+                            </button>
+                        </center>
+                    </div>                                    
+                    </div>
+                    </form>
+                    </div>
+                
+                    <div class="row" >
+                        <div class="col">
+                            <!--button class="button button-block afk-btn afk-btn-fb"  ng-click="loginWithFB()">Sign In With Facebook</button-->
+                                <button class="button button-block afk-btn afk-btn-fb" ng-click="loginWithFB()">
+                                    <i class="icon ion-social-facebook"></i>
+                                    &nbsp;Login with Facebook
+                                </button>
+                        </div>                                    
+                    </div>
+                    <div class="row">                   
+                        <div class="col">
+                            <button class="button button-block afk-btn afk-btn-register" ng-click="goToCreateAccount()">  Create Account   </button>
+                        </div>                    
+                    </div>
+                </div>
+            </ion-slide>            
+            <ion-slide scroll="false" style="padding:1px 5% 20px 5%">
+                <div style="padding-top:20px;">
+                    <button class="button button-block afk-btn afk-btn-fb">Create With Facebook</button>
+                </div>
+               <form name="RegisterForm" novalidate ng-submit="register()">
+                    <div class="afk-container-register">
+                        <div class="afk-label">- OR -</div>
+                        <div class="afk-label">Name</div>
+                        <center><input class="afk-input" type="text" ng-model="user_new.name" placeholder="Your name"></center>
+                        <div class="afk-label">Email</div>
+                        <center><input class="afk-input" name="email" ng-model="user_new.email" type="email" placeholder="Email"></center>
+                        <div class="afk-label">Password</div>
+                        <center><input class="afk-input" name="password" ng-model="user_new.password" type="password" placeholder="Password"></center>
+                        <!--div class="afk-label">Confirm Password</div>
+                        <center><input class="afk-input" name="verifyPassword" type="password" placeholder=""></center-->
+                        <!--div class="afk-label"></div>
+                        <ion-toggle style="color: black;font-weight: bold"> I accept terms of use!</ion-toggle>
+                        <a href="#/private/tab/pet/1" style="color:white;font-weight: bold; text-align: left">Read more</a-->
+                    </div>
+                    <div style="padding-top: 30px;padding-bottom: 50px">
+                        <button class="button button-block afk-btn afk-btn-register">Continue</button>
+                    </div>
+                </form>
+            </ion-slide>
+            
+          </ion-slide-box>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,297 @@
+/* Your app's CSS, go crazy, make it your own */
+
+.ionic-logo {
+  display: block;
+  margin: 15px auto;
+  width: 96px;
+  height: 96px;
+}
+
+.item-avatar > img:first-child, .item-avatar .item-image, .item-avatar .item-content > img:first-child, .item-avatar .item-content .item-image, .item-avatar-left > img:first-child, .item-avatar-left .item-image, .item-avatar-left .item-content > img:first-child, .item-avatar-left .item-content .item-image {
+position: absolute;
+top: 15px;
+left: 15px;
+max-width: 50px;
+max-height: 50px;
+width: 100%;
+border-radius: 50%;
+}
+
+#loading-bar .bar {
+  -webkit-transition: width 350ms;
+  -moz-transition: width 350ms;
+  -o-transition: width 350ms;
+  transition: width 350ms;
+
+  background: #db6f11;
+  position: fixed;
+  z-index: 2000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  border-bottom-right-radius: 1px;
+  border-top-right-radius: 1px;
+}
+
+/* Fancy blur effect */
+#loading-bar .peg {
+  position: absolute;
+  width: 70px;
+  right: 0;
+  top: 0;
+  height: 2px;
+  opacity: .45;
+  -moz-box-shadow:  #db6f11 1px 0 6px 1px;
+  -ms-box-shadow:  #db6f11 1px 0 6px 1px;
+  -webkit-box-shadow:  #db6f11 1px 0 6px 1px;
+  box-shadow:  #db6f11 1px 0 6px 1px;
+  -moz-border-radius: 100%;
+  -webkit-border-radius: 100%;
+  border-radius: 100%;
+}
+
+.afk-bg-list{ 
+  background-color:white;
+}
+
+.afk-obj-name{ 
+  font-size: 13px;
+  font-weight: bold;
+  color: grey;
+  display: block;
+  white-space: nowrap;
+}
+
+.afk-feed{
+  font-size: 13px;
+  font-weight: bold;
+  color: grey;
+  display: block;
+  white-space: pre-wrap;
+}
+
+.afk-obj-info{
+  font-size: 10px;  
+  color: grey;
+  display: block;
+  white-space: pre-wrap;
+}
+
+.afk-obj-desc{ 
+  font-size: 10px;
+  color: grey;
+  display: block;
+  white-space: nowrap;
+}
+
+.afk-lnk-detail{ 
+  text-decoration: none;
+  color:#00c0ff;
+  font-weight: bold;
+  font-size: 10px
+}
+
+.afk-bg-list-locked { 
+  background-color:#ededed;
+}
+
+/*.afk-bg-img {
+  text-align: center;
+  background: black url('../images/index-bg-480x900.png') fixed no-repeat 50% 0%; 
+  height: inherit;
+}*/
+
+.button.afk-btn {
+  /*width: 250px;*/
+  font-weight: bold;
+  color: rgb(255,255,255);
+  box-shadow: 1px 2px 5px 1px rgba(0, 0, 0, 0.7) /*inset*/;
+}
+
+.afk-logo {
+  width: inherit;
+}
+
+.afk-header-menu {
+  background-color: #4a4845;
+  border-color: #4a4845;
+  height: 50px;
+}
+
+.afk-btn.afk-btn-fb {
+  background-color: #4a90d9;
+  border-color:#1c4065 ;
+}
+
+.afk-btn.afk-btn-register,.afk-btn-register {
+  /*width: 250px;*/
+  background-color: #f97c11;
+  border-color:#db6f11;
+  color: white;
+}
+
+.afk-header-list{
+  text-align: center;
+  background-color: grey;
+  color: white;
+  font-weight: bold;
+  padding-top: 5px
+}
+
+.afk-label {
+  color: rgb(255,255,255);
+  text-align: center;
+  font-weight: bold;
+  padding-top: 20px;
+  padding-bottom: 5px;
+}
+
+input.afk-input {
+  /*width: 250px;*/
+  height: 40px;
+  font-size: 15px;
+  padding-left: 5px;
+}
+
+.afk-container-register {
+  padding-bottom: 5px;
+  padding-top: 10px
+}
+
+
+.afk-bg-flou:before {
+  content: "";
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  
+  display: block;
+  background-image: url('/images/main-bg.png');
+  width: 500px;
+  height: 400px;
+  
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
+}
+
+.afk-bg-flou {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 0;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.afk-circle {
+  -webkit-border-radius: 50%; 
+  -moz-border-radius: 50%; 
+   border-radius: 50%;
+   width: 125px;
+   height: 125px;
+   border: inset;
+}
+
+.afk-circle-small {
+  -webkit-border-radius: 50%; 
+  -moz-border-radius: 50%; 
+   border-radius: 50%;
+   width: 50px;
+   height: 50px;
+}
+
+.afk-member-profile {
+  z-index: 0;
+  background-color: #4a4845;
+  /*background-image: url('/images/member-small-bg.png'); move to view because issue image not showed on android*/
+  background-position: 50% 0%;
+  background-repeat: no-repeat
+}
+
+.afk-player-activity {
+  background-color: white;
+  color: grey;
+  width: 99%;
+  padding: 15px;
+  font-weight: bold;
+  font-size: 11px;
+}
+
+#name, #summary {
+  color:white;
+  font-weight: bold
+}
+
+.afk-member-subscribe-btn {
+  width: 60%;
+  position: relative;
+  top: -25px;
+  z-index: 1;  
+}
+
+.afk-align-center {
+  text-align: center;
+}
+
+.afk-menu-tab {
+  color: darkgrey;
+  font-weight: bold;
+  font-size: 12px;
+  border-bottom: 0px;
+  text-decoration: none;
+}
+
+.afk-menu-tab2 {
+  color: darkgrey;
+  font-weight: bold;
+  font-size: 9px;
+  border-bottom: 0px;
+  text-decoration: none;
+}
+
+.afk-menu-tab-active {
+  color: white;
+  text-decoration: none; border-bottom: 3px solid #f97c11;
+  
+}
+
+.afk-search-bg {
+  height: 45px;
+  max-height: 45px;
+  background-color: white;
+  margin:1px;
+  border-radius: 0px
+}
+
+.afk-notification {
+  border-radius: 50%;
+  background-color: red;
+  color:white;
+  font-weight: bold;
+  width:20px;
+  height: 20px;
+  display: compact
+}
+
+.bgSearch {
+    background-image: url('../img/itunes.jpg');
+    background-size: 250px;
+    background-repeat: no-repeat;
+    background-position:center;
+}
+
+@media screen and (max-device-width: 640px){
+    .fade-bar {
+        height: 20px;
+        width: 100%;
+        position: fixed;
+        z-index: 9999;
+        opacity: 0;
+        background-color: #000;
+    }
+}

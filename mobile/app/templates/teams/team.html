@@ -1,0 +1,115 @@
+<ion-view >
+ 
+<ion-content class="has-header">
+    <!--button menu-toggle="left" class="button button-icon icon ion-navicon"></button-->
+    <div class="row afk-member-profile" style="background-image: url('./images/member-small-bg.png');">
+        <div class="col" style="height: auto;text-align: center">         
+          <div class="row">
+            <div class="col">
+                 <center><img class="afk-circle" src="./images/team.png" /></center>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col" style="padding-bottom: 15px;padding-top: 1px">
+              <h3 id="name">{{team.name}}</h3>
+              <h6 id="summary">{{team.description}}<br/>
+              Location: {{team.location||'[Unknown]'}}
+              </h6>
+            </div>
+          </div>            
+        </div>
+    </div>
+    <div class="row" style="background-color: #4a4845;">
+      <div class="col afk-align-center" style="height: 25px">
+        <button class="button afk-btn afk-btn-register afk-member-subscribe-btn">Subscribe</button>
+      </div>
+    </div> 
+   
+    <div style="background-color: grey">
+    <div ng-style="styleLocked">
+    <ion-slide-box style="background-color: #4a4845; padding-top: 0px">       
+      <ion-slide>              
+        <div class="row">
+          <div class="col afk-align-center">
+            <a class="afk-menu-tab afk-menu-tab-active" >ACTIVITY</a>
+          </div>
+          <div class="col afk-align-center" ng-click="go(1)">
+            <a  class="afk-menu-tab">PLAYERS</a>
+          </div>
+          <div class="col afk-align-center" ng-click="go(2)">
+            <a class="afk-menu-tab">COMMUNITY</a>
+          </div>
+        </div>
+        
+        <ion-list>
+          <ion-item ng-repeat="activity in activities" class="afk-bg-list item item-avatar item-icon-right">
+            <img src="./images/ionic.png" class="afk-circle">
+            <a class="afk-lnk-detail">
+                <span class="afk-obj-name"><i style="color: #f97c11">Update: </i> {{activity.message}}</span>
+                <span class="afk-obj-info" >02:00 PM          3 comments</span>
+                <i class="icon ion-arrow-right-b" style="font-size: 13px; color: lightgrey;"></i>
+            </a>
+          </ion-item>   
+        </ion-list>         
+      </ion-slide>
+      
+      <ion-slide>              
+        <div class="row">
+          <div class="col afk-align-center" ng-click="go(0)">
+            <a class="afk-menu-tab">ACTIVITY</a>
+          </div>
+          <div class="col afk-align-center">
+            <a class="afk-menu-tab afk-menu-tab-active">PLAYERS</a>
+          </div>
+          <div class="col afk-align-center" ng-click="go(2)">
+            <a class="afk-menu-tab">COMMUNITY</a>
+          </div>
+        </div>        
+        <ion-list>
+          <ion-item ng-repeat="player in players" class="afk-bg-list item item-avatar item-button-right">
+            <img src="./images/player.png" class="afk-circle">            
+            <a class="afk-lnk-detail">
+              <span class="afk-obj-name">{{player.name}}</span>
+            <span class="afk-obj-desc">{{player.description}}</span>
+              View Profile <i class="icon ion-ios7-arrow-forward"></i></a>
+          </ion-item>   
+        </ion-list>
+      </ion-slide>
+      
+      <ion-slide>              
+        <div class="row">
+          <div class="col afk-align-center" ng-click="go(0)">
+            <a class="afk-menu-tab">ACTIVITY</a>
+          </div>
+          <div class="col afk-align-center" ng-click="go(1)">
+            <a class="afk-menu-tab">PLAYERS</a>
+          </div>
+          <div class="col afk-align-center">
+            <a class="afk-menu-tab afk-menu-tab-active">COMMUNITY</a>
+          </div>
+        </div>
+         <div class="item item-input-inset" style="background-color: grey">            
+            <label class="item-input-wrapper afk-search-bg" >            
+                <input type="text" placeholder="Add Comment Here" class="afk-search-bg" ng-model="request.query" />
+            </label>    
+            <button class="button afk-btn-register"  style="margin:0px;" ng-click="search()">
+            Post
+            </button>
+        </div>
+        <ion-list>
+          <ion-item ng-repeat="activity in activitiesTeam()">                    
+            <span class="afk-feed">{{activity.message}}</span>
+            <span class="afk-obj-desc">Posted by {{activity._user.name}} on {{activity.createdAt}}</span> 
+          </ion-item>   
+        </ion-list>     
+      </ion-slide>
+    </ion-slide-box>  
+    </div>
+   </div>
+    
+  </ion-content>
+ 
+</ion-view>
+
+
+
