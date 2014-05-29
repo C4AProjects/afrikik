@@ -7,13 +7,17 @@ var mongoose = require('mongoose')
 
 var TeamSchema = new Schema({      
                 name: String,
+                description: String,
+                location: String,
                 foundedDate: Date,
                 coachName: String,                
-                profile: {wins: Number, loss: Number, draw: Number},  
+                profile: {wins: Number, loss: Number, draw: Number},
+                picture: {type:String, default:'nopic-team.png'},
                 rating: {type:Number},
                 _photo: {type: Schema.Types.ObjectId, ref: 'Photo' },
                 comments: [{type: Schema.Types.ObjectId, ref: 'Comment' }]
 })
+
 
 TeamSchema.plugin(timestamps,MongooseRattle)
 
@@ -25,6 +29,9 @@ TeamSchema.statics = {
     }
 };
 
+TeamSchema.virtual('isTeam').get(function () {
+  return true;
+});
 
 /**
  * Virtuals

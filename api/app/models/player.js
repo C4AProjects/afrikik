@@ -11,13 +11,14 @@ var TrophySchema = new Schema({
 
 var PlayerSchema = new Schema({                      
                 name: {type:String, required:false},
+                description: String,
                 dob: {type:Date},
                 nationality: {type:String}, // the value may be from country collections
-                club: {type:String},
+                club: {type:String, default:'Unknown'},
                 _team: {type: Schema.Types.ObjectId, ref: 'Team' }, // make reference to national team
                 height: {type:Number}, 
                 weight: {type:Number},
-                picture: {type:String}, // url of player picture
+                picture: {type:String, default:'nopic-player.png'}, // url of player picture
                 position: {type:String}, // the differents existing positions may be controlled by the API
                 matchs: [{type: Schema.ObjectId, ref: 'Match'}],  // set of _id match participated
                 rating: {type: Number},
@@ -25,6 +26,8 @@ var PlayerSchema = new Schema({
                 _photo: {type: Schema.Types.ObjectId, ref: 'Photo' },
                 comments: [{type: Schema.Types.ObjectId, ref: 'Comment' }]
 })
+
+
 
 PlayerSchema.plugin(timestamps,MongooseRattle)
 

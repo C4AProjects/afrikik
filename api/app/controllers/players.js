@@ -106,8 +106,13 @@ exports.player = function(req, res, next, id) {
         Player.findOne({
             _id: new ObjectId(id)
         })
-        .slice('comments',-5)  //the last 5 comments
-        .populate('comments')
+        .slice('comments',-10)  //the last 5 comments
+        .populate({
+            path: 'comments',
+            //match: { age: { $gte: 21 }},
+            //select: 'message createdAt _user -_id',
+           // options: { limit: 10 }
+          })
         .exec(function(err, player) {
             if (err){
               res.status(500).json( {
@@ -224,6 +229,11 @@ exports.comment = function(req, res) {
   var comment = new Comment(req.body)
   comment._user = req.user
   comment._player = req.player
+  if (req.user.profile&&req.user.profile.name) {
+    comment.username = req.user.profile.name
+  }else{
+    comment.username = req.user.name || req.user.username
+  }
   comment.save(function(err, comment) 
   {
     if(err) {
@@ -236,7 +246,7 @@ exports.comment = function(req, res) {
     if (player.comments == null) {
       player.comments = []
     }
-    player.comments.push(comment._id)
+    player.comments.push( comment._id)
     player.save(function(err){
       if (err) {
         res.status(500).json({

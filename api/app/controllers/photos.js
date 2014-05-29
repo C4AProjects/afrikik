@@ -11,19 +11,22 @@ var mongoose = require('mongoose')
   , ObjectId = mongoose.Types.ObjectId
   , async = require('async')
   
-  
+
+exports.uploadAsFileSystem = function(req, res){
+  var image = req.files.image
+  //console.log('path image :' + __dirname.substr(0,__dirname.indexOf('app')) + "uploads/"+image.name)  
+  is = fs.createReadStream(image.path);
+  os = fs.createWriteStream(__dirname.substr(0,__dirname.indexOf('app')) + "public/uploads/"+(req.body.name||image.name));
+  is.pipe(os);
+  is.on('end', function(){
+    fs.unlink(image.path)
+    res.json({message:'Photo uploaded!'})
+  })  
+}
 
 exports.upload = function(req, res){
   var image = req.files.image
   console.log('path image :' + __dirname.substr(0,__dirname.indexOf('app')) + "uploads/"+image.name)
-  /*
-  fs.rename(image.path, __dirname.substr(0,__dirname.indexOf('app')) + "uploads/"+image.name, function(err){
-    if (err) {
-      console.log(err)
-    }
-	console.log('renamed image');
-    })
-  */
   var photo = new Photo(req.body)
   photo.data = fs.readFileSync(image.path)
   photo.type = image.type;
