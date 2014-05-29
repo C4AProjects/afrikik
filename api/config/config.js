@@ -53,7 +53,7 @@ var generate_mongo_url = function(mongoUrlConfig){
     {
           mongoUrlConfig.hostname = (mongoUrlConfig.hostname || 'localhost');
             mongoUrlConfig.port = (mongoUrlConfig.port || 27017);
-            mongoUrlConfig.db = (mongoUrlConfig.db ||process.env.MONGODB_AFRIKIK_DB || 'afrikik');
+            mongoUrlConfig.db = (mongoUrlConfig.db ||process.env.MONGODB_AFRIKIK_DB || 'afrikikapi');
 	    mongoUrlConfig.username = (mongoUrlConfig.username||process.env.MONGODB_AFRIKIK_USER)
 	    mongoUrlConfig.password = (mongoUrlConfig.password||process.env.MONGODB_AFRIKIK_PWD)
             
@@ -108,13 +108,13 @@ module.exports = {
             appUrl: 'http://localapi.afrikik.com:' + this.app_port,
             appStore:{
                 androidAppDownloadUrl:"http://api.afrikik.com",
-                iOsAppDownloadUrl:"http://api.afrikik.com"
+                iOsAppDownloadUrl: "http://api.afrikik.com"
             }
         },
         facebook: {
-            clientID: "GetAFacebook",
-            clientSecret: "bcddf21436a9ac1e4f1512d8ea7b6517",
-            callbackURL: "http://apilocal.afrikik.com:2014/auth/facebook/callback"
+            clientID: "469144859882680",
+            clientSecret: "0c072329ef8c22cad2ea29a0b59114ea",
+            callbackURL: "http://localhost:2014/auth/facebook/callback"
         },
         twitter: {
             clientID: "GetATwitterClientId",

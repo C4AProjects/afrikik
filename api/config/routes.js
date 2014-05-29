@@ -6,14 +6,17 @@ module.exports = function(app, passport, auth) {
     app.get('/admin/signin', admins.signin);
     app.get('/admin/signup', admins.signup);
     app.get('/admin/signout', admins.signout);
+    
+    
 
 
      //Setting up the admin users api
     app.post('/admin/users', admins.create);
-    app.post('/admin/users/session', passport.authenticate('local', {
+    /*app.post('/admin/users/session', passport.authenticate('local', {
         failureRedirect: '/admin/signin',
         failureFlash: 'Invalid email or password.'
-    }), admins.session);
+    }), admins.session);*/
+   
     app.get('/admin/users/me', admins.me);
     app.get('/admin/users/:userId', admins.show);
      //AdminClient Routes
@@ -27,7 +30,10 @@ module.exports = function(app, passport, auth) {
 
      //Admin User Routes
     var users = require('../app/controllers/users');
-
+ 
+    app.post('/api/v1/users/session', users.login);
+    //app.post('/api/v1/users/session', passport.authenticate('local', { }), users.session);
+ 
     //Setting up the users api
     app.post('/api/v1/users', users.create);
     app.get('/api/v1/users/:userId/me',  passport.authenticate('bearer', { session: false }), users.me);
@@ -76,9 +82,12 @@ module.exports = function(app, passport, auth) {
     app.post('/api/v1/users/:userId/feeds', feeds.create);
     //app.post('/api/v1/feeds', feeds.create); // feeds created by web crawler
     app.get('/api/v1/users/:userId/feeds/:feedId', feeds.show);
+    app.get('/api/v1/users/:userId/feeds', feeds.all);
     app.put('/api/v1/users/:userId/feeds/:feedId', feeds.update);
     app.del('/api/v1/users/:userId/feeds/:feedId', feeds.destroy);
-    app.post('/api/v1/users/:userId/feeds/:feedId/comment', feeds.comment); // comment on feed        
+    app.post('/api/v1/users/:userId/feeds/:feedId/comment', feeds.comment); // comment on feed
+    app.get('/api/v1/users/:userId/teams/:teamId/feeds', feeds.feedsTeam);
+    app.get('/api/v1/users/:userId/players/:playerId/feeds', feeds.feedsPlayer);
 
     //Notification Routes
     var notifications = require('../app/controllers/notifications');        
@@ -96,7 +105,8 @@ module.exports = function(app, passport, auth) {
     
     
     //Comment Routes
-    var comments = require('../app/controllers/comments');        
+    var comments = require('../app/controllers/comments');
+    app.get('/api/v1/users/:userId/friends/comments', comments.commentsFriends);
     app.get('/api/v1/users/:userId/comments/:commentId', comments.show);
     app.get('/api/v1/users/:userId/feeds/:feedId/comments', comments.getCommentsByFeed);
     app.get('/api/v1/users/:userId/teams/:teamId/comments', comments.getCommentsByTeam);
