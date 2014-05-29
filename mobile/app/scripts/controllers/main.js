@@ -92,6 +92,9 @@ angular.module('Afrikik')
       $ionicLoading.show({
 	template: tpl? tpl:'<i class="icon ion-loading-a"></i>'
       });
+      setTimeout(function(){
+	    $scope.hide();
+      },1000)
     };
     
     $scope.hide = function(){
@@ -145,18 +148,18 @@ angular.module('Afrikik')
 	
       _gaq.push(['_trackEvent','Authentication', 'Login', 'Regular Login', $scope.auth.email, false])
       
-      var authentication = Auth.login($scope.user).then(function(loginResponse){
-      console.dir('loginResponse')
-      console.dir(loginResponse)
+      /*var authentication = */
+      Auth.login($scope.user).then(function(loginResponse){
+	    if (!loginResponse) {
+		$scope.hide();
+		$scope.show('Server Error connection')		
+	    }
             if(loginResponse.success)
             {
                 var user = loginResponse.user; // loginResponse.access_token.user
 		
                 window.user = user;
-		Global.setUser(user)
-		setTimeout(function(){
-			    $scope.hide();
-		},1000)	
+		Global.setUser(user)			
                 $state.go('private.search')    
             }
             else
@@ -186,8 +189,16 @@ angular.module('Afrikik')
                       }
                       $scope.alerts = [{
                         type:'danger',
-                        msg: message
+                        message: message
                       }]
+		      		     
+		      var tpl = '';
+		      $scope.alerts.forEach(function(alert){
+			  tpl= tpl + alert.message + '<br/>'
+		      })
+		      $scope.hide();
+		      $scope.show(tpl)
+		      	
                   }
             }
       });
@@ -196,7 +207,7 @@ angular.module('Afrikik')
 
     $scope.logout = function(){
       Auth.logout().success(function(success){
-          $state.transitionTo('posts')
+          $state.transitionTo('index')
           _gaq.push(['_trackEvent','Authentication', 'Logout', 'Regular Logout'])
       });
 

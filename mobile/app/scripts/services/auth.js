@@ -3,7 +3,7 @@
 angular.module('Afrikik')
   	.service('authenticationService',['$http','envConfiguration','TokenHandler','Global','storage','$state','$stateParams', function Authenticator($http, config, TokenHandler, Global, localStorage, $state, $stateParams) {
 	  	var env = config['default'];
-		var loginUrl = config[env].host  + config[env].port +'/api/v1/users/login';
+		var loginUrl = config[env].host  + config[env].port +'/api/v1/users/session';
 	  	var logoutUrl = config[env].host  + config[env].port +'/logout';
 	  	var resetPasswordUrl = config[env].host + config[env].port  +"/" + config[env].api_base_version + '/users/reset';
 	  	

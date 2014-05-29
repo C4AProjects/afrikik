@@ -6,7 +6,7 @@
         <div class="col" style="height: auto;text-align: center">         
           <div class="row">
             <div class="col">
-                 <center><img class="afk-circle" ng-src="{{player.picture? apiDir + player.picture :'./images/no-player.png'}}" /></center>
+                 <center><img class="afk-circle" ng-src="{{player.picture? apiDir + player.picture :'./images/nopic-player.png'}}" /></center>
             </div>
           </div>
           <div class="row">
@@ -42,10 +42,10 @@
 
         <ion-list>
           <ion-item ng-repeat="activity in activities" class="afk-bg-list item item-avatar item-icon-right">
-            <img src="./images/ionic.png" class="afk-circle">
+            <img ng-src="{{activity.picture? apiDir + activity.picture :'./images/nopic-feed.png'}}" class="afk-circle">
             <a class="afk-lnk-detail">
                 <span class="afk-obj-name"><i style="color: #f97c11">Update: </i> {{activity.message}}</span>
-                <span class="afk-obj-info" >02:00 PM          3 comments</span>
+                <span class="afk-obj-info" >{{activity.createdAt|date:'HH:mm (MM/dd/yyyy)'}}          {{activity.comments.length}} comments</span>
                 <i class="icon ion-arrow-right-b" style="font-size: 13px; color: lightgrey;"></i>
             </a>
           </ion-item>   
@@ -90,13 +90,16 @@
             </button>
         </div>
         <ion-list>
-          <ion-item ng-repeat="activity in activitiesPlayer()">                    
-            <span class="afk-feed">{{activity.message}}</span>
-            <span class="afk-obj-desc">Posted by {{activity._user.name}} on {{activity.createdAt}}</span> 
+          <ion-item ng-repeat="comment in (player.comments |sortArray)">                    
+            <span class="afk-feed">{{comment.message}}</span>
+            <span class="afk-obj-desc">Posted by {{comment.username}} on {{comment.createdAt|date:"EEEE MMM dd 'at' HH:mm 'GMT'"}}</span> 
           </ion-item>   
         </ion-list>     
       </ion-slide>
     </ion-slide-box>
+    <div ng-show="!isSubscribedOn(player)" >
+      <center>Subscribe To Unlock Player Information</center>
+    </div>
     </div>
    </div>
 

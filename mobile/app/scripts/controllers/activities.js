@@ -2,7 +2,8 @@
 
 Afrikik
         .controller('ActivityCtrl', function($scope, $stateParams, $ionicSlideBoxDelegate, ActivityService, Global) {
-                $scope.activities = ActivityService.all();
+                
+                $scope.activities = ActivityService.feedsSubscribed(Global.getUserId());
                 
                 $scope.user = Global.getUser()
                 
@@ -10,7 +11,9 @@ Afrikik
                       $ionicSlideBoxDelegate.slide(index)
                 }               
                 
-                $scope.communities  = ActivityService.messageCommunities($scope.user.subscribedPlayers)
+                $scope.communities  = ActivityService.commentsFriends(Global.getUserId())
+                
+                $scope.subscriptions = []
                 
                 $scope.notifications = ActivityService.notifications($scope.user.subscribedPlayers)
         

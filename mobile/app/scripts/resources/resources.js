@@ -31,7 +31,7 @@ angular.module('Afrikik')
    
   }])
   
-  .factory('Player',['$resource', 'envConfiguration', 'TokenHandler', function players($resource, envConfiguration, TokenHandler) {
+  .factory('Player',['$resource', 'envConfiguration', 'TokenHandler','Global', function players($resource, envConfiguration, TokenHandler, Global) {
     var config = envConfiguration[envConfiguration.default];
     
     var playerServiceUrl = config.host +  ":port/" + config.api_base_version + '/players/:id';
@@ -43,11 +43,27 @@ angular.module('Afrikik')
     	},
     	{
     		update: { method: 'PUT' },
-		'get': {method:'GET', isArray: false}
+		'get': {method:'GET', isArray: false, cache:false},
+		'comment': {
+		  method:'POST',
+		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/players/:playerId/comment',
+		  params:{
+		    id : Global.getUserId(),		    	  
+		  },
+		  isArray:false
+		},
+		'subscribe':{
+		  method: 'POST',
+		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/subscribe/players/:playerId',
+		  params:{
+		    id : Global.getUserId()		  
+		  },
+		  isArray:false
+		}
     	}
     );
     
-    playerResource = TokenHandler.wrapActions(playerResource,["get","query","update","save"]);
+    playerResource = TokenHandler.wrapActions(playerResource,["get","query","update","save","comment"]);
     
     return playerResource;
    
@@ -71,6 +87,60 @@ angular.module('Afrikik')
     teamResource = TokenHandler.wrapActions(teamResource,["get","query","update","save"]);
     
     return teamResource;
+   
+  }])
+  
+  .factory('Activity',['$resource', 'envConfiguration', 'TokenHandler','Global', function activities($resource, envConfiguration, TokenHandler, Global) {
+    var config = envConfiguration[envConfiguration.default];
+    
+    var playerServiceUrl = config.host +  ":port/" + config.api_base_version + '/users/:id/feeds/:feedId';
+   	
+    var playerResource = $resource (playerServiceUrl,
+    	{
+    		id:'@_id',
+    		port: config.port
+    	},
+    	{
+    		update: { method: 'PUT' },
+		'get': {method:'GET', isArray: false},
+		'comment': {
+		  method:'POST',
+		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/players/:playerId/comment',
+		  params:{
+		    id : Global.getUserId(),		    	  
+		  },
+		  isArray:false
+		},
+		'feedsPlayer':{
+		  method:'GET',
+		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/players/:playerId/feeds',
+		  params:{
+		    id : Global.getUserId(),		    	  
+		  },
+		  isArray:true
+		},
+		'feedsSubscribed':{
+		  method:'GET',
+		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/feeds',
+		  params:{
+		    id : Global.getUserId(),		    	  
+		  },
+		  isArray:true
+		},
+		'commentsFriends':{
+		  method:'GET',
+		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/friends/comments',
+		  params:{
+		    id : Global.getUserId(),		    	  
+		  },
+		  isArray:true
+		}
+    	}
+    );
+    
+    playerResource = TokenHandler.wrapActions(playerResource,["get","query","update","save","comment"]);
+    
+    return playerResource;
    
   }])
   

@@ -4,17 +4,12 @@ Afrikik
         // A simple controller that fetches a list of data from a service
         .controller('MemberCtrl', function($stateParams, $window, config,$scope, $state, $timeout, $ionicSlideBoxDelegate, Global, MemberService, TeamService, PlayerService,SettingsService, envConfiguration) {
                 
-                
                 $scope.apiDir =  config.apiDir;
-                
                 
                 $scope.members = MemberService.all();
                 
                 $scope.setCurrentMember = function(member){
-                        //MemberService.setCurrentMember(member)
-                        //$scope.slide = $ionicSlideBoxDelegate.currentIndex();                        
-                        $state.transitionTo('private.member', {_id: member._id})
-                        //$scope.go($scope.slide)
+                         $state.transitionTo('private.member', {_id: member._id})
                 }
                 
                 $scope.user = Global.getUser()
@@ -27,28 +22,28 @@ Afrikik
                 $scope.subscribe = function(member){
                         $scope.user.following.push(member)
                         Global.setUser($scope.user);
-                        $window.location.reload(); //issue to review
+                        $scope.isFriend ();
                 }
                 
                 $scope.go = function(index){               
                       $ionicSlideBoxDelegate.slide(index)
                 }
-                $scope.styleLocked = {};
-                $scope.testOK = false;
-                $scope.isFriend = function(member){                       
+                $scope.styleLocked = {};                
+                $scope.isFriend = function(member){
+                        var testOK = false;
+                        $scope.styleLocked = {};
                         $scope.user.following.forEach(function(friend){
-                                if (friend._id == member._id) {
-                                        $scope.testOK = true;
+                                if (friend._id == $stateParams._id) {
+                                        testOK = true;
                                         return;
                                 }                                
                         })
                         
-                        if ($scope.testOK===false) {                                
-                                $scope.members = _.first($scope.members, 1);
+                        if (testOK===false) {                                                                
                                 $scope.member.following = _.first($scope.member.following, 2);
                                 $scope.styleLocked = {'filter':'alpha(opacity=50)', 'opacity':0.5};
                         }
-                        return $scope.testOK;
+                        return testOK;
                 }
                 
                 // Method called on infinite scroll                

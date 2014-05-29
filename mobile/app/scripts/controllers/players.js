@@ -6,41 +6,42 @@ Afrikik
                 
                 var apiDir =  config.apiDir;
                 
-                //$scope.players = $scope.players || PlayerService.all();
-                
                 $scope.items = []
                 
-                $scope.user = $scope.user||Global.getUser()
+                $scope.user = $scope.user||Global.getUser()                
+                
                 
                 $scope.message = "";
                                 
                 if($stateParams._id){
-                        $scope.player = PlayerService.getByIdFromCache($stateParams._id)||PlayerService.getById($stateParams._id);
+                        $scope.player = PlayerService.getByIdFromCache($stateParams._id)||PlayerService.getById($stateParams._id);                        
                 }
+               
+                $scope.activities = ActivityService.feedsPlayer($stateParams._id)
                 
-                $scope.activities = ActivityService.all()
-                
-                $scope.activitiesPlayer = function(){
-                        return ActivityService.activitiesPlayer($stateParams._id||null);
-                }
                 
                 $scope.go = function(index){               
                       $ionicSlideBoxDelegate.slide(index)
                 }
-                
+                //$scope.communities = []
                 $scope.post = function(msg){
-                      ActivityService.addActivity({ _player: $scope.player._id, message: msg, createdAt: new Date(), _user:$scope.user});                      
+                       PlayerService.comment({ _player: $scope.player, message: msg, _user:$scope.user});
+                       setTimeout(function(){                        
+                        $scope.player = PlayerService.getById($stateParams._id);
+                       }, 1000)
+                     
                 }
                 
                 $scope.subscribe = function(player){
+                        PlayerService.subscribe(player._id)
                         $scope.user.subscribedPlayers.push(player)
                         Global.setUser($scope.user);
-                        $window.location.reload();
+                        //$window.location.reload();
+                        $scope.isSubscribedOn();
                 }
                 
                 $scope.getPicture = function(pic){                       
                         pic = (pic&&pic!='undefined')? apiDir + pic :'./images/no-player.png';
-                        //console.log('bizar: ' +pic );
                         return pic;
                 }
                 
@@ -66,7 +67,8 @@ Afrikik
                 }
                  
                 $scope.styleLocked = {};
-                $scope.isSubscribedOn = function(player){                        
+                $scope.isSubscribedOn = function(player){
+                        $scope.styleLocked = {};
                         var test = false;
                         $scope.user.subscribedPlayers.forEach(function(myplayer){
                                 if (myplayer._id == $stateParams._id) {

@@ -97,11 +97,18 @@ angular.module('Afrikik.services', [])
       var player = Player.get({id:playerId})
       return player;
     },
-    getByIdFromCache: function(teamId){      
+    getByIdFromCache: function(itemId){      
       //console.log('looking for from the cache....')
       return _.find(cachedItems, function(item){
-        return item._id == teamId
+        return item._id == itemId
       })
+    },
+    comment: function(comment){
+      Player.comment({playerId: comment._player._id}, {message:comment.message})
+    },
+    subscribe: function(playerId){
+      console.log('Player Id :' + playerId)
+      Player.subscribe({playerId: playerId},{})
     }
   };
 }])
@@ -146,10 +153,6 @@ angular.module('Afrikik.services', [])
     all: function() {
       return teams;
     },
-    get: function(teamId) {
-      // Simple index lookup
-      return teams[teamId];
-    },
     getById: function(teamId){      
       return _.find(teams, function(team){
         return team._id == teamId
@@ -163,69 +166,24 @@ angular.module('Afrikik.services', [])
   };
 })
 
-.factory('ActivityService', function() {
-  
-  var activities = [
-        { _id: 0, _team: 0, _player: 0, createdAt: '2014-07-05T17:14:17.790Z', comments:[2,4,1], _user:{name:'Amadou Daffe'}, message: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
-        { _id: 1, _team: 0, _player: 0, createdAt: '2014-06-05T15:14:17.790Z', comments:[2,4,1,8,5], _user:{name:'Ousman Samba'}, message: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
-        { _id: 2, _team: 0, _player: 0, createdAt: '2014-05-05T17:14:17.790Z', comments:[2,4], message: 'Everyone likes turtles.' },
-        { _id: 3, _team: 0, _player: 0, createdAt: '2014-05-05T14:14:17.790Z', comments:[2,4,1,25,27,8,11], _user:{name:'Mansour Fall'}, message: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' }    ,
-        { _id: 4, _team: 1, _player: 1, createdAt: '2014-04-05T17:14:17.790Z', _user:{name:'Abou Kone'}, message: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
-        { _id: 5, _team: 1, _player: 1, createdAt: '2013-04-05T10:14:17.790Z', _user:{name:'Fatoumata'}, message: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
-        { _id: 6, _team: 1, _player: 1, createdAt: '2012-04-05T13:14:17.790Z', comments:[2,4,1,4,44,2], _user:{name:'Haythem'}, message: 'Everyone likes turtles.' }
-      ];
-  
-  var comments = [
-        { _id: 0, _team: 0, _player: 0, createdAt: '2014-07-05T17:14:17.790Z', _user:{name:'Amadou Daffe'}, message: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
-        { _id: 1, _team: 0, _player: 0, createdAt: '2014-06-05T15:14:17.790Z', comments:[2,4,1,8,5], _user:{name:'Ousman Samba'}, message: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
-        { _id: 2, _team: 0, _player: 0, createdAt: '2014-05-05T17:14:17.790Z', comments:[2,4], message: 'Everyone likes turtles.' },
-        { _id: 3, _team: 0, _player: 1, createdAt: '2014-05-05T14:14:17.790Z', comments:[2,4,1,25,27,8,11], _user:{name:'Mansour Fall'}, message: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' }    ,
-        { _id: 4, _team: 1, _player: 1, createdAt: '2014-04-05T17:14:17.790Z', _user:{name:'Abou Kone'}, message: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
-        { _id: 5, _team: 1, _player: 1, createdAt: '2013-04-05T10:14:17.790Z', _user:{name:'Fatoumata'}, message: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
-        { _id: 6, _team: 1, _player: 1, createdAt: '2012-04-05T13:14:17.790Z', comments:[2,4,1,4,44,2], _user:{name:'Haythem'}, message: 'Everyone likes turtles.' }
-      ];
-  
+.factory('ActivityService', ['Activity', function(Activity) {
+
+  var feeds = [];
 
   return {
     
-    all: function() {
-      return activities;
+    feedsSubscribed: function(userId){
+      return Activity.query({id:userId});
     },
-    get: function(feedId) {
-      // Simple index lookup
-      return activities[feedId];
+    feedsPlayer: function(playerId) {
+      return feeds = Activity.feedsPlayer({playerId:playerId});
     },
-    getById: function(activityId){      
-      return _.find(activities, function(activity){
-        return activity._id == activityId
-      })
+    getByFeedById: function(feedId){      
+      return Activity.get({feedId:feedId})
     },
-    activitiesPlayer: function(playerId){
-      if (playerId==null) {
-        return [];
-      }
-      return _.filter(activities, function(activity){
-        return activity._player == playerId
-      })
-    },
-    activitiesTeam: function(teamId){
-      if (teamId==null) {
-        return [];
-      }
-      return _.filter(activities, function(activity){
-        return activity._team == teamId
-      })
-    },
-    addActivity: function(activity){
-      activities.splice(0, 0, activity)     
-    },
-    messageCommunities: function(subscribedList){
-      var list = []
-      for(var i=0; i< subscribedList.length;i++){
-        list.push(subscribedList[i]._id)
-      }
-      return _.filter(comments, function(comment){
-        return (list.indexOf(comment._player)>0)
+    getByFeedFromCahe: function(feedId){      
+      return _.find(feeds, function(feed){
+        return feed._id == feedId
       })
     },
     notifications: function(subscribedList){
@@ -233,12 +191,15 @@ angular.module('Afrikik.services', [])
       for(var i=0; i< subscribedList.length;i++){
         list.push(subscribedList[i]._id)
       }
-      return _.filter(activities, function(activity){
+      return _.filter([], function(activity){
         return (list.indexOf(activity._player)>0 && activity.createdAt)
       })
+    },
+    commentsFriends: function(userId){
+      return Activity.commentsFriends({id:userId})
     }
   };
-})
+}])
 
 .factory('AuthService', function($http /*,$cookieStore*/){
 
