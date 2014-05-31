@@ -7,9 +7,9 @@
 var apiServer;
 
 
-var Afrikik = angular.module('Afrikik', ['ionic','openfb', 'Afrikik.services', 'Afrikik.controllers', 'config', 'angularLocalStorage','ui.router','ngResource','infinite-scroll','pascalprecht.translate','underscore', 'angular-loading-bar','ngAnimate'])
+var Afrikik = angular.module('Afrikik', ['ionic',/*'openfb',*/ 'Afrikik.services', 'Afrikik.controllers', 'config', 'angularLocalStorage','ui.router','ngResource','infinite-scroll','pascalprecht.translate','underscore', 'angular-loading-bar','ngAnimate'])
 
-.run(function ($http, $rootScope, $state, $ionicPlatform, $window, OpenFB) {
+/*.run(function ($http, $rootScope, $state, $ionicPlatform, $window, OpenFB) {
      
         OpenFB.init('1422514281357788');
 
@@ -24,25 +24,25 @@ var Afrikik = angular.module('Afrikik', ['ionic','openfb', 'Afrikik.services', '
                 $state.go('index');
                 event.preventDefault();
             }
-        });*/
+        });
 
         $rootScope.$on('OAuthException', function() {
             $state.go('index');
         });
 
-    })
+    })*/
 
 
 .config(function($httpProvider, $stateProvider, $urlRouterProvider, envConfiguration) {
   
   
-  $httpProvider.defaults.useXDomain = true;
-        delete $httpProvider.defaults.headers.common['X-Requested-With'];
+  //$httpProvider.defaults.useXDomain = true;
+   // delete $httpProvider.defaults.headers.common['X-Requested-With'];
   
   
-  var env = 'dev',
+  //var env = 'dev',
   
-  apiServer = envConfiguration[env].host + envConfiguration[env].port + '/' + envConfiguration[env].api_base_version;
+  //apiServer = envConfiguration[env].host + envConfiguration[env].port + '/' + envConfiguration[env].api_base_version;
 
   $stateProvider
  
@@ -69,7 +69,7 @@ var Afrikik = angular.module('Afrikik', ['ionic','openfb', 'Afrikik.services', '
     .state('private.search', {
       url: '/search',
       views: {
-        'search' :{
+        'menuContent' :{
           templateUrl: 'templates/search.html'
         }
       }
@@ -117,7 +117,7 @@ var Afrikik = angular.module('Afrikik', ['ionic','openfb', 'Afrikik.services', '
     .state('private.feeds', {
       url: '/feeds',
       views: {
-        'menuContent': {
+        'menuFeed': {
           templateUrl: 'templates/activities/activities.html',
           controller: 'ActivityCtrl'
         }
@@ -147,7 +147,7 @@ var Afrikik = angular.module('Afrikik', ['ionic','openfb', 'Afrikik.services', '
     .state('about', {
       url: '/about',      
       templateUrl: 'templates/about.html',
-      controller: function AboutCtrl($scope){
+      controller: function AboutCtrl(){
         $scope.date = new Date().getFullYear();
       }
       

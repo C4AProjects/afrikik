@@ -48,7 +48,7 @@ angular.module('Afrikik')
 		  method:'POST',
 		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/players/:playerId/comment',
 		  params:{
-		    id : Global.getUserId(),		    	  
+		    id : Global.getUserId()		    
 		  },
 		  isArray:false
 		},

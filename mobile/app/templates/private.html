@@ -23,13 +23,16 @@
     
     
     <ion-tabs class="tabs-dark tabs-icon-top" >
-
-        <ion-tab title="Feed" icon="ion-social-rss" href="#/private/feeds" >
-          <ion-nav-view name="menuContent" animation="slide-left-right"></ion-nav-view>
-        </ion-tab>
+      
+        
+        
       
         <ion-tab title="Search" icon="ion-search" href="#/private/search">
-          <ion-nav-view name="search" animation="slide-left-right"></ion-nav-view>
+          <ion-nav-view name="menuContent" animation="slide-left-right"></ion-nav-view>
+        </ion-tab>
+        
+        <ion-tab title="Feed" icon="ion-social-rss" href="#/private/feeds" >
+          <ion-nav-view name="menuFeed" animation="slide-left-right"></ion-nav-view>
         </ion-tab>
       
         <ion-tab title="Notifications" icon="ion-ios7-information" href="#/private/notifications">
@@ -45,6 +48,7 @@
         </ion-tab>
   
     </ion-tabs>
+    
     
   </ion-pane>
   

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('Afrikik')   
-  .controller('MainCtrl',function ($scope, $ionicSlideBoxDelegate, $filter, $rootScope,$state, User, authenticationService, envConfiguration, Global, ErrorHandler, $ionicLoading, PlayerService, MemberService, config, $window, $http, $location, OpenFB) {
+  .controller('MainCtrl',function ($scope, $ionicSlideBoxDelegate, $filter, $rootScope,$state, User, authenticationService, envConfiguration, Global, ErrorHandler, $ionicLoading, PlayerService, MemberService, config, $window, $http, $location) {
       var Auth = authenticationService;
       
       $scope.go = function(index){               
@@ -88,13 +88,13 @@ angular.module('Afrikik')
 	    description:'I\'m an fan of all senegal players working hard for propulsing national team high on the top, particulary I support Samuel Eto, he is the best player from all around the world :)'
       }*/
      
-    $scope.show = function(tpl) {
+    $scope.show = function(tpl, time) {
       $ionicLoading.show({
 	template: tpl? tpl:'<i class="icon ion-loading-a"></i>'
       });
       setTimeout(function(){
 	    $scope.hide();
-      },1000)
+      },time|1000)
     };
     
     $scope.hide = function(){
@@ -146,7 +146,7 @@ angular.module('Afrikik')
 	
 	Global.setUser($scope.user)*/
 	
-      _gaq.push(['_trackEvent','Authentication', 'Login', 'Regular Login', $scope.auth.email, false])
+      //_gaq.push(['_trackEvent','Authentication', 'Login', 'Regular Login', $scope.auth.email, false])
       
       /*var authentication = */
       Auth.login($scope.user).then(function(loginResponse){
@@ -177,7 +177,7 @@ angular.module('Afrikik')
 			setTimeout(function(){
 			    $scope.hide();
 			},1000)			
-                     _gaq.push(['_trackEvent','Authentication', 'Login Failed', 'Regular Login'])
+                     //_gaq.push(['_trackEvent','Authentication', 'Login Failed', 'Regular Login'])
                   }
                 else
                   {
@@ -185,7 +185,7 @@ angular.module('Afrikik')
                       if(loginResponse && loginResponse.message && loginResponse.message.indexOf("Invalid resource owner credentials")>=0)
                       {
                           message = $filter('translate')('ERROR_WRONG_CREDENTIALS')
-                          _gaq.push(['_trackEvent','Authentication', 'Wrong Credentials', 'Regular Login', $filter('translate')('ERROR_WRONG_CREDENTIALS'), false])
+                          //_gaq.push(['_trackEvent','Authentication', 'Wrong Credentials', 'Regular Login', $filter('translate')('ERROR_WRONG_CREDENTIALS'), false])
                       }
                       $scope.alerts = [{
                         type:'danger',
@@ -201,14 +201,16 @@ angular.module('Afrikik')
 		      	
                   }
             }
+	    $scope.user.password = ''
       });
               
     }
 
     $scope.logout = function(){
       Auth.logout().success(function(success){
-          $state.transitionTo('index')
-          _gaq.push(['_trackEvent','Authentication', 'Logout', 'Regular Logout'])
+	    $scope.user.password = '';
+            $state.transitionTo('index')
+          //_gaq.push(['_trackEvent','Authentication', 'Logout', 'Regular Logout'])
       });
 
     }
@@ -217,14 +219,20 @@ angular.module('Afrikik')
        $scope.user_new.username= $scope.user_new.username||$scope.user_new.email;//TODO
     	var authentication = User.save($scope.user_new, function(response){
             console.log("New user created")
-            console.dir(response);
             if(response.success && !response.error){
-                  _gaq.push(['_trackEvent','Authentication', 'Registration Success', 'Regular Registration'])
+                  //_gaq.push(['_trackEvent','Authentication', 'Registration Success', 'Regular Registration'])
                   //Successfully created the user, save it in the session
                   $rootScope.user = response;
                   $rootScope.user={};
                   $rootScope.user.email = $scope.user_new.email;
-                  $state.transitionTo('index')  			
+		  $scope.user = {email:$scope.user_new.email}
+		  Global.setUser($scope.user)	
+		  $scope.user_new = {}; //init form
+                  $scope.show('<h4 style="font-weight:bold">Thank You for Registration To AFRIKIK,</h4>' +
+			      '<br/> An Email is sent to <b>'+ $scope.user.email +'</b> for confirmation!', 3000)
+		  setTimeout(function(){
+		    $window.location.reload();
+		  }, 3100)
             }
             else
             {
