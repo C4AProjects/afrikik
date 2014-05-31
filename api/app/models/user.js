@@ -38,7 +38,8 @@ var UserSchema = new Schema({
     followers: [{type: Schema.ObjectId, ref: 'User'}], //_id members that follow member
     following: [{type: Schema.ObjectId, ref: 'User'}],
     feeds: [{type: Schema.ObjectId, ref: 'Feed'}],
-    requests: [{type: Schema.ObjectId, ref: 'User'}], // friend requests user have to accept    
+    requests: [{type: Schema.ObjectId, ref: 'User'}], // friend requests user have to accept
+    status: {type: String, enum: ['A', 'P', 'D'], default: 'P' } // A: Activated, P: Pending, D: Disabled
 });
 
 UserSchema.plugin(timestamps);

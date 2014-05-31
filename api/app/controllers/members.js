@@ -9,6 +9,27 @@ var mongoose = require('mongoose')
     , ObjectId = mongoose.Types.ObjectId;
 
 
+
+/************************************************************************************
+ *         list all members
+ **************************************************************************************/
+
+exports.all = function(req, res) {
+    User.find({})
+      .limit(req.query.limit||50)  
+      .exec(function(err, list) {
+          if (err) {
+              res.status(500).json( {
+                  success:false,
+                  error: err
+              });
+          } else {
+              res.json(list);
+          }
+    });
+   
+};
+
 /************************************************************************************
  *          User/member searching by name/fullName : /users/search/Abou
  **************************************************************************************/

@@ -103,7 +103,7 @@ module.exports = {
             iOsAppDownloadUrl:"http://api.afrikik.com"
         },
         app: {
-            name: 'Afrikik.mobi Dev',
+            name: 'Afrikik Dev',
             app_port:2014,
             appUrl: 'http://localapi.afrikik.com:' + this.app_port,
             appStore:{

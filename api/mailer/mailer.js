@@ -41,7 +41,7 @@ exports.sendEmail = function (templateName, locals, fn) {
      if (process.env.NODE_ENV === 'test') {
        return fn(null, '250 2.0.0 OK 1350452502 s5sm19782310obo.10', html, text);
      }
-     var transport = defaultTransport;
+     /*var transport = defaultTransport;
      transport.sendMail({
        from: config.mailer.defaultFromAddress,
        to: locals.email,
@@ -54,7 +54,43 @@ exports.sendEmail = function (templateName, locals, fn) {
          return fn(err);
        }
        return fn(null, responseStatus.message, html, text);
-     });
+     });*/
+     
+    var smtpTransport = nodemailer.createTransport("SMTP",{
+    service: "Gmail",
+    auth: {
+        user: "contact.afrikik@gmail.com",
+        pass: "AfrikikC4A"
+        }
+    });
+    
+    // setup e-mail data with unicode symbols
+    var mailOptions = {
+        from: "Afrikik ✔ <info.afrikik@gmail.com>", // sender address
+        to: locals.email, // list of receivers
+        forceEmbeddedImages: true,
+        subject: locals.subject, // Subject line
+        text: text, // plaintext body
+        html: html, // html body
+        /*attachments: [{
+        filename: "logo.png",
+        filePath: "/public/img/logo.png",
+        cid: "logo@afrikik.logo" 
+        }]*/
+    }
+    
+    smtpTransport.sendMail(mailOptions, function(error, response){
+    if(error){
+        console.log(error);
+        return fn(error);
+    }else{
+        console.log("Message sent: " + response.message);
+        return fn(null, response.message, html, text);
+    }
+    // if you don't want to use this transport object anymore, uncomment following line
+    //smtpTransport.close(); // shut down the connection pool, no more messages
+    });
+     
    });
  });
 }

@@ -48,11 +48,18 @@ exports.login = function(req, res){
                 alerts: [{message:'Unknown user'}]
             });
         }
-        if (!user.authenticate(user1.password)) {
+        if (user.status==='P') {
+            res.status(403).json( {
+                alerts: [{message:'You have to confirm your registration before continuing!'}]
+            });
+        }
+        else if (!user.authenticate(user1.password)) {
             res.status(403).json( {
                 alerts: [{message:'Invalid password'}]
             });
-        }else{
+        }
+        
+        else{
             res.json({
                success:true,
                user:user
@@ -125,11 +132,10 @@ exports.session = function(req, res) {
  * Register a new user
  */
 exports.create = function(req, res) {
-    var user = new User(req.body),
-    confirmcode = new ConfirmCode({code: utils.uid(26), user:user});
+    var user = new User(req.body);
     user.provider = 'local';
     
-    user.save(function(err) 
+    user.save(function(err, user) 
     {
         if (err) {
             res.json({
@@ -137,8 +143,16 @@ exports.create = function(req, res) {
                 error: err,
             });
         }
-        var emailSubject ='Subscribe to Afrikik';
-        email_template = "welcome";
+        
+        confirmcode = new ConfirmCode({code: utils.uid(26), user: user});
+            confirmcode.user = user;
+            confirmcode.save(function(err){
+                if (err) {
+                    console.log(err)
+                }
+        });
+        var emailSubject ='Registration to Afrikik';
+        email_template = "registration";
         
         var values ={
             email:user.email,
@@ -164,6 +178,72 @@ exports.create = function(req, res) {
  
     });
 };
+
+/**
+* reset password request if forgotten by sending an email with a reset code
+**/
+exports.resetPasswordRequest = function(req, res) {
+    console.log( req.body );
+    User.findOne({
+            email: req.body.email                
+        })
+        .exec(function(err, user) {
+            if (err) return next(err);  
+            if(!user) return res.status(400).json({success:false,error:'We could not locate a user account for this email address: ' + req.body.email} );
+            var confirmcode = new ConfirmCode({code:utils.uid(26), user:user});        
+            prepareEmail(confirmcode,{to:req.email, body: email_tpl.reset(confirmcode)}); 
+            //Send Reset Password Request email
+                var values ={
+                    email:user.email,
+                    subject:'Password Reset',
+                    resetPasswordUrl:req.protocol + "://" + req.get('host') + "/users/reset/" + confirmcode.code
+                }
+                mailer.sendEmail("password_reset", values, function(err, message, html, text){
+                    if(err){
+                         debug("Error Sending Email: %s ",err)
+                    }
+                    debug("Email Sent! Response Status: %s, html:%s, text:%s", message, html, text)
+                })                         
+            return res.status(200).json({success:true,message: 'An email has been sent to ' + user.email + ' with instructions on how to reset your account.' });
+        });
+}
+
+/**
+* confirm registration by email, or confirm invitation to a vesting
+**/
+exports.confirm = function(req, res) {
+    debug('code param : $s', req.params.code);
+    ConfirmCode.findOne({code: req.params.code})
+    .populate('user')
+    .exec(function(err, confirmcode){
+        if(err) return res.status(400).json({errors: err.messages });
+        if(!confirmcode) return res.status(400).json({errors: 'This token is no longer valid'  });
+        User.findOne({email: confirmcode.user.email, status:'P'})
+        .exec(function(err, user){
+           if(err) res.status(400).json({errors:err}); 
+           user.status = 'A';
+           user.save(function(err){
+                if(err) res.status(400).json({errors:err});
+                 //the confirmation code sent by email
+                var values ={
+                    email:user.email,
+                    subject:'Thank you for registering to Afrikik',
+                    androidAppDownloadUrl:config.app.appStore.androidAppDownloadUrl,
+                    iOsAppDownloadUrl:config.app.appStore.iOsAppDownloadUrl,
+                    appName: config.app.name
+                }
+                mailer.sendEmail("registration_confirmed", values, function(err, message, html, text){
+                    if(err){
+                         debug("Error Sending Registration Confirmed Email: %s ",err)
+                }
+                return res.status(200).json({message:email_tpl.invitation_confirmed(confirmcode)});
+           });
+           confirmcode.remove();// removing confirm from database
+        })
+    })
+})
+}
+
 
 
 /**
@@ -375,35 +455,38 @@ exports.changePassword = function(req, res) {
 /**
 * Confirm user registration code sent to them by email
 **/
+
+
 exports.confirm = function(req, res) {
-    logger.debug('code param : %s', req.params.code);
-    ConfirmCode.findOne({code: req.params.code})
+     ConfirmCode.findOne({code: req.params.code})
     .populate('user')
     .exec(function(err, confirmcode){
-        if(err) res.json({success:false,error: err });
-        if(!confirmcode)  res.json({success:false,error:{errors: {invalid:{message:'This registration code is no longer valid!'}}}});
-        var searchUserOptions = {email: confirmcode.user.email, status:enums.userStatusOptions.REGISTERED_USER_STATUS};
-        console.dir(confirmcode)
-      
-           if(err) res.status(500).json({error:err}); 
-           confirmcode.user.status = enums.userStatusOptions.CONFIRMED_USER_STATUS;
-           confirmcode.user.save(function(err, user){
-                if(err) res.status(500).render('500',{error:err});
+        if(err) return res.status(400).json({errors: err.messages });
+        if(!confirmcode) return res.status(400).json({errors: 'This token is no longer valid'  });
+        User.findOne({email: confirmcode.user.email, status:'P'})
+        .exec(function(err, user){
+           if(err) res.status(400).json({errors:err}); 
+           user.status = 'A';
+           user.save(function(err){
+                if(err) res.status(400).json({errors:err});
                  //the confirmation code sent by email
                 var values ={
                     email:user.email,
-                    subject:'Thank you for registering with Tonsorious',
+                    subject:'Thank you for registering to Afrikik',
                     androidAppDownloadUrl:config.app.appStore.androidAppDownloadUrl,
-                    iOsAppDownloadUrl:config.app.appStore.iOsAppDownloadUrl
+                    iOsAppDownloadUrl:config.app.appStore.iOsAppDownloadUrl,
+                    appName: config.app.name,
+                    appUrl: config.app.appUrl,
+                    appDownloadUrl: config.app.appStore.androidAppDownloadUrl
                 }
                 mailer.sendEmail("registration_confirmed", values, function(err, message, html, text){
                     if(err){
-                         logger.debug("Error Sending Registration Confirmed Email: %s ",err)
+                         debug("Error Sending Registration Confirmed Email: %s ",err)
                 }
-                res.json({success:true});
+                return res.status(200).json({message:'Thank you for your registration to AFRIKIK!'});
            });
            confirmcode.remove();// removing confirm from database
-       
+        })
     })
 })
 }

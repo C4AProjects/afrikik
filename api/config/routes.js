@@ -34,14 +34,25 @@ module.exports = function(app, passport, auth) {
     //app.post('/api/v1/users/session', passport.authenticate('local', { }), users.session);
  
     //Setting up the users api
-    app.post('/api/v1/users', users.create);
+    app.post('/api/v1/users', users.create);    
     app.get('/api/v1/users/:userId/me',  passport.authenticate('bearer', { session: false }), users.me);
     app.get('/api/v1/users/:userId', users.show);
   
     app.get('/logout', users.logout);
+    
+     //User management flow
+    app.get('/users/confirm/:code', users.confirm);
+    app.post('/users/reset', users.resetPasswordRequest);
+    //app.get('/users/reset/:resetPasswordToken', users.showResetPasswordForm); // Provide a landing page on ELKAPI 
+    app.post('/api/v1/users/change/password', users.changePassword); 
+    //app.get('/api/v1/users/:userId/smsverificationtoken/:phone', users.sendSmsCode);//Sends a user a SMS verification code
+    //app.post('/api/v1/users/:userId/smsverificationtoken', users.verifyBySms); //Verify a SMS code sent to a user
+    app.post('/api/v1/users/:userId/emailcode/:email', users.sendEmailCode); //Resend cnfirmation code by email to new registered user
+
 
     //Member Routes
     var members = require('../app/controllers/members');
+    app.get('/api/v1/users', members.all);
     app.get('/api/v1/users/search/:name', members.searchByName );
     app.post('/api/v1/users/:userId/subscribe/players/:playerId', members.subscribeToPlayer);
     app.post('/api/v1/users/:userId/subscribe/teams/:teamId', members.subscribeToTeam);

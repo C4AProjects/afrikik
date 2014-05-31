@@ -1,21 +1,17 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title><%= locals.appName %>: Thank you for registering</title>
-      
-      
-  
+    <title>Afrikik: Welcome to African football platform!</title>
 </head>
 <body>
     <img src="http://afrikik.c4adev.co.vu/wp-content/themes/afrikik/assets/img/logo_afr.jpg"/>
     <table cellspacing="0" cellpadding="0" border="0" width="100%">
         <tr>
             <td class="navbar navbar-inverse" align="center">
-                <!-- This setup makes the nav background stretch the whole width of the screen. -->
                 <table width="650px" cellspacing="0" cellpadding="3" class="container">
                     <tr class="navbar navbar-inverse">
-                        <td colspan="4"><a class="brand" href="<%= locals.appUrl %>"><%= locals.appName %></a></td>
-                        <td><ul class="nav pull-right"><li><a href="<%= locals.appDownloadUrl%>">Get The App</a></li></ul></td>
+                        <td colspan="4"><a class="brand" href="http://www.afrikik.com">Afrikik</a></td>
+                        <td><ul class="nav pull-right"><li><a href="http://www.coders4africa.com">Visit us</a></li></ul></td>
                     </tr>
                 </table>
             </td>
@@ -26,10 +22,8 @@
                     <tr>
                         <td>
 
-                        	<p>Your registration to <%= locals.appName %> is confirmed
-                             <p><a href="<%= locals.androidAppDownloadUrl %>"><%= locals.appName %> On Play Market</a>
-                            <p<a href="<%= locals.iOsAppDownloadUrl %>"><%= locals.appName %> in the App Store</a>
-                           
+                            <p>CONGRATULATIONS and welcome to AFRIKIK! To get started, please confirm your email address by clicking the link below:
+                            <p><a href="<%= locals.confirmationUrl %>"><%= locals.confirmationUrl %></a> 
 
 
                         </td>
@@ -43,7 +37,7 @@
                     <tr>
                         <td>
                             <hr>
-                            <p><%= locals.emailFooter %></p>
+                            <p>Coders4Africa Corporate</p>
                         </td>
                     </tr>
                 </table>
