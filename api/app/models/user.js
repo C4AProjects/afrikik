@@ -15,6 +15,7 @@ var mongoose = require('mongoose'),
  */
 var UserSchema = new Schema({
     email: { type: String, required: true },
+    name: String,
     username:  { type: String, required: true, unique:true },
     provider: String,   
     hashed_password:  { type: String, select: true },

@@ -481,7 +481,7 @@ exports.confirm = function(req, res) {
                 }
                 mailer.sendEmail("registration_confirmed", values, function(err, message, html, text){
                     if(err){
-                         debug("Error Sending Registration Confirmed Email: %s ",err)
+                         logger.debug("Error Sending Registration Confirmed Email: %s ",err)
                 }
                 return res.status(200).json({message:'Thank you for your registration to AFRIKIK!'});
            });

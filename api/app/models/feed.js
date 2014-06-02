@@ -14,7 +14,10 @@ var FeedSchema = new Schema({
                 _player: {type: Schema.Types.ObjectId, ref: 'Player' }, // if player feed
                 comments: [{type: Schema.Types.ObjectId, ref: 'Comment' }], 
                 tags: [{type: String}]
-
+                ,title: String
+                ,url_img: String
+                ,dateFrom: {type:Date, default:Date.now}
+                ,feedType:String //Score, general, NEW, UPDATE
 })
 
 FeedSchema.plugin(timestamps,MongooseRattle)

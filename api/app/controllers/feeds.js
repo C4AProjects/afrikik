@@ -108,6 +108,7 @@ exports.show = function(req, res) {
 exports.comment = function(req, res) {
   var comment = new Comment(req.body)
   comment._user = req.user
+  comment.username = req.user.name||req.user.username
   comment.save(function(err, comment) 
   {
     if(err) {
@@ -157,6 +158,9 @@ exports.destroy = function(req, res) {
  * Find feed by id param
  */
 exports.feed = function(req, res, next, id) {
+    function sortComments(f1, f2) {
+        return f2.createdAt.getTime() - f1.createdAt.getTime()
+    }
     logger.debug('Feed id parameter: %s', id)
     if(id)
     {
@@ -173,10 +177,12 @@ exports.feed = function(req, res, next, id) {
               })
             }
             if (!feed) 
-            {
+            { 
               res.status(401).json({
                     error:"Invalid feed"
                 });
+            }else{                
+                feed.comments.sort(sortComments)
             }
             req.feed = feed;
             next();

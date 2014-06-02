@@ -6,8 +6,6 @@ module.exports = function(app, passport, auth) {
     app.get('/admin/signin', admins.signin);
     app.get('/admin/signup', admins.signup);
     app.get('/admin/signout', admins.signout);
-    
-    
 
      //Setting up the admin users api
     app.post('/admin/users', admins.create);
