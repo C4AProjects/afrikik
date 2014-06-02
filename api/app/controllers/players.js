@@ -193,6 +193,49 @@ exports.searchPlayersAndTeam = function(req, res){
     
 }
 
+/**********************************************************************************
+ *      TOP Players and Teams
+ ***********************************************************************************/
+exports.topPlayersAndTeam = function(req, res){
+    var result = []
+    
+    Player
+    .find({})
+    .sort({rating:-1})
+    .limit(req.query.limit||20)
+    .exec(function(err, list){
+       if(err) res.status(401).json({err: err})
+       if (list) {
+        result= list
+       }
+    })
+    
+    Team = mongoose.model('Team')
+    Team.find({})
+    .sort({rating:-1})
+    .limit(10)
+    .exec(function(err, list){
+       if(err) res.status(401).json({err: err})
+       if (list) {
+        result.concat(list) //  concat with the players
+        res.status(200).json(result)
+       }
+    })
+    //sort the results by name   
+    /*result.sort(function (a, b) {
+        if (a.name > b.name)
+          return 1;
+        if (a.name < b.name)
+          return -1;        
+        return 0;
+    })*/
+    //TODO async module will be used for this function
+    //setTimeout(function(){
+    //  res.status(200).json(result)
+    ///}, 1000)
+    
+}
+
 /************************************************************************************
  *          Get all players's team for a user : /users/USER_ID/teams/TEAM_ID/players
  **************************************************************************************/
