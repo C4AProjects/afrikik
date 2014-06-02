@@ -38,7 +38,7 @@
         
         <ion-list>
           <ion-item ng-repeat="item in items" class="afk-bg-list item item-avatar item-button-right">
-            <img ng-src="{{item.picture? apiDir + item.picture :'./images/no-player.png'}}" class="afk-circle">              
+            <img ng-src="{{item.picture? apiDir + item.picture :'./images/nopic-player.png'}}" class="afk-circle">              
             <a class="afk-lnk-detail" ng-click="setCurrentItem(item)">
               <span class="afk-obj-name">{{item.name}}</span>
             <span class="afk-obj-desc">{{item.description||item.career}}</span>

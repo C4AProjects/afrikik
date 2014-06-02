@@ -56,6 +56,9 @@ angular.module('Afrikik.services', [])
     cachedItems: function() {
       return cachedItems;
     },
+    topItems: function(){      
+      return cachedItems = Search.topItems({})
+    },
     itemsByName: function(name){      
       return cachedItems = Search.query({name: name})
     },

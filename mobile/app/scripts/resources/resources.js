@@ -167,7 +167,14 @@ angular.module('Afrikik')
     	{
     		name:'@name',
     		port: config.port
-    	}
+    	},
+	{
+	  'topItems':{
+		  method:'GET',
+		  url: config.host +  ":port/" + config.api_base_version + '/top/items',		  
+		  isArray:true
+		}
+	}
     );
     
     searchResource = TokenHandler.wrapActions(searchResource,["query"]);

@@ -4,9 +4,7 @@ Afrikik
         // A simple controller that fetches a list of data from a service
         .controller('PlayerCtrl', function($scope, $window, config, $state, $stateParams, $ionicSlideBoxDelegate, Global, PlayerService, ActivityService) {
                 
-                var apiDir =  config.apiDir;
-                
-                $scope.items = []
+                var apiDir =  config.apiDir;                                
                 
                 $scope.user = $scope.user||Global.getUser()                
                 
@@ -18,7 +16,8 @@ Afrikik
                         $scope.activities = ActivityService.feedsPlayer($stateParams._id)
                 }
                
-                
+                $scope.items = PlayerService.topItems();
+                console.log($scope.items)
                 
                 
                 $scope.go = function(index){               
@@ -66,6 +65,8 @@ Afrikik
                     })*/
                     $scope.items = PlayerService.itemsByName(name);
                 }
+                
+                
                  
                 $scope.styleLocked = {};
                 $scope.isSubscribedOn = function(player){
