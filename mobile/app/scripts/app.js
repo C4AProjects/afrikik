@@ -124,6 +124,16 @@ var Afrikik = angular.module('Afrikik', ['ionic',/*'openfb',*/ 'Afrikik.services
       }
     })
     
+    .state('private.feed', {
+      url: '/feed/:_id',
+      views: {
+        'menuFeed': {
+          templateUrl: 'templates/activities/activity.html',
+          controller: 'ActivityCtrl'
+        }
+      }
+    })
+    
     .state('private.notifications', {
       url: '/notifications',
       views: {

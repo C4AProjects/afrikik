@@ -93,16 +93,22 @@ angular.module('Afrikik')
   .factory('Activity',['$resource', 'envConfiguration', 'TokenHandler','Global', function activities($resource, envConfiguration, TokenHandler, Global) {
     var config = envConfiguration[envConfiguration.default];
     
-    var playerServiceUrl = config.host +  ":port/" + config.api_base_version + '/users/:id/feeds/:feedId';
+    var feedServiceUrl = config.host +  ":port/" + config.api_base_version + '/users/:id/feeds/:feedId';
    	
-    var playerResource = $resource (playerServiceUrl,
+    var feedResource = $resource (feedServiceUrl,
     	{
     		id:'@_id',
     		port: config.port
     	},
     	{
     		update: { method: 'PUT' },
-		'get': {method:'GET', isArray: false},
+		'get': {
+		  method:'GET',
+		  params:{
+		    id : Global.getUserId(),		    	  
+		  },
+		  isArray: false
+		},
 		'comment': {
 		  method:'POST',
 		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/players/:playerId/comment',
@@ -110,6 +116,22 @@ angular.module('Afrikik')
 		    id : Global.getUserId(),		    	  
 		  },
 		  isArray:false
+		},
+		'commentFeed': {
+		  method:'POST',
+		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/feeds/:feedId/comment',
+		  params:{
+		    id : Global.getUserId(),		    	  
+		  },
+		  isArray:false
+		},
+		'commentsFriends':{
+		  method:'GET',
+		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/friends/comments',
+		  params:{
+		    id : Global.getUserId(),		    	  
+		  },
+		  isArray:true
 		},
 		'feedsPlayer':{
 		  method:'GET',
@@ -126,21 +148,13 @@ angular.module('Afrikik')
 		    id : Global.getUserId(),		    	  
 		  },
 		  isArray:true
-		},
-		'commentsFriends':{
-		  method:'GET',
-		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/friends/comments',
-		  params:{
-		    id : Global.getUserId(),		    	  
-		  },
-		  isArray:true
 		}
     	}
     );
     
-    playerResource = TokenHandler.wrapActions(playerResource,["get","query","update","save","comment"]);
+    feedResource = TokenHandler.wrapActions(feedResource,["get","query","update","save","comment"]);
     
-    return playerResource;
+    return feedResource;
    
   }])
   

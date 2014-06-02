@@ -14,10 +14,11 @@ Afrikik
                 $scope.message = "";
                                 
                 if($stateParams._id){
-                        $scope.player = PlayerService.getByIdFromCache($stateParams._id)||PlayerService.getById($stateParams._id);                        
+                        $scope.player = PlayerService.getByIdFromCache($stateParams._id)||PlayerService.getById($stateParams._id);
+                        $scope.activities = ActivityService.feedsPlayer($stateParams._id)
                 }
                
-                $scope.activities = ActivityService.feedsPlayer($stateParams._id)
+                
                 
                 
                 $scope.go = function(index){               

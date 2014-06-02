@@ -8,12 +8,14 @@ Afrikik
                 
                 $scope.members = MemberService.all();
                 
+                $scope.user = Global.getUser()
+                if ($stateParams._id) {
+                        $scope.member = MemberService.getById($stateParams._id);
+                }
+                                
                 $scope.setCurrentMember = function(member){
                          $state.transitionTo('private.member', {_id: member._id})
-                }
-                
-                $scope.user = Global.getUser()
-                $scope.member = MemberService.getById($stateParams._id);
+                }                        
                 
                 $scope.setCurrentPlayer = function(player){                        
                         $state.transitionTo('private.player', {_id: $stateParams._id})

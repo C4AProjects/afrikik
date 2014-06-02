@@ -49,40 +49,7 @@ angular.module('Afrikik.services', [])
  ************************************************************************************************************/
 .factory('PlayerService', ['Player', 'Search', function(Player,Search) {
   var currentPlayer= {};
-  
-// Might use a resource here that returns a JSON array
-  // Some fake testing data
-  /*var career ="Didier Drogba, né le 11 mars 1978 à Abidjan, est un footballeur international ivoirien. Depuis janvier 2013 , il évolue au poste d'attaquant dans le club turc de Galatasaray."+
 
-                                "Drogba débute sa carrière en France, au Mans Union Club 72. Il découvre la Ligue 1 avec l'En Avant de Guingamp, puis dispute ses premières rencontres européennes sous les couleurs de l'Olympique de Marseille. L'attaquant est transféré au Chelsea FC en 2004 et remporte notamment l'édition 2011-2012 de la Ligue des champions avec le club britannique. Après son départ, il est élu « meilleur joueur de l'histoire du club » par les supporters."+
-                                
-                                "Didier Drogba fait partie de l'équipe de Côte d'Ivoire depuis 2002. Il est nommé capitaine de la sélection, dont il est le meilleur buteur."+
-                                
-                                "Il possède également la nationalité française.";
-  var players = [
-    { _id: 0, name: 'Didier Drogba', picture:'drogba.png', position:'11/Forward', nationality:'The Ivory Coast', club:'Galatasaray S.K', career: 'Best player african eve have' },
-    { _id: 1, name: 'Eto Samuel' , picture:'eto.png', position:'09/Forward', nationality:'Cameroon', club:'Chelsea', career: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
-    { _id: 2, name: 'Papis Cisse', position:'09/Forward', nationality:'Cameroon', club:'Chelsea', career: 'Everyone likes turtles.' },
-    { _id: 3, name: 'Webo', position:'29/Forward', nationality:'Cameroon', club:'Espanyol', career: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' },
-    { _id: 4, name: 'El Hadj Diouf', position:'11/Forward', nationality:'Senegal', club:'Liverpool', career: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
-    { _id: 5, name: 'Yaya Toure', position:'08/Middle', nationality:'The Ivory Coast', club:'Manchester City', career: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
-    { _id: 5, name: 'Adebayor', position:'9/Forward', nationality:'Rep. Democratique de Congo', club:'Arsenal', career: 'Everyone likes turtles.' },
-    { _id: 7, name: 'Sadio Mane', position:'10/Forward', nationality:'Senegal', club:'Metz',career: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' }
-
-  ];
-  
-  var teams = [
-    { _id: 0, name: 'TP Mazzembe', country: 'Republique Democratique Congo' },
-    { _id: 1, name: 'Jaaraf', country: 'Senegal'},
-    { _id: 2, name: 'Niarry Tally', country: 'Senegal' },
-    { _id: 3, name: 'Casa FC', country: 'Senegal' },
-    { _id: 4, name: 'Ghazl El Mahallah', country: 'Egypt' },
-    { _id: 5, name: 'FC Inter Lion Ngoma', country: 'Cameroum' },
-    { _id: 6, name: 'Africa Sport', country: 'Ivory Coast' },
-    { _id: 7, name: 'Racing Club de Tunis', country: 'Tunisie' }
-
-  ];*/
-  
   var cachedItems = [];
 
   return {    
@@ -197,7 +164,11 @@ angular.module('Afrikik.services', [])
     },
     commentsFriends: function(userId){
       return Activity.commentsFriends({id:userId})
+    },
+    commentFeed: function(comment){
+      return Activity.commentFeed({feedId:comment._feed._id}, {message:comment.message})
     }
+    
   };
 }])
 

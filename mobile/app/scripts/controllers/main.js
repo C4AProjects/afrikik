@@ -19,7 +19,7 @@ angular.module('Afrikik')
             password:'tester'
       };
       
-      $scope.user_new = {}
+      $scope.user_new = { }
       
       
       
