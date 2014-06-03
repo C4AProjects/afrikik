@@ -69,7 +69,7 @@ angular.module('Afrikik')
    
   }])
   
-  .factory('Team',['$resource', 'envConfiguration', 'TokenHandler', function posts($resource, envConfiguration, TokenHandler) {
+  .factory('Team',['$resource', 'envConfiguration', 'TokenHandler','Global', function posts($resource, envConfiguration, TokenHandler, Global) {
     var config = envConfiguration[envConfiguration.default];
     
     var teamServiceUrl = config.host +  ":port/" + config.api_base_version + '/teams/:id';
@@ -80,7 +80,32 @@ angular.module('Afrikik')
     		port: config.port
     	},
     	{
-    		update: { method: 'PUT' }
+    		update: { method: 'PUT' },
+		'get': {method:'GET', isArray: false, cache:false},
+		'comment': {
+		  method:'POST',
+		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/teams/:teamId/comment',
+		  params:{
+		    id : Global.getUserId()		    
+		  },
+		  isArray:false
+		},
+		'subscribe':{
+		  method: 'POST',
+		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/subscribe/teams/:teamId',
+		  params:{
+		    id : Global.getUserId()		  
+		  },
+		  isArray:false
+		},
+		'playersTeam':{
+		  method:'GET',
+		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/teams/:teamId/players',
+		  params:{
+		    id : Global.getUserId()		    
+		  },
+		  isArray:true
+		}
     	}
     );
     
@@ -136,6 +161,14 @@ angular.module('Afrikik')
 		'feedsPlayer':{
 		  method:'GET',
 		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/players/:playerId/feeds',
+		  params:{
+		    id : Global.getUserId(),		    	  
+		  },
+		  isArray:true
+		},
+		'feedsTeam':{
+		  method:'GET',
+		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/teams/:teamId/feeds',
 		  params:{
 		    id : Global.getUserId(),		    	  
 		  },

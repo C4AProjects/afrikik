@@ -19,9 +19,9 @@
           </div>            
         </div>
     </div>
-    <div class="row" style="background-color: #4a4845;">
+    <div class="row" style="background-color: #4a4845;" ng-show="!isSubscribedOn(team)">
       <div class="col afk-align-center" style="height: 25px">
-        <button class="button afk-btn afk-btn-register afk-member-subscribe-btn">Subscribe</button>
+        <button class="button afk-btn afk-btn-register afk-member-subscribe-btn" ng-click="subscribe(team)">Subscribe</button>
       </div>
     </div> 
    

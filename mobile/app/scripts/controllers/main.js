@@ -94,7 +94,7 @@ angular.module('Afrikik')
       });
       setTimeout(function(){
 	    $scope.hide();
-      },time|1000)
+      },(time||2000))
     };
     
     $scope.hide = function(){
@@ -171,12 +171,8 @@ angular.module('Afrikik')
 			var tpl = '';
 			$scope.alerts.forEach(function(alert){
 			      tpl= tpl + alert.message + '<br/>'
-			 })
-			$scope.hide();
-			$scope.show(tpl)
-			setTimeout(function(){
-			    $scope.hide();
-			},1000)			
+			 })			
+			$scope.show(tpl, 5000)						
                      //_gaq.push(['_trackEvent','Authentication', 'Login Failed', 'Regular Login'])
                   }
                 else
@@ -196,8 +192,7 @@ angular.module('Afrikik')
 		      $scope.alerts.forEach(function(alert){
 			  tpl= tpl + alert.message + '<br/>'
 		      })
-		      $scope.hide();
-		      $scope.show(tpl)
+		      $scope.show(tpl, 5000)
 		      	
                   }
             }

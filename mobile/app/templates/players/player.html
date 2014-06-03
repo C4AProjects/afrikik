@@ -6,14 +6,14 @@
         <div class="col" style="height: auto;text-align: center">         
           <div class="row">
             <div class="col">
-                 <center><img class="afk-circle" ng-src="{{player.picture? apiDir + player.picture :'./images/nopic-player.png'}}" /></center>
+                 <center><img class="afk-circle" ng-src="{{getPicItem(player)}}" /></center>
             </div>
           </div>
           <div class="row">
             <div class="col" style="padding-bottom: 15px;padding-top: 1px">
               <h3 id="name">{{player.name}}</h3>
-              <h6 id="summary">{{player.nationality}} National football Team<br/>
-              {{player.club}} (#{{player.position}})
+              <h6 id="summary">{{player.country}} National football Team<br/>
+              {{player.club}} at {{player.clubcountry}} - (N°: #{{player.no}} - position: {{player.position}})
               </h6>
             </div>
           </div>            

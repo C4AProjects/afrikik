@@ -18,29 +18,27 @@ Afrikik
                 if($stateParams._id){
                         $scope.team = TeamService.getById($stateParams._id);
                         $scope.players = TeamService.playersTeam($stateParams._id)
-                }
-                
-                
-                
-                $scope.activities = ActivityService.all()
-                
-                $scope.activitiesTeam = function(){
-                        return ActivityService.activitiesTeam($stateParams._id||null);
-                }
+                        $scope.activities = ActivityService.feedsTeam($stateParams._id)
+                }                
+                               
                 
                 $scope.go = function(index){               
                       $ionicSlideBoxDelegate.slide(index)
                 }
-                
+                                
                 $scope.post = function(msg){
-                      ActivityService.addActivity({ _id: -7, _player: $scope.player._id, message: msg, createdAt: new Date(), _user:{name: $scope.user.name}});
-                      //$scope.activitiesPlayer =  PlayerService.activitiesPlayer($stateParams._id||0);
+                       TeamService.comment({ _team: $scope.team, message: msg, _user:$scope.user});
+                       setTimeout(function(){                        
+                        $scope.team = TeamService.getById($stateParams._id);
+                       }, 1000)
+                     
                 }
                 
-                $scope.subscribe = function(player){
-                        $scope.user.subscribedPlayers.push(player)
+                $scope.subscribe = function(team){
+                        TeamService.subscribe(team._id)
+                        $scope.user.subscribedTeams.push(team)
                         Global.setUser($scope.user);
-                        $window.location.reload();
+                        $scope.isSubscribedOn();
                 }
                 
                 $scope.getPicture = function(pic){                       
@@ -60,15 +58,17 @@ Afrikik
                     })
                  }
                  
-                 $scope.isSubscribedOn = function(player){
+                $scope.styleLocked = {};
+                $scope.isSubscribedOn = function(team){
+                        $scope.styleLocked = {};
                         var test = false;
-                        $scope.user.subscribedPlayers.forEach(function(myplayer){
-                                if (myplayer._id === player._id) {
+                        $scope.user.subscribedTeams.forEach(function(myteam){
+                                if (myteam._id == $stateParams._id) {
                                         test = true;
                                         return;
                                 }                                
                         })
-                        $scope.styleLocked = {};
+                        
                         if (test===false) {
                                 $scope.activities = _.first($scope.activities, 2)
                                 $scope.styleLocked = {'filter':'alpha(opacity=50)', 'opacity':0.5};

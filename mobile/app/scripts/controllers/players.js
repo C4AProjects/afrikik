@@ -45,9 +45,15 @@ Afrikik
                         return pic;
                 }
                 
+                $scope.getPicItem = function(item){
+                        if (item.img_url) {
+                                return item.img_url
+                        }
+                        return  (item.picture)? apiDir + item.picture :'./images/no-player.png';
+                }
+                
                 $scope.setCurrentItem = function(item){
-                        if (!item.country||item.nationality) {
-                                //PlayerService.setCurrentPlayer(player)
+                        if (item.position) {
                                 $state.transitionTo('private.player', {_id: item._id})
                         }else {                                
                                 $state.transitionTo('private.team', {_id: item._id})
@@ -55,7 +61,6 @@ Afrikik
                 }
                 
                 $scope.setSubscribedItem = function(player){
-                        //PlayerService.setCurrentPlayer(player)
                         $state.transitionTo('private.player', {_id: player._id})
                 }                        
                  
@@ -63,7 +68,11 @@ Afrikik
                     /*$scope.items = _.filter(PlayerService.allItems(),  function(item){
                         return (item.name.toLowerCase().indexOf(name.toLowerCase()) >= 0)
                     })*/
-                    $scope.items = PlayerService.itemsByName(name);
+                    if (!name||name.length==0) {
+                         $scope.items = PlayerService.topItems();
+                    }else{
+                        $scope.items = PlayerService.itemsByName(name);
+                    }
                 }
                 
                 

@@ -8,7 +8,11 @@ Afrikik.filter('capitalize', function() {
     }
 })
 .filter('sortArray', function() {
+    
   return function(array) {
+    if (array && array.length>10) { //an issue with array length greater than 10 elements
+        return array;
+    }
     if (array) {
         return( array.sort(function(a,b){
                     return a.createdAt < b.createdAt

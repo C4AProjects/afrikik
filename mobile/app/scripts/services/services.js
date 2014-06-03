@@ -91,50 +91,40 @@ angular.module('Afrikik.services', [])
     })
 })
  */
-.factory('TeamService', function() {
-  // Might use a resource here that returns a JSON array
+.factory('TeamService', ['Team', 'Search',  function(Team, Search) { 
 
-  // Some fake testing data
-  var teams = [
-    { _id: 0, name: 'TP Mazzembe', country: 'Republique Democratique Congo' },
-    { _id: 1, name: 'Jaaraf', country: 'Senegal'},
-    { _id: 2, name: 'Niarry Tally', country: 'Senegal' },
-    { _id: 3, name: 'Casa FC', country: 'Senegal' },
-    { _id: 4, name: 'Ghazl El Mahallah', country: 'Egypt' },
-    { _id: 5, name: 'FC Inter Lion Ngoma', country: 'Cameroum' },
-    { _id: 6, name: 'Africa Sport', country: 'Ivory Coast' },
-    { _id: 7, name: 'Racing Club de Tunis', country: 'Tunisie' }
+  var cachedItems = [];
 
-  ];
-  
-  var players = [
-    { _id: 0, name: 'Didier Drogba', _team: 0, picture:'drogba.png', position:'11/Forward', nationality:'The Ivory Coast', club:'Galatasaray S.K', career: 'The best player in africa, champion league on 2012 with Chelsea' },
-    { _id: 1, name: 'Eto Samuel', _team: 0, picture:'eto.png', position:'09/Forward', nationality:'Cameroon', club:'Chelsea', career: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
-    { _id: 2, name: 'Papis Cisse', career: 'Everyone likes turtles.' },
-    { _id: 3, name: 'Webo', position:'29/Forward', nationality:'Cameroon', club:'Espanyol', career: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' },
-    { _id: 4, name: 'El Hadj Diouf', position:'11/Forward', nationality:'Senegal', club:'Liverpool', career: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
-    { _id: 5, name: 'Yaya Toure', position:'08/Middle', nationality:'The Ivory Coast', club:'Manchester City', career: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
-    { _id: 5, name: 'Adebayor', position:'9/Forward', nationality:'Rep. Democratique de Congo', club:'Arsenal', career: 'Everyone likes turtles.' },
-    { _id: 7, name: 'Sadio Mane', position:'10/Forward', nationality:'Senegal', club:'Metz',career: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' }
-
-  ];
-
-  return {
-    all: function() {
-      return teams;
+  return {    
+    cachedItems: function() {
+      return cachedItems;
     },
-    getById: function(teamId){      
-      return _.find(teams, function(team){
-        return team._id == teamId
+    topItems: function(){      
+      return cachedItems = Search.topItems({})
+    },
+    itemsByName: function(name){      
+      return cachedItems = Search.query({name: name})
+    },
+    getById: function(teamId){
+      var team = Team.get({id:teamId})
+      return team;
+    },
+    getByIdFromCache: function(itemId){      
+       return _.find(cachedItems, function(item){
+        return item._id == itemId
       })
     },
-    playersTeam: function(teamId){      
-      return _.filter(players, function(player){
-        return player._team == teamId
-      })
+    comment: function(comment){
+      Team.comment({teamId: comment._team._id}, {message:comment.message})
+    },
+    subscribe: function(teamId){
+      Team.subscribe({teamId: teamId},{})
+    },
+    playersTeam: function(teamId){
+      Team.playersTeam({teamId: teamId})
     }
   };
-})
+}])
 
 .factory('ActivityService', ['Activity', function(Activity) {
 
@@ -147,6 +137,9 @@ angular.module('Afrikik.services', [])
     },
     feedsPlayer: function(playerId) {
       return feeds = Activity.feedsPlayer({playerId:playerId});
+    },
+    feedsTeam: function(teamId) {
+      return feeds = Activity.feedsTeam({teamId:teamId});
     },
     getByFeedById: function(feedId){      
       return Activity.get({feedId:feedId})
