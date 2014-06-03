@@ -9,12 +9,15 @@ var TrophySchema = new Schema({
                 worldCup: Number                
 })                
 
-var PlayerSchema = new Schema({                      
+var PlayerSchema = new Schema({
+                no: {type:String, default:'-'}, // number player t-shirt
                 name: {type:String, required:false},
+                img_url: {type:String, required:false},
                 description: String,
                 dob: {type:Date},
-                nationality: {type:String}, // the value may be from country collections
+                country: {type:String}, // the value may be from country collections
                 club: {type:String, default:'Unknown'},
+                clubcountry: {type:String, default:'Unknown'},
                 _team: {type: Schema.Types.ObjectId, ref: 'Team' }, // make reference to national team
                 height: {type:Number}, 
                 weight: {type:Number},

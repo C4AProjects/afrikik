@@ -207,20 +207,21 @@ exports.topPlayersAndTeam = function(req, res){
        if(err) res.status(401).json({err: err})
        if (list) {
         result= list
+        Team = mongoose.model('Team')
+        Team.find({})
+        .sort({rating:-1})
+        .limit(10)
+        .exec(function(err, list){
+           if(err) res.status(401).json({err: err})
+           if (list) {
+            result = result.concat(list) //  concat with the players
+            res.status(200).json(result)        
+           }
+        })
        }
     })
     
-    Team = mongoose.model('Team')
-    Team.find({})
-    .sort({rating:-1})
-    .limit(10)
-    .exec(function(err, list){
-       if(err) res.status(401).json({err: err})
-       if (list) {
-        result.concat(list) //  concat with the players
-        res.status(200).json(result)
-       }
-    })
+    
     //sort the results by name   
     /*result.sort(function (a, b) {
         if (a.name > b.name)
@@ -242,17 +243,17 @@ exports.topPlayersAndTeam = function(req, res){
 
 exports.getPlayersTeam = function(req, res){
   var user = req.user
-  if (user.subscribedTeams.indexOf(req.team._id)>=0) {
-    Player.find({'_team': req.team._id})    
+  //if (user.subscribedTeams.indexOf(req.team._id)>=0) {
+    Player.find({'_team': req.team})    
     .exec(function(err, list){
         if(err) res.status(401).json({err: err})        
         res.status(200).json(list)
     })     
-  }
+  /*}
   else
   {
     res.status(401).json({err:  req.team._id + ' doesn\'t exist in subscribed team list!', subcribedTeams: user.subscribedTeams }) 
-  }
+  }*/
 }
 
 /************************************************************************************
