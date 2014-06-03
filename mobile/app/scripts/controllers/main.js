@@ -19,14 +19,18 @@ angular.module('Afrikik')
             password:'tester'
       };
       
-      $scope.user_new = { }
+      $scope.user_new = {}
       
       
       
       $scope.isNavbarCollapsed = true;
       $scope.global= Global;
-      $scope.user = Global.getUser()||{};
       
+      $scope.user = Global.getUser()||{};
+      console.log($scope.user)
+      if ($scope.user.authenticated) {
+	window.location = "#/private/search"
+      }
       
       
       $scope.search={};
@@ -37,56 +41,11 @@ angular.module('Afrikik')
         $scope.$broadcast('slideBox.nextSlide');
       };
       
-      $scope.setCurrentPlayer = function(player){
+      /*$scope.setCurrentPlayer = function(player){
 	    PlayerService.setCurrentPlayer(player)
 	    $state.go('private.member', {_id: member._id})
-      }
-      
-      //Remove
-      /*var friends=[
-    	{ _id: 3, name: 'Khadim Seck', description: 'Everyone likes turtles.' },
-	{ _id: 4, name: 'Mansour Fall', following: friends, subscribedPlayers:players, description: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
-	{ _id: 5, name: 'HayThem', following: friends, subscribedPlayers:players, description: 'Lovable. Loyal almost to a fault. Smarter than they let on.' }
-	],
-      
-      players=[
-	    {
-	    "_id": "53812180c1562cd8800feb3d",
-	    "name": "Didier Drogba",
-	    "position": "11/Forward",
-	    "nationality": "The Ivory Coast",
-	    "career": "Best player african eve have",
-	    "comments": [],
-	    "trophy": [],
-	    "matchs": [],
-	    "picture": "drogba.png",
-	    "club": "Galatasaray S.K"
-	  },
-	  {
-	    "_id": "53812180c1562cd8800feb3e",
-	    "name": "Eto Samuel",
-	    "position": "09/Forward",
-	    "nationality": "Cameroon",
-	    "career": "Lovable. Loyal almost to a fault. Smarter than they let on.",
-	    "comments": [],
-	    "trophy": [],
-	    "matchs": [],
-	    "picture": "eto.png",
-	    "club": "Chelsea"
-	  }
-	
-      ];
-      
-      $scope.user ={
-            email:"afrikik@afrikik.com",
-            username:"boobahsiddik",
-            password:"",
-            verifyPassword:"tester",
-	    name: 'Pape S DIOP', followers:friends, following:friends, subscribedPlayers:players,
-	    picture : 'pape.png',
-	    createdAt: '2014-05-05T17:14:17.790Z',
-	    description:'I\'m an fan of all senegal players working hard for propulsing national team high on the top, particulary I support Samuel Eto, he is the best player from all around the world :)'
       }*/
+      
      
     $scope.show = function(tpl, time) {
       $ionicLoading.show({
@@ -94,7 +53,7 @@ angular.module('Afrikik')
       });
       setTimeout(function(){
 	    $scope.hide();
-      },(time||2000))
+      },(time||1000))
     };
     
     $scope.hide = function(){
@@ -109,13 +68,13 @@ angular.module('Afrikik')
     
     $scope.loginWithFB = function(){
 	
-	/*$http.defaults.xsrfHeaderName= 'value';
+	$http.defaults.xsrfHeaderName= 'value';
 	$http.defaults.xsrfCookieName= 'dd';
-	$http.defaults.useXDomain = true */ 
+	$http.defaults.useXDomain = true 
 	/*$http.get('http://localhost:2014/auth/facebook').success(function(a){
 	    console.log(a)
-	});*/
-	$http({method: 'GET', url: 'http://localhost:2014/auth/facebook', 
+	});
+	/*$http({method: 'GET', url: 'http://localhost:2014/auth/facebook', 
             headers:{
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
@@ -123,7 +82,7 @@ angular.module('Afrikik')
                 'X-Random-Shit':'123123123'
             }})
         .success(function(d){ console.log( "yay" ); })
-        .error(function(d){ console.log( "nope" ); });
+        .error(function(d){ console.log( "nope" ); });*/
     }
   
 
@@ -157,7 +116,7 @@ angular.module('Afrikik')
             if(loginResponse.success)
             {
                 var user = loginResponse.user; // loginResponse.access_token.user
-		
+		user.authenticated =true;
                 window.user = user;
 		Global.setUser(user)			
                 $state.go('private.search')    
@@ -171,8 +130,9 @@ angular.module('Afrikik')
 			var tpl = '';
 			$scope.alerts.forEach(function(alert){
 			      tpl= tpl + alert.message + '<br/>'
-			 })			
-			$scope.show(tpl, 5000)						
+			 })
+			$scope.hide();
+			$scope.show(tpl, 3000)						
                      //_gaq.push(['_trackEvent','Authentication', 'Login Failed', 'Regular Login'])
                   }
                 else
@@ -192,6 +152,7 @@ angular.module('Afrikik')
 		      $scope.alerts.forEach(function(alert){
 			  tpl= tpl + alert.message + '<br/>'
 		      })
+		      $scope.hide();
 		      $scope.show(tpl, 5000)
 		      	
                   }
@@ -204,7 +165,8 @@ angular.module('Afrikik')
     $scope.logout = function(){
       Auth.logout().success(function(success){
 	    $scope.user.password = '';
-            $state.transitionTo('index')
+	    user.authenticated = false;
+	    $state.transitionTo('index')
           //_gaq.push(['_trackEvent','Authentication', 'Logout', 'Regular Logout'])
       });
 
@@ -281,10 +243,10 @@ angular.module('Afrikik')
 
     ///Facebook Auth
     
-    $scope.logout = function () {
+    /*$scope.logout = function () {
             OpenFB.logout();
             $state.go('app.login');
-    };
+    };*/
 
     $scope.revokePermissions = function () {
 	OpenFB.revokePermissions().then(

@@ -10,14 +10,13 @@ Afrikik
                 
                 
                 $scope.message = "";
-                                
+                               
                 if($stateParams._id){
                         $scope.player = PlayerService.getByIdFromCache($stateParams._id)||PlayerService.getById($stateParams._id);
                         $scope.activities = ActivityService.feedsPlayer($stateParams._id)
                 }
                
                 $scope.items = PlayerService.topItems();
-                console.log($scope.items)
                 
                 
                 $scope.go = function(index){               
@@ -41,7 +40,7 @@ Afrikik
                 }
                 
                 $scope.getPicture = function(pic){                       
-                        pic = (pic&&pic!='undefined')? apiDir + pic :'./images/no-player.png';
+                        pic = (pic&&pic!='undefined')? apiDir + pic :'./images/nopic-player.png';
                         return pic;
                 }
                 
@@ -49,7 +48,7 @@ Afrikik
                         if (item.img_url) {
                                 return item.img_url
                         }
-                        return  (item.picture)? apiDir + item.picture :'./images/no-player.png';
+                        return  (item.picture)? apiDir + item.picture :'./images/nopic-player.png';
                 }
                 
                 $scope.setCurrentItem = function(item){

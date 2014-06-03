@@ -25,7 +25,7 @@ angular.module('Afrikik')
 		        };
 
 			  	return $http.post(loginUrl, payload).then(function(response){
-					console.log(response)
+					//console.log(response)
 				  	if(response.data.access_token )
 				  	{
 					  	TokenHandler.set(response.data.access_token.token )

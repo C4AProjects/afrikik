@@ -205,7 +205,8 @@ angular.module('Afrikik')
 	  'topItems':{
 		  method:'GET',
 		  url: config.host +  ":port/" + config.api_base_version + '/top/items',		  
-		  isArray:true
+		  isArray:true,
+		  ignoreLoadingBar: true
 		}
 	}
     );
