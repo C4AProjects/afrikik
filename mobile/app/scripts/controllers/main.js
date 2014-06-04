@@ -68,10 +68,15 @@ angular.module('Afrikik')
     
     $scope.loginWithFB = function(){
 	
-	$http.defaults.xsrfHeaderName= 'value';
+	/*$http.defaults.xsrfHeaderName= 'value';
 	$http.defaults.xsrfCookieName= 'dd';
-	$http.defaults.useXDomain = true 
-	/*$http.get('http://localhost:2014/auth/facebook').success(function(a){
+	$http.defaults.useXDomain = true */
+	console.log("*********************FACEBOOK LOGIN AUTH************************")
+	$http.get('http://m-afrikik.c4adev.co.vu:2014/auth/facebook').success(function(a){
+	    console.log("*********************FACEBOOK LOGIN SUCCESS************************")
+	    console.log(a)
+	}).error(function(a){
+	    console.log("*********************FACEBOOK LOGIN ERROR************************")
 	    console.log(a)
 	});
 	/*$http({method: 'GET', url: 'http://localhost:2014/auth/facebook', 
