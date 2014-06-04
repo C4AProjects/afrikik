@@ -166,9 +166,9 @@ module.exports = {
             }
         },
         facebook: {
-            clientID: "615784181833749",
-            clientSecret: "bcddf21436a9ac1e4f1512d8ea7b6517",
-            callbackURL: "http://local.nouchi.mobi:2014/auth/facebook/callback"
+            clientID: "469144859882680",
+            clientSecret: "0c072329ef8c22cad2ea29a0b59114ea",
+            callbackURL: "http://m-afrikik.c4adev.co.vu:2014/auth/facebook/callback"
         },
         twitter: {
             clientID: "GetATwitterClientId",
@@ -219,9 +219,9 @@ module.exports = {
             }
         },
         facebook: {
-            clientID: "615784181833749",
-            clientSecret: "bcddf21436a9ac1e4f1512d8ea7b6517",
-            callbackURL: "http://local.nouchi.mobi:2014/auth/facebook/callback"
+            clientID: "469144859882680",
+            clientSecret: "0c072329ef8c22cad2ea29a0b59114ea",
+            callbackURL: "http://m-afrikik.c4adev.co.vu:2014/auth/facebook/callback"
         },
         twitter: {
             clientID: "GetATwitterClientId",
