@@ -30,14 +30,14 @@
       <ion-slide>              
         <div class="row">
           <div class="col afk-align-center">
-            <a class="afk-menu-tab afk-menu-tab-active" >ACTIVITY</a>
+            <a class="afk-menu-tab afk-menu-tab-active" >MY FEED</a>
           </div>
           <div class="col afk-align-center" ng-click="go(1)">
             <a  class="afk-menu-tab">CAREER</a>
           </div>
-          <div class="col afk-align-center" ng-click="go(2)">
+          <!--div class="col afk-align-center" ng-click="go(2)">
             <a class="afk-menu-tab">COMMUNITY</a>
-          </div>
+          </div-->
         </div>
 
         <ion-list>
@@ -55,24 +55,24 @@
       <ion-slide>              
         <div class="row">
           <div class="col afk-align-center" ng-click="go(0)">
-            <a class="afk-menu-tab">ACTIVITY</a>
+            <a class="afk-menu-tab">MY FEED</a>
           </div>
           <div class="col afk-align-center">
             <a class="afk-menu-tab afk-menu-tab-active">CAREER</a>
           </div>
-          <div class="col afk-align-center" ng-click="go(2)">
+          <!--div class="col afk-align-center" ng-click="go(2)">
             <a class="afk-menu-tab">COMMUNITY</a>
-          </div>
+          </div-->
         </div>        
            <div class="afk-player-activity">
             {{player.career||player.description}}
            </div>
       </ion-slide>
       
-      <ion-slide>              
+      <!--ion-slide>              
         <div class="row">
           <div class="col afk-align-center" ng-click="go(0)">
-            <a class="afk-menu-tab">ACTIVITY</a>
+            <a class="afk-menu-tab">MY FEED</a>
           </div>
           <div class="col afk-align-center" ng-click="go(1)">
             <a class="afk-menu-tab">CAREER</a>
@@ -95,7 +95,7 @@
             <span class="afk-obj-desc">Posted by {{comment.username}} on {{comment.createdAt|date:"EEEE MMM dd 'at' HH:mm 'GMT'"}}</span> 
           </ion-item>   
         </ion-list>     
-      </ion-slide>
+      </ion-slide-->
     </ion-slide-box>
     <div ng-show="!isSubscribedOn(player)" >
       <center>Subscribe To Unlock Player Information</center>

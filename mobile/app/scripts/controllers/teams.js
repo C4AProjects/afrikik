@@ -58,6 +58,13 @@ Afrikik
                     })
                  }
                  
+                 $scope.getPicItem = function(item){
+                        if (item.img_url) {
+                                return item.img_url
+                        }
+                        return  (item.picture)? apiDir + item.picture :'./images/nopic-team.png';
+                }
+                 
                 $scope.styleLocked = {};
                 $scope.isSubscribedOn = function(team){
                         $scope.styleLocked = {};

@@ -7,7 +7,7 @@
 var apiServer;
 
 
-var Afrikik = angular.module('Afrikik', ['ionic',/*'openfb',*/ 'Afrikik.services', 'Afrikik.controllers', 'config', 'angularLocalStorage','ui.router','ngResource','infinite-scroll','pascalprecht.translate','underscore', 'angular-loading-bar','ngAnimate'])
+var Afrikik = angular.module('Afrikik', [ 'jmdobry.angular-cache','ionic',/*'openfb',*/ 'Afrikik.services', 'Afrikik.controllers', 'config', 'angularLocalStorage','ui.router','ngResource','infinite-scroll','pascalprecht.translate','underscore', 'angular-loading-bar','ngAnimate'])
 
 /*.run(function ($http, $rootScope, $state, $ionicPlatform, $window, OpenFB) {
      
@@ -33,8 +33,44 @@ var Afrikik = angular.module('Afrikik', ['ionic',/*'openfb',*/ 'Afrikik.services
     })*/
 
 
-.config(function($httpProvider, $stateProvider, $urlRouterProvider, envConfiguration) {
+.config(function($httpProvider, $stateProvider, $urlRouterProvider, envConfiguration, $angularCacheFactoryProvider, cfpLoadingBarProvider) {
+  //cfpLoadingBarProvider.includeSpinner = false;
+  cfpLoadingBarProvider.includeBar = false;
   
+  /*$angularCacheFactoryProvider.setCacheDefaults({
+
+        // This cache can hold 1000 items
+        capacity: 1000,
+
+        // Items added to this cache expire after 15 minutes
+        maxAge: 900000,
+
+        // Items will be actively deleted when they expire
+        deleteOnExpire: 'aggressive',
+
+        // This cache will check for expired items every minute
+        recycleFreq: 60000,
+
+        // This cache will clear itself every hour
+        cacheFlushInterval: 3600000,
+
+        // This cache will sync itself with localStorage
+        storageMode: 'localStorage',
+
+        // Custom implementation of localStorage
+        //storageImpl: myLocalStoragePolyfill,
+
+        // Full synchronization with localStorage on every operation
+        verifyIntegrity: true,
+
+        // This callback is executed when the item specified by "key" expires.
+        // At this point you could retrieve a fresh value for "key"
+        // from the server and re-insert it into the cache.
+        onExpire: function (key, value) {
+
+        }
+    
+  })*/
   
   //$httpProvider.defaults.useXDomain = true;
    // delete $httpProvider.defaults.headers.common['X-Requested-With'];

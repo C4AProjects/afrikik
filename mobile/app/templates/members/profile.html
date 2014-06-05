@@ -13,7 +13,7 @@
             <div class="col" style="padding-bottom: 15px;padding-top: 1px">
               <h3 id="name">{{user.name}}</h3>
               <h6 id="summary">Member Since {{user.createdAt|date:'yyyy'}} <br/>
-              {{user.subscribedPlayers.length}} Subscriptions - {{user.following.length}} Friends
+              {{user.subscriptions.length}} Subscriptions - {{user.following.length}} Friends
               <br/>
               </h6>
             </div>
@@ -25,7 +25,7 @@
       <ion-slide ng-controller="MainCtrl">              
         <div class="row" style="border-color: #4a4845;">
           <div class="col afk-align-center">
-            <a class="afk-menu-tab2 afk-menu-tab-active">MY PROFILE</a>
+            <a class="afk-menu-tab2 afk-menu-tab-active">PREFERENCES</a>
           </div>
           <div class="col afk-align-center" ng-click="go(1)">
             <a class="afk-menu-tab2">MY SUBSCRIPTIONS</a>
@@ -42,7 +42,7 @@
       <ion-slide ng-controller="PlayerCtrl">              
         <div class="row" style="border-color: #4a4845;">
           <div class="col afk-align-center">
-            <a class="afk-menu-tab2" ng-click="go(0)">MY PROFILE</a>
+            <a class="afk-menu-tab2" ng-click="go(0)">PREFERENCES</a>
           </div>
           <div class="col afk-align-center">
             <a class="afk-menu-tab2 afk-menu-tab-active">MY SUBSCRIPTIONS</a>
@@ -53,7 +53,7 @@
         </div>
               
         <ion-list>
-          <ion-item ng-repeat="player in user.subscribedPlayers" class="afk-bg-list item item-avatar item-button-right">
+          <ion-item ng-repeat="player in user.subscriptions" class="afk-bg-list item item-avatar item-button-right">
              <img ng-src="./images/{{player.picture||'no-player.png'}}" class="afk-circle"> 
             <a class="afk-lnk-detail" ng-click="setCurrentItem(player)">
               <span class="afk-obj-name">{{player.name}}</span>
@@ -66,10 +66,10 @@
       <ion-slide ng-controller="MemberCtrl">              
         <div class="row" style="border-color: #4a4845;">
           <div class="col afk-align-center" ng-click="go(0)">
-            <a class="afk-menu-tab2">MY PROFILE</a>
+            <a class="afk-menu-tab2">PREFERENCES</a>
           </div>
           <div class="col afk-align-center" ng-click="go(1)">
-            <a class="afk-menu-tab2">MY SUBSCRIPTIONS</a>
+            <a class="afk-menu-tab2">MY SUBSCRIPTIONS </a> <span class="afk-number">{{user.subscriptions.length}}</span>
           </div>
           <div class="col afk-align-center">
             <a class="afk-menu-tab2 afk-menu-tab-active">FRIENDS</a>

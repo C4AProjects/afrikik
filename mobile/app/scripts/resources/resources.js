@@ -43,7 +43,14 @@ angular.module('Afrikik')
     	},
     	{
     		update: { method: 'PUT' },
-		'get': {method:'GET', isArray: false, cache:false},
+		'get': {
+		  method:'GET',
+		  params:{
+		    id : Global.getUserId()		    
+		  },
+		  isArray: false,
+		  ignoreLoadingBar: true
+		},
 		'comment': {
 		  method:'POST',
 		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/players/:playerId/comment',
@@ -134,6 +141,14 @@ angular.module('Afrikik')
 		  },
 		  isArray: false
 		},
+		'save': {
+		  method:'POST',
+		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/feeds',
+		  params:{
+		    id : Global.getUserId(),		    	  
+		  },
+		  isArray:false
+		},
 		'comment': {
 		  method:'POST',
 		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/players/:playerId/comment',
@@ -177,6 +192,14 @@ angular.module('Afrikik')
 		'feedsSubscribed':{
 		  method:'GET',
 		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/feeds',
+		  params:{
+		    id : Global.getUserId(),		    	  
+		  },
+		  isArray:true
+		},
+		'scoreFeeds':{
+		  method:'GET',
+		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/score/feeds',
 		  params:{
 		    id : Global.getUserId(),		    	  
 		  },

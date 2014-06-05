@@ -27,7 +27,6 @@ angular.module('Afrikik')
       $scope.global= Global;
       
       $scope.user = Global.getUser()||{};
-      console.log($scope.user)
       if ($scope.user.authenticated) {
 	window.location = "#/private/search"
       }
@@ -73,8 +72,10 @@ angular.module('Afrikik')
 	$http.defaults.useXDomain = true */
 	console.log("*********************FACEBOOK LOGIN AUTH************************")
 	$http.get('http://m-afrikik.c4adev.co.vu:2014/auth/facebook').success(function(a){
-	    console.log("*********************FACEBOOK LOGIN SUCCESS************************")
+	    console.log("*********************FACEBOOK LOGIN SUCCESS************************")	    
 	    console.log(a)
+	    $scope.user.authenticated = true;
+	    $state.go('private.search') 
 	}).error(function(a){
 	    console.log("*********************FACEBOOK LOGIN ERROR************************")
 	    console.log(a)
@@ -122,7 +123,7 @@ angular.module('Afrikik')
             {
                 var user = loginResponse.user; // loginResponse.access_token.user
 		user.authenticated =true;
-                window.user = user;
+                window.user = user;		
 		Global.setUser(user)			
                 $state.go('private.search')    
             }

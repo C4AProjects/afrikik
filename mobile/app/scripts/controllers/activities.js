@@ -11,14 +11,15 @@ Afrikik
                         $scope.feed = ActivityService.getByFeedById($stateParams._id);
                 }
                                                        
-                $scope.communities  = ActivityService.commentsFriends(Global.getUserId())
+                //$scope.communities  = ActivityService.commentsFriends(Global.getUserId())
+                
+                $scope.scoreFeeds = ActivityService.getScoreFeeds($scope.user._id);
                 
                 $scope.subscriptions = []
                 
-                $scope.notifications = ActivityService.notifications($scope.user.subscribedPlayers)
+                //$scope.notifications = ActivityService.notifications($scope.user.subscribedPlayers)
                 
                 $scope.setCurrentFeed = function(feedId){
-                        console.log('FEED ID :' + feedId)
                          $state.transitionTo('private.feed', {_id: feedId})
                 }
                 
@@ -26,10 +27,10 @@ Afrikik
                       $ionicSlideBoxDelegate.slide(index)
                 }
                 
-                $scope.comment = function(msg){
-                       ActivityService.commentFeed({ _feed: $scope.feed, message: msg, _user:$scope.user});
-                       setTimeout(function(){ // refresh the comment list                        
-                        $scope.feed = ActivityService.getByFeedById($stateParams._id);
+                $scope.comment = function(msg, type){
+                       ActivityService.create({message: msg, _user:$scope.user, feedType: type});
+                       setTimeout(function(){                        
+                        $scope.scoreFeeds = ActivityService.getScoreFeeds($scope.user._id);
                        }, 1000)
                      
                 }

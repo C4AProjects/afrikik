@@ -7,31 +7,6 @@ angular.module('Afrikik.services', [])
 .factory('MemberService', ['Member',function(Member) {
 
   var currentMember = {};
- // Might use a resource here that returns a JSON array
-  // Some fake testing data
-  
-  /*var friends=[
-	{ _id: 2, name: 'Amadou Daffe', picture:'amadou.png', "createdAt": "2012-04-05T17:14:17.790Z", description: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
-	{ _id: 7, name: 'Abou Kone', picture:'ali.png', description: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
-	{ _id: 3, name: 'Khadim Seck', description: 'Everyone likes turtles.' }
-	],
-      
-      players=[
-	{ _id: 0, name: 'Didier Drogba', picture:'drogba.png', position:'11/Forward', nationality:'The Ivory Coast', club:'Galatasaray S.K', description: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
-	{ _id: 1, name: 'Eto Samuel' , picture:'eto.png', position:'9/Forward', nationality:'Cameroon', club:'Chelsea', description: 'Lovable. Loyal almost to a fault. Smarter than they let on.' }    
-      ];
-      
-  var members = [
-    { _id: 0, name: 'Ousmane Samba', following: friends, followers:friends, subscribedPlayers:players, picture:'drogba.png', "createdAt": "2012-04-05T17:14:17.790Z", description: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
-    { _id: 1, name: 'Fatoumata', following: friends, followers:friends, subscribedPlayers:players, picture:'eto.png', description: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
-    { _id: 2, name: 'Amadou Daffe', following: friends, followers:friends, subscribedPlayers:players, description: 'Everyone likes turtles.' },
-    { _id: 3, name: 'Khadim Seck', following: friends, subscribedPlayers:players, description: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' },
-    { _id: 4, name: 'Mansour Fall', following: friends, subscribedPlayers:players, description: 'Furry little creatures. Obsessed with plotting assassination, but never following through on it.' },
-    { _id: 5, name: 'HayThem', following: friends, subscribedPlayers:players, description: 'Lovable. Loyal almost to a fault. Smarter than they let on.' },
-    { _id: 6, name: 'Kossi Jojo', following: friends, subscribedPlayers:players, description: 'Everyone likes turtles.' },
-    { _id: 7, name: 'Abou Kone', following: friends, subscribedPlayers:players, description: 'An advanced pet. Needs millions of gallons of salt water. Will happily eat you.' }
-
-  ];*/
 
   return {
     all: function() {
@@ -47,7 +22,7 @@ angular.module('Afrikik.services', [])
  *                                        PLAYER SERVICE
  *
  ************************************************************************************************************/
-.factory('PlayerService', ['Player', 'Search', function(Player,Search) {
+.factory('PlayerService', ['Player', 'Search', 'Global', function(Player,Search, Global) {
   var currentPlayer= {};
 
   var cachedItems = [];
@@ -56,8 +31,16 @@ angular.module('Afrikik.services', [])
     cachedItems: function() {
       return cachedItems;
     },
-    topItems: function(){      
-      return cachedItems = Search.topItems({})
+    topItems: function(cb){
+      if (cb) {
+        Search.topItems({}, cb)
+      }else {
+        Search.topItems({}, function(values, responseHeaders) {
+          console.log(values)
+          
+          return values;
+        })
+      }
     },
     itemsByName: function(name){      
       return cachedItems = Search.query({name: name})
@@ -68,8 +51,8 @@ angular.module('Afrikik.services', [])
       return player;
     },
     getByIdFromCache: function(itemId){      
-      //console.log('looking for from the cache....')
-      return _.find(cachedItems, function(item){
+      console.log('looking for from the cache....')
+      return _.find(Global.getTopItems(), function(item){
         return item._id == itemId
       })
     },
@@ -163,6 +146,12 @@ angular.module('Afrikik.services', [])
     },
     commentFeed: function(comment){
       return Activity.commentFeed({feedId:comment._feed._id}, {message:comment.message})
+    },
+    create: function(feed){
+      return Adtivity.save({},feed)
+    },
+    getScoreFeeds : function(){
+      
     }
     
   };

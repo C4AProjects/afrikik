@@ -2,9 +2,11 @@
 
 Afrikik
         // A simple controller that fetches a list of data from a service
-        .controller('PlayerCtrl', function($scope, $window, config, $state, $stateParams, $ionicSlideBoxDelegate, Global, PlayerService, ActivityService) {
+        .controller('PlayerCtrl', function($angularCacheFactory,$scope, $window, config, $state, $stateParams, $ionicSlideBoxDelegate, Global, PlayerService, ActivityService) {
                 
-                var apiDir =  config.apiDir;                                
+                var apiDir =  config.apiDir;
+                
+                //var playersCache = $angularCacheFactory('playersCache');
                 
                 $scope.user = $scope.user||Global.getUser()                
                 
@@ -15,8 +17,20 @@ Afrikik
                         $scope.player = PlayerService.getByIdFromCache($stateParams._id)||PlayerService.getById($stateParams._id);
                         $scope.activities = ActivityService.feedsPlayer($stateParams._id)
                 }
-               
-                $scope.items = PlayerService.topItems();
+                var cachedItems = Global.getTopItems();
+                if (cachedItems && cachedItems.length> 0) {
+                        $scope.items = cachedItems;                        
+                }
+                else
+                {
+                        $scope.items = PlayerService.topItems(function(values){
+                                $scope.items = values;
+                                //playersCache.put('players',values)
+                                Global.setTopItems($scope.items)                                                    
+                        });
+                        
+                }
+                
                 
                 
                 $scope.go = function(index){               
@@ -26,7 +40,7 @@ Afrikik
                 $scope.post = function(msg){
                        PlayerService.comment({ _player: $scope.player, message: msg, _user:$scope.user});
                        setTimeout(function(){                        
-                        $scope.player = PlayerService.getById($stateParams._id);
+                        $scope.player = PlayerService.getById($scope.player._id);
                        }, 1000)
                      
                 }
@@ -68,7 +82,10 @@ Afrikik
                         return (item.name.toLowerCase().indexOf(name.toLowerCase()) >= 0)
                     })*/
                     if (!name||name.length==0) {
-                         $scope.items = PlayerService.topItems();
+                         $scope.items = PlayerService.topItems(function(values){
+                                $scope.items = values;
+                                Global.setTopItems($scope.items)                                                    
+                        });
                     }else{
                         $scope.items = PlayerService.itemsByName(name);
                     }

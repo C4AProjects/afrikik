@@ -13,6 +13,12 @@ angular.module('Afrikik')
 	    	},
 	    	getUser:function(){
 			this.user = localStorage.get(config[env].localStorageUserKey)
+			if (this.user) {
+			    this.user.subscriptions = this.user.subscribedPlayers
+			    this.user.subscriptions = this.user.subscriptions.concat(this.user.subscribedTeams)
+			    this.user.friends = this.user.following
+			    this.user.friends = this.user.friends.concat(this.user.followers)
+			}
 			window.user = this.user
 	    		return this.user;
 	    	},
@@ -26,7 +32,12 @@ angular.module('Afrikik')
 	    	authenticated: function(){
 	    		return !!window.user;
 	       	},
-
+		setTopItems:function(items){
+	    		localStorage.set('topItemsPlayersAndTeams', items);
+	    	},
+	    	getTopItems:function(){
+			 return  localStorage.get('topItemsPlayersAndTeams');			
+	    	}
 
 	    };
 	    return global;

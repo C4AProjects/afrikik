@@ -62,7 +62,7 @@
         </div>
 
         <ion-list>
-          <ion-item ng-repeat="player in user.subscribedPlayers track by $index" class="afk-bg-list item item-avatar item-button-right">
+          <ion-item ng-repeat="player in user.subscriptions track by $index" class="afk-bg-list item item-avatar item-button-right">
              <img ng-src="{{getPicItem(player)}}" class="afk-circle"> 
             <a class="afk-lnk-detail" ng-click="setCurrentItem(player)">
               <span class="afk-obj-name">{{player.name}}</span>
