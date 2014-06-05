@@ -13,8 +13,13 @@ var mongoose = require('mongoose')
 /**
  * Create a new feed
  */
+
+function sortByDate(f1, f2) {
+     return f2.createdAt.getTime() - f1.createdAt.getTime()
+}
 exports.create = function(req, res) {
     var feed = new Feed(req.body)
+  
     if (req.user||req.profile) {
       feed._user = req.user||req.profile
     }
@@ -158,9 +163,7 @@ exports.destroy = function(req, res) {
  * Find feed by id param
  */
 exports.feed = function(req, res, next, id) {
-    function sortComments(f1, f2) {
-        return f2.createdAt.getTime() - f1.createdAt.getTime()
-    }
+    
     logger.debug('Feed id parameter: %s', id)
     if(id)
     {
@@ -182,7 +185,7 @@ exports.feed = function(req, res, next, id) {
                     error:"Invalid feed"
                 });
             }else{                
-                feed.comments.sort(sortComments)
+                feed.comments.sort(sortByDate)
             }
             req.feed = feed;
             next();
@@ -258,8 +261,9 @@ exports.all = function(req, res){
  *********************************************************************************/
 
 exports.allByScore = function(req, res){
-  Feed.find({'_player': {$in: req.user.subscribedPlayers}, 'feedType':'score'})
-  .populate('comments tags')
+  Feed.find({/*'_player': {$in: req.user.subscribedPlayers},*/ 'feedType':'score'})
+  .populate('_user comments')
+  .sort('-createdAt')
   .limit(req.query.limit||50)
   .exec(function(err, list){
     if (err) {
@@ -268,6 +272,7 @@ exports.allByScore = function(req, res){
         error: err
       })
     }
+    //list.sort(sortByDate)
     res.status(200).json(list)
   })
 }
