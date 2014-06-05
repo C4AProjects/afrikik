@@ -204,6 +204,14 @@ angular.module('Afrikik')
 		    id : Global.getUserId(),		    	  
 		  },
 		  isArray:true
+		},
+		'communityFeeds':{
+		  method:'GET',
+		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/community/feeds',
+		  params:{
+		    id : Global.getUserId(),		    	  
+		  },
+		  isArray:true
 		}
     	}
     );

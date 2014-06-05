@@ -121,13 +121,12 @@
         </div>
          
         <ion-list>
-           <ion-item ng-repeat="activity in []" class="afk-bg-list item item-avatar item-icon-right">
-            <img ng-src="{{activity.picture? apiDir + activity.picture :activity.url_img||'./images/nopic-feed.png'}}" class="afk-circle">
-            <a class="afk-lnk-detail" ng-click="setCurrentFeed(activity._id)">
-                <span class="afk-obj-name"><i style="color: #f97c11">{{activity.feedType?activity.feedType +':':'-'}} </i> {{activity.message}}</span>
-                <span class="afk-obj-info" >{{activity.createdAt|date:'HH:mm (MM/dd/yyyy)'}}          {{activity.comments.length}} comments</span>
-                <i class="icon ion-arrow-right-b" style="font-size: 13px; color: lightgrey;"></i>
-            </a>
+           <ion-item ng-repeat="activity in communities">
+            <!--img ng-src="{{activity.picture? apiDir + activity.picture :activity.url_img||'./images/nopic-feed.png'}}" class="afk-circle"-->
+            <!--a class="afk-lnk-detail" ng-click="setCurrentFeed(activity._id)"-->
+                <span class="afk-feed"><i class="afk-circle" style="color: #f97c11;background-color: black">{{activity.feedType?'Com.':'-'}} </i> {{activity.message}}</span>
+                <span class="afk-obj-desc">Posted by {{activity._user.name||activity._user.username}} on {{activity.createdAt|date:"EEEE MMM dd 'at' HH:mm 'GMT'"}}</span> 
+            <!--/a-->
           </ion-item>              
         </ion-list>     
       </ion-slide>

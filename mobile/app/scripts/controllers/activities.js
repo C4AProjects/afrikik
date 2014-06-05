@@ -11,7 +11,7 @@ Afrikik
                         $scope.feed = ActivityService.getByFeedById($stateParams._id);
                 }
                                                        
-                //$scope.communities  = ActivityService.commentsFriends(Global.getUserId())
+                $scope.communities  = ActivityService.getCommunityFeeds($scope.user._id)
                 
                 $scope.scoreFeeds = ActivityService.getScoreFeeds($scope.user._id);
                 
@@ -29,8 +29,13 @@ Afrikik
                 
                 $scope.comment = function(msg, type){
                        ActivityService.create({message: msg, _user:$scope.user._id, feedType: type});
-                       setTimeout(function(){                        
-                        $scope.scoreFeeds = ActivityService.getScoreFeeds($scope.user._id);
+                       setTimeout(function(){
+                        if (type=='score') {
+                                $scope.scoreFeeds = ActivityService.getScoreFeeds($scope.user._id);
+                        }else{
+                                $scope.communities = ActivityService.getCommunityFeeds($scope.user._id);
+                        }
+                        
                        }, 1000)
                      
                 }
