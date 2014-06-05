@@ -51,18 +51,18 @@
             <label class="item-input-wrapper afk-search-bg" >            
                 <input type="text" placeholder="Add Comment Here" class="afk-search-bg" ng-model="data.message" maxlength="160" />
             </label>    
-            <button class="button afk-btn-register"  style="margin:0px;" ng-click="post(data.message, 'score'); data.message=''">
+            <button class="button afk-btn-register"  style="margin:0px;" ng-click="comment(data.message, 'score'); data.message=''">
             Post
             </button>
         </div>
+
         <ion-list>
-          <ion-item ng-repeat="activity in scoreFeeds" class="afk-bg-list item item-avatar item-icon-right">
-            <img ng-src="{{activity.picture? apiDir + activity.picture :activity.url_img||'./images/nopic-feed.png'}}" class="afk-circle">
-            <a class="afk-lnk-detail" ng-click="setCurrentFeed(activity._id)">
-                <span class="afk-obj-name"><i style="color: #f97c11">{{activity.feedType?activity.feedType +':':'-'}} </i> {{activity.message}}</span>
-                <span class="afk-obj-info" >{{activity.createdAt|date:'HH:mm (MM/dd/yyyy)'}}          {{activity.comments.length}} comments</span>
-                <i class="icon ion-arrow-right-b" style="font-size: 13px; color: lightgrey;"></i>
-            </a>
+          <ion-item ng-repeat="activity in scoreFeeds" >
+            <!--img ng-src="{{activity.picture? apiDir + activity.picture :activity.url_img||'./images/nopic-feed.png'}}" class="afk-circle"-->
+            <!--a class="afk-lnk-detail" ng-click="setCurrentFeed(activity._id)"-->
+                <span class="afk-feed"><i class="afk-circle" style="color: #f97c11;background-color: black">{{activity.feedType?activity.feedType +':':'-'}} </i> {{activity.message}}</span>
+                <span class="afk-obj-desc">Posted by {{activity._user.name||activity._user.username}} on {{activity.createdAt|date:"EEEE MMM dd 'at' HH:mm 'GMT'"}}</span> 
+            <!--/a-->
           </ion-item>      
         </ion-list>
       </ion-slide>
@@ -110,9 +110,18 @@
             <a class="afk-menu-tab2 afk-menu-tab-active">COMMUNITY</a> <span ng-click="show=!show" class="icon ion-compose afk-comment"></span>
           </div>
         </div>
+        
+        <div class="item item-input-inset" style="background-color: grey" ng-show="!show">            
+            <label class="item-input-wrapper afk-search-bg" >            
+                <input type="text" placeholder="Add Comment Here" class="afk-search-bg" ng-model="data.message" maxlength="160" />
+            </label>    
+            <button class="button afk-btn-register"  style="margin:0px;" ng-click="comment(data.message, 'community'); data.message=''">
+            Post
+            </button>
+        </div>
          
         <ion-list>
-           <ion-item ng-repeat="activity in activities" class="afk-bg-list item item-avatar item-icon-right">
+           <ion-item ng-repeat="activity in []" class="afk-bg-list item item-avatar item-icon-right">
             <img ng-src="{{activity.picture? apiDir + activity.picture :activity.url_img||'./images/nopic-feed.png'}}" class="afk-circle">
             <a class="afk-lnk-detail" ng-click="setCurrentFeed(activity._id)">
                 <span class="afk-obj-name"><i style="color: #f97c11">{{activity.feedType?activity.feedType +':':'-'}} </i> {{activity.message}}</span>

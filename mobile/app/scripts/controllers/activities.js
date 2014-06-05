@@ -28,7 +28,7 @@ Afrikik
                 }
                 
                 $scope.comment = function(msg, type){
-                       ActivityService.create({message: msg, _user:$scope.user, feedType: type});
+                       ActivityService.create({message: msg, _user:$scope.user._id, feedType: type});
                        setTimeout(function(){                        
                         $scope.scoreFeeds = ActivityService.getScoreFeeds($scope.user._id);
                        }, 1000)

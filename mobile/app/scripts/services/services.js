@@ -148,10 +148,12 @@ angular.module('Afrikik.services', [])
       return Activity.commentFeed({feedId:comment._feed._id}, {message:comment.message})
     },
     create: function(feed){
-      return Adtivity.save({},feed)
+      console.log('FEED DATA')
+      console.log(feed)
+      return Activity.save({},feed)
     },
     getScoreFeeds : function(){
-      
+      return Activity.scoreFeeds({});
     }
     
   };
