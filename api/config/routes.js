@@ -93,6 +93,7 @@ module.exports = function(app, passport, auth) {
     //app.post('/api/v1/feeds', feeds.create); // feeds created by web crawler
     app.get('/api/v1/users/:userId/feeds/:feedId', feeds.show);
     app.get('/api/v1/users/:userId/feeds', feeds.all);
+    app.get('/api/v1/users/:userId/score/feeds', feeds.allByScore);
     app.put('/api/v1/users/:userId/feeds/:feedId', feeds.update);
     app.del('/api/v1/users/:userId/feeds/:feedId', feeds.destroy);
     app.post('/api/v1/users/:userId/feeds/:feedId/comment', feeds.comment); // comment on feed

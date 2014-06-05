@@ -252,3 +252,22 @@ exports.all = function(req, res){
     res.status(200).json(list)
   })
 }
+
+/*********************************************************************************
+ *  Get all last feeds related to subscribed Players or teams   /feeds type Score
+ *********************************************************************************/
+
+exports.allByScore = function(req, res){
+  Feed.find({'_player': {$in: req.user.subscribedPlayers}, 'feedType':'score'})
+  .populate('comments tags')
+  .limit(req.query.limit||50)
+  .exec(function(err, list){
+    if (err) {
+      res.status(500).json( {
+        success:false,
+        error: err
+      })
+    }
+    res.status(200).json(list)
+  })
+}
