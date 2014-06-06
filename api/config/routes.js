@@ -74,7 +74,7 @@ module.exports = function(app, passport, auth) {
     app.get('/api/v1/search/:name', players.searchPlayersAndTeam)
     app.post('/api/v1/users/:userId/players/:playerId/comment', players.comment); //comment on player profile
     
-    app.get('/api/v1/top/items', players.topPlayersAndTeam);
+    app.get('/api/v1/users/:userId/top/items', players.topPlayersAndTeam);
     
     //Team Routes
     var teams = require('../app/controllers/teams');
