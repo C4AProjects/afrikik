@@ -207,9 +207,11 @@ angular.module('Afrikik')
 		},
 		'communityFeeds':{
 		  method:'GET',
-		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/community/feeds',
+		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/community/feeds?skip=:skip&limit=:limit',
 		  params:{
-		    id : Global.getUserId(),		    	  
+		    id : Global.getUserId(),
+		    skip:0,
+		    limit:30
 		  },
 		  isArray:true
 		}
@@ -222,7 +224,7 @@ angular.module('Afrikik')
    
   }])
   
-  .factory('Search',['$resource', 'envConfiguration', 'TokenHandler', function posts($resource, envConfiguration, TokenHandler) {
+  .factory('Search',['$resource', 'envConfiguration', 'TokenHandler', 'Global', function posts($resource, envConfiguration, TokenHandler, Global) {
     var config = envConfiguration[envConfiguration.default];
     
     var searchServiceUrl = config.host +  ":port/" + config.api_base_version + '/search/:name';
@@ -235,7 +237,12 @@ angular.module('Afrikik')
 	{
 	  'topItems':{
 		  method:'GET',
-		  url: config.host +  ":port/" + config.api_base_version + '/top/items',		  
+		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/top/items',
+		  params:{
+		    id : Global.getUserId(),
+		    skip:0,
+		    limit:30
+		  },
 		  isArray:true,
 		  ignoreLoadingBar: true
 		}

@@ -310,6 +310,13 @@ input.afk-input {
   float: none;
   cursor: pointer
 }
+.afk-content{
+  min-height: 200px;
+}
+
+.afk-content-high{
+  min-height: 400px;
+}
 
 .bgSearch {
     background-image: url('../img/itunes.jpg');

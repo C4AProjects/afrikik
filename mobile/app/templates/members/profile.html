@@ -25,7 +25,7 @@
       <ion-slide ng-controller="MainCtrl">              
         <div class="row" style="border-color: #4a4845;">
           <div class="col afk-align-center">
-            <a class="afk-menu-tab2 afk-menu-tab-active">PREFERENCES</a>
+            <a class="afk-menu-tab2 afk-menu-tab-active">SETTINGS</a>
           </div>
           <div class="col afk-align-center" ng-click="go(1)">
             <a class="afk-menu-tab2">MY SUBSCRIPTIONS</a>
@@ -34,15 +34,29 @@
             <a class="afk-menu-tab2">FRIENDS</a>
           </div>
         </div>            
-        <div class="afk-player-activity">
-            {{user.description}}
+        <div class="afk-player-activity afk-content">
+            <button class="button afk-btn-register" ng-controller="MainCtrl"  style="margin:0px;" ng-click="logout(); ">
+            Logout
+            </button>
+            <button class="button afk-btn-register" ng-controller="MainCtrl"  style="margin:0px;" ng-click="cleanCache(); ">
+            Clean Cache Data
+            </button>
+            <button class="button afk-btn-register" ng-controller="MainCtrl"  style="margin:0px;" ng-click="exit(); ">
+            Exit
+            </button>
+            <br/> <br/>
+            <img class="afk-circle" ng-src="{{user.picture? apiDir + user.picture :'./images/nopic-member.png'}}" />
+            Name : <input type="text" value="{{user.username}}"/>
+            <button class="button afk-btn-register" ng-controller="MainCtrl"  style="margin:0px;" ng-click="cleanCache(); ">
+            Save Changes
+            </button>
         </div>
       </ion-slide>
       
       <ion-slide ng-controller="PlayerCtrl">              
         <div class="row" style="border-color: #4a4845;">
           <div class="col afk-align-center">
-            <a class="afk-menu-tab2" ng-click="go(0)">PREFERENCES</a>
+            <a class="afk-menu-tab2" ng-click="go(0)">SETTINGS</a>
           </div>
           <div class="col afk-align-center">
             <a class="afk-menu-tab2 afk-menu-tab-active">MY SUBSCRIPTIONS</a>
@@ -51,39 +65,42 @@
             <a class="afk-menu-tab2">FRIENDS</a>
           </div>
         </div>
-              
+        <div class="afk-content" style="background-color: white;">         
         <ion-list>
-          <ion-item ng-repeat="player in user.subscriptions" class="afk-bg-list item item-avatar item-button-right">
-             <img ng-src="./images/{{player.picture||'no-player.png'}}" class="afk-circle"> 
+          <ion-item ng-repeat="player in user.subscriptions track by $index" class="afk-bg-list item item-avatar item-button-right">
+             <img ng-src="{{getPicItem(player)}}" class="afk-circle"> 
             <a class="afk-lnk-detail" ng-click="setCurrentItem(player)">
               <span class="afk-obj-name">{{player.name}}</span>
-            <span class="afk-obj-desc">{{player.description}}</span>
+            <span class="afk-obj-desc">{{player.description||player.career}}</span>
               View Profile <i class="icon ion-ios7-arrow-forward"></i></a>
           </ion-item>   
-        </ion-list>   
+        </ion-list>
+        </div>
       </ion-slide>
       
       <ion-slide ng-controller="MemberCtrl">              
         <div class="row" style="border-color: #4a4845;">
           <div class="col afk-align-center" ng-click="go(0)">
-            <a class="afk-menu-tab2">PREFERENCES</a>
+            <a class="afk-menu-tab2">SETTINGS</a>
           </div>
           <div class="col afk-align-center" ng-click="go(1)">
-            <a class="afk-menu-tab2">MY SUBSCRIPTIONS </a> <span class="afk-number">{{user.subscriptions.length}}</span>
+            <a class="afk-menu-tab2">MY SUBSCRIPTIONS </a> 
           </div>
           <div class="col afk-align-center">
             <a class="afk-menu-tab2 afk-menu-tab-active">FRIENDS</a>
           </div>
-        </div>      
+        </div>
+        <div class="afk-content" style="background-color: white;">
         <ion-list>
-          <ion-item ng-repeat="member in user.following" class="afk-bg-list item item-avatar item-button-right">
-            <img ng-src="./images/{{member.picture||'no-member.png'}}" class="afk-circle"> 
+          <ion-item ng-repeat="member in user.friends" class="afk-bg-list item item-avatar item-button-right">
+            <img ng-src="./images/{{member.picture||'nopic-member.png'}}" class="afk-circle"> 
             <a class="afk-lnk-detail"  ng-click="setCurrentMember(member)">
               <span class="afk-obj-name">{{member.name}}</span>
             <span class="afk-obj-desc">{{member.description}}</span>
               View Profile <i class="icon ion-ios7-arrow-forward"></i></a>
           </ion-item>   
-        </ion-list>     
+        </ion-list>
+        </div>
       </ion-slide>
     </ion-slide-box>  
         

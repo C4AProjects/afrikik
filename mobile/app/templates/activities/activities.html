@@ -37,7 +37,7 @@
             <a class="afk-menu-tab2" ng-click="go(0)">MY FEED</a>
           </div>
            <div class="col afk-align-center">
-            <a  class="afk-menu-tab2 afk-menu-tab-active">SCORES</a> <span ng-click="show=!show" class="icon ion-compose afk-comment"></span>
+            <a  class="afk-menu-tab2 afk-menu-tab-active" ng-click="showScore=!showScore">SCORES <!--span style="font-size: 14px" class="icon ion-compose afk-comment"></span--></a>
            </div>
           <!--div class="col afk-align-center">
             <a  class="afk-menu-tab2" ng-click="go(2)">SUBSCRIPTIONS</a>
@@ -47,14 +47,14 @@
           </div>
         </div>
         
-        <div class="item item-input-inset" style="background-color: grey" ng-show="!show">            
+        <!--div class="item item-input-inset" style="background-color: grey" ng-show="showScore">            
             <label class="item-input-wrapper afk-search-bg" >            
                 <input type="text" placeholder="Add Comment Here" class="afk-search-bg" ng-model="data.message" maxlength="160" />
             </label>    
             <button class="button afk-btn-register"  style="margin:0px;" ng-click="comment(data.message, 'score'); data.message=''">
             Post
             </button>
-        </div>
+        </div-->
 
         <ion-list>
           <ion-item ng-repeat="activity in scoreFeeds" >
@@ -107,7 +107,7 @@
             <a  class="afk-menu-tab2" ng-click="go(2)">SUBSCRIPTIONS</a>
           </div-->
           <div class="col afk-align-center">
-            <a class="afk-menu-tab2 afk-menu-tab-active">COMMUNITY</a> <span ng-click="show=!show" class="icon ion-compose afk-comment"></span>
+            <a class="afk-menu-tab2 afk-menu-tab-active" ng-click="show=!show">COMMUNITY <span style="font-size: 14px" class="icon ion-compose afk-comment"></span></a>
           </div>
         </div>
         
@@ -128,7 +128,13 @@
                 <span class="afk-obj-desc">Posted by {{activity._user.name||activity._user.username}} on {{activity.createdAt|date:"EEEE MMM dd 'at' HH:mm 'GMT'"}}</span> 
             <!--/a-->
           </ion-item>              
-        </ion-list>     
+        </ion-list>
+        <div ng-show="stopScroll" >
+            <center>No more results to show!!!</center>
+        </div>
+    
+        <ion-infinite-scroll on-infinite="loadMoreCommunity()" ng-if="!stopScroll"></ion-infinite-scroll>
+        
       </ion-slide>
     </ion-slide-box>  
 

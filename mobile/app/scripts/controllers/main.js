@@ -1,7 +1,12 @@
 'use strict';
 
-angular.module('Afrikik')   
-  .controller('MainCtrl',function ($scope, $ionicSlideBoxDelegate, $filter, $rootScope,$state, User, authenticationService, envConfiguration, Global, ErrorHandler, $ionicLoading, PlayerService, MemberService, config, $window, $http, $location) {
+angular.module('Afrikik')
+   .controller('RefreshCtrl', function($scope, $window){
+      $scope.refresh = function(){
+	$window.location.reload();
+      }
+   })
+  .controller('MainCtrl',function ( $scope, $ionicSlideBoxDelegate, $filter, $rootScope,$state, User, authenticationService, envConfiguration, Global, ErrorHandler, $ionicLoading, PlayerService, MemberService, config, $window, $http, $location) {
       var Auth = authenticationService;
       
       $scope.go = function(index){               
@@ -171,11 +176,20 @@ angular.module('Afrikik')
     $scope.logout = function(){
       Auth.logout().success(function(success){
 	    $scope.user.password = '';
-	    user.authenticated = false;
+	    $scope.user.authenticated = false;
 	    $state.transitionTo('index')
           //_gaq.push(['_trackEvent','Authentication', 'Logout', 'Regular Logout'])
       });
 
+    }
+    
+    $scope.cleanCache = function(){
+       Global.setTopItems([]) //
+
+    }
+    
+    $scope.exit = function(){	
+       navigator.app.exitApp()
     }
     
     $scope.register = function(){

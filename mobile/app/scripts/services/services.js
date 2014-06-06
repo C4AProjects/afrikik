@@ -155,8 +155,9 @@ angular.module('Afrikik.services', [])
     getScoreFeeds : function(){
       return Activity.scoreFeeds({});
     },
-    getCommunityFeeds : function(){
-      return Activity.communityFeeds({});
+    getCommunityFeeds : function(cb,userId, skip, limit){
+      console.log('param ' + skip +'  '+ limit)
+      return Activity.communityFeeds({skip:skip, limit:limit}, cb);
     }
     
   };

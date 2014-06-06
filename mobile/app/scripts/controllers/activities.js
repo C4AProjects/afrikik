@@ -1,7 +1,7 @@
 'use strict';
 
 Afrikik
-        .controller('ActivityCtrl', function($scope, $state, $stateParams, $ionicSlideBoxDelegate, ActivityService, Global) {
+        .controller('ActivityCtrl', function($scope, $timeout, $state, $stateParams, $ionicSlideBoxDelegate, ActivityService, Global) {
                 
                 $scope.activities = ActivityService.feedsSubscribed(Global.getUserId());
                 
@@ -10,8 +10,13 @@ Afrikik
                 if ($stateParams._id) {
                         $scope.feed = ActivityService.getByFeedById($stateParams._id);
                 }
-                                                       
-                $scope.communities  = ActivityService.getCommunityFeeds($scope.user._id)
+                var limit = 5;
+                
+                function callback(data){
+                     $scope.communities = data                                  
+                }
+                $scope.communities  = ActivityService.getCommunityFeeds(callback, $scope.user._id, 0, limit)
+                console.log('list communitoies  : '+ $scope.communities.length)
                 
                 $scope.scoreFeeds = ActivityService.getScoreFeeds($scope.user._id);
                 
@@ -33,11 +38,33 @@ Afrikik
                         if (type=='score') {
                                 $scope.scoreFeeds = ActivityService.getScoreFeeds($scope.user._id);
                         }else{
-                                $scope.communities = ActivityService.getCommunityFeeds($scope.user._id);
+                                $scope.communities = ActivityService.getCommunityFeeds(callback, $scope.user._id, 0, limit);
                         }
                         
                        }, 1000)
                      
+                }
+                
+                // Method called on infinite scroll
+                
+                $scope.stopScroll = false;  //
+                
+                $scope.loadMoreCommunity = function() {                
+                  $timeout(function() {
+                    if (!$scope.stopScroll) {
+                        ActivityService.getCommunityFeeds(function (data){
+                            if (data.length==0) {
+                                $scope.stopScroll=true
+                            }
+                            data.forEach(function(obj){
+                                $scope.communities.push(obj);
+                            })
+                            $scope.$broadcast('scroll.infiniteScrollComplete');
+                        },$scope.user._id, $scope.communities.length, limit);
+                    }
+                    
+                  }, 1000);
+        
                 }
         
         })

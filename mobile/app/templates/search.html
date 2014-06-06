@@ -60,7 +60,7 @@
             <a class="afk-menu-tab2">FRIENDS</a>
           </div>
         </div>
-
+        <div class="afk-content-high" style="background-color: white;">
         <ion-list>
           <ion-item ng-repeat="player in user.subscriptions track by $index" class="afk-bg-list item item-avatar item-button-right">
              <img ng-src="{{getPicItem(player)}}" class="afk-circle"> 
@@ -69,7 +69,8 @@
             <span class="afk-obj-desc">{{player.description||player.career}}</span>
               View Profile <i class="icon ion-ios7-arrow-forward"></i></a>
           </ion-item>   
-        </ion-list>   
+        </ion-list>
+        </div>
       </ion-slide>
       
       <ion-slide ng-controller="MemberCtrl">              
@@ -83,16 +84,18 @@
           <div class="col afk-align-center">
             <a class="afk-menu-tab2 afk-menu-tab-active">FRIENDS</a>
           </div>
-        </div>      
+        </div>
+        <div class="afk-content-high" style="background-color: white;">
         <ion-list>
-          <ion-item ng-repeat="member in user.following" class="afk-bg-list item item-avatar item-button-right">
-            <img ng-src="./images/{{member.picture||'no-member.png'}}" class="afk-circle"> 
+          <ion-item ng-repeat="member in user.friends" class="afk-bg-list item item-avatar item-button-right">
+            <img ng-src="./images/{{member.picture||'nopic-member.png'}}" class="afk-circle"> 
             <a class="afk-lnk-detail"  ng-click="setCurrentMember(member)">
               <span class="afk-obj-name">{{member.name}}</span>
             <span class="afk-obj-desc">{{member.description}}</span>
               View Profile <i class="icon ion-ios7-arrow-forward"></i></a>
           </ion-item>   
-        </ion-list>     
+        </ion-list>
+        </div>
       </ion-slide>
     </ion-slide-box>  
         

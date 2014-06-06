@@ -17,7 +17,7 @@
       </div>
       <div style="width: 25%;text-align: right; margin: 2px;vertical-align: middle;">
         <!--img src="./images/ballon-right-header.png" style="max-height: 100%;max-width: 100%"/-->
-         <button class="button button-icon icon ion-loop" ng-click="refresh()" style="color: white;background-color:black;border-radius: 0;"></button>
+         <button class="button button-icon icon ion-loop"  ng-click="refresh()" style="color: white;background-color:black;border-radius: 0;"></button>
       </div>
     </ion-nav-bar>
     
@@ -27,18 +27,21 @@
     
     
     <ion-tabs class="tabs-dark tabs-icon-top" >
+        <ion-tab title="Home" icon="ion-home" href="#/private/subscriptions" >
+          <ion-nav-view name="subscriptions" animation="slide-left-right"></ion-nav-view>
+        </ion-tab>
       
          <ion-tab title="Feed" icon="ion-social-rss" href="#/private/feeds" >
           <ion-nav-view name="menuFeed" animation="slide-left-right"></ion-nav-view>
         </ion-tab>
        
-        <ion-tab title="Search" icon="ion-search" href="#/private/search">
+        <ion-tab title="Search" icon="ion-search" href="#/private/search-page">
           <ion-nav-view name="menuContent" animation="slide-left-right"></ion-nav-view>
         </ion-tab>
                
-        <ion-tab title="Notifications" icon="ion-ios7-information" href="#/private/notifications">
+        <!--ion-tab title="Notifications" icon="ion-ios7-information" href="#/private/notifications">
           <ion-nav-view name="notification" animation="slide-left-right"></ion-nav-view>
-        </ion-tab>
+        </ion-tab-->
         
         <ion-tab title="Community" icon="ion-earth" href="#/private/community">
          <ion-nav-view name="community" animation="slide-left-right"></ion-nav-view>
@@ -60,24 +63,30 @@
       <h1 class="title" style="color: white;">Afrikik</h1>
     </header>
     <ion-content class="has-header" >
-      <ion-list >        
-        <ion-item nav-clear menu-close href="#/private/profile" >
+      <ion-list >
+        <ion-item nav-clear menu-close href="/#/private/search" >
+          Home
+        </ion-item>
+        <ion-item nav-clear menu-close href="/#/private/profile" >
           Profile
         </ion-item>        
-        <ion-item nav-clear menu-close href="#/private/search" >
+        <ion-item nav-clear menu-close href="/#/private/search-page" >
           Search 
         </ion-item>
         <ion-item nav-clear menu-close href="#/private/feeds" >
           Community Feeds
         </ion-item>              
-        <ion-item nav-clear menu-close >
-          Notification <span class="afk-notification">12</span>
+        <ion-item nav-clear menu-close  href="#/private/subscriptions">
+          My Subscriptions
         </ion-item>
-        <ion-item nav-clear menu-close  href="#/index"  >
+        <!--ion-item nav-clear menu-close  href="#/private/notifications">
+          Notification <span class="afk-notification">0</span>
+        </ion-item-->
+        <!--ion-item nav-clear menu-close  href="#/index"  >
           Logout
-        </ion-item>
-        <ion-item nav-clear menu-close>
-          <div  ng-click="alert('Quit')">Exit</div>          
+        </ion-item-->
+        <ion-item nav-clear>
+          <div  onclick="alert('exit');navigator.app.exitApp()">Exit</div>          
         </ion-item>
       </ion-list>
       

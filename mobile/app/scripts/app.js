@@ -34,7 +34,7 @@ var Afrikik = angular.module('Afrikik', [ 'jmdobry.angular-cache','ionic',/*'ope
 
 
 .config(function($httpProvider, $stateProvider, $urlRouterProvider, envConfiguration, $angularCacheFactoryProvider, cfpLoadingBarProvider) {
-  //cfpLoadingBarProvider.includeSpinner = false;
+  cfpLoadingBarProvider.includeSpinner = false;
   cfpLoadingBarProvider.includeBar = false;
   
   /*$angularCacheFactoryProvider.setCacheDefaults({
@@ -98,7 +98,7 @@ var Afrikik = angular.module('Afrikik', [ 'jmdobry.angular-cache','ionic',/*'ope
       url: '/private',
       abstract: true,
       templateUrl: 'templates/private.html', /*templates/tabs.html*/
-      controller: 'MainCtrl'
+      controller: 'RefreshCtrl'
     })
     
     
@@ -111,11 +111,29 @@ var Afrikik = angular.module('Afrikik', [ 'jmdobry.angular-cache','ionic',/*'ope
       }
     })
     
+    .state('private.search-page', {
+      url: '/search-page',
+      views: {
+        'menuContent' :{
+          templateUrl: 'templates/players/search-page.html'
+        }
+      }
+    })
+    
     .state('private.profile', {
       url: '/profile',
       views: {
         'profile' :{
           templateUrl: 'templates/members/profile.html'
+        }
+      }
+    })
+    
+    .state('private.subscriptions', {
+      url: '/subscriptions',
+      views: {
+        'subscriptions' :{
+          templateUrl: 'templates/members/subscriptions.html'
         }
       }
     })
