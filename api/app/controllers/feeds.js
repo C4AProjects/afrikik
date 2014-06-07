@@ -203,8 +203,8 @@ exports.feed = function(req, res, next, id) {
  *********************************************************************************/
 
 exports.feedsPlayer = function(req, res){
-  Feed.find({'_player': req.player._id})
-  .populate('comments tags')
+  Feed.find({'_player': req.player._id, 'feedType': {$ne: 'community'}})
+  .populate('_user _player _team comments')
   .limit(req.query.limit||50)
   .exec(function(err, list){
     if (err) {
@@ -222,8 +222,10 @@ exports.feedsPlayer = function(req, res){
  *********************************************************************************/
 
 exports.feedsTeam = function(req, res){
-  Feed.find({'_team': req.team._id})
-  .populate('comments tags')
+  Feed.find({'_team': req.team._id, 'feedType': {$ne: 'community'}})
+  .populate('_user _player _team comments')
+  .sort('-createdAt')
+  .skip(req.query.skip||0)
   .limit(req.query.limit||50)
   .exec(function(err, list){
     if (err) {
@@ -242,12 +244,14 @@ exports.feedsTeam = function(req, res){
 
 
 exports.all = function(req, res){
-  Feed.find({'_player': {$in: req.user.subscribedPlayers}})
-  .populate('comments tags')
+  Feed.find({$or:[{'_player': {$in: req.user.subscribedPlayers}},{'_team': {$in: req.user.subscribedTeams}}],'feedType': {$ne: 'community'}})
+  .populate('_user _player _team comments')
+  .sort('-createdAt')
+  .skip(req.query.skip||0)
   .limit(req.query.limit||50)
   .exec(function(err, list){
-    if (err) {
-      res.status(500).json( {
+    if(err) {
+      res.status(500).json({
         success:false,
         error: err
       })
@@ -280,7 +284,7 @@ exports.scoreFeeds = function(req, res){
 
 exports.communityFeeds = function(req, res){
   Feed.find({/*'_player': {$in: req.user.subscribedPlayers},*/ 'feedType':'community'})
-  .populate('_user comments')
+  .populate('_user _player _team comments')
   .sort('-createdAt')
   .skip(req.query.skip||0)
   .limit(req.query.limit||50)
@@ -291,7 +295,6 @@ exports.communityFeeds = function(req, res){
         error: err
       })
     }
-    //list.sort(sortByDate)
     res.status(200).json(list)
   })
 }

@@ -28,6 +28,11 @@ var PlayerSchema = new Schema({
                 trophy: [TrophySchema],
                 _photo: {type: Schema.Types.ObjectId, ref: 'Photo' },
                 comments: [{type: Schema.Types.ObjectId, ref: 'Comment' }]
+                ,goals: Number
+                ,wins: Number
+                ,losses: Number
+                ,yellows: Number
+                ,reds: Number
 })
 
 

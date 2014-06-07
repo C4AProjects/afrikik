@@ -17,6 +17,8 @@ var MatchSchema = new Schema({
                 competition: String, // Africa cup, friendly, league, qualifications, etc.
                 details: String,
                 comments: [{type: Schema.Types.ObjectId, ref: 'Comment' }]
+                ,summary_video: String //youtube or dailymotion_video url of the match
+                ,score: String // 2:1
 })
 
 MatchSchema.plugin(timestamps,MongooseRattle)
