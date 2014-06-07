@@ -1,7 +1,7 @@
 <ion-view >
     
 <ion-content class="has-header">
-    <div class="afk-header-list">{{feed.title||feed.message}}</div>
+    <div class="afk-header-list">{{feed.title||feed.message}}</div>    
     <div>
         <img   style="float: left;margin: 0 6px 6px 0;" ng-src="{{feed.url_img}}"/>
         <span>{{feed.message}}</span>{{feed.url}}
@@ -13,7 +13,8 @@
     
     <br/>
     <div>
-    <u>{{feed.comments.length}} Comments:</u> <br/>
+    <u>{{feed.comments.length}} Comments:</u> <br/> <br/>
+    <a ng-href="#/private/feeds" class="afk-lnk-team-feed" > All Activities </a>
      <div class="item item-input-inset" style="background-color: grey">            
         <label class="item-input-wrapper afk-search-bg" >            
             <input type="text" placeholder="Add Comment Here" class="afk-search-bg" ng-model="data.message" maxlength="160" />

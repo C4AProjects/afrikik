@@ -2,7 +2,7 @@
 
 Afrikik
         // A simple controller that fetches a list of data from a service
-        .controller('TeamCtrl', function($scope, $window, config, $state, $stateParams, $ionicSlideBoxDelegate, Global, TeamService, ActivityService) {
+        .controller('TeamCtrl', function($scope, $window, config, $state, $rootScope, $stateParams, $ionicSlideBoxDelegate, Global, TeamService, ActivityService) {
                 
                 var apiDir =  config.apiDir;
                          
@@ -13,12 +13,13 @@ Afrikik
                 
                 $ionicSlideBoxDelegate.slide($scope.slide||1)
                 
-                console.log($ionicSlideBoxDelegate)
+                $rootScope.menuLeft = true;
                                 
                 if($stateParams._id){
                         $scope.team = TeamService.getById($stateParams._id);
                         $scope.players = TeamService.playersTeam($stateParams._id)
                         $scope.activities = ActivityService.feedsTeam($stateParams._id)
+                        $rootScope.menuLeft = false;
                 }                
                                
                 

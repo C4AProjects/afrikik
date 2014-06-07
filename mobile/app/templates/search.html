@@ -2,7 +2,7 @@
 
     <ion-content has-header="true">        
 
-        <ion-slide-box style="background-color: #4a4845;">      
+        <ion-slide-box style="background-color: #4a4845;" show-pager="false">      
       <ion-slide ng-controller="PlayerCtrl" >              
         <div class="row" style="border-color: #4a4845;">
           <div class="col afk-align-center">
@@ -86,6 +86,8 @@
           </div>
         </div>
         <div class="afk-content-high" style="background-color: white;">
+          <br/>
+          <!--The friends feature is currently being tested. It will be made available shortly. Thank you for your patience!-->
         <ion-list>
           <ion-item ng-repeat="member in user.friends" class="afk-bg-list item item-avatar item-button-right">
             <img ng-src="./images/{{member.picture||'nopic-member.png'}}" class="afk-circle"> 

@@ -14,6 +14,7 @@ angular.module('Afrikik')
 	    	getUser:function(){
 			this.user = localStorage.get(config[env].localStorageUserKey)
 			if (this.user) {
+			    this.user.menuLeft = true;
 			    this.user.subscriptions = this.user.subscribedPlayers
 			    this.user.subscriptions = this.user.subscriptions.concat(this.user.subscribedTeams)
 			    this.user.friends = this.user.following

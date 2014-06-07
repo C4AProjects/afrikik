@@ -125,12 +125,14 @@ angular.module('Afrikik')
   .factory('Activity',['$resource', 'envConfiguration', 'TokenHandler','Global', function activities($resource, envConfiguration, TokenHandler, Global) {
     var config = envConfiguration[envConfiguration.default];
     
-    var feedServiceUrl = config.host +  ":port/" + config.api_base_version + '/users/:id/feeds/:feedId';
+    var feedServiceUrl = config.host +  ":port/" + config.api_base_version + '/users/:id/feeds/:feedId?skip=:skip&limit=:limit';
    	
     var feedResource = $resource (feedServiceUrl,
     	{
     		id:'@_id',
-    		port: config.port
+    		port: config.port,
+		skip:0,
+		limit:30
     	},
     	{
     		update: { method: 'PUT' },
@@ -208,6 +210,16 @@ angular.module('Afrikik')
 		'communityFeeds':{
 		  method:'GET',
 		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/community/feeds?skip=:skip&limit=:limit',
+		  params:{
+		    id : Global.getUserId(),
+		    skip:0,
+		    limit:30
+		  },
+		  isArray:true
+		},
+		'feedsSubcribed':{
+		  method:'GET',
+		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/feeds?skip=:skip&limit=:limit',
 		  params:{
 		    id : Global.getUserId(),
 		    skip:0,

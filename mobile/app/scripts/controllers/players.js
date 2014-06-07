@@ -2,21 +2,25 @@
 
 Afrikik
         // A simple controller that fetches a list of data from a service
-        .controller('PlayerCtrl', function($angularCacheFactory,$scope, $window, config, $state, $stateParams, $ionicSlideBoxDelegate, Global, PlayerService, ActivityService) {
+        .controller('PlayerCtrl', function($angularCacheFactory,$scope, $rootScope, $window, config, $state, $stateParams, $ionicSlideBoxDelegate, Global, PlayerService, ActivityService) {
                 
                 var apiDir =  config.apiDir;
                 
                 //var playersCache = $angularCacheFactory('playersCache');
                 
-                $scope.user = $scope.user||Global.getUser()                
                 
+                $scope.user = $scope.user||Global.getUser()
+       
+                $rootScope.menuLeft = true;
                 
                 $scope.message = "";
                                
                 if($stateParams._id){
                         $scope.player = PlayerService.getByIdFromCache($stateParams._id)||PlayerService.getById($stateParams._id);
                         $scope.activities = ActivityService.feedsPlayer($stateParams._id)
+                        $rootScope.menuLeft = false;
                 }
+                
                 var cachedItems = Global.getTopItems();
                 if (cachedItems && cachedItems.length> 0) {
                         $scope.items = cachedItems;                        

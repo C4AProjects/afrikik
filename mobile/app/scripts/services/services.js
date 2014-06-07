@@ -114,10 +114,7 @@ angular.module('Afrikik.services', [])
   var feeds = [];
 
   return {
-    
-    feedsSubscribed: function(userId){
-      return Activity.query({id:userId});
-    },
+        
     feedsPlayer: function(playerId) {
       return feeds = Activity.feedsPlayer({playerId:playerId});
     },
@@ -151,6 +148,9 @@ angular.module('Afrikik.services', [])
       console.log('FEED DATA')
       console.log(feed)
       return Activity.save({},feed)
+    },
+    feedsSubscribed: function(cb,userId, skip, limit){
+      return Activity.feedsSubcribed({skip:skip, limit:limit}, cb);
     },
     getScoreFeeds : function(){
       return Activity.scoreFeeds({});

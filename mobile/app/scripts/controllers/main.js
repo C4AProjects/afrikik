@@ -33,7 +33,12 @@ angular.module('Afrikik')
       
       $scope.user = Global.getUser()||{};
       if ($scope.user.authenticated) {
-	window.location = "#/private/search"
+	if ($scope.user.subscribedPlayers&&$scope.user.subscribedPlayers.length>0) {
+	    window.location = "#/private/subscriptions"
+	}else{
+	    window.location = "#/private/search"
+	}   
+	
       }
       
       
@@ -127,10 +132,15 @@ angular.module('Afrikik')
             if(loginResponse.success)
             {
                 var user = loginResponse.user; // loginResponse.access_token.user
+		$rootScope.menuLeft = true;
 		user.authenticated =true;
                 window.user = user;		
-		Global.setUser(user)			
-                $state.go('private.search')    
+		Global.setUser(user)
+		if (user.subcribedPlayers&&user.subcribedPlayers.length>0) {
+		    $state.go('private.subscriptions')
+		}else{
+		    $state.go('private.search')
+		}                
             }
             else
             {	

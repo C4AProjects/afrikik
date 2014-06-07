@@ -1,14 +1,17 @@
 'use strict';
 
 Afrikik
-        .controller('ActivityCtrl', function($scope, $timeout, $state, $stateParams, $ionicSlideBoxDelegate, ActivityService, Global) {
+        .controller('ActivityCtrl', function($scope, $rootScope, $ionicLoading, $timeout, $state, $stateParams, $ionicSlideBoxDelegate, ActivityService, Global) {
                 
                 $scope.activities = ActivityService.feedsSubscribed(Global.getUserId());
                 
-                $scope.user = Global.getUser()
+                $scope.user = Global.getUser();
+                
+                $rootScope.menuLeft = true;
                 
                 if ($stateParams._id) {
                         $scope.feed = ActivityService.getByFeedById($stateParams._id);
+                        $rootScope.menuLeft = false;
                 }
                 var limit = 5;
                 
@@ -32,7 +35,20 @@ Afrikik
                       $ionicSlideBoxDelegate.slide(index)
                 }
                 
+                $scope.show = function(tpl, time) {
+                        $ionicLoading.show({
+                          template: tpl? tpl:'<i class="icon ion-loading-a"></i>'
+                        });
+                        setTimeout(function(){
+                              $ionicLoading.hide();
+                        },(time||1000))
+                };
+                
                 $scope.comment = function(msg, type){
+                        if (!msg||msg.length<10) {
+                             $scope.show('<span style="color:red;font-weight:bold">A message is required before continuing! </span> <br> Minimum size :10', 2000)
+                             return;
+                        }
                        ActivityService.create({message: msg, _user:$scope.user._id, feedType: type});
                        setTimeout(function(){
                         if (type=='score') {
@@ -61,6 +77,28 @@ Afrikik
                             })
                             $scope.$broadcast('scroll.infiniteScrollComplete');
                         },$scope.user._id, $scope.communities.length, limit);
+                    }
+                    
+                  }, 1000);
+        
+                }
+                
+                //infinite Scroll on feeds
+                
+                $scope.stopScrollFeed = false;  //
+                
+                $scope.loadMoreFeeds = function() {                
+                  $timeout(function() {
+                    if (!$scope.stopScrollFeed) {
+                        ActivityService.feedsSubscribed(function (data){
+                            if (data.length==0) {
+                                $scope.stopScrollFeed=true
+                            }
+                            data.forEach(function(obj){
+                                $scope.activities.push(obj);
+                            })
+                            $scope.$broadcast('scroll.infiniteScrollComplete');
+                        },$scope.user._id, $scope.activities.length, limit);
                     }
                     
                   }, 1000);
