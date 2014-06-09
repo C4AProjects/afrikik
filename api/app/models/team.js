@@ -16,6 +16,8 @@ var TeamSchema = new Schema({
                 rating: {type:Number},
                 _photo: {type: Schema.Types.ObjectId, ref: 'Photo' },
                 comments: [{type: Schema.Types.ObjectId, ref: 'Comment' }]
+                , img_url: {type:String, required:false}
+                , nationalTeam: Boolean
 })
 
 
