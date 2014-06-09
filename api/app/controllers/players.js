@@ -199,18 +199,18 @@ exports.searchPlayersAndTeam = function(req, res){
 exports.topPlayersAndTeam = function(req, res){
     var result = []
     
-    Player
+    Team = mongoose.model('Team')
+    Team
     .find({'_id': {$nin: req.user.subscribedPlayers}})
     .sort({rating:-1})
-    .limit(req.query.limit||20)
+    .limit(10)
     .exec(function(err, list){
        if(err) res.status(401).json({err: err})
        if (list) {
         result= list
-        Team = mongoose.model('Team')
-        Team.find({'_id': {$nin: req.user.subscribedTeams}})
+        Player.find({'_id': {$nin: req.user.subscribedTeams}})
         .sort({rating:-1})
-        .limit(10)
+        .limit(req.query.limit||20)
         .exec(function(err, list){
            if(err) res.status(401).json({err: err})
            if (list) {
