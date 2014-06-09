@@ -2,11 +2,12 @@
 
 Afrikik
         // A simple controller that fetches a list of data from a service
-        .controller('PlayerCtrl', function($angularCacheFactory,$scope, $rootScope, $window, config, $state, $stateParams, $ionicSlideBoxDelegate, Global, PlayerService, ActivityService) {
+        .controller('PlayerCtrl', function($ionicNavBarDelegate,$angularCacheFactory,$scope, $rootScope, $window, config, $state, $stateParams, $ionicSlideBoxDelegate, Global, PlayerService, ActivityService) {
                 
                 var apiDir =  config.apiDir;
                 
                 //var playersCache = $angularCacheFactory('playersCache');
+                
                 
                 
                 $scope.user = $scope.user||Global.getUser()
@@ -22,16 +23,16 @@ Afrikik
                 }
                 
                 var cachedItems = Global.getTopItems();
+                
                 if (cachedItems && cachedItems.length> 0) {
                         $scope.items = cachedItems;                        
                 }
                 else
                 {
-                        $scope.items = PlayerService.topItems(function(values){
+                        PlayerService.topItems(function(values, responseHeaders) {
                                 $scope.items = values;
-                                //playersCache.put('players',values)
-                                Global.setTopItems($scope.items)                                                    
-                        });
+                                Global.setTopItems($scope.items) 
+                        })                                                                                        
                         
                 }
                 
@@ -57,16 +58,31 @@ Afrikik
                         $scope.isSubscribedOn();
                 }
                 
+                $scope.unsubscribe = function(player){
+                        PlayerService.unsubscribe(player._id)
+                        var list = []
+                        $scope.user.subscribedPlayers.forEach(function(item, index){
+                                if (item._id!=player._id) {
+                                        list.push(item)
+                                        //delete $scope.user.subscribedPlayers[index]                                        
+                                }                                
+                        })
+                        $scope.user.subscribedPlayers = list;
+                        Global.setUser($scope.user);
+                        $scope.isSubscribedOn();
+                        
+                }
+                
                 $scope.getPicture = function(pic){                       
-                        pic = (pic&&pic!='undefined')? apiDir + pic :'./images/nopic-player.png';
+                        pic = (pic&&pic!='undefined')? apiDir + pic :apiDir +'nopic-player.png';
                         return pic;
                 }
                 
                 $scope.getPicItem = function(item){
-                        if (item.img_url) {
+                        if (item&&item.img_url) {
                                 return item.img_url
                         }
-                        return  (item.picture)? apiDir + item.picture :'./images/nopic-player.png';
+                        return  (item.picture)? apiDir + item.picture : apiDir +'nopic-player.png';
                 }
                 
                 $scope.setCurrentItem = function(item){
@@ -114,6 +130,9 @@ Afrikik
                         }
                         return test;
                 }
-                                
+                
+                 $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
+                        $ionicNavBarDelegate.showBackButton(true)
+                 })
                 
         })

@@ -136,11 +136,16 @@ angular.module('Afrikik')
 		user.authenticated =true;
                 window.user = user;		
 		Global.setUser(user)
+
 		if (user.subcribedPlayers&&user.subcribedPlayers.length>0) {
-		    $state.go('private.subscriptions')
+		$state.go('private.subscriptions')
 		}else{
 		    $state.go('private.search')
-		}                
+		}
+		
+		$scope.show('Connexion...', 1000)	
+	    
+		               
             }
             else
             {	
@@ -187,6 +192,7 @@ angular.module('Afrikik')
       Auth.logout().success(function(success){
 	    $scope.user.password = '';
 	    $scope.user.authenticated = false;
+	    Global.setUser($scope.user)
 	    $state.transitionTo('index')
           //_gaq.push(['_trackEvent','Authentication', 'Logout', 'Regular Logout'])
       });

@@ -9,7 +9,7 @@ angular.module('Afrikik')
     };
   })
   
-  .factory('Member',['$resource', 'envConfiguration', 'TokenHandler', function members($resource, envConfiguration, TokenHandler) {
+  .factory('Member',['$resource', 'envConfiguration', 'TokenHandler', 'Global', function members($resource, envConfiguration, TokenHandler, Global) {
     var config = envConfiguration[envConfiguration.default];
     
     var memberServiceUrl = config.host +  ":port/" + config.api_base_version + '/users/:id';
@@ -20,7 +20,13 @@ angular.module('Afrikik')
     		port: config.port
     	},
     	{
-    		update: { method: 'PUT' },
+		update:{
+		  method:'PUT',
+		  params:{
+		   id:Global.getUserId()
+		  },
+		  isArray:false
+		},
 		'get': {method:'GET', isArray: false}
     	}
     );
@@ -66,6 +72,14 @@ angular.module('Afrikik')
 		    id : Global.getUserId()		  
 		  },
 		  isArray:false
+		},
+		'unsubscribe':{
+		  method: 'POST',
+		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/unsubscribe/players/:playerId',
+		  params:{
+		    id : Global.getUserId()		  
+		  },
+		  isArray:false
 		}
     	}
     );
@@ -105,6 +119,14 @@ angular.module('Afrikik')
 		  },
 		  isArray:false
 		},
+		'unsubscribe':{
+		  method: 'POST',
+		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/unsubscribe/teams/:teamId',
+		  params:{
+		    id : Global.getUserId()		  
+		  },
+		  isArray:false
+		},
 		'playersTeam':{
 		  method:'GET',
 		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/teams/:teamId/players',
@@ -125,14 +147,12 @@ angular.module('Afrikik')
   .factory('Activity',['$resource', 'envConfiguration', 'TokenHandler','Global', function activities($resource, envConfiguration, TokenHandler, Global) {
     var config = envConfiguration[envConfiguration.default];
     
-    var feedServiceUrl = config.host +  ":port/" + config.api_base_version + '/users/:id/feeds/:feedId?skip=:skip&limit=:limit';
+    var feedServiceUrl = config.host +  ":port/" + config.api_base_version + '/users/:id/feeds/:feedId';
    	
     var feedResource = $resource (feedServiceUrl,
     	{
     		id:'@_id',
-    		port: config.port,
-		skip:0,
-		limit:30
+    		port: config.port
     	},
     	{
     		update: { method: 'PUT' },
@@ -199,14 +219,6 @@ angular.module('Afrikik')
 		  },
 		  isArray:true
 		},
-		'scoreFeeds':{
-		  method:'GET',
-		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/score/feeds',
-		  params:{
-		    id : Global.getUserId(),		    	  
-		  },
-		  isArray:true
-		},
 		'communityFeeds':{
 		  method:'GET',
 		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/community/feeds?skip=:skip&limit=:limit',
@@ -220,6 +232,16 @@ angular.module('Afrikik')
 		'feedsSubcribed':{
 		  method:'GET',
 		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/feeds?skip=:skip&limit=:limit',
+		  params:{
+		    id : Global.getUserId(),
+		    skip:0,
+		    limit:30
+		  },
+		  isArray:true
+		},
+		'scoreFeeds':{
+		  method:'GET',
+		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/scores?skip=:skip&limit=:limit',
 		  params:{
 		    id : Global.getUserId(),
 		    skip:0,

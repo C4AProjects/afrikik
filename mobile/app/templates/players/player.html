@@ -1,12 +1,15 @@
 <ion-view >
  
-<ion-content >
+<ion-content class="has-header">
     <!--button menu-toggle="left" class="button button-icon icon ion-navicon"></button-->
-    <div class="row afk-member-profile" style="background-image: url('./images/profile-bg.png');filter: brightness(50%);-moz-filter: brightness(50%);">
-        <div class="col" style="height: auto;text-align: center">         
-          <div class="row">
+    <div class="row afk-member-profile" style="background-image: url('./images/profile-bg.png');filter: brightness(50%);-moz-filter: brightness(50%);">        
+        <div class="col" style="height: auto;text-align: center">            
+          <div class="row">            
             <div class="col">
-                 <center><img class="afk-circle" ng-src="{{getPicItem(player)}}" /></center>
+            <div ng-show="isSubscribedOn(player)" >
+                <span ng-click="unsubscribe(player)" class="icon ion-search" style="color: white; font-size: 20px; cursor:pointer" >Unfollow</span>
+            </div>
+            <center><img class="afk-circle" ng-src="{{getPicItem(player)}}" /></center>
             </div>
           </div>
           <div class="row">
@@ -15,6 +18,7 @@
               <h6 id="summary">{{player.country}} National football Team<br/>
               {{player.club}} at {{player.clubcountry}} - (N°: #{{player.no}} - position: {{player.position}})
               </h6>
+              
             </div>
           </div>            
         </div>
@@ -24,6 +28,7 @@
         <button class="button afk-btn afk-btn-register afk-member-subscribe-btn" ng-click="subscribe(player)">Subscribe</button>
       </div>
     </div>
+    
    
    <div style="background-color: grey">
     <div ng-style="styleLocked">
@@ -88,35 +93,45 @@
             <div class="row">
                 <div class="col">
                     <div class="list">
-                        <div class="item item-thumbnail-left" >
-                          <img src="images/ionic.png">
-                          <h2>Number of goals </h2>
-                          <h1>{{player.goals||5}}</h1>              
+                        <div class="row">
+                          <div class="col"><img src="images/ionic.png" style="max-height: 50px; max-width: 50px"></div>
+                          <div class="col" style="text-align: center">
+                            <h5>Goals </h5>
+                            <h4>{{player.goals||5}}</h4>
+                          </div>             
                         </div>
-                        <div class="item item-thumbnail-left" >
-                          <img src="images/ionic.png">
-                          <h2> Number of wins</h2>
-                          <h1>{{player.wins||10}}</h1>
+                        <div class="row">
+                          <div class="col"><img src="images/ionic.png" style="max-height: 50px; max-width: 50px"></div>
+                          <div class="col" style="text-align: center">
+                            <h5>Wins </h5>
+                            <h4>{{player.wins||5}}</h4>
+                          </div>             
                         </div>
-                        <div class="item item-thumbnail-left" >
-                          <img src="images/ionic.png">
-                          <h2>Number of losses</h2>
-                          <h1>{{player.losses||2}}</h1>
-                        </div>                        
+                        <div class="row">
+                          <div class="col"><img src="images/ionic.png" style="max-height: 50px; max-width: 50px"></div>
+                          <div class="col" style="text-align: center">
+                            <h5>Losses </h5>
+                            <h4>{{player.losses||5}}</h4>
+                          </div>             
+                        </div>                                               
                     </div>
                 </div>
                 <div class="col">
                     <div class="list">                        
-                        <div class="item item-thumbnail-left" >
-                          <img src="images/ionic.png">
-                          <h2>Number of red cards</h2>
-                          <h1>{{player.reds||0}}</h1>
+                        <div class="row">
+                          <div class="col"><img src="images/ionic.png" style="max-height: 50px; max-width: 50px"></div>
+                          <div class="col" style="text-align: center">
+                            <h5>Red cards </h5>
+                            <h4>{{player.reds||0}}</h4>
+                          </div>             
                         </div>
-                        <div class="item item-thumbnail-left" >
-                          <img src="images/ionic.png">
-                          <h2>Number of yelow cards</h2>
-                          <h1>{{player.yellows||1}}</h1>
-                        </div>
+                        <div class="row">
+                          <div class="col"><img src="images/ionic.png" style="max-height: 50px; max-width: 50px"></div>
+                          <div class="col" style="text-align: center">
+                            <h5>Yellow cards </h5>
+                            <h4>{{player.yellows||1}}</h4>
+                          </div>             
+                        </div>                        
                     </div>
                 </div>
             </div>              

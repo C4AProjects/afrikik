@@ -1,10 +1,9 @@
 
-<ion-view >
+<ion-view left-buttons="leftButtons" right-buttons="rightButtons">
     
-<ion-content class="has-header">
+    <ion-content has-header="true">        
+
     <div class="afk-header-list">My Subscriptions</div>
-    
-    <div ng-controller="PlayerCtrl">              
            
     <ion-list>
       <ion-item ng-repeat="player in user.subscriptions" class="afk-bg-list item item-avatar item-button-right">
@@ -15,7 +14,6 @@
           View Profile <i class="icon ion-ios7-arrow-forward"></i></a>
       </ion-item>   
     </ion-list>   
-    </div>
-    
+     
  </ion-content>
 </ion-view>

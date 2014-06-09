@@ -49,7 +49,7 @@ moment.lang('fr');
 
 var config = angular.module('config', [])    
     .constant('envConfiguration',{
-        'default':'dev',
+        'default':'test',
         dev:{
             appName:"Afrikik.com Dev",
             host:"http://m-afrikik.c4adev.co.vu",
@@ -62,7 +62,7 @@ var config = angular.module('config', [])
         },
         test:{
             appName:"Afrikik.com",
-            host:"http://localapi.afrikik.com",
+            host:"http://localhost",
             port:"\:2014",
             api_base_version:"api/v1",
             localStorageKeyPrefix:'prod-afrikik-local',

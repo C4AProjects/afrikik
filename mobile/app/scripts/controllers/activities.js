@@ -13,15 +13,18 @@ Afrikik
                         $scope.feed = ActivityService.getByFeedById($stateParams._id);
                         $rootScope.menuLeft = false;
                 }
+                
                 var limit = 5;
                 
                 function callback(data){
                      $scope.communities = data                                  
                 }
-                $scope.communities  = ActivityService.getCommunityFeeds(callback, $scope.user._id, 0, limit)
-                console.log('list communitoies  : '+ $scope.communities.length)
                 
-                $scope.scoreFeeds = ActivityService.getScoreFeeds($scope.user._id);
+                ActivityService.getCommunityFeeds(callback, $scope.user._id, 0, limit)
+                
+                ActivityService.getScoreFeeds(function callback(data){
+                                        $scope.scores = data                                  
+                                }, $scope.user._id, 0, limit);
                 
                 $scope.subscriptions = []
                 
@@ -99,6 +102,28 @@ Afrikik
                             })
                             $scope.$broadcast('scroll.infiniteScrollComplete');
                         },$scope.user._id, $scope.activities.length, limit);
+                    }
+                    
+                  }, 1000);
+        
+                }
+                
+                 //infinite Scroll on scores
+                
+                $scope.stopScrollScore = false;  //
+                
+                $scope.loadMoreScores = function() {                
+                  $timeout(function() {
+                    if (!$scope.stopScrollScore) {
+                        ActivityService.getScoreFeeds(function (data){
+                            if (data.length==0) {
+                                $scope.stopScrollScore=true
+                            }
+                            data.forEach(function(obj){
+                                $scope.scores.push(obj);
+                            })
+                            $scope.$broadcast('scroll.infiniteScrollComplete');
+                        },$scope.user._id, $scope.scores.length, limit);
                     }
                     
                   }, 1000);

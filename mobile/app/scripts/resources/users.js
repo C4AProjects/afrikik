@@ -32,6 +32,14 @@ angular.module('Afrikik')
 		    },
 		    url: config[env].host +  ":port/" + config[env].api_base_version + '/users/:id/likes/:postId',
 		    isArray:false
+		  },
+		  update:{
+		    method:'PUT',
+		    params:{
+		     id:Global.getUserId()
+		    },
+		    url: config[env].host +  ":port/" + config[env].api_base_version + '/users/:id',
+		    isArray:false
 		  }
 	
 		}

@@ -42,6 +42,21 @@ Afrikik
                         $scope.isSubscribedOn();
                 }
                 
+                $scope.unsubscribe = function(team){
+                        TeamService.unsubscribe(team._id)
+                        var list = []
+                        $scope.user.subscribedTeams.forEach(function(item, index){
+                                if (item._id!= team._id) {
+                                        list.push(item)
+                                        //delete $scope.user.subscribedTeams[index]                                        
+                                }                                
+                        })
+                        $scope.user.subscribedTeams = list;
+                        Global.setUser($scope.user);
+                        $scope.isSubscribedOn();
+                        
+                }
+                
                 $scope.getPicture = function(pic){                       
                         pic = (pic&&pic!='undefined')? apiDir + pic :'./images/no-player.png';
                         //console.log('bizar: ' +pic );

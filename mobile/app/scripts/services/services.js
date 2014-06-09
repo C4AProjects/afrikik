@@ -9,12 +9,12 @@ angular.module('Afrikik.services', [])
   var currentMember = {};
 
   return {
-    all: function() {
-      return [];
-    },
     getById: function(memberId){      
       var member = Member.get({id:memberId})
       return member;
+    },
+    update: function(member, success, error){
+      Member.update({}, member, success, error )
     }
   };
 }])
@@ -32,15 +32,7 @@ angular.module('Afrikik.services', [])
       return cachedItems;
     },
     topItems: function(cb){
-      if (cb) {
         Search.topItems({}, cb)
-      }else {
-        Search.topItems({}, function(values, responseHeaders) {
-          console.log(values)
-          
-          return values;
-        })
-      }
     },
     itemsByName: function(name){      
       return cachedItems = Search.query({name: name})
@@ -60,8 +52,11 @@ angular.module('Afrikik.services', [])
       Player.comment({playerId: comment._player._id}, {message:comment.message})
     },
     subscribe: function(playerId){
+       Player.subscribe({playerId: playerId},{})
+    },
+    unsubscribe: function(playerId){
       console.log('Player Id :' + playerId)
-      Player.subscribe({playerId: playerId},{})
+      Player.unsubscribe({playerId: playerId},{})
     }
   };
 }])
@@ -102,6 +97,9 @@ angular.module('Afrikik.services', [])
     },
     subscribe: function(teamId){
       Team.subscribe({teamId: teamId},{})
+    },
+    unsubscribe: function(teamId){
+      Team.unsubscribe({teamId: teamId},{})
     },
     playersTeam: function(teamId){
       Team.playersTeam({teamId: teamId})
@@ -152,8 +150,8 @@ angular.module('Afrikik.services', [])
     feedsSubscribed: function(cb,userId, skip, limit){
       return Activity.feedsSubcribed({skip:skip, limit:limit}, cb);
     },
-    getScoreFeeds : function(){
-      return Activity.scoreFeeds({});
+    getScoreFeeds : function(cb,userId, skip, limit){
+      return Activity.scoreFeeds({skip:skip, limit:limit}, cb);
     },
     getCommunityFeeds : function(cb,userId, skip, limit){
       console.log('param ' + skip +'  '+ limit)

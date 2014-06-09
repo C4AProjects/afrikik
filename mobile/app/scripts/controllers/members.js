@@ -4,10 +4,10 @@ Afrikik
         // A simple controller that fetches a list of data from a service
         .controller('MemberCtrl', function($stateParams, $window, config,$scope, $state, $timeout, $ionicSlideBoxDelegate, Global, MemberService, TeamService, PlayerService,SettingsService, envConfiguration) {
                 
+                $scope.avatars = ['a1.png','a2.png','a3.png']
+                
                 $scope.apiDir =  config.apiDir;
-                
-                $scope.members = MemberService.all();
-                
+                                
                 $scope.user = Global.getUser()
                 if ($stateParams._id) {
                         $scope.member = MemberService.getById($stateParams._id);
@@ -82,6 +82,28 @@ Afrikik
                     $scope.$broadcast('scroll.infiniteScrollComplete');
                   }, 1000);
         
-                }                
+                }
+                
+                $scope.update = function(user){
+                        console.log(user)
+                        MemberService.update({name:user.name, picture:user.picture}, function(value){
+                                Global.setUser($scope.user)
+                        },
+                        function(err){
+                                alert(err)
+                        })
+                }
+                
+                $scope.logout = function(){
+                        $scope.user.password = '';
+                        $scope.user.authenticated = false;
+                        Global.setUser($scope.user)
+                        $state.transitionTo('index')
+                      //_gaq.push(['_trackEvent','Authentication', 'Logout', 'Regular Logout'])
+                }
+                      
+                $scope.cleanCache = function(){
+                   Global.setTopItems([]) //
+                }
                                 
         })

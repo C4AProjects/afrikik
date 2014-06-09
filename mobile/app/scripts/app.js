@@ -105,7 +105,7 @@ var Afrikik = angular.module('Afrikik', [ 'jmdobry.angular-cache','ionic',/*'ope
     .state('private.search', {
       url: '/search',
       views: {
-        'menuContent' :{
+        'search' :{
           templateUrl: 'templates/search.html'
         }
       }
@@ -114,7 +114,7 @@ var Afrikik = angular.module('Afrikik', [ 'jmdobry.angular-cache','ionic',/*'ope
     .state('private.search-page', {
       url: '/search-page',
       views: {
-        'menuContent' :{
+        'search' :{
           templateUrl: 'templates/players/search-page.html'
         }
       }
@@ -124,7 +124,8 @@ var Afrikik = angular.module('Afrikik', [ 'jmdobry.angular-cache','ionic',/*'ope
       url: '/profile',
       views: {
         'profile' :{
-          templateUrl: 'templates/members/profile.html'
+          templateUrl: 'templates/members/profile.html',
+          controller: 'MemberCtrl'
         }
       }
     })
@@ -133,7 +134,8 @@ var Afrikik = angular.module('Afrikik', [ 'jmdobry.angular-cache','ionic',/*'ope
       url: '/subscriptions',
       views: {
         'subscriptions' :{
-          templateUrl: 'templates/members/subscriptions.html'
+          templateUrl: 'templates/members/subscriptions.html',
+          controller: 'PlayerCtrl'
         }
       }
     })
@@ -141,7 +143,7 @@ var Afrikik = angular.module('Afrikik', [ 'jmdobry.angular-cache','ionic',/*'ope
     .state('private.member', {
       url: '/member/:_id',
       views: {
-        'menuContent': {
+        'search': {
           templateUrl: 'templates/members/member.html',
           controller: 'MemberCtrl'
         }
@@ -151,7 +153,7 @@ var Afrikik = angular.module('Afrikik', [ 'jmdobry.angular-cache','ionic',/*'ope
     .state('private.player', {
       url: '/player/:_id',
       views: {
-        'menuContent': {
+        'search': {
           templateUrl: 'templates/players/player.html',
           controller: 'PlayerCtrl'
         }
@@ -161,7 +163,7 @@ var Afrikik = angular.module('Afrikik', [ 'jmdobry.angular-cache','ionic',/*'ope
     .state('private.team', {
       url: '/team/:_id',
       views: {
-        'menuContent': {
+        'search': {
           templateUrl: 'templates/teams/team.html',
           controller: 'TeamCtrl'
         }
