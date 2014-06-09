@@ -90,6 +90,49 @@ exports.subscribeToTeam = function(req, res){
 }
 
 /************************************************************************************
+ *    <POST>  Member unsubscribes from player : /users/USER_ID/unsubscribe/players/PLAYER_ID
+ **************************************************************************************/
+
+exports.unsubscribeFromPlayer = function(req, res){
+    var user = req.user||req.profile
+    if(user.subscribedPlayers==null){
+        user.subscribedPlayers = []
+        res.status(200).json(user)
+    }
+    else
+    {
+        user.subscribedPlayers.remove(req.params.playerId)
+        user.save(function(err, user){
+           if(err) res.status(401).json({err: err})
+           res.status(200).json(user)
+        })
+        
+    }
+}
+
+/************************************************************************************
+ *    <POST>  Member unsubscribes from team : /users/USER_ID/unsubscribe/teams/TEAM_ID
+ **************************************************************************************/
+
+exports.unsubscribeFromTeam = function(req, res){
+    var user = req.user||req.profile
+    if(user.subscribedTeams==null){
+        user.subscribedTeams = []
+        res.status(200).json(user)
+    }
+    else
+    {
+        user.subscribedTeams.remove(req.params.teamId)
+        user.save(function(err, user){
+           if(err) res.status(401).json({err: err})
+           res.status(200).json(user)
+        })
+        
+    }
+}
+
+
+/************************************************************************************
  *          Get friends requests : /users/USER_ID/friends/requests
  **************************************************************************************/
 

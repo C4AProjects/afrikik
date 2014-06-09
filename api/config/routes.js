@@ -35,6 +35,7 @@ module.exports = function(app, passport, auth) {
     app.post('/api/v1/users', users.create);    
     app.get('/api/v1/users/:userId/me',  passport.authenticate('bearer', { session: false }), users.me);
     app.get('/api/v1/users/:userId', users.show);
+    app.put('/api/v1/users/:userId', users.update);
   
     app.get('/logout', users.logout);
     
@@ -54,6 +55,8 @@ module.exports = function(app, passport, auth) {
     app.get('/api/v1/users/search/:name', members.searchByName );
     app.post('/api/v1/users/:userId/subscribe/players/:playerId', members.subscribeToPlayer);
     app.post('/api/v1/users/:userId/subscribe/teams/:teamId', members.subscribeToTeam);
+    app.post('/api/v1/users/:userId/unsubscribe/players/:playerId', members.unsubscribeFromPlayer);
+    app.post('/api/v1/users/:userId/unsubscribe/teams/:teamId', members.unsubscribeFromTeam);
     app.get('/api/v1/users/:userId/friends/requests', members.getFriendRequests);
     app.get('/api/v1/users/:userId/players/:playerId/friends', members.getUsersPlayer);
     app.get('/api/v1/users/:userId/teams/:teamId/friends', members.getUsersTeam);
@@ -124,6 +127,10 @@ module.exports = function(app, passport, auth) {
     app.get('/api/v1/users/:userId/feeds/:feedId/comments', comments.getCommentsByFeed);
     app.get('/api/v1/users/:userId/teams/:teamId/comments', comments.getCommentsByTeam);
     app.get('/api/v1/users/:userId/players/:playerId/comments', comments.getCommentsByPlayer);
+    
+    //Matchs Routes
+    var matches = require('../app/controllers/matches');
+    app.get('/api/v1/users/:userId/scores', matches.scores);
 
     //Finish with setting up the userId param
     app.param('userId', users.user); 

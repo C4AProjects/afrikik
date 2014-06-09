@@ -157,7 +157,7 @@ UserSchema.methods = {
      */
     encryptPassword: function(password) {
         if (!password) return '';
-        console.log("Password sent in: %s, me; %j", password, this)
+        //console.log("Password sent in: %s, me; %j", password, this)
         return crypto.createHmac('sha1', this.salt).update(password).digest('hex');
     }
 };

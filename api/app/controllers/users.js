@@ -36,7 +36,7 @@ exports.login = function(req, res){
     User.findOne({
         email: user1.email
     })
-        .populate('subscribedPlayers following')//TODO
+        .populate('subscribedTeams subscribedPlayers following followers requests')//TODO
         .exec(function(err, user) {
         if (err) {
             res.json({
@@ -251,21 +251,22 @@ exports.confirm = function(req, res) {
  */
 exports.update = function(req, res){
     console.dir(req.body)
-    var user = req.profile
+    var user = req.profile||req.user
 
     user = _.extend(user, req.body)
+    console.log('UPDATED NAME ' +user.name)
     logger.debug("User to update %s ", user)
-    user.save(function(err, user) {
+    user.save(function(err, user2) {
         if (err) {
             res.status(500).json( {
                 success:false,
                 error: err
             });
         }
-        if(user)
+        if(user2)
         {
             logger.debug("WE updated the user")
-            res.status(200).json(user)
+            res.status(200).json(user2)
         }
         
   })
@@ -288,7 +289,7 @@ exports.user = function(req, res, next, id) {
         User.findOne({
             _id: new ObjectId(id)
         })
-        .populate('subscribedPlayers')//TODO
+        .populate('subscribedTeams subscribedPlayers following followers requests')//TODO
         .exec(function(err, user) {
             if (err) {
                 res.status(401).json({
@@ -458,6 +459,7 @@ exports.changePassword = function(req, res) {
 
 
 exports.confirm = function(req, res) {
+    
      ConfirmCode.findOne({code: req.params.code})
     .populate('user')
     .exec(function(err, confirmcode){
@@ -483,7 +485,7 @@ exports.confirm = function(req, res) {
                     if(err){
                          logger.debug("Error Sending Registration Confirmed Email: %s ",err)
                 }
-                return res.status(200).json({message:'Thank you for your registration to AFRIKIK!'});
+                return res.redirect('/confirmation/index.html'); //res.status(200).json({message:'Thank you for your registration to AFRIKIK!'});
            });
            confirmcode.remove();// removing confirm from database
         })

@@ -6,8 +6,8 @@ var mongoose = require('mongoose')
 
 
 var MatchSchema = new Schema({
-                team1: {type: Schema.Types.ObjectId, ref: 'Team' },
-                team2: {type: Schema.Types.ObjectId, ref: 'Team' }, // Opponent team
+                _team1: {type: Schema.Types.ObjectId, ref: 'Team' },
+                _team2: {type: Schema.Types.ObjectId, ref: 'Team' }, // Opponent team
                 playersTeam1: [{type: Schema.Types.ObjectId, ref: 'Player' }],
                 playersTeam2: [{type: Schema.Types.ObjectId, ref: 'Player' }],
                 referees: [{type: String }],

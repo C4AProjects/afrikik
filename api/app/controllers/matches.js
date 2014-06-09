@@ -5,6 +5,29 @@
 var mongoose = require('mongoose')
   , _ = require('underscore')
   , Match = mongoose.model('Match')
+  
+/************************************************************************************
+ *         list all scores
+ **************************************************************************************/
+
+exports.scores = function(req, res) {
+    Match.find({})
+        .populate('_team1 _team2')
+        .sort('-createdAt')
+        .skip(req.query.skip||0)
+        .limit(req.query.limit||50)  
+        .exec(function(err, list) {
+          if (err) {
+              res.status(500).json( {
+                  success:false,
+                  error: err
+              });
+          } else {
+              res.json(list);
+          }
+    });
+   
+};
 
 /**
  * Create a new match
