@@ -2,7 +2,7 @@
 
 Afrikik
         // A simple controller that fetches a list of data from a service
-        .controller('MemberCtrl', function($stateParams, $window, config,$scope, $state, $timeout, $ionicSlideBoxDelegate, Global, MemberService, TeamService, PlayerService,SettingsService, envConfiguration) {
+        .controller('MemberCtrl', function($ionicLoading, $stateParams, $window, config,$scope, $state, $timeout, $ionicSlideBoxDelegate, Global, MemberService, TeamService, PlayerService,SettingsService, envConfiguration) {
                 
                 $scope.avatars = ['a1.png','a2.png','a3.png']
                 
@@ -85,9 +85,12 @@ Afrikik
                 }
                 
                 $scope.update = function(user){
-                        console.log(user)
+                        $ionicLoading.show({
+                                template: '<i class="icon ion-loading-a"></i>'
+                        });
                         MemberService.update({name:user.name, picture:user.picture}, function(value){
                                 Global.setUser($scope.user)
+                                $ionicLoading.hide()
                         },
                         function(err){
                                 alert(err)

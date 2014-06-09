@@ -31,8 +31,8 @@ angular.module('Afrikik.services', [])
     cachedItems: function() {
       return cachedItems;
     },
-    topItems: function(cb){
-        Search.topItems({}, cb)
+    topItems: function(userId, cb){
+        Search.topItems({id:userId}, cb)
     },
     itemsByName: function(name){      
       return cachedItems = Search.query({name: name})
@@ -143,9 +143,7 @@ angular.module('Afrikik.services', [])
       return Activity.commentFeed({feedId:comment._feed._id}, {message:comment.message})
     },
     create: function(feed){
-      console.log('FEED DATA')
-      console.log(feed)
-      return Activity.save({},feed)
+        return Activity.save({},feed)
     },
     feedsSubscribed: function(cb,userId, skip, limit){
       return Activity.feedsSubcribed({skip:skip, limit:limit}, cb);

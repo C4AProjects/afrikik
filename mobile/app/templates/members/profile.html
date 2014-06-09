@@ -36,15 +36,15 @@
         </div>            
         <div class="afk-player-activity afk-content" style="background-color: grey">
             <ion-radio ng-repeat="avatar in avatars" ng-model="user.picture" ng-value="avatar" style="max-height: 70px;">
-                <img ng-src="./images/avatars/{{avatar}}" class="afk-circle" style="max-height: 50px;max-width:50px"> ({{avatar}}) as your Avatar
+                <img ng-src="./images/avatars/{{avatar}}" class="afk-circle" style="max-height: 50px;max-width:50px"> ({{avatar}}) as Avatar
             </ion-radio>   
             <form name="ProfileForm" ng-submit="update(user )">
                 <div class="afk-container-register">
                     <div class="afk-label">Name</div>
                     <center><input class="afk-input" type="text" ng-model="user.name" placeholder="Your name"></center>
-                    <div class="afk-label">Email</div>
+                    <!--div class="afk-label">Email</div>
                     <center><input class="afk-input" name="email" ng-value="user.email" type="email" disabled></center>
-                   </div>
+                   </div-->
                 <div style="padding-top: 30px;padding-bottom: 50px">
                     <button class="button button-block afk-btn afk-btn-register">Save changes</button>
                 </div>

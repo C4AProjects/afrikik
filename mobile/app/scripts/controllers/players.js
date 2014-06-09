@@ -29,7 +29,7 @@ Afrikik
                 }
                 else
                 {
-                        PlayerService.topItems(function(values, responseHeaders) {
+                        PlayerService.topItems($scope.user._id, function(values, responseHeaders) {
                                 $scope.items = values;
                                 Global.setTopItems($scope.items) 
                         })                                                                                        
@@ -102,7 +102,7 @@ Afrikik
                         return (item.name.toLowerCase().indexOf(name.toLowerCase()) >= 0)
                     })*/
                     if (!name||name.length==0) {
-                         $scope.items = PlayerService.topItems(function(values){
+                         $scope.items = PlayerService.topItems($cope.user._id,function(values){
                                 $scope.items = values;
                                 Global.setTopItems($scope.items)                                                    
                         });

@@ -68,6 +68,9 @@
             </button>
         </div-->
         <div class="afk-content-high">
+            <div style="text-align: center; font-size: 80px">           
+                <span ng-show="scores.length==0"  class="icon ion-loading-a"></span>
+            </div>
         <ion-list>
           <ion-item ng-repeat="activity in scores" >
                 <div class="row">
@@ -75,7 +78,7 @@
                         <span class="afk-feed" >{{activity._team1.name + '  -  ' + activity._team2.name + ' ' }} </span>
                         <span class="afk-obj-desc"> {{activity.dateMatch||activity.createdAt|date:"EEEE MMM dd 'at' HH:mm 'GMT'"}}</span> 
                     </div>
-                    <div class="col-20" style="text-align: left; font-weight: bold;">
+                    <div class="col-20" style="text-align: right; font-weight: bold;">
                         {{activity.score}}
                     </div>
                 </div>
@@ -86,7 +89,7 @@
             <center>No more results to show!!!</center>
         </div>
     
-        <ion-infinite-scroll on-infinite="loadMoreScores()" ng-if="!stopScrollScore"></ion-infinite-scroll>
+        <ion-infinite-scroll on-infinite="loadMoreScores()" ng-if="!stopScrollScore && scores.length>=3"></ion-infinite-scroll>
          </div>
       </ion-slide>
       
