@@ -131,6 +131,11 @@ module.exports = function(app, passport, auth) {
     //Matchs Routes
     var matches = require('../app/controllers/matches');
     app.get('/api/v1/users/:userId/scores', matches.scores);
+    app.get('/api/v1/users/:userId/matches', matches.scores);
+    app.get('/api/v1/users/:userId/matches/:matchId', matches.show );
+    app.post('/api/v1/users/:userId/matches', matches.create);
+    app.put('/api/v1/users/:userId/matches/:matchId', matches.update);
+    app.del('/api/v1/users/:userId/matches/:matchId', matches.destroy);
 
     //Finish with setting up the userId param
     app.param('userId', users.user); 
@@ -147,6 +152,10 @@ module.exports = function(app, passport, auth) {
     
     //Finish with setting up the commentId param
     app.param('commentId', comments.comment);
+    
+    
+    //Finish with setting up the matchId param
+    app.param('matchId', matches.match);
 
     //Setting the facebook oauth routes
     app.get('/auth/facebook', passport.authenticate('facebook', {

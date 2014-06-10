@@ -5,6 +5,8 @@
 var mongoose = require('mongoose')
   , _ = require('underscore')
   , Match = mongoose.model('Match')
+  , ObjectId = mongoose.Types.ObjectId
+  , logger = require('winston')
   
 /************************************************************************************
  *         list all scores
@@ -34,7 +36,7 @@ exports.scores = function(req, res) {
  */
 exports.create = function(req, res) {
     var match = new Match(req.body)           
-    Match.save(function(err) 
+    match.save(function(err, match2) 
     {
       if(err) {
         res.status(500).json( {
@@ -42,7 +44,7 @@ exports.create = function(req, res) {
             error: err
         });
       }
-      res.status(201).json({succes: true, message:'Match creation succeeded!'})
+      res.status(201).json({succes: true, message:'Match creation succeeded! :' + match2._id})
     })
 };
 
@@ -54,7 +56,7 @@ exports.update = function(req, res){
     var match = req.match
     match = _.extend(match, req.body)
     logger.debug("Match to update %s ", match)
-    Match.save(function(err, match) {
+    match.save(function(err, match) {
         if (err) {
             res.status(500).json( {
                 success:false,
@@ -76,6 +78,7 @@ exports.show = function(req, res) {
     Match.findOne({
             _id: req.params.matchId
         })
+        .populate('_team1 _team2')
         .exec(function(err, match) {
             if (err) {
                 res.status(500).json( {
