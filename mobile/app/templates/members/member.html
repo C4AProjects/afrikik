@@ -47,7 +47,7 @@
         <div class="afk-content-high" style="background-color: white;">
         <ion-list>
           <ion-item ng-repeat="player in member.subscribedPlayers" class="afk-bg-list item item-avatar item-button-right">
-            <img ng-src="{{player.picture? apiDir + player.picture :'./images/nopic-player.png'}}" class="afk-circle">            
+            <img ng-src="{{getPicItem(player)}}" class="afk-circle">            
             <a class="afk-lnk-detail" ng-click="setCurrentPlayer(player)">
               <span class="afk-obj-name">{{player.name}}</span>
             <span class="afk-obj-desc">{{player.description}}</span>

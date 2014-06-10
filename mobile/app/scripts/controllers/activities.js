@@ -18,9 +18,13 @@ Afrikik
                 
                 var limit = 5;
                 
+               
+                
                 function callback(data){
                      $scope.communities = data                                  
                 }
+                
+                $scope.communities = ActivityService.getCommunityFeeds(callback, $scope.user._id, 0, limit);
                 
                 ActivityService.getCommunityFeeds(callback, $scope.user._id, 0, limit)
                 
@@ -89,7 +93,7 @@ Afrikik
                                 $scope.communities.push(obj);
                             })
                             $scope.$broadcast('scroll.infiniteScrollComplete');
-                        },$scope.user._id, $scope.communities.length, limit);
+                        },$scope.user._id, $scope.communities.length||0, limit);
                     }
                     
                   }, 1000);

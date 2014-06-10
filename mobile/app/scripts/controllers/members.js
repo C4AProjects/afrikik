@@ -108,5 +108,13 @@ Afrikik
                 $scope.cleanCache = function(){
                    Global.setTopItems([]) //
                 }
+                
+                $scope.getPicItem = function(item){
+                        if (item&&item.img_url) {
+                                return item.img_url
+                        }
+                        return  (item.picture)? apiDir + item.picture : './images/avatars/default.png';
+                }
+                                
                                 
         })

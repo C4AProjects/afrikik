@@ -13,19 +13,21 @@
     </div>
      
     <ion-list>
-       <ion-item ng-repeat="activity in communities">
-        <!--img ng-src="{{activity.picture? apiDir + activity.picture :activity.url_img||'./images/nopic-feed.png'}}" class="afk-circle"-->
-        <!--a class="afk-lnk-detail" ng-click="setCurrentFeed(activity._id)"-->
-            <span class="afk-feed"><i class="afk-circle" style="color: #f97c11;background-color: black">{{activity.feedType?'Com.':'-'}} </i> {{activity.message}}</span>
-            <span class="afk-obj-desc">Posted by {{activity._user.name||activity._user.username}} on {{activity.createdAt|date:"EEEE MMM dd 'at' HH:mm 'GMT'"}}</span> 
-        <!--/a-->
-      </ion-item>              
-    </ion-list>
-    <div ng-show="stopScroll" >
-      <center>No more results to show!!!</center>
-    </div>
-    
-    <ion-infinite-scroll on-infinite="loadMoreCommunity()" ng-if="!stopScroll"></ion-infinite-scroll>
+        <ion-item ng-repeat="activity in communities">
+         <!--img ng-src="{{activity.picture? apiDir + activity.picture :activity.url_img||'./images/nopic-feed.png'}}" class="afk-circle"-->
+         <!--a class="afk-lnk-detail" ng-click="setCurrentFeed(activity._id)"-->
+             <span class="afk-feed"><i class="afk-circle" style="color: #f97c11;background-color: black">{{activity.feedType?'Com.':'-'}} </i> {{activity.message}}</span>
+             <span class="afk-obj-desc">Posted by <a class="afk-lnk-player-feed" ng-href="{{activity._user._id==user._id?'#':'#/private/member/'+activity._user._id}}">{{activity._user._id == user._id?'Me':activity._user.name||activity._user.username}}</a> on {{activity.createdAt|date:"EEEE MMM dd 'at' HH:mm 'GMT'"}}</span> 
+         <!--/a-->
+       </ion-item>              
+     </ion-list>
+      </div>
+     <div ng-show="stopScroll && communities.length>10" >
+         <center>No more results to show!!!</center>
+     </div>
+ 
+     <ion-infinite-scroll on-infinite="loadMoreCommunity()" ng-if="!stopScroll"></ion-infinite-scroll>
+        
     
   </ion-content>
 </ion-view>

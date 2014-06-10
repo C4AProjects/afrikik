@@ -44,22 +44,28 @@
             <form name="ProfileForm" ng-submit="update(user )">
                 <center>
                     <img class="afk-circle" ng-src="./images/avatars/{{user.picture||'default.png'}}"  ng-click="showAvatars=!showAvatars" />
-                    <div style="text-align: center; font-weight: bold; color: white" ng-show="!showAvatars">
-                        Tape Picture to change your avatar
+                    <div style="text-align: center; font-weight: bold; color: white" ng-show="!showAvatars" ng-click="showAvatars=!showAvatars">
+                        Tape Avatar to change it! <span style="font-size: 14px" class="icon ion-compose afk-comment"></span>
                     </div>
                     <h3 id="name" ng-click="show=!show">{{user.name}}<span style="font-size: 14px" class="icon ion-compose afk-comment"></span></h3>
                     <h6 id="summary">Member Since {{user.createdAt|date:'yyyy'}} <br/>
                     </h6>
-                <div ng-show="show"><input class="afk-input" type="text" ng-model="user.name" placeholder="Your name"></div>
-                    <button class="button button-block afk-btn afk-btn-register">Save changes</button>
+                <div ng-show="show">
+                    <input class="afk-input" type="text" ng-model="user.name" placeholder="Your name"></div>
+                    <button class="button afk-btn afk-btn-register" >Save changes</button>
                 </center>
             </form>
-            <button class="button afk-btn-register"   style="margin:0px;" ng-click="logout(); ">
+            <div style="text-align: center">
+                <br/>
+            <button class="button afk-btn afk-btn-register"   style="margin:0px;" ng-click="logout(); ">
             Logout
             </button>
-            <button class="button afk-btn-register"  style="margin:0px;" ng-click="cleanCache(); ">
+            <button class="button afk-btn afk-btn-register"  style="margin:0px;" ng-click="cleanCache(); ">
             Clean Cache Data
             </button>
+            </div>
+            <br/>
+            <br/>
         </div>
       </ion-slide>
       

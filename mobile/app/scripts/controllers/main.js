@@ -5,6 +5,10 @@ angular.module('Afrikik')
       $scope.refresh = function(){
 	$window.location.reload();
       }
+      
+      $scope.forceSearch= function(){
+	$window.location='#/private/search'
+      }
    })
   .controller('MainCtrl',function ( $scope, $ionicSlideBoxDelegate, $filter, $rootScope,$state, User, authenticationService, envConfiguration, Global, ErrorHandler, $ionicLoading, PlayerService, MemberService, config, $window, $http, $location) {
       var Auth = authenticationService;
