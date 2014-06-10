@@ -2,7 +2,7 @@
 
     <ion-content has-header="true" >        
     
-    <div class="row afk-member-profile" style="background-image: url('./images/profile-bg.png');">
+    <!--div class="row afk-member-profile" style="background-image: url('./images/profile-bg.png');">
         <div class="col" style="height: auto;text-align: center">         
           <div class="row">
             <div class="col">
@@ -19,7 +19,7 @@
             </div>
           </div>            
         </div>
-    </div>
+    </div-->
     
     <ion-slide-box style="background-color: #4a4845;">      
       <ion-slide >              
@@ -34,20 +34,25 @@
             <a class="afk-menu-tab2">FRIENDS</a>
           </div>
         </div>            
-        <div class="afk-player-activity afk-content" style="background-color: grey">
-            <ion-radio ng-repeat="avatar in avatars" ng-model="user.picture" ng-value="avatar" style="max-height: 70px;">
-                <img ng-src="./images/avatars/{{avatar}}" class="afk-circle" style="max-height: 50px;max-width:50px"> ({{avatar}}) as Avatar
-            </ion-radio>   
+        <div class="afk-player-activity afk-content-high" style="background-color: grey;">
+            <div style="text-align: center" ng-show="showAvatars">
+            <ion-radio ng-repeat="avatar in avatars" ng-model="user.picture" ng-value="avatar" style="display: inline-block;max-height: 80px;max-width:80px">
+                <img ng-src="./images/avatars/{{avatar}}" class="afk-circle" style="max-height: 60px;max-width:60px">
+            </ion-radio>
+            </div>
+            
             <form name="ProfileForm" ng-submit="update(user )">
-                <div class="afk-container-register">
-                    <div class="afk-label">Name</div>
-                    <center><input class="afk-input" type="text" ng-model="user.name" placeholder="Your name"></center>
-                    <!--div class="afk-label">Email</div>
-                    <center><input class="afk-input" name="email" ng-value="user.email" type="email" disabled></center>
-                   </div-->
-                <div style="padding-top: 30px;padding-bottom: 50px">
+                <center>
+                    <img class="afk-circle" ng-src="./images/avatars/{{user.picture||'default.png'}}"  ng-click="showAvatars=!showAvatars" />
+                    <div style="text-align: center; font-weight: bold; color: white" ng-show="!showAvatars">
+                        Tape Picture to change your avatar
+                    </div>
+                    <h3 id="name" ng-click="show=!show">{{user.name}}<span style="font-size: 14px" class="icon ion-compose afk-comment"></span></h3>
+                    <h6 id="summary">Member Since {{user.createdAt|date:'yyyy'}} <br/>
+                    </h6>
+                <div ng-show="show"><input class="afk-input" type="text" ng-model="user.name" placeholder="Your name"></div>
                     <button class="button button-block afk-btn afk-btn-register">Save changes</button>
-                </div>
+                </center>
             </form>
             <button class="button afk-btn-register"   style="margin:0px;" ng-click="logout(); ">
             Logout

@@ -73,16 +73,21 @@
             </div>
         <ion-list>
           <ion-item ng-repeat="activity in scores" >
+            <h6> {{activity.dateMatch||activity.createdAt|date:"EEEE MMM dd , yyyy ' - ' HH:mm 'GMT'"}}</h6> 
                 <div class="row">
-                    <div class="col-80" style="text-align: center">
-                        <span class="afk-feed" >{{activity._team1.name + '  -  ' + activity._team2.name + ' ' }} </span>
-                        <span class="afk-obj-desc"> {{activity.dateMatch||activity.createdAt|date:"EEEE MMM dd 'at' HH:mm 'GMT'"}}</span> 
+                    <div class="col col-45" style="text-align: center">
+                         <span class="afk-feed" >{{activity._team1.name}} </span>
+                         <img ng-src="{{getPicItem(activity._team1)}}" style="max-height: 15px"/>
                     </div>
-                    <div class="col-20" style="text-align: right; font-weight: bold;">
+                    <div class="col col-45" style="text-align: center">
+                        <span class="afk-feed" >{{ activity._team2.name }} </span>
+                         <img ng-src="{{getPicItem(activity._team2)}}" style="max-height: 15px">
+                    </div>
+                    <div class="col col-10" style="text-align: right; font-weight: bold;">
                         {{activity.score}}
                     </div>
                 </div>
-          </ion-item>      
+           </ion-item>      
         </ion-list>
         
         <div ng-show="stopScrollScore && scores.length>=10" >

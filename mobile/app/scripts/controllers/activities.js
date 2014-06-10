@@ -1,7 +1,9 @@
 'use strict';
 
 Afrikik
-        .controller('ActivityCtrl', function($scope, $rootScope, $ionicLoading, $timeout, $state, $stateParams, $ionicSlideBoxDelegate, ActivityService, Global) {
+        .controller('ActivityCtrl', function($scope, $rootScope, config, $ionicLoading, $timeout, $state, $stateParams, $ionicSlideBoxDelegate, ActivityService, Global) {
+                
+                var apiDir =  config.apiDir;
                 
                 $scope.activities = ActivityService.feedsSubscribed(Global.getUserId());
                 
@@ -36,6 +38,14 @@ Afrikik
                 
                 $scope.go = function(index){               
                       $ionicSlideBoxDelegate.slide(index)
+                }
+                
+                
+                $scope.getPicItem = function(item){
+                        if (item&&item.img_url) {
+                                return item.img_url
+                        }
+                        return  (item.picture)? apiDir + item.picture : apiDir +'nopic-player.png';
                 }
                 
                 $scope.show = function(tpl, time) {

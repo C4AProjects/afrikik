@@ -13,10 +13,16 @@
             </div>
           </div>
           <div class="row">
-            <div class="col" style="padding-bottom: 15px;padding-top: 1px">
+            <div ng-show="!team.nationalTeam" class="col" style="padding-bottom: 15px;padding-top: 1px">
               <h3 id="name">{{team.name}}</h3>
               <h6 id="summary">{{team.description}}<br/>
               Location: {{team.location||'[Unknown]'}}
+              </h6>
+            </div>
+            <div ng-show="team.nationalTeam" class="col" style="padding-bottom: 15px;padding-top: 1px">
+              <h3 id="name">{{team.name}}</h3>
+              <h6 id="summary">{{team.description}}<br/>
+              {{team.association}} <br/> {{team.league}}
               </h6>
             </div>
           </div>            

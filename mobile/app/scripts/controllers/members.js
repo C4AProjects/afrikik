@@ -4,9 +4,9 @@ Afrikik
         // A simple controller that fetches a list of data from a service
         .controller('MemberCtrl', function($ionicLoading, $stateParams, $window, config,$scope, $state, $timeout, $ionicSlideBoxDelegate, Global, MemberService, TeamService, PlayerService,SettingsService, envConfiguration) {
                 
-                $scope.avatars = ['a1.png','a2.png','a3.png']
+                $scope.avatars = ['default.png','a1.png','a2.png','a3.png','a4.png','a5.png','a6.png','a7.png','a8.png','a9.png','a10.png','a11.png']
                 
-                $scope.apiDir =  config.apiDir;
+                var apiDir =  config.apiDir;
                                 
                 $scope.user = Global.getUser()
                 if ($stateParams._id) {
@@ -25,7 +25,7 @@ Afrikik
                         $scope.user.following.push(member)
                         Global.setUser($scope.user);
                         $scope.isFriend ();
-                }
+                }                        
                 
                 $scope.go = function(index){               
                       $ionicSlideBoxDelegate.slide(index)
