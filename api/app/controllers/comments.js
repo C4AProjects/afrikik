@@ -15,6 +15,8 @@ var mongoose = require('mongoose')
 exports.getCommentsByFeed = function(req, res){
   Comment
     .find({_feed:req.feed._id})
+    .populate('_team _player')
+    .skip(req.query.skip||0)
     .limit(req.query.limit||50)  
     .exec(function(err, list) {
         if (err) {
