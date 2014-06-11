@@ -10,15 +10,19 @@ Afrikik
                 $scope.user = Global.getUser();
                 
                 $rootScope.menuLeft = true;
-                
+                 $scope.comments = [];
+                 
                 if ($stateParams._id) {
                         $scope.feed = ActivityService.getByFeedById($stateParams._id);
+                        $scope.comments = ActivityService.commentsFeed(function(values){
+                                $scope.comments = values;
+                        }, $stateParams._id, 0, limit)
                         $rootScope.menuLeft = false;
                 }
                 
                 var limit = 5;
                 
-               
+              
                 
                 function callback(data){
                      $scope.communities = data                                  
@@ -49,7 +53,7 @@ Afrikik
                         if (item&&item.img_url) {
                                 return item.img_url
                         }
-                        return  (item.picture)? apiDir + item.picture : apiDir +'nopic-player.png';
+                        return  (item.picture)? apiDir + item.picture : './images/nopic-player.png';
                 }
                 
                 $scope.show = function(tpl, time) {
@@ -62,19 +66,15 @@ Afrikik
                 };
                 
                 $scope.comment = function(msg, type){
-                        if (!msg||msg.length<10) {
-                             $scope.show('<span style="color:red;font-weight:bold">A message is required before continuing! </span> <br> Minimum size :10', 2000)
+                        if (!msg||msg.length<5) {
+                             $scope.show('<span style="color:red;font-weight:bold">A message is required before continuing! </span>  Minimum size :5', 2000)
                              return;
                         }
-                       ActivityService.create({message: msg, _user:$scope.user._id, feedType: type});
-                       setTimeout(function(){
-                        if (type=='score') {
-                                $scope.scoreFeeds = ActivityService.getScoreFeeds($scope.user._id);
-                        }else{
-                                $scope.communities = ActivityService.getCommunityFeeds(callback, $scope.user._id, 0, limit);
-                        }
-                        
-                       }, 1000)
+                       ActivityService.commentFeed({message: msg, _user:$scope.user._id, _feed:$scope.feed, feedType: type},
+                                                   function(){
+                                                        $scope.feed = ActivityService.getByFeedById($scope.feed._id); 
+                                                   });
+                                             
                      
                 }
                 
@@ -138,6 +138,28 @@ Afrikik
                             })
                             $scope.$broadcast('scroll.infiniteScrollComplete');
                         },$scope.user._id, $scope.scores.length, limit);
+                    }
+                    
+                  }, 1000);
+        
+                }
+                
+                 //infinite Scroll on scores
+                
+                $scope.stopScrollComment = false;  //
+                
+                $scope.loadMoreComments = function() {                
+                  $timeout(function() {
+                    if (!$scope.stopScrollComment) {
+                        /*ActivityService.getCommentsFeed(function (data){
+                            if (data.length==0) {
+                                $scope.stopScrollComment=true
+                            }
+                            data.forEach(function(obj){
+                                //$scope.scores.push(obj);
+                            })
+                            $scope.$broadcast('scroll.infiniteScrollComplete');
+                        },$scope.user._id, $scope.scores.length, limit);*/
                     }
                     
                   }, 1000);

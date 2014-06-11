@@ -125,7 +125,7 @@ angular.module('Afrikik')
 	
 	Global.setUser($scope.user)*/
 	
-      //_gaq.push(['_trackEvent','Authentication', 'Login', 'Regular Login', $scope.auth.email, false])
+      _gaq.push(['_trackEvent','Authentication', 'Login', 'Regular Login', $scope.user.email, false])
       
       /*var authentication = */
       Auth.login($scope.user).then(function(loginResponse){
@@ -198,12 +198,13 @@ angular.module('Afrikik')
 	    $scope.user.authenticated = false;
 	    Global.setUser($scope.user)
 	    $state.transitionTo('index')
-          //_gaq.push(['_trackEvent','Authentication', 'Logout', 'Regular Logout'])
+          _gaq.push(['_trackEvent','Authentication', 'Login', 'Regular Logout', $scope.user.email, false])
       });
 
     }
     
     $scope.cleanCache = function(){
+	_gaq.push(['_trackEvent','User Settings', 'Login', 'Clean user cache data', $scope.user.email, false])
        Global.setTopItems([]) //
 
     }
@@ -213,6 +214,7 @@ angular.module('Afrikik')
     }
     
     $scope.register = function(){
+	_gaq.push(['_trackEvent','Registration', 'Registration', 'User Registration', $scope.user_new.email, false])
        $scope.user_new.username= $scope.user_new.username||$scope.user_new.email;//TODO
     	var authentication = User.save($scope.user_new, function(response){
             console.log("New user created")

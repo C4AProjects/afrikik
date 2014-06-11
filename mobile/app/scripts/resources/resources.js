@@ -195,6 +195,14 @@ angular.module('Afrikik')
 		  },
 		  isArray:true
 		},
+		'commentsFeed':{
+		  method:'GET',
+		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/feeds/:feedId/comments?skip=:skip&limit=:limit',
+		  params:{
+		    id : Global.getUserId(),		    	  
+		  },
+		  isArray:true
+		},
 		'feedsPlayer':{
 		  method:'GET',
 		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/players/:playerId/feeds',
@@ -205,7 +213,7 @@ angular.module('Afrikik')
 		},
 		'feedsTeam':{
 		  method:'GET',
-		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/teams/:teamId/feeds',
+		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/teams/:teamId/feeds?skip=:skip&limit=:limit',
 		  params:{
 		    id : Global.getUserId(),		    	  
 		  },

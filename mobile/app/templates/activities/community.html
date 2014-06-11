@@ -12,13 +12,13 @@
         </button>
     </div>
      
-    <ion-list>
-        <ion-item ng-repeat="activity in communities">
-         <!--img ng-src="{{activity.picture? apiDir + activity.picture :activity.url_img||'./images/nopic-feed.png'}}" class="afk-circle"-->
-         <!--a class="afk-lnk-detail" ng-click="setCurrentFeed(activity._id)"-->
-             <span class="afk-feed"><i class="afk-circle" style="color: #f97c11;background-color: black">{{activity.feedType?'Com.':'-'}} </i> {{activity.message}}</span>
-             <span class="afk-obj-desc">Posted by <a class="afk-lnk-player-feed" ng-href="{{activity._user._id==user._id?'#':'#/private/member/'+activity._user._id}}">{{activity._user._id == user._id?'Me':activity._user.name||activity._user.username}}</a> on {{activity.createdAt|date:"EEEE MMM dd 'at' HH:mm 'GMT'"}}</span> 
-         <!--/a-->
+     <ion-list>
+        <ion-item ng-repeat="activity in communities" class="afk-bg-list item item-avatar">            
+         <img class="afk-circle" ng-src="{{activity._user.picture? './images/avatars/' + activity._user.picture :'./images/avatars/default.png'}}" />
+         <a class="afk-lnk-player-feed" ng-href="{{activity._user._id==user._id?'#':'#/private/member/'+activity._user._id}}">
+             <span class="afk-feed">{{activity.message}}</span>
+             <span class="afk-obj-desc">Posted by <span class="afk-lnk-player-feed" >{{activity._user._id == user._id?'Me':activity._user.name||activity._user.username}}</span> on {{activity.createdAt|date:"EEEE MMM dd 'at' HH:mm 'GMT'"}}</span> 
+         </a>
        </ion-item>              
      </ion-list>
       </div>

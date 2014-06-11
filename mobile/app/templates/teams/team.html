@@ -9,7 +9,7 @@
                 <div ng-show="isSubscribedOn(team)" >
                 <span ng-click="unsubscribe(team)" class="icon ion-minus-circled" style="color: white; font-size: 20px; cursor:pointer" >Unfollow</span>
                 </div>
-                 <center><img class="afk-circle" ng-src="{{getPicItem(team)}}" /></center>
+                 <center><img class="afk-circle" ng-src="{{getPicItem(team)}}" style="height: 100px" /></center>
             </div>
           </div>
           <div class="row">
@@ -46,10 +46,10 @@
             <a  class="afk-menu-tab">PLAYERS</a>
           </div>
           <div class="col afk-align-center" ng-click="go(2)">
-            <a class="afk-menu-tab">COMMUNITY</a>
+            <a class="afk-menu-tab">STATS</a>
           </div>
         </div>
-        
+        <div class="afk-content">
         <ion-list>
           <ion-item ng-repeat="activity in activities" class="afk-bg-list item item-avatar item-icon-right">
             <img ng-src="{{activity.picture? apiDir + activity.picture :activity.url_img||'./images/nopic-feed.png'}}" class="afk-circle">
@@ -60,7 +60,9 @@
                 <i class="icon ion-arrow-right-b" style="font-size: 13px; color: lightgrey;"></i>
             </a>
           </ion-item>   
-        </ion-list>         
+        </ion-list>
+        <br/><br/>
+        </div>
       </ion-slide>
       
       <ion-slide>              
@@ -72,20 +74,22 @@
             <a class="afk-menu-tab afk-menu-tab-active">PLAYERS</a>
           </div>
           <div class="col afk-align-center" ng-click="go(2)">
-            <a class="afk-menu-tab">COMMUNITY</a>
+            <a class="afk-menu-tab">STATS</a>
           </div>
-        </div>        
+        </div>
+        <div class="afk-content">
         <ion-list>
           <ion-item ng-repeat="player in players" class="afk-bg-list item item-avatar item-button-right">
-            <img src="./images/player.png" class="afk-circle">            
+            <img ng-src="{{getPicItem(player)}}" class="afk-circle">            
             <a class="afk-lnk-detail">
               <span class="afk-obj-name">{{player.name}}</span>
             <span class="afk-obj-desc">{{player.description}}</span>
               View Profile <i class="icon ion-ios7-arrow-forward"></i></a>
           </ion-item>   
-        </ion-list>
+        </ion-list>   
+      <br/>
+        </div>
       </ion-slide>
-      
       <ion-slide>              
         <div class="row">
           <div class="col afk-align-center" ng-click="go(0)">
@@ -95,10 +99,10 @@
             <a class="afk-menu-tab">PLAYERS</a>
           </div>
           <div class="col afk-align-center">
-            <a class="afk-menu-tab afk-menu-tab-active">COMMUNITY</a>
+            <a class="afk-menu-tab afk-menu-tab-active">STATS</a>
           </div>
         </div>
-         <div class="item item-input-inset" style="background-color: grey">            
+         <!--div class="item item-input-inset" style="background-color: grey">            
             <label class="item-input-wrapper afk-search-bg" >            
                 <input type="text" placeholder="Add Comment Here" class="afk-search-bg" ng-model="request.query" />
             </label>    
@@ -111,7 +115,55 @@
             <span class="afk-feed">{{activity.message}}</span>
             <span class="afk-obj-desc">Posted by {{activity._user.name}} on {{activity.createdAt}}</span> 
           </ion-item>   
-        </ion-list>     
+        </ion-list-->
+        <div class="afk-content">
+         <div class="row">
+                <div class="col">
+                    <div class="list">
+                        <div class="row">
+                          <div class="col"><img src="images/stats/goals.png" style="max-height: 50px; max-width: 50px"></div>
+                          <div class="col" style="text-align: center">
+                            <h5>Goals </h5>
+                            <h4>{{player.goals||'-'}}</h4>
+                          </div>             
+                        </div>
+                        <div class="row">
+                          <div class="col"><img src="images/stats/wins.png" style="max-height: 50px; max-width: 50px"></div>
+                          <div class="col" style="text-align: center">
+                            <h5>Wins </h5>
+                            <h4>{{player.wins||'-'}}</h4>
+                          </div>             
+                        </div>
+                        <div class="row">
+                          <div class="col"><img src="images/stats/losses.png" style="max-height: 50px; max-width: 50px"></div>
+                          <div class="col" style="text-align: center">
+                            <h5>Losses </h5>
+                            <h4>{{player.losses||'-'}}</h4>
+                          </div>             
+                        </div>                                               
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="list">                        
+                        <div class="row">
+                          <div class="col"><img src="images/stats/reds.png" style="max-height: 50px; max-width: 50px"></div>
+                          <div class="col" style="text-align: center">
+                            <h5>Red cards </h5>
+                            <h4>{{player.reds||'-'}}</h4>
+                          </div>             
+                        </div>
+                        <div class="row">
+                          <div class="col"><img src="images/stats/yellows.png" style="max-height: 50px; max-width: 50px"></div>
+                          <div class="col" style="text-align: center">
+                            <h5>Yellow cards </h5>
+                            <h4>{{player.yellows||'-'}}</h4>
+                          </div>             
+                        </div>                        
+                    </div>
+                </div>
+         </div>
+            </div>              
+        </div>
       </ion-slide>
     </ion-slide-box>  
     </div>

@@ -213,17 +213,19 @@ input.afk-input {
   -webkit-border-radius: 50%; 
   -moz-border-radius: 50%; 
    border-radius: 50%;
-   width: 125px;
-   height: 125px;
-   border: inset;
+   max-width: 125px;
+   max-height: 125px;
+   border: medium;
 }
+
 
 .afk-circle-small {
   -webkit-border-radius: 50%; 
   -moz-border-radius: 50%; 
    border-radius: 50%;
-   width: 50px;
-   height: 50px;
+   max-width: 50px;
+   max-height: 50px;
+   border: medium;
 }
 
 .afk-member-profile {

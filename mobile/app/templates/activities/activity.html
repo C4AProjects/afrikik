@@ -30,7 +30,13 @@
             <span class="afk-obj-desc">Posted by {{comment.username}} on {{comment.createdAt|date:"EEEE MMM dd 'at' HH:mm 'GMT'"}}</span> 
           </a>
         </ion-item>   
-    </ion-list> 
+    </ion-list>
+    <!--div ng-show="stopScrollComment && feed.comments.length>10" >
+        <center>No more results to show!!!</center>
+    </div>
+
+    <ion-infinite-scroll on-infinite="loadMoreComments()" ng-if="!stopScrollComment"></ion-infinite-scroll-->
+<br/><br/>
     </div>
   </ion-content>
 </ion-view>

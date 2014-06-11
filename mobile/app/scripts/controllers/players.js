@@ -82,7 +82,10 @@ Afrikik
                         if (item&&item.img_url) {
                                 return item.img_url
                         }
-                        return  (item.picture)? apiDir + item.picture : apiDir +'nopic-player.png';
+                        if (item.picture=='nopic-player.png') {
+                                return './images/nopic-player.png';
+                        }
+                        return  (item.picture)? apiDir + item.picture :  './images/nopic-player.png';
                 }
                 
                 $scope.setCurrentItem = function(item){

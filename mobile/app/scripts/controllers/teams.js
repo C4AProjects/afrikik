@@ -14,11 +14,18 @@ Afrikik
                 $ionicSlideBoxDelegate.slide($scope.slide||1)
                 
                 $rootScope.menuLeft = true;
+                $scope.activities = []
+                
+                var limit = 10;
+                
+                function callback(data){
+                     $scope.communities = data                                  
+                }
                                 
                 if($stateParams._id){
                         $scope.team = TeamService.getById($stateParams._id);
                         $scope.players = TeamService.playersTeam($stateParams._id)
-                        $scope.activities = ActivityService.feedsTeam($stateParams._id)
+                        $scope.activities = ActivityService.feedsTeam(callback, $stateParams._id, 0, limit)
                         $rootScope.menuLeft = false;
                 }                
                                
@@ -57,11 +64,7 @@ Afrikik
                         
                 }
                 
-                $scope.getPicture = function(pic){                       
-                        pic = (pic&&pic!='undefined')? apiDir + pic :'./images/no-player.png';
-                        //console.log('bizar: ' +pic );
-                        return pic;
-                }
+                
                 
                 $scope.setCurrentPlayer = function(player){
                         PlayerService.setCurrentPlayer(player)
@@ -77,6 +80,9 @@ Afrikik
                  $scope.getPicItem = function(item){
                         if (item.img_url) {
                                 return item.img_url
+                        }
+                        if (item.picture=='nopic-team.png') {
+                                return './images/nopic-team.png';
                         }
                         return  (item.picture)? apiDir + item.picture :'./images/nopic-team.png';
                 }
