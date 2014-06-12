@@ -12,11 +12,10 @@ var mongoose = require('mongoose')
 /**
  * Get comments of a feed
  */
-exports.getCommentsByFeed = function(req, res){
-  console.log('Feed comment :' +req.params.feedId)
+exports.getCommentsByFeed = function(req, res){ 
   Comment
-    .find({'_feed':new ObjectId(req.params.feedId)})
-    .populate('_team _player')
+    .find({'_feed': req.params.feedId})
+    .populate('_team _player _user')
     .skip(req.query.skip||0)
     .limit(req.query.limit||50)  
     .exec(function(err, list) {

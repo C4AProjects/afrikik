@@ -171,8 +171,8 @@ exports.feed = function(req, res, next, id) {
         Feed.findOne({
             _id: new ObjectId(id)
         })
-        .slice('comments', req.query.limit||-10)  //the last 10 comments if limit 
-        .populate('comments comments._user')
+        //.slice('comments', req.query.limit||-10)  //the last 10 comments if limit 
+        .populate('comments')
         .exec(function(err, feed) {
             if (err){
               res.status(500).json( {
