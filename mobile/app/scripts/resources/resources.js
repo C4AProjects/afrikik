@@ -158,6 +158,7 @@ angular.module('Afrikik')
     		update: { method: 'PUT' },
 		'get': {
 		  method:'GET',
+		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/feeds/:feedId',
 		  params:{
 		    id : Global.getUserId(),		    	  
 		  },
@@ -195,9 +196,9 @@ angular.module('Afrikik')
 		  },
 		  isArray:true
 		},
-		'commentsFeed':{
+		'getCommentsFeed':{
 		  method:'GET',
-		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/feeds/:feedId/comments?skip=:skip&limit=:limit',
+		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/comments/feeds/:feedId?skip=:skip&limit=:limit',
 		  params:{
 		    id : Global.getUserId(),		    	  
 		  },
@@ -260,7 +261,7 @@ angular.module('Afrikik')
     	}
     );
     
-    feedResource = TokenHandler.wrapActions(feedResource,["get","query","update","save","comment"]);
+    feedResource = TokenHandler.wrapActions(feedResource,["get","query","update","save","comment","getCommentsFeed"]);
     
     return feedResource;
    

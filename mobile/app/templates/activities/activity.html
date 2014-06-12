@@ -1,20 +1,20 @@
 <ion-view >
     
 <ion-content class="has-header">
-    <div class="afk-header-list">{{feed.title||feed.message}}</div>    
+    <div class="afk-header-list">{{feed.title||'No title'}}</div>    
     <div>
-        <img   style="float: left;margin: 0 6px 6px 0;" ng-src="{{feed.url_img}}"/>
-        <span>{{feed.message}}</span>{{feed.url}}
-        
-        <div ng-show="{{feed.url?'true':'false'}}">
-        <a ng-href="{{feed.url}}">Source</a>
+        <img   style="float: left;margin: 0 6px 6px 0;" ng-src="{{feed.image||feed.url_img}}"/>
+        <span>{{feed.message}}</span>        
+        <div>
+        <a ng-href="{{feed.link}}">Source</a>
         </div>
     </div>
     
     <br/>
     <div>
-    <u>{{feed.comments.length}} Comments:</u> <br/> <br/>
+    <br/> <br/>
     <a ng-href="#/private/feeds" class="afk-lnk-team-feed" > All Activities </a>
+    <span style="float: right;color: green"> {{ feed.comments.length }} Comments </span> 
      <div class="item item-input-inset" style="background-color: grey">            
         <label class="item-input-wrapper afk-search-bg" >            
             <input type="text" placeholder="Add Comment Here" class="afk-search-bg" ng-model="data.message" maxlength="160" />
@@ -31,12 +31,7 @@
           </a>
         </ion-item>   
     </ion-list>
-    <!--div ng-show="stopScrollComment && feed.comments.length>10" >
-        <center>No more results to show!!!</center>
-    </div>
-
-    <ion-infinite-scroll on-infinite="loadMoreComments()" ng-if="!stopScrollComment"></ion-infinite-scroll-->
-<br/><br/>
+   <br/><br/>
     </div>
   </ion-content>
 </ion-view>

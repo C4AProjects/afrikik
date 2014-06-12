@@ -21,6 +21,41 @@ max-height: 50px;
 width: 100%;
 border-radius: 50%;
 }
+.afk-item-score {
+border-color: #ddd;
+background-color: #fff;
+color: #444;
+position: relative;
+z-index: 2;
+display: block;
+margin: -1px;
+padding: 1px;
+border-width: 1px;
+border-style: solid;
+font-size: 16px;
+}
+.afk-row-score {
+display: -webkit-box;
+display: -webkit-flex;
+display: -moz-box;
+display: -moz-flex;
+display: -ms-flexbox;
+display: flex;
+padding: 1px;
+width: 100%
+}
+
+.afk-col-score {
+-webkit-box-flex: 1;
+-webkit-flex: 1;
+-moz-box-flex: 1;
+-moz-flex: 1;
+-ms-flex: 1;
+flex: 1;
+display: block;
+padding: 1px;
+width: 100%;
+}
 
 #loading-bar .bar {
   -webkit-transition: width 350ms;
@@ -215,7 +250,12 @@ input.afk-input {
    border-radius: 50%;
    max-width: 125px;
    max-height: 125px;
-   border: medium;
+   border:  inset;
+}
+
+.afk-bold{
+  font-weight: bold;
+  color: red;
 }
 
 
@@ -223,9 +263,8 @@ input.afk-input {
   -webkit-border-radius: 50%; 
   -moz-border-radius: 50%; 
    border-radius: 50%;
-   max-width: 50px;
-   max-height: 50px;
-   border: medium;
+   
+   border: inset;
 }
 
 .afk-member-profile {

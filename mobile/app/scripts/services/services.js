@@ -119,8 +119,8 @@ angular.module('Afrikik.services', [])
     feedsTeam: function(cb,teamId, skip, limit) {
       return feeds = Activity.feedsTeam({teamId:teamId, skip:skip, limit:limit}, cb);
     },
-    getByFeedById: function(feedId){      
-      return Activity.get({feedId:feedId})
+    getByFeedById: function(feedId, cb){      
+      return Activity.get({feedId:feedId}, cb)
     },
     getByFeedFromCahe: function(feedId){      
       return _.find(feeds, function(feed){
@@ -142,11 +142,14 @@ angular.module('Afrikik.services', [])
     commentFeed: function(comment, cb){
       return Activity.commentFeed({feedId:comment._feed._id}, {message:comment.message}, cb)
     },
-    commentsFeed: function(cb, feedId, skip, limit){
-      return Activity.commentsFeed({feedId: feedId, skip: skip, limit: limit}, cb)
+    'getCommentsFeed': function(cb, id, skip, limit){
+     Activity.getCommentsFeed({feedId: id, skip: skip, limit: limit}, cb, 
+      function(err){
+        console.log(err)
+      })
     },
-    create: function(feed){
-        return Activity.save({},feed)
+    create: function(feed, cb){
+        return Activity.save({},feed, cb)
     },
     feedsSubscribed: function(cb,userId, skip, limit){
       return Activity.feedsSubcribed({skip:skip, limit:limit}, cb);

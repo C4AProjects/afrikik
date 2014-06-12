@@ -5,30 +5,53 @@ Afrikik
                 
                 var apiDir =  config.apiDir;
                 
+                var limit = 10;
+                
                 $scope.activities = ActivityService.feedsSubscribed(Global.getUserId());
                 
                 $scope.user = Global.getUser();
                 
                 $rootScope.menuLeft = true;
-                 $scope.comments = [];
-                 
+                $scope.comments = [];
+                $scope.feed = {}
+                $scope.communities = []
+                
                 if ($stateParams._id) {
-                        $scope.feed = ActivityService.getByFeedById($stateParams._id);
-                        $scope.comments = ActivityService.commentsFeed(function(values){
-                                $scope.comments = values;
-                        }, $stateParams._id, 0, limit)
+                        console.log('params : '+ $stateParams._id)
+                        ActivityService.getCommentsFeed(function (data){
+                                console.log(data)
+                                $scope.comments = data;
+                                
+                        }, $stateParams._id, 0, 4);
+                        
+                        ActivityService.getByFeedById($stateParams._id, function(data){
+                            $scope.feed = data                            
+                        });
+                        
+                        
                         $rootScope.menuLeft = false;
                 }
                 
-                var limit = 5;
                 
-              
+                
+                
                 
                 function callback(data){
                      $scope.communities = data                                  
                 }
                 
-                $scope.communities = ActivityService.getCommunityFeeds(callback, $scope.user._id, 0, limit);
+                $scope.postFeedCommunity = function(message, feedType){
+                        $ionicLoading.show({
+                          template: '<i class="icon ion-loading-a"></i>'
+                        });
+                        ActivityService.create({message: message, feedType: feedType}, function(data){
+                                ActivityService.getCommunityFeeds(callback, $scope.user._id, 0, limit);
+                                $ionicLoading.hide()
+                        })
+                }
+              
+                
+                ActivityService.getCommunityFeeds(callback, $scope.user._id, 0, limit);
                 
                 ActivityService.getCommunityFeeds(callback, $scope.user._id, 0, limit)
                 
@@ -72,7 +95,9 @@ Afrikik
                         }
                        ActivityService.commentFeed({message: msg, _user:$scope.user._id, _feed:$scope.feed, feedType: type},
                                                    function(){
-                                                        $scope.feed = ActivityService.getByFeedById($scope.feed._id); 
+                                                        ActivityService.getByFeedById($scope.feed._id, function(data){
+                                                                $scope.feed = data    
+                                                        }); 
                                                    });
                                              
                      
@@ -93,7 +118,7 @@ Afrikik
                                 $scope.communities.push(obj);
                             })
                             $scope.$broadcast('scroll.infiniteScrollComplete');
-                        },$scope.user._id, $scope.communities.length||0, limit);
+                        },$scope.user._id, $scope.communities?$scope.communities.length:0, limit);
                     }
                     
                   }, 1000);

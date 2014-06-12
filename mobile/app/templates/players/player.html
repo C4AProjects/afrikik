@@ -45,7 +45,7 @@
             <a class="afk-menu-tab">STATS</a>
           </div>
         </div>
-        <div class="afk-content">
+        <div class="afk-content" ng-show="lockInfo">
         <ion-list>
           <ion-item ng-repeat="activity in activities" class="afk-bg-list item item-avatar item-icon-right">
             <img ng-src="{{activity.picture? apiDir + activity.picture :activity.url_img||'./images/nopic-feed.png'}}" class="afk-circle">
@@ -57,6 +57,7 @@
             </a>
           </ion-item>   
         </ion-list>
+        <br/><br/>
         </div>
       </ion-slide>
       
@@ -72,9 +73,10 @@
             <a class="afk-menu-tab">STATS</a>
           </div>
         </div> 
-           <div class="afk-player-activity afk-content" style="color: grey">
+           <div class="afk-player-activity afk-content" style="color: grey" ng-show="lockInfo">
             {{player.career||player.description}}
            </div>
+           <br/><br/>
       </ion-slide>
       
       <ion-slide>              
@@ -89,7 +91,7 @@
             <a class="afk-menu-tab afk-menu-tab-active">STATS</a>
           </div>
         </div>
-        <div class="afk-content">
+        <div class="afk-content" ng-show="lockInfo">
             <div class="row">
                 <div class="col">
                     <div class="list">
@@ -136,6 +138,7 @@
                 </div>
             </div>              
         </div>
+        <br/><br/>
       </ion-slide>
     </ion-slide-box>
     <div ng-show="!isSubscribedOn(player)" >

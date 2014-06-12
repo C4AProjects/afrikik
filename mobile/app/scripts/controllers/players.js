@@ -9,7 +9,6 @@ Afrikik
                 //var playersCache = $angularCacheFactory('playersCache');
                 
                 
-                
                 $scope.user = $scope.user||Global.getUser()
        
                 $rootScope.menuLeft = true;
@@ -35,12 +34,11 @@ Afrikik
                         })                                                                                        
                         
                 }
-                
-                
-                
+                                                
                 $scope.go = function(index){               
                       $ionicSlideBoxDelegate.slide(index)
                 }
+                
                 //$scope.communities = []
                 $scope.post = function(msg){
                        PlayerService.comment({ _player: $scope.player, message: msg, _user:$scope.user});
@@ -117,12 +115,16 @@ Afrikik
                 
                  
                 $scope.styleLocked = {};
+                $scope.lockInfo = false;
+                
                 $scope.isSubscribedOn = function(player){
                         $scope.styleLocked = {};
                         var test = false;
+                        $scope.lockInfo = false;
                         $scope.user.subscribedPlayers.forEach(function(myplayer){
                                 if (myplayer._id == $stateParams._id) {
                                         test = true;
+                                        $scope.lockInfo = true;
                                         return;
                                 }                                
                         })

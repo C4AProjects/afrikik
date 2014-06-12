@@ -6,9 +6,14 @@ angular.module('Afrikik')
 	$window.location.reload();
       }
       
-      $scope.forceSearch= function(){
+      $scope.forceSearch = function(){
 	$window.location='#/private/search'
       }
+      
+      $scope.forceCommunity = function(){
+	$window.location='#/private/feeds'
+      }
+      
    })
   .controller('MainCtrl',function ( $scope, $ionicSlideBoxDelegate, $filter, $rootScope,$state, User, authenticationService, envConfiguration, Global, ErrorHandler, $ionicLoading, PlayerService, MemberService, config, $window, $http, $location) {
       var Auth = authenticationService;
