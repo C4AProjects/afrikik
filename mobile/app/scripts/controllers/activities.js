@@ -17,15 +17,16 @@ Afrikik
                 $scope.communities = []
                 
                 if ($stateParams._id) {
-                        console.log('params : '+ $stateParams._id)
-                        ActivityService.getCommentsFeed(function (data){
-                                console.log(data)
-                                $scope.comments = data;
+                        //console.log('params : '+ $stateParams._id)
+                        
+                        ActivityService.getCommentsFeed(function (c){
+                                console.log(c)
+                                $scope.comments = c;
                                 
                         }, $stateParams._id, 0, 4);
                         
-                        ActivityService.getByFeedById($stateParams._id, function(data){
-                            $scope.feed = data                            
+                        ActivityService.getByFeedById($stateParams._id, function(feed){
+                            $scope.feed = feed                            
                         });
                         
                         

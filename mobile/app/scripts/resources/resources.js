@@ -198,7 +198,7 @@ angular.module('Afrikik')
 		},
 		'getCommentsFeed':{
 		  method:'GET',
-		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/comments/feeds/:feedId?skip=:skip&limit=:limit',
+		  url: config.host +  ":port/" + config.api_base_version + '/feeds/:feedId/feedcomments?skip=:skip&limit=:limit',
 		  params:{
 		    id : Global.getUserId(),		    	  
 		  },
