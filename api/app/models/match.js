@@ -19,6 +19,8 @@ var MatchSchema = new Schema({
                 comments: [{type: Schema.Types.ObjectId, ref: 'Comment' }]
                 ,summary_video: String //youtube or dailymotion_video url of the match
                 ,score: String // 2:1
+                ,scoreTeam1: Number
+                ,scoreTeam2: Number
 })
 
 MatchSchema.plugin(timestamps,MongooseRattle)

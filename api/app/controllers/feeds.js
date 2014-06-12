@@ -113,6 +113,7 @@ exports.show = function(req, res) {
 exports.comment = function(req, res) {
   var comment = new Comment(req.body)
   comment._user = req.user
+  comment._feed = req.feed
   comment.username = req.user.name||req.user.username
   comment.save(function(err, comment) 
   {
@@ -171,7 +172,7 @@ exports.feed = function(req, res, next, id) {
             _id: new ObjectId(id)
         })
         .slice('comments', req.query.limit||-10)  //the last 10 comments if limit 
-        .populate('comments')
+        .populate('comments comments._user')
         .exec(function(err, feed) {
             if (err){
               res.status(500).json( {
@@ -205,6 +206,8 @@ exports.feed = function(req, res, next, id) {
 exports.feedsPlayer = function(req, res){
   Feed.find({'_player': req.player._id, 'feedType': {$ne: 'community'}})
   .populate('_user _player _team comments')
+  .sort('-createdAt')
+  .skip(req.query.skip||0)
   .limit(req.query.limit||50)
   .exec(function(err, list){
     if (err) {

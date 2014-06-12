@@ -124,7 +124,7 @@ module.exports = function(app, passport, auth) {
     var comments = require('../app/controllers/comments');
     app.get('/api/v1/users/:userId/friends/comments', comments.commentsFriends);
     app.get('/api/v1/users/:userId/comments/:commentId', comments.show);
-    app.get('/api/v1/users/:userId/feeds/:feedId/comments', comments.getCommentsByFeed);
+    app.get('/api/v1/users/:userId/comments/feeds/:feedId', comments.getCommentsByFeed);
     app.get('/api/v1/users/:userId/teams/:teamId/comments', comments.getCommentsByTeam);
     app.get('/api/v1/users/:userId/players/:playerId/comments', comments.getCommentsByPlayer);
     

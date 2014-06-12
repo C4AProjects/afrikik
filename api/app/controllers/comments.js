@@ -13,8 +13,9 @@ var mongoose = require('mongoose')
  * Get comments of a feed
  */
 exports.getCommentsByFeed = function(req, res){
+  console.log('Feed comment :' +req.params.feedId)
   Comment
-    .find({_feed:req.feed._id})
+    .find({'_feed':new ObjectId(req.params.feedId)})
     .populate('_team _player')
     .skip(req.query.skip||0)
     .limit(req.query.limit||50)  
@@ -25,7 +26,7 @@ exports.getCommentsByFeed = function(req, res){
                 error: err
             });
         } else {
-            res.json(list);
+            res.status(200).json(list);
         }
   });
 }
