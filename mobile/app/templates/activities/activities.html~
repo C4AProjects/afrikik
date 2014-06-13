@@ -156,7 +156,7 @@
         
         <div class="item item-input-inset" style="background-color: grey" ng-show="true">            
             <label class="item-input-wrapper afk-search-bg" >            
-                <textarea type="text" placeholder="Add Comment Here" class="afk-search-bg" ng-model="data.message" maxlength="160" />
+                <input type="text" placeholder="Add Comment Here" class="afk-search-bg" ng-model="data.message" maxlength="160" />
             </label>    
             <button class="button afk-btn-register"  style="margin:0px;" ng-click="postFeedCommunity(data.message, 'community'); data.message=''">
             Post

@@ -9,7 +9,8 @@ Afrikik
 
                 $scope.msgNoFeeds = '';
 
-                ActivityService.feedsSubscribed(function(values){			
+                ActivityService.feedsSubscribed(function(values){
+			
 			$scope.activities = values;
 console.log($scope.activities)		
 			if($scope.activities.length){

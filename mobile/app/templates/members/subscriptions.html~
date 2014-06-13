@@ -6,9 +6,9 @@
     <div class="afk-header-list">My Subscriptions</div>
            
     <ion-list>
-      <ion-item ng-repeat="item in user.subscriptions" ng-click="setCurrentItem(item)" class="afk-bg-list item item-avatar item-button-right">
+      <ion-item ng-repeat="item in user.subscriptions" class="afk-bg-list item item-avatar item-button-right">
          <img ng-src="{{getPicItem(item)}}" class="afk-circle"> 
-        <a class="afk-lnk-detail" >
+        <a class="afk-lnk-detail" ng-click="setCurrentItem(item)">
           <span class="afk-obj-name">{{item.name}}</span>
         <span class="afk-obj-desc">{{item.association}} {{item.club}}  {{item.clubcountry}} {{item.no?' - N°: #' +item.no:''}}  {{item.position? ' - position: ' + item.position: ''}}</span>
           View Profile <i class="icon ion-ios7-arrow-forward"></i></a>

@@ -28,23 +28,6 @@ angular.module('Afrikik')
 		  isArray:false
 		},
 		'get': {method:'GET', isArray: false}
-		,
-		'subscribe':{
-		  method: 'POST',
-		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/subscribe/members/:memberId',
-		  params:{
-		    id : Global.getUserId()		  
-		  },
-		  isArray:false
-		},
-		'unsubscribe':{
-		  method: 'POST',
-		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/unsubscribe/members/:memberId',
-		  params:{
-		    id : Global.getUserId()		  
-		  },
-		  isArray:false
-		}
     	}
     );
     

@@ -112,7 +112,7 @@
             <img ng-src="./images/avatars/{{member.picture||'default.png'}}" class="afk-circle"> 
             <a class="afk-lnk-detail"  >
               <span class="afk-obj-name">{{member.name}}</span>
-            <span class="afk-obj-info">{{member.description}}</span>
+            <span class="afk-obj-desc">{{member.description}}</span>
               View Profile <i class="icon ion-ios7-arrow-forward"></i></a>
           </ion-item>   
         </ion-list>
