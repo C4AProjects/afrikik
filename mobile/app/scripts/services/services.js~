@@ -15,6 +15,12 @@ angular.module('Afrikik.services', [])
     },
     update: function(member, success, error){
       Member.update({}, member, success, error )
+    },
+    subscribe: function(memberId, cb){
+       Member.subscribe({memberId: memberId},{}, cb)
+    },
+    unsubscribe: function(memberId, cb){
+      Member.unsubscribe({memberId: memberId},{}, cb)
     }
   };
 }])
@@ -55,7 +61,6 @@ angular.module('Afrikik.services', [])
        Player.subscribe({playerId: playerId},{})
     },
     unsubscribe: function(playerId){
-      console.log('Player Id :' + playerId)
       Player.unsubscribe({playerId: playerId},{})
     }
   };

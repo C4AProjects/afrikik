@@ -9,10 +9,8 @@ Afrikik
 
                 $scope.msgNoFeeds = '';
 
-                ActivityService.feedsSubscribed(function(values){
-			
+                ActivityService.feedsSubscribed(function(values){			
 			$scope.activities = values;
-console.log($scope.activities)		
 			if($scope.activities.length){
 			$scope.msgNoFeeds = "No activities";		
 			}else{$scope.msgNoFeeds = '';	}
@@ -30,14 +28,12 @@ console.log($scope.activities)
                 if ($stateParams._id) {
                         //console.log('params : '+ $stateParams._id)
                         
-                        ActivityService.getCommentsFeed(function (c){
-                                $scope.comments = c;
-                                
-                        }, $stateParams._id, 0, limit);
-                        
                         ActivityService.getByFeedById($stateParams._id, function(feed){
-                            $scope.feed = feed                            
-                        });
+                            $scope.feed = feed;
+			    ActivityService.getCommentsFeed($stateParams._id, 0, limit, function (comments){
+                                 $scope.comments = comments;
+		                });                          
+		        });
                         
                         
                         $rootScope.menuLeft = false;

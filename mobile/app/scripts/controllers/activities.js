@@ -11,7 +11,6 @@ Afrikik
 
                 ActivityService.feedsSubscribed(function(values){			
 			$scope.activities = values;
-console.log($scope.activities)		
 			if($scope.activities.length){
 			$scope.msgNoFeeds = "No activities";		
 			}else{$scope.msgNoFeeds = '';	}
@@ -29,14 +28,12 @@ console.log($scope.activities)
                 if ($stateParams._id) {
                         //console.log('params : '+ $stateParams._id)
                         
-                        ActivityService.getCommentsFeed(function (c){
-                                $scope.comments = c;
-                                
-                        }, $stateParams._id, 0, limit);
-                        
                         ActivityService.getByFeedById($stateParams._id, function(feed){
-                            $scope.feed = feed                            
-                        });
+                            $scope.feed = feed;
+			    ActivityService.getCommentsFeed($stateParams._id, 0, limit, function (comments){
+                                 $scope.comments = comments;
+		                });                          
+		        });
                         
                         
                         $rootScope.menuLeft = false;
@@ -108,11 +105,11 @@ console.log($scope.activities)
                         }
                        ActivityService.commentFeed({message: msg, _user:$scope.user._id, _feed:$scope.feed, feedType: type},
                                                    function(){
-                                                         ActivityService.getCommentsFeed(function (c){
-								$scope.comments = c;
-								
-							}, $stateParams._id, 0, 10); 
-                                                   });
+                                                         ActivityService.getCommentsFeed($stateParams._id, 0, limit,
+								function (comments){
+								 $scope.comments = comments;
+								});                  
+                                                   	});
                                              
                      
                 }
@@ -190,15 +187,13 @@ console.log($scope.activities)
                 $scope.loadMoreComments = function() {                
                   $timeout(function() {
                     if (!$scope.stopScrollComment) {
-                        /*ActivityService.getCommentsFeed(function (data){
-                            if (data.length==0) {
-                                $scope.stopScrollComment=true
-                            }
-                            data.forEach(function(obj){
-                                //$scope.scores.push(obj);
-                            })
+                        ActivityService.getCommentsFeed($stateParams._id, 0, limit, function (comments){
+                                 comments.forEach(function(obj){
+                               		$scope.comments.push(obj);
+                            	  })
                             $scope.$broadcast('scroll.infiniteScrollComplete');
-                        },$scope.user._id, $scope.scores.length, limit);*/
+		         });                  
+                            
                     }
                     
                   }, 1000);

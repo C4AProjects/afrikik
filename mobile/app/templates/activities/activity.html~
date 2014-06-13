@@ -17,7 +17,7 @@
     <span style="float: right;color: green"> {{ comments.length }} Comments </span> 
      <div class="item item-input-inset" style="background-color: grey">            
         <label class="item-input-wrapper afk-search-bg" >            
-            <input type="text" placeholder="Add Comment Here" class="afk-search-bg" ng-model="data.message" maxlength="160" />
+            <textarea type="text" placeholder="Add Comment Here" class="afk-search-bg" ng-model="data.message" maxlength="160" />
         </label>    
         <button class="button afk-btn-register"  style="margin:0px;" ng-click="comment(data.message); data.message=''">
         Post

@@ -147,11 +147,8 @@ angular.module('Afrikik.services', [])
     commentFeed: function(comment, cb){
       Activity.commentFeed({feedId:comment._feed._id}, {message:comment.message}, cb)
     },
-    'getCommentsFeed': function(cb, id, skip, limit){
-     Activity.getCommentsFeed({feedId: id, skip: skip, limit: limit}, cb, 
-      function(err){
-        console.log(err)
-      })
+    'getCommentsFeed': function( feedId, skip, limit, cb){
+     Activity.getCommentsFeed({feedId: feedId, skip: skip, limit: limit}, cb)
     },
     create: function(feed, cb){
         return Activity.save({},feed, cb)
