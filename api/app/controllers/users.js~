@@ -252,7 +252,12 @@ exports.confirm = function(req, res) {
 exports.update = function(req, res){
     //console.dir(req.body)
     var user = req.profile||req.user;
-    user = _.extend(user, req.body)    
+
+    //user = _.extend(user, req.body)
+    user.name = req.body.name;
+    user.picture = req.body.picture;
+    //console.log('UPDATED PICTURE ' +user.picture)
+    //logger.debug("User to update %s ", user)
     user.save(function(err, user2) {
         if (err) {
             res.status(500).json( {

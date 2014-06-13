@@ -59,9 +59,9 @@ exports.subscribeToMember = function(req, res){
         .exec(function(err, member){
 		if(err) res.status(401).json({err: err})
 		user.following.push(member._id);
-		user.save(function(err, _user){
+		user.save(function(err, user){
                 if(err) res.status(401).json({err: err})
-                     res.status(200).json(_user)
+                     res.status(200).json(user)
                 })
         })
     
@@ -145,9 +145,9 @@ exports.unsubscribeFromPlayer = function(req, res){
     else
     {
         user.subscribedPlayers.remove(req.params.playerId)
-        user.save(function(err, _user){
+        user.save(function(err, user){
            if(err) res.status(401).json({err: err})
-           res.status(200).json(_user)
+           res.status(200).json(user)
         })
         
     }

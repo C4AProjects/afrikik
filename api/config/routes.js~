@@ -55,8 +55,6 @@ module.exports = function(app, passport, auth) {
     app.get('/api/v1/users/search/:name', members.searchByName );
     app.post('/api/v1/users/:userId/subscribe/players/:playerId', members.subscribeToPlayer);
     app.post('/api/v1/users/:userId/subscribe/teams/:teamId', members.subscribeToTeam);
-    app.post('/api/v1/users/:userId/subscribe/members/:memberId', members.subscribeToMember);
-    app.post('/api/v1/users/:userId/unsubscribe/members/:memberId', members.unsubscribeFromMember);
     app.post('/api/v1/users/:userId/unsubscribe/players/:playerId', members.unsubscribeFromPlayer);
     app.post('/api/v1/users/:userId/unsubscribe/teams/:teamId', members.unsubscribeFromTeam);
     app.get('/api/v1/users/:userId/friends/requests', members.getFriendRequests);
