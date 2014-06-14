@@ -250,7 +250,7 @@ input.afk-input {
    border-radius: 50%;
    max-width: 125px;
    max-height: 125px;
-   border:  inset;
+   border: hidden;
 }
 
 .afk-bold{
@@ -264,7 +264,7 @@ input.afk-input {
   -moz-border-radius: 50%; 
    border-radius: 50%;
    
-   border: inset;
+   border: hidden;
 }
 
 .afk-member-profile {

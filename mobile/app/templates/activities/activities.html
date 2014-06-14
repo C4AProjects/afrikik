@@ -37,7 +37,7 @@
             <a class="afk-lnk-detail" >
                 <span class="afk-feed"><i style="color: #f97c11">{{activity.feedType?'com':'-'}} </i> {{activity.title||activity.message}}</span>
                 <!--span class="afk-obj-info" > <a class="afk-lnk-player-feed" ng-href="#/private/{{activity._player?'player/'+activity._player._id:'team/'+activity._team._id}}">{{activity._player?activity._player.name:activity._team.name}}</a-->
-                    <h6>{{activity.createdAt|date:'HH:mm  EEEE, MM/yyyy '}}   <br/>   {{activity.comments.length||0}} comments</h6><!--/span-->
+                    <h6>{{activity.createdAt||activity.publish_date|date:'HH:mm  EEEE, MM/yyyy '}}   <br/>   {{activity.comments.length||0}} comments</h6><!--/span-->
                
             </a>
  <i class="icon ion-arrow-right-b" style="font-size: 11px; color: lightgrey;"></i>

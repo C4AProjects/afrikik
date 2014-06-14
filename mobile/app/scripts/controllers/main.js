@@ -205,7 +205,7 @@ angular.module('Afrikik')
 			      tpl= tpl + alert.message + '<br/>'
 			 })
 			$scope.hide();
-			$scope.show(tpl, 3000)						
+			$scope.show(tpl, 5000)						
                      //_gaq.push(['_trackEvent','Authentication', 'Login Failed', 'Regular Login'])
                   }
                 else
