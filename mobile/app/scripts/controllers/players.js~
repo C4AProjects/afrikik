@@ -16,7 +16,7 @@ Afrikik
                 $scope.message = "";
                                
                 if($stateParams._id){
-                        $scope.player = PlayerService.getByIdFromCache($stateParams._id)||PlayerService.getById($stateParams._id)
+                        $scope.player = PlayerService.getByIdFromCache($stateParams._id)||PlayerService.getById($stateParams._id)||TeamService.getById($stateParams._id)
                         $scope.activities = ActivityService.feedsPlayer($stateParams._id)
                         $rootScope.menuLeft = false;
                 }
@@ -108,7 +108,7 @@ Afrikik
                                 Global.setTopItems($scope.items)                                                    
                         });
                     }else{
-                        $scope.items = PlayerService.itemsByName(name)||TeamService.itemsByName(name);
+                        $scope.items = PlayerService.itemsByName(name);
                     }
                 }
                 

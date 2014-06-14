@@ -7,34 +7,36 @@ Afrikik
                 
                 var limit = 10;
 
-                $scope.msgNoFeeds = '';
+		$scope.user = Global.getUser();
+
+                
 		$scope.activities=Global.getFeedsFromCache()||[];
-		if($scope.activities&&$scope.activities.length>0){
+		if($scope.activities && $scope.activities.length>0){
 			var cacheDate=Global.getFeedsFromCacheDate();
 			var diff = Math.round(Math.abs((cacheDate - Date.now())/(30000)));//30mins
 			if(diff>30){
 				ActivityService.feedsSubscribed(function(values){			
 					$scope.activities = values;
-					Global.setFeedsToCache(values);
-					if($scope.activities.length==0){						
-						$scope.msgNoFeeds = "No activities";		
-					}else{$scope.msgNoFeeds = '';	}
+					Global.setFeedsToCache(values);					
 		
 				}, Global.getUserId(), 0 , limit);
 			}
 		}else{
 			ActivityService.feedsSubscribed(function(values){			
 					$scope.activities = values;
-					Global.setFeedsToCache(values);
-					if($scope.activities.length){
-						$scope.msgNoFeeds = "No activities";		
-					}else{$scope.msgNoFeeds = '';	}
+					Global.setFeedsToCache(values);					
 		
 				}, Global.getUserId(), 0 , limit);
 		}
                 
                 
-                $scope.user = Global.getUser();
+                $scope.refresh = function(){
+		ActivityService.feedsSubscribed(function(values){			
+					$scope.activities = values;
+					Global.setFeedsToCache(values);					
+		
+				}, Global.getUserId(), 0 , limit);
+		}
                 
                 $rootScope.menuLeft = true;
                 $scope.comments = [];
@@ -168,7 +170,7 @@ Afrikik
  
                             })
                             $scope.$broadcast('scroll.infiniteScrollComplete');
-			    if($scope.activities.length<100){
+			    if($scope.activities.length<50){
 					Global.setFeedsToCache($scope.activities);
 			    }
                         },$scope.user._id, $scope.activities.length, limit);

@@ -24,6 +24,25 @@ angular.module('Afrikik')
       
       $scope.apiDir =  config.apiDir;
       
+      $scope.isResetingPassword = false;
+      
+      $scope.isResendingConfirmationEmail = false;
+      
+      $scope.sendConfirmationEmail = function(){
+	User.resendConfirmation({email:$scope.user.email},{}, function(response){
+	    if (response) {
+		$scope.show('<h4 style="font-weight:bold">Thank You for Registration To AFRIKIK,</h4>' +
+			      '<br/> An Email is sent to <b>'+ $scope.user.email +'</b> for confirmation!', 3200)		  
+	     $scope.isResendingConfirmationEmail = false;
+	    }
+	})
+      } 
+      
+      $scope.resetPassword = function(){//TODO a landing page to create
+	$scope.show('For now, please send an email to <span style="font-weight:bold;">contact@afrikik.com</span> for requesting a passcode!', 5000)
+	//$scope.isResetingPassword = false;
+      }
+      
       $scope.refresh = function(){
 	$window.location.reload();
       }
@@ -134,27 +153,16 @@ angular.module('Afrikik')
 
     $scope.login=function(){
 	$scope.show();
-	/*if ($scope.user.email!=$scope.auth.email || $scope.user.password!=$scope.auth.password) {	    
-	    $scope.alerts = [{msg:'Email or password wrong!', type:'danger'}];
-	    var tpl = '';
-	    $scope.alerts.forEach(function(alert){
-		tpl= tpl + alert.msg + '<br/>'
-	    })
-	    $scope.hide();
-	    $scope.show(tpl)
-	    setTimeout(function(){
-		$scope.hide();
-	    },1000)
-	    
-	    return;
-	}
-	
-	Global.setUser($scope.user)*/
 	
       _gaq.push(['_trackEvent','Authentication', 'Login', 'Regular Login', $scope.user.email, false])
       
       /*var authentication = */
       Auth.login($scope.user).then(function(loginResponse){
+	
+	$scope.isResetingPassword = false;
+      
+	$scope.isResendingConfirmationEmail = false;
+	
 	    if (!loginResponse) {
 		$scope.hide();
 		$scope.show('Server Error connection')		
@@ -178,8 +186,17 @@ angular.module('Afrikik')
 		               
             }
             else
-            {	
-                 
+            {	if(loginResponse.shouldConfirm)
+                  {
+		    $scope.isResendingConfirmationEmail = true;
+		    
+		  }
+		if(loginResponse.mayForgetPassword)
+                  {
+		    $scope.isResetingPassword = true;
+		    
+		  }
+                
                 if(loginResponse.alerts)
                   {
 			$scope.alerts = loginResponse.alerts
@@ -255,10 +272,10 @@ console.log($scope.user_new);
 		  Global.setUser($scope.user)	
 		  //$scope.user_new = {}; //init form
                   $scope.show('<h4 style="font-weight:bold">Thank You for Registration To AFRIKIK,</h4>' +
-			      '<br/> An Email is sent to <b>'+ $scope.user.email +'</b> for confirmation!', 3000)
+			      '<br/> An Email is sent to <b>'+ $scope.user.email +'</b> for confirmation!', 3200)
 		  setTimeout(function(){
 		    $window.location.reload();
-		  }, 3100)
+		  }, 3250)
             }
             else
             {

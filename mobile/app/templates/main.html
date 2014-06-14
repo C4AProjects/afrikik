@@ -32,11 +32,35 @@
                                 Log In
                             </button>
                         </center>
-                    </div>                                    
                     </div>
+                    </div>
+                    
                     </form>
                     </div>
-                
+                    <div class="row" ng-show="isResendingConfirmationEmail">
+                    <div class="col" >
+                        <center>
+                            <button class="button button-block" ng-click="sendConfirmationEmail()" style="background-color: #280EA5;border-color:#2E4B9B;color: white;font-weight: bold">
+                                Resend Me Confirmation Email!
+                            </button>
+                        </center>
+                    </div>
+                    </div>
+                    <div class="row" ng-show="isResetingPassword">
+                    <div class="col">
+                        <center>
+                            <button class="button button-block" style="background-color: #D32826;border-color:#E5771D;color: white;font-weight: bold" ng-click="resetPassword()">
+                                Reset My Password!
+                            </button>
+                        </center>
+                    </div> 
+                    </div>
+    
+                    <div class="row">                   
+                        <div class="col">
+                            <button class="button button-block afk-btn afk-btn-register" ng-click="goToCreateAccount()">  Create Account   </button>
+                        </div>                    
+                    </div>
                     <div class="row" >
                         <div class="col">
                             <!--button class="button button-block afk-btn afk-btn-fb"  ng-click="loginWithFB()">Sign In With Facebook</button-->
@@ -45,11 +69,6 @@
                                     &nbsp;Login with Facebook
                                 </button>
                         </div>                                    
-                    </div>
-                    <div class="row">                   
-                        <div class="col">
-                            <button class="button button-block afk-btn afk-btn-register" ng-click="goToCreateAccount()">  Create Account   </button>
-                        </div>                    
                     </div>
                 </div>
             </ion-slide>            

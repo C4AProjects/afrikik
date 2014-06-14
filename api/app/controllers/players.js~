@@ -154,21 +154,27 @@ exports.searchByName = function(req, res){
 }
 
 exports.searchPlayersAndTeam = function(req, res){
-   var regex = new RegExp(req.params.name, 'gi')
-    , result = []    
+console.log('Name to search' +req.params.name)
+    var regex = new RegExp(req.params.name, 'gi')
+    , result = []
+    
     Player
-    .find({name:regex})
+    .find({name:req.params.name})
+    //.sort({createdAt:-1})
+    .limit(req.query.limit||50)
     .exec(function(err, list){
        if(err) res.status(401).json({err: err})
        if (list) {
-       result= list
+console.log('list players')
+        result= list
 	Team = mongoose.model('Team')
 	    //var regex = new RegExp(req.params.name, 'gi');
-	    Team.find({name:regex})     
+	    Team.find({name:req.params.name})     
+	    .limit(req.params.limit||10)
 	    .exec(function(err, list2){
 	       if(err) res.status(401).json({err: err})
-	       if (list2) {        
-		result= result.concat(list2) //  concat with the players
+	       if (list2) {
+		result.concat(list2) //  concat with the players
 		res.status(200).json(result)
 	       }
 	})

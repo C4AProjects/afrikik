@@ -118,10 +118,18 @@ angular.module('Afrikik.services', [])
 
   return {
     getByIdFromCache: function(itemId){      
-      console.log('looking for from the cache....')
-      return _.find(Global.getFeedsFromCache(), function(item){
+       return _.find(Global.getFeedsFromCache(), function(item){
         return item._id == itemId
       })
+    },
+    feedsItem: function(itemId) {
+      Activity.feedsPlayer({playerId:itemId}, function(feeds){
+	if(feeds && feeds.length>0) return feeds;
+	Activity.feedsTeam({teamId:itemId}, function(feeds){
+		return feeds;
+	});
+	})
+	
     },
     feedsPlayer: function(playerId) {
       return feeds = Activity.feedsPlayer({playerId:playerId});

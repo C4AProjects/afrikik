@@ -130,6 +130,8 @@ console.log(settings)
                         $scope.user.password = '';
                         $scope.user.authenticated = false;
                         Global.setUser($scope.user)
+			Global.setTopItems([]);
+			Global.setFeedsToCache([]);
                         $state.transitionTo('index')
                       //_gaq.push(['_trackEvent','Authentication', 'Logout', 'Regular Logout'])
                 }

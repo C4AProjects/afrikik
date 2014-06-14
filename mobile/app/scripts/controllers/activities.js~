@@ -16,8 +16,7 @@ Afrikik
 				ActivityService.feedsSubscribed(function(values){			
 					$scope.activities = values;
 					Global.setFeedsToCache(values);
-					if($scope.activities.length){
-						
+					if($scope.activities.length==0){						
 						$scope.msgNoFeeds = "No activities";		
 					}else{$scope.msgNoFeeds = '';	}
 		

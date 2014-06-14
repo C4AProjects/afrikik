@@ -270,6 +270,12 @@ console.log($scope.user_new);
                         message = '<h4 style="font-weight:bold">An account already exists with that email address! Please choose a different email or if you forgot your password, you can recover it from the Login screen</h4>'
       			$scope.show(message, 5000)
                   }
+if(response.code == "10000")
+                  {
+                          
+                        message = '<h4 style="font-weight:bold">'+response.error+'</h4>'
+      			$scope.show(message, 3000)
+                  }
                   //Translate the messages
                   angular.forEach(response.alerts, function(alert, alertKey){
                         if(alert.msg == 'Email already exists')

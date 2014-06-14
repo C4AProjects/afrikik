@@ -112,7 +112,7 @@ angular.module('Afrikik.services', [])
   };
 }])
 
-.factory('ActivityService', ['Activity', function(Activity) {
+.factory('ActivityService', ['Activity','Global', function(Activity, Global) {
 
   var feeds = [];
 

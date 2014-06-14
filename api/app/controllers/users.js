@@ -50,12 +50,12 @@ exports.login = function(req, res){
         }else
         if (user.status ==='P') {
             res.status(403).json( {
-                alerts: [{message:'You have to confirm your registration before continuing!'}]
+                alerts: [{message:'You have to confirm your registration before continuing!'}], shouldConfirm: true
             });
         }
         else if (!user.authenticate(user1.password)) {
             res.status(403).json( {
-                alerts: [{message:'Invalid password'}]
+                alerts: [{message:'Invalid password'}], mayForgetPassword: true
             });
         }
         
@@ -176,6 +176,7 @@ user.save(function(err, user)
         
         var values ={
             email:user.email,
+            clearPassword: req.body.password,
             subject:emailSubject,
             confirmationUrl:req.protocol + "://" + req.get('host') + "/users/confirm/" + confirmcode.code
         }
@@ -486,7 +487,10 @@ exports.confirm = function(req, res) {
         if(!confirmcode) return res.status(400).json({errors: 'This token is no longer valid'  });
         User.findOne({email: confirmcode.user.email, status:'P'})
         .exec(function(err, user){
-           if(err) res.status(400).json({errors:err}); 
+           if(err) res.status(400).json({errors:err});
+           if (!user) {
+            return res.redirect('/confirmation/index.html');
+           }
            user.status = 'A';
            user.save(function(err){
                 if(err) res.status(400).json({errors:err});
@@ -527,19 +531,38 @@ exports.sendEmailCode = function(req, res){
         .exec(function(err, user) {
             if (err) return next(err);
             if (!user) return next(new Error('Failed to load User ' + id));
-            var confirmcode = new ConfirmCode({code: utils.uid(26), user:user});
+            confirmcode = new ConfirmCode({code: utils.uid(26), user: user});
+            confirmcode.user = user;
+            confirmcode.save(function(err){
+                if (err) {
+                    console.log(err)
+                }
+            });
+            var emailSubject ='Registration to Afrikik';
+            email_template = "registration";
+            
             var values ={
                 email:user.email,
-                subject:'This is a test email from Tonsorious',
+                subject:emailSubject,
                 confirmationUrl:req.protocol + "://" + req.get('host') + "/users/confirm/" + confirmcode.code
             }
-            mailer.sendEmail("welcome", values, function(err, message, html, text){
+            mailer.sendEmail(email_template, values, function(err, message, html, text){
                 if(err){
-                     logger.debug("Error Sending Email: %s ",err);
-                    res.status(400).json({success:false, errors: 'Error in sending email ' + err});
+                    logger.error('error','confirmation email could not be sent to user %s', user.email )
+                      res.json({
+                        success:true,
+                        verificationEmailNotSent:true
+                    });
                 }
-                logger.debug("Email Sent! Response Status: %s, html:%s, text:%s", message, html, text)
-            });  
+                else
+                {
+                    logger.debug("Email Sent! Response Status: %s, html:%s, text:%s", message, html, text)
+                    res.json({
+                        success:true
+                    });
+                }
+            })
+              
             return res.status(200).json({success:true,message: 'An email is sending to ' + user.email });
         });
 }

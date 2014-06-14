@@ -24,7 +24,8 @@
 		You currently do not have feeds. Please subscribes to players or teams to see feeds. <br/>If you have done already please check back, it may miss feeds for your subscribed players.We apologize for any inconveniences we may have caused you.
 	</div>
 <div class="afk-obj-info" ng-show="user.subscriptions.length>0 && activities.length==0" style="font-size:16px;" >
-		You currently do not have feeds. <br/>It may miss feeds for your subscribed players or/and teams.We apologize for any inconveniences we may have caused you.
+		You currently do not have feeds. <br/>It may miss new feeds for your subscribed players or/and teams.We apologize for any inconveniences we may have caused you. <br/>
+<button class="button afk-btn-register"  style="margin:0px;" ng-click="refresh()">Click Here To Refresh</button>
 	</div>
         <!--div style="text-align: center; font-size: 80px" ng-show="activities.length==0 && msgNoFeeds.length==0">           
             <span class="icon ion-loading-a"></span>
@@ -170,7 +171,7 @@
             <img class="afk-circle" ng-src="{{activity._user.picture? './images/avatars/' + activity._user.picture :'./images/avatars/default.png'}}" />
             <a class="afk-lnk-player-feed" ng-href="{{activity._user._id==user._id?'#':'#/private/member/'+activity._user._id}}">
                 <span class="afk-feed">{{activity.message}}</span>
-                <span class="afk-obj-desc">Posted by <span class="afk-lnk-player-feed" >{{activity._user._id == user._id?'Me':activity._user.name||activity._user.username}}</span> on {{activity.createdAt|date:"EEEE MMM dd 'at' HH:mm 'GMT'"}}</span> 
+                <span class="afk-obj-desc">Posted by <span class="afk-lnk-player-feed" >{{activity._user._id == user._id?'Me':activity._user.name||activity._user.username}}</span> <br/> on {{activity.createdAt|date:"EEEE MMM dd 'at' HH:mm 'GMT'"}}</span> 
             </a>
           </ion-item>              
         </ion-list>

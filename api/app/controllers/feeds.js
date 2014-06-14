@@ -206,6 +206,7 @@ exports.feed = function(req, res, next, id) {
 exports.feedsPlayer = function(req, res){
   Feed.find({'_player': req.player._id, 'feedType': {$ne: 'community'}})
   .populate('_user _player _team comments')
+  .sort('-publish_date')
   .sort('-createdAt')
   .skip(req.query.skip||0)
   .limit(req.query.limit||50)
@@ -227,6 +228,7 @@ exports.feedsPlayer = function(req, res){
 exports.feedsTeam = function(req, res){
   Feed.find({'_team': req.team._id, 'feedType': {$ne: 'community'}})
   .populate('_user _player _team comments')
+  .sort('-publish_date')
   .sort('-createdAt')
   .skip(req.query.skip||0)
   .limit(req.query.limit||50)
@@ -249,6 +251,7 @@ exports.feedsTeam = function(req, res){
 exports.all = function(req, res){
   Feed.find({$or:[{'_player': {$in: req.user.subscribedPlayers}},{'_team': {$in: req.user.subscribedTeams}}],'feedType': {$ne: 'community'}})
   .populate('_user _player _team comments')
+  .sort('-publish_date')
   .sort('-createdAt')
   .skip(req.query.skip||0)
   .limit(req.query.limit||50)

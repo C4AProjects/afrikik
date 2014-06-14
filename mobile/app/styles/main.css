@@ -374,12 +374,14 @@ input.afk-input {
 }
 .afk-content{
   min-height: 200px;
+  height: 100%;
   margin-bottom: 5px;
   background-color: white;
 }
 
 .afk-content-high{
   min-height: 400px;
+  height: 100%;
   margin-bottom: 5px;
   background-color: white;
 }
