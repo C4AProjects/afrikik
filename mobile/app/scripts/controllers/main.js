@@ -240,9 +240,10 @@ angular.module('Afrikik')
     }
     
     $scope.register = function(){
-	_gaq.push(['_trackEvent','Registration', 'Registration', 'User Registration', $scope.user_new.email, false])
+	$scope.show(null, 5000);
        $scope.user_new.username= $scope.user_new.username||$scope.user_new.email;//TODO
-    	var authentication = User.save({}, $scope.user_new, function(response){
+console.log($scope.user_new);
+    	User.save({}, $scope.user_new, function(response){
             console.log(response)
             if(response.success && !response.error){
                   //_gaq.push(['_trackEvent','Authentication', 'Registration Success', 'Regular Registration'])
@@ -252,7 +253,7 @@ angular.module('Afrikik')
                   $rootScope.user.email = $scope.user_new.email;
 		  $scope.user = {email:$scope.user_new.email}
 		  Global.setUser($scope.user)	
-		  $scope.user_new = {}; //init form
+		  //$scope.user_new = {}; //init form
                   $scope.show('<h4 style="font-weight:bold">Thank You for Registration To AFRIKIK,</h4>' +
 			      '<br/> An Email is sent to <b>'+ $scope.user.email +'</b> for confirmation!', 3000)
 		  setTimeout(function(){
@@ -261,12 +262,19 @@ angular.module('Afrikik')
             }
             else
             {
+			
                   var message = $filter('translate')('ERROR_SOMETHING_WENT_WRONG')
                   if(response.code == "11000")
                   {
                           
-                        message = "An account already exists with that email address! Please choose a different email or if you forgot your password, you can recover it from the Login screen"
-      
+                        message = '<h4 style="font-weight:bold">An account already exists with that email address! Please choose a different email or if you forgot your password, you can recover it from the Login screen</h4>'
+      			$scope.show(message, 5000)
+                  }
+if(response.code == "10000")
+                  {
+                          
+                        message = '<h4 style="font-weight:bold">'+response.error+'</h4>'
+      			$scope.show(message, 3000)
                   }
                   //Translate the messages
                   angular.forEach(response.alerts, function(alert, alertKey){
@@ -283,9 +291,10 @@ angular.module('Afrikik')
                   $scope.alerts = response.alerts;
             }
     	}, function(response){
-
+		$scope.show('<h4 style="font-weight:bold">An error is occured :,</h4>' +
+			      '<br/> Sorry for this inconvenient!', 3000)
       })
-    	
+    	_gaq.push(['_trackEvent','Registration', 'Registration', 'User Registration', $scope.user_new.email, false])
     }
 
     $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
