@@ -131,11 +131,31 @@ exports.session = function(req, res) {
 /**
  * Register a new user
  */
+
+function validateEmail(email) { 
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}
+
 exports.create = function(req, res) {
     var user = new User(req.body);
+if(!validateEmail(user.email)){
+return res.status(200).json({success:false,error:'Invalid email address, please enter a valid email before continuing',  code: "10000" })
+}
     user.provider = 'local';
-    
-    user.save(function(err, user) 
+    User.findOne({email:user.email})
+	.exec(function(err, user2){
+	if (err) {
+		    res.status(400).json({
+		        success:false,
+		        error: err,
+		    });
+        }
+		if(user2){
+		return res.status(200).json({success:false,error:'An user with this email is already is registered ',  code: "11000" })
+		}
+
+user.save(function(err, user) 
     {
         if (err) {
             res.json({
@@ -177,6 +197,8 @@ exports.create = function(req, res) {
         })      
  
     });
+	})
+    
 };
 
 /**
