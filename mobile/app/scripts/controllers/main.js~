@@ -242,8 +242,8 @@ angular.module('Afrikik')
     $scope.register = function(){
 	_gaq.push(['_trackEvent','Registration', 'Registration', 'User Registration', $scope.user_new.email, false])
        $scope.user_new.username= $scope.user_new.username||$scope.user_new.email;//TODO
-    	var authentication = User.save({}, $scope.user_new, function(response){
-            console.log(response)
+    	var authentication = User.save( $scope.user_new, function(response){
+            console.log("New user created")
             if(response.success && !response.error){
                   //_gaq.push(['_trackEvent','Authentication', 'Registration Success', 'Regular Registration'])
                   //Successfully created the user, save it in the session

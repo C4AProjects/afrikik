@@ -20,8 +20,11 @@
         </div>
         
         <div class="afk-content-high">
-	<div class="afk-obj-info" ng-show="activities.length==0" style="font-size:16px;" >
+	<div class="afk-obj-info" ng-show="user.subscriptions.length==0" style="font-size:16px;" >
 		You currently do not have feeds. Please subscribes to players or teams to see feeds. <br/>If you have done already please check back, it may miss feeds for your subscribed players.We apologize for any inconveniences we may have caused you.
+	</div>
+<div class="afk-obj-info" ng-show="user.subscriptions.length>0&&activities.length==0" style="font-size:16px;" >
+		You currently do not have feeds. <br/>It may miss feeds for your subscribed players or/and teams.We apologize for any inconveniences we may have caused you.
 	</div>
         <!--div style="text-align: center; font-size: 80px" ng-show="activities.length==0 && msgNoFeeds.length==0">           
             <span class="icon ion-loading-a"></span>
@@ -154,10 +157,9 @@
           </div>
         </div>
         
-        <div class="item item-input-inset" style="background-color: grey" ng-show="true">            
-            <label class="item-input-wrapper afk-search-bg" >            
-                <input type="text" placeholder="Add Comment Here" class="afk-search-bg" ng-model="data.message" maxlength="160" />
-            </label>    
+        <div class="item item-input-inset" style="background-color: grey" ng-show="true"> 
+		<div style="color:red; background:white" ng-show="data.message.length>50"> {{ data.message.length - 160}} </div>           
+                 <input placeholder="Add Comment Here" class="afk-search-bg" ng-model="data.message" maxlength="160" />
             <button class="button afk-btn-register"  style="margin:0px;" ng-click="postFeedCommunity(data.message, 'community'); data.message=''">
             Post
             </button>

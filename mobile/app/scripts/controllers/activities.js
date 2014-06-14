@@ -8,14 +8,31 @@ Afrikik
                 var limit = 10;
 
                 $scope.msgNoFeeds = '';
-
-                ActivityService.feedsSubscribed(function(values){			
-			$scope.activities = values;
-			if($scope.activities.length){
-			$scope.msgNoFeeds = "No activities";		
-			}else{$scope.msgNoFeeds = '';	}
+		$scope.activities=Global.getFeedsFromCache()||[];
+		if($scope.activities&&$scope.activities.length>0){
+			var cacheDate=Global.getFeedsFromCacheDate();
+			var diff = Math.round(Math.abs((cacheDate - Date.now())/(30000)));//30mins
+			if(diff>30){
+				ActivityService.feedsSubscribed(function(values){			
+					$scope.activities = values;
+					Global.setFeedsToCache(values);
+					if($scope.activities.length==0){						
+						$scope.msgNoFeeds = "No activities";		
+					}else{$scope.msgNoFeeds = '';	}
 		
-		}, Global.getUserId(), 0 , limit);
+				}, Global.getUserId(), 0 , limit);
+			}
+		}else{
+			ActivityService.feedsSubscribed(function(values){			
+					$scope.activities = values;
+					Global.setFeedsToCache(values);
+					if($scope.activities.length){
+						$scope.msgNoFeeds = "No activities";		
+					}else{$scope.msgNoFeeds = '';	}
+		
+				}, Global.getUserId(), 0 , limit);
+		}
+                
                 
                 $scope.user = Global.getUser();
                 
@@ -27,8 +44,7 @@ Afrikik
 
                 if ($stateParams._id) {
                         //console.log('params : '+ $stateParams._id)
-                        
-                        ActivityService.getByFeedById($stateParams._id, function(feed){
+                        $scope.feed = ActivityService.getByIdFromCache($stateParams._id)||ActivityService.getByFeedById($stateParams._id, function(feed){
                             $scope.feed = feed;
 			    ActivityService.getCommentsFeed($stateParams._id, 0, limit, function (comments){
                                  $scope.comments = comments;
@@ -148,9 +164,13 @@ Afrikik
                                 $scope.stopScrollFeed=true
                             }
                             data.forEach(function(obj){
-                                $scope.activities.push(obj);
+                                $scope.activities.push(obj); 
+ 
                             })
                             $scope.$broadcast('scroll.infiniteScrollComplete');
+			    if($scope.activities.length<100){
+					Global.setFeedsToCache($scope.activities);
+			    }
                         },$scope.user._id, $scope.activities.length, limit);
                     }
                     
@@ -170,7 +190,7 @@ Afrikik
                                 $scope.stopScrollScore=true
                             }
                             data.forEach(function(obj){
-                                $scope.scores.push(obj);
+                                $scope.scores.push(obj);				
                             })
                             $scope.$broadcast('scroll.infiniteScrollComplete');
                         },$scope.user._id, $scope.scores.length, limit);
@@ -187,7 +207,7 @@ Afrikik
                 $scope.loadMoreComments = function() {                
                   $timeout(function() {
                     if (!$scope.stopScrollComment) {
-                        ActivityService.getCommentsFeed($stateParams._id, 0, limit, function (comments){
+                        ActivityService.getCommentsFeed($stateParams._id, $scope.comments.length, limit, function (comments){
                                  comments.forEach(function(obj){
                                		$scope.comments.push(obj);
                             	  })

@@ -15,10 +15,9 @@
     <br/> <br/>
     <a ng-href="#/private/feeds" class="afk-lnk-team-feed" > All Activities </a>
     <span style="float: right;color: green"> {{ comments.length }} Comments </span> 
-     <div class="item item-input-inset" style="background-color: grey">            
-        <label class="item-input-wrapper afk-search-bg" >            
-            <textarea type="text" placeholder="Add Comment Here" class="afk-search-bg" ng-model="data.message" maxlength="160" />
-        </label>    
+     <div class="item item-input-inset" style="background-color: grey"> 
+<div style="color:red; background:white" ng-show="data.message.length>50"> {{ data.message.length - 160}}</div>           
+               <input placeholder="Add Comment Here" class="afk-search-bg" ng-model="data.message" maxlength="160" />
         <button class="button afk-btn-register"  style="margin:0px;" ng-click="comment(data.message); data.message=''">
         Post
         </button>

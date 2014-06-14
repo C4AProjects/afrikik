@@ -7,7 +7,7 @@
 var apiServer;
 
 
-var Afrikik = angular.module('Afrikik', [ 'jmdobry.angular-cache','ionic','openfb', 'Afrikik.services', 'Afrikik.controllers', 'config', 'angularLocalStorage','ui.router','ngResource','infinite-scroll','pascalprecht.translate','underscore', 'angular-loading-bar','ngAnimate'])
+var Afrikik = angular.module('Afrikik', [ 'jmdobry.angular-cache','ionic', 'Afrikik.services', 'Afrikik.controllers', 'config', 'angularLocalStorage','ui.router','ngResource','infinite-scroll','pascalprecht.translate','underscore', 'angular-loading-bar','ngAnimate'])
 
 /*.run(function ($http, $rootScope, $state, $ionicPlatform, $window, OpenFB) {
      

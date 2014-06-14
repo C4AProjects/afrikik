@@ -112,12 +112,17 @@ angular.module('Afrikik.services', [])
   };
 }])
 
-.factory('ActivityService', ['Activity', function(Activity) {
+.factory('ActivityService', ['Activity','Global', function(Activity, Global) {
 
   var feeds = [];
 
   return {
-        
+    getByIdFromCache: function(itemId){      
+      console.log('looking for from the cache....')
+      return _.find(Global.getFeedsFromCache(), function(item){
+        return item._id == itemId
+      })
+    },
     feedsPlayer: function(playerId) {
       return feeds = Activity.feedsPlayer({playerId:playerId});
     },
@@ -154,13 +159,13 @@ angular.module('Afrikik.services', [])
         return Activity.save({},feed, cb)
     },
     feedsSubscribed: function(cb,userId, skip, limit){
+	console.log('from API')
       Activity.feedsSubcribed({ skip:skip, limit:limit}, cb);
     },
     getScoreFeeds : function(cb,userId, skip, limit){
        Activity.scoreFeeds({skip:skip, limit:limit}, cb);
     },
     getCommunityFeeds : function(cb,userId, skip, limit){
-      console.log('param ' + skip +'  '+ limit)
       Activity.communityFeeds({skip:skip, limit:limit}, cb);
     }
     

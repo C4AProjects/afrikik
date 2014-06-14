@@ -20,7 +20,7 @@ angular.module('Afrikik')
 		  },
 		'save': {
 		  method:'POST',
-		  url: config[env].host +  ":port/" + config[env].api_base_version + '/users',
+		  url: config.host +  ":port/" + config.api_base_version + '/users',
 		  params:{
 		    		    	  
 		  },
