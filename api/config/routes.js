@@ -81,6 +81,8 @@ module.exports = function(app, passport, auth) {
     
     app.get('/api/v1/users/:userId/top/items', players.topPlayersAndTeam);
     
+    app.get('/api/v1/players/:playerId/stats', players.stats);
+    
     //Team Routes
     var teams = require('../app/controllers/teams');
     app.get('/api/v1/teams', teams.all );
@@ -105,6 +107,8 @@ module.exports = function(app, passport, auth) {
     app.post('/api/v1/users/:userId/feeds/:feedId/comment', feeds.comment); // comment on feed
     app.get('/api/v1/users/:userId/teams/:teamId/feeds', feeds.feedsTeam);
     app.get('/api/v1/users/:userId/players/:playerId/feeds', feeds.feedsPlayer);
+    
+    app.get('/api/v1/players/:playerId/feeds', feeds.feedsPlayer);
 
     //Notification Routes
     var notifications = require('../app/controllers/notifications');        

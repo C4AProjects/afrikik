@@ -9,6 +9,7 @@ var mongoose = require('mongoose')
   , logger = require('winston')
   , ObjectId = mongoose.Types.ObjectId
   ,  Comment = mongoose.model('Comment')
+  , PlayerStat = mongoose.model('PlayerStat')
 
 /**
  * Create a new player
@@ -187,6 +188,7 @@ exports.topPlayersAndTeam = function(req, res){
     Team
     .find({'_id': {$nin: req.user.subscribedTeams}})
     .sort({rating:-1})
+    .sort({name:1})
     .limit(5)
     .exec(function(err, list){
        if(err) res.status(401).json({err: err})
@@ -194,6 +196,7 @@ exports.topPlayersAndTeam = function(req, res){
         result= list
         Player.find({'_id': {$nin: req.user.subscribedPlayers}})
         .sort({rating:-1})
+        .sort({name:1})
         .limit(req.query.limit||20)
         .exec(function(err, list){
            if(err) res.status(401).json({err: err})
@@ -287,5 +290,16 @@ exports.comment = function(req, res) {
   })
 }
 
+
+/***************************************************************************
+ *   Player stats
+ *******************************************************************************/
+exports.stats = function(req, res) {
+    PlayerStat.find({'_player': req.player._id})    
+    .exec(function(err, list){
+        if(err) res.status(401).json({err: err})        
+        res.status(200).json(list)
+    })     
+};
 
 
