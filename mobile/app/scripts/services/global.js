@@ -48,7 +48,10 @@ angular.module('Afrikik')
 	    	},
 		getFeedsFromCacheDate:function(){
 			 return  localStorage.get('subscribedFeedsInCacheDate');			
-	    	}
+	    	},
+		cleanAll : function(){
+		    localStorage.set('subscribedFeedsInCache', []);
+		}
 
 	    };
 	    return global;

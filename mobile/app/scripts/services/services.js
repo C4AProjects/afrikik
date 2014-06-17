@@ -9,9 +9,8 @@ angular.module('Afrikik.services', [])
   var currentMember = {};
 
   return {
-    getById: function(memberId){      
-      var member = Member.get({id:memberId})
-      return member;
+    getById: function(memberId, cb){      
+      Member.get({id:memberId}, cb)
     },
     update: function(member, success, error){
       Member.update({}, member, success, error )
@@ -37,11 +36,11 @@ angular.module('Afrikik.services', [])
     cachedItems: function() {
       return cachedItems;
     },
-    topItems: function(userId, cb){
-        Search.topItems({id:userId}, cb)
+    topItems: function(userId, cb, skip, limit){
+        Search.topItems({id:userId, skip:skip , limit: limit}, cb)
     },
-    itemsByName: function(name){      
-      return cachedItems = Search.query({name: name})
+    itemsByName: function(name, cb){      
+      Search.query({name: name}, cb)
     },
     getById: function(playerId){
       //console.log('and looking for from the API....')
@@ -62,6 +61,9 @@ angular.module('Afrikik.services', [])
     },
     unsubscribe: function(playerId){
       Player.unsubscribe({playerId: playerId},{})
+    },
+    getStats: function(playerId, cb){
+      Player.stats({playerId: playerId}, cb)
     }
   };
 }])
@@ -85,8 +87,8 @@ angular.module('Afrikik.services', [])
     topItems: function(){      
       return cachedItems = Search.topItems({})
     },
-    itemsByName: function(name){      
-      return cachedItems = Search.query({name: name})
+    itemsByName: function(name, cb){      
+      Search.query({name: name}, cb)
     },
     getById: function(teamId){
       var team = Team.get({id:teamId})
@@ -167,7 +169,6 @@ angular.module('Afrikik.services', [])
         return Activity.save({},feed, cb)
     },
     feedsSubscribed: function(cb,userId, skip, limit){
-	console.log('from API')
       Activity.feedsSubcribed({ skip:skip, limit:limit}, cb);
     },
     getScoreFeeds : function(cb,userId, skip, limit){
@@ -223,29 +224,6 @@ angular.module('Afrikik.services', [])
     };
 })
 
-
-.factory('MediaService', function($resource, $q){
-    var music = $resource('https://itunes.apple.com/:action',
-        { action: "search", callback: 'JSON_CALLBACK'},
-        { 'get':  {method: 'JSONP'} });
-
-
-    return {
-        search: function(query,type,limit) {
-            var q = $q.defer();
-
-            music.get({
-                term: query, media: type, limit: limit
-            }, function(resp) {
-                q.resolve(resp);
-            }, function(err) {
-                q.reject(err);
-            })
-
-            return q.promise;
-        }
-    }
-})
 
 // Shared data from settings needed by different controllers
 .service('SettingsService', function() {

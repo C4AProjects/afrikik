@@ -9,18 +9,28 @@
             <div ng-show="isSubscribedOn(player)" >
                 <span ng-click="unsubscribe(player)" class="icon ion-minus-circled" style="color: white; font-size: 20px; cursor:pointer" >Unfollow</span>
             </div>
-            <center><img class="afk-circle" ng-src="{{getPicItem(player)}}" /></center>
+            <center>
+                <img class="afk-circle" ng-src="{{getPicItem(player)}}" />                
+            </center>
+            <span class="icon ion-plus-circled" style="color: white"  ng-click="plus=!plus" ng-show="!plus">More</span>
+            <span class="icon ion-ios7-minus" style="color: white" ng-click="plus=!plus" ng-show="plus">Less</span>
             </div>
           </div>
-          <div class="row">
-            <div class="col" style="padding-bottom: 15px;padding-top: 1px">
+          <div class="row" style="color: white">
+            <div class="col" style="padding-bottom: 5px;padding-top: 1px">
               <h3 id="name">{{player.name}}</h3>
               <h6 id="summary">{{player.country}} National football Team<br/>
               {{player.club}} at {{player.clubcountry}} - (N°: #{{player.no}} - position: {{player.position}})
               </h6>
               
             </div>
-          </div>            
+            <div class="col" style="color:white; font-size: 12px" ng-show="plus">
+            <b> Age: </b> {{player.age}} 
+            <b> Birthdate: </b> {{player.dob||'--,'}} <b> Place of Birth: </b> {{player.birth_place||'--,'}} <b> Height: </b> {{player.height||'--,'}}
+            <b> Weight: </b> {{player.weight||'--,'}} <b> Position: </b> {{player.position||'--,'}} <b> Club: </b> {{player.club||'--,'}}  <b> Nationality: </b> {{player.country||'--,'}}
+          </div>
+          </div>
+           
         </div>
     </div>
     <div class="row" style="background-color: #4a4845;" ng-show="!isSubscribedOn(player)">
@@ -99,7 +109,7 @@
                           <div class="col"><img src="images/stats/goals.png" style="max-height: 50px; max-width: 50px"></div>
                           <div class="col" style="text-align: center">
                             <h5>Goals </h5>
-                            <h4>{{player.goals||'-'}}</h4>
+                            <h4>{{stats.goals||'-'}}</h4>
                           </div>             
                         </div>
                         <div class="row">
@@ -124,14 +134,14 @@
                           <div class="col"><img src="images/stats/reds.png" style="max-height: 50px; max-width: 50px"></div>
                           <div class="col" style="text-align: center">
                             <h5>Red cards </h5>
-                            <h4>{{player.reds||'-'}}</h4>
+                            <h4>{{stats.redc||'-'}}</h4>
                           </div>             
                         </div>
                         <div class="row">
                           <div class="col"><img src="images/stats/yellows.png" style="max-height: 50px; max-width: 50px"></div>
                           <div class="col" style="text-align: center">
                             <h5>Yellow cards </h5>
-                            <h4>{{player.yellows||'-'}}</h4>
+                            <h4>{{stats.yellowc||'-'}}</h4>
                           </div>             
                         </div>                        
                     </div>

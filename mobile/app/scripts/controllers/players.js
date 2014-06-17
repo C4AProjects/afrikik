@@ -14,12 +14,20 @@ Afrikik
                 $rootScope.menuLeft = true;
                 
                 $scope.message = "";
+                
+                $scope.stats = {};
                                
                 if($stateParams._id){
+                        $rootScope.menuLeft = false;
                         $scope.player = PlayerService.getByIdFromCache($stateParams._id)||PlayerService.getById($stateParams._id)
                         $scope.activities = ActivityService.feedsPlayer($stateParams._id)
-                        $rootScope.menuLeft = false;
+                        PlayerService.getStats($stateParams._id, function(values){
+                                if(values.length>=1)$scope.stats = values[0]
+                        })
+                        
                 }
+                
+                var limit = 250; //maximum of result to cache
                 
                 var cachedItems = Global.getTopItems();
                 
@@ -31,7 +39,7 @@ Afrikik
                         PlayerService.topItems($scope.user._id, function(values, responseHeaders) {
                                 $scope.items = values;
                                 Global.setTopItems($scope.items) 
-                        })                                                                                        
+                        }, 0, limit)                                                                                        
                         
                 }
                                                 
@@ -52,7 +60,7 @@ Afrikik
                         PlayerService.subscribe(player._id)
                         $scope.user.subscribedPlayers.push(player)
                         Global.setUser($scope.user);
-                        //$window.location.reload();
+                        Global.cleanAll();
                         $scope.isSubscribedOn();
                 }
                 
@@ -67,6 +75,7 @@ Afrikik
                         })
                         $scope.user.subscribedPlayers = list;
                         Global.setUser($scope.user);
+                        Global.cleanAll();
                         $scope.isSubscribedOn();
                         
                 }
@@ -96,19 +105,25 @@ Afrikik
                 
                 $scope.setSubscribedItem = function(player){
                         $state.transitionTo('private.player', {_id: player._id})
-                }                        
-                 
+                }
+                
                 $scope.search = function(name){
                     /*$scope.items = _.filter(PlayerService.allItems(),  function(item){
                         return (item.name.toLowerCase().indexOf(name.toLowerCase()) >= 0)
                     })*/
                     if (!name||name.length==0) {
                          $scope.items = PlayerService.topItems($scope.user._id,function(values){
-                                $scope.items = values;
+                                $scope.items = values;                                
                                 Global.setTopItems($scope.items)                                                    
                         });
                     }else{
-                        $scope.items = PlayerService.itemsByName(name)||TeamService.itemsByName(name);
+                        PlayerService.itemsByName(name, function(values){
+                                $scope.items = values;                               
+                        })||TeamService.itemsByName(name, function(values){
+                                $scope.items = values;                               
+                        });
+                        
+                        
                     }
                 }
                 

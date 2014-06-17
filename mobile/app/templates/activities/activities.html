@@ -21,10 +21,10 @@
         
         <div class="afk-content-high">
 	<div class="afk-obj-info" ng-show="user.subscriptions.length==0" style="font-size:16px;" >
-		You currently do not have feeds. Please subscribes to players or teams to see feeds. <br/>If you have done already please check back, it may miss feeds for your subscribed players.We apologize for any inconveniences we may have caused you.
+		You currently do not have feeds. Please subscribes to players or teams to see feeds. 
 	</div>
 <div class="afk-obj-info" ng-show="user.subscriptions.length>0 && activities.length==0" style="font-size:16px;" >
-		You currently do not have feeds. <br/>It may miss new feeds for your subscribed players or/and teams.We apologize for any inconveniences we may have caused you. <br/>
+		You currently do not have feeds.
 <button class="button afk-btn-register"  style="margin:0px;" ng-click="refresh()">Click Here To Refresh</button>
 	</div>
         <!--div style="text-align: center; font-size: 80px" ng-show="activities.length==0 && msgNoFeeds.length==0">           
@@ -37,7 +37,7 @@
             <a class="afk-lnk-detail" >
                 <span class="afk-feed"><i style="color: #f97c11">{{activity.feedType?'com':'-'}} </i> {{activity.title||activity.message}}</span>
                 <!--span class="afk-obj-info" > <a class="afk-lnk-player-feed" ng-href="#/private/{{activity._player?'player/'+activity._player._id:'team/'+activity._team._id}}">{{activity._player?activity._player.name:activity._team.name}}</a-->
-                    <h6>{{activity.createdAt||activity.publish_date|date:'HH:mm  EEEE, MM/yyyy '}}   <br/>   {{activity.comments.length||0}} comments</h6><!--/span-->
+                    <h6>{{activity.publish_date||activity.createdAt|date:'HH:mm  EEEE, MM/yyyy '}}   <br/>   {{activity.comments.length||0}} comments</h6><!--/span-->
                
             </a>
  <i class="icon ion-arrow-right-b" style="font-size: 11px; color: lightgrey;"></i>

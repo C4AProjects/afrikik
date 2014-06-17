@@ -74,6 +74,14 @@ angular.module('Afrikik')
 		  isArray: false,
 		  ignoreLoadingBar: true
 		},
+		'stats': {
+		  method:'GET',
+		  url: config.host +  ":port/" + config.api_base_version + '/players/:playerId/stats',
+		  params:{
+		    
+		  },
+		  isArray: true	    
+		},
 		'comment': {
 		  method:'POST',
 		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/players/:playerId/comment',
@@ -297,7 +305,7 @@ angular.module('Afrikik')
 	{
 	  'topItems':{
 		  method:'GET',
-		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/top/items',
+		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/top/items?skip=:skip&limit=:limit',
 		  params:{
 		    id : Global.getUserId(),
 		    skip:0,

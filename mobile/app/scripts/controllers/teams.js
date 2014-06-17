@@ -46,6 +46,7 @@ Afrikik
                         TeamService.subscribe(team._id)
                         $scope.user.subscribedTeams.push(team)
                         Global.setUser($scope.user);
+                        Global.cleanAll();
                         $scope.isSubscribedOn();
                 }
                 
@@ -60,6 +61,7 @@ Afrikik
                         })
                         $scope.user.subscribedTeams = list;
                         Global.setUser($scope.user);
+                        Global.cleanAll();
                         $scope.isSubscribedOn();
                         
                 }

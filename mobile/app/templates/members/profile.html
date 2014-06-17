@@ -34,7 +34,7 @@
             <a class="afk-menu-tab2">FRIENDS</a>
           </div>
         </div>            
-        <div class="afk-player-activity afk-content-high" style="background-color: grey;">
+        <div class="afk-player-activity afk-content-high" style="background-image: url('./images/profile-bg.png');filter: brightness(50%);-moz-filter: brightness(50%);">
             <div style="text-align: center" ng-show="showAvatars">
             <ion-radio ng-repeat="avatar in avatars" ng-model="user.picture" ng-value="avatar" style="display: inline-block;max-height: 80px;max-width:80px">
                 <img ng-src="./images/avatars/{{avatar}}" class="afk-circle" style="max-height: 60px;max-width:60px">
@@ -59,7 +59,7 @@
                 <br/>
             <button class="button afk-btn afk-btn-register"   style="margin:0px;" ng-click="logout(); ">
             Logout
-            </button>
+            </button>  
             <button class="button afk-btn afk-btn-register"  style="margin:0px;" ng-click="cleanCache(); ">
             Clean Cache Data
             </button>
@@ -85,9 +85,10 @@
         <ion-list>
           <ion-item ng-repeat="item in user.subscriptions track by $index" class="afk-bg-list item item-avatar item-button-right">
              <img ng-src="{{getPicItem(item)}}" class="afk-circle"> 
-            <a class="afk-lnk-detail" ng-click="setCurrentItem(item)">
-              <span class="afk-obj-name">{{item.name}}</span>
-             <span class="afk-obj-desc">{{item.association}} {{item.club}}  {{item.clubcountry}} {{item.no?' - N°: #' +item.no:''}}  {{item.position? ' - position: ' + item.position: ''}}</span>
+            <a class="afk-lnk-detail" >
+              <span class="afk-obj-name">{{item.name}}<h6>{{item.no?'# - N°: ' +item.no:''}}  {{item.position? ' - position: ' + item.position: ''}}</h6></span>
+            <span class="afk-obj-desc">
+            {{item.association}} {{item.club}}  {{item.clubcountry}} {{item.country}} </span>
               View Profile <i class="icon ion-ios7-arrow-forward"></i></a>
           </ion-item>   
         </ion-list>

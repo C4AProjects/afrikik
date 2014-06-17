@@ -44,6 +44,7 @@ angular.module('Afrikik')
       }
       
       $scope.refresh = function(){
+	Global.cleanAll();
 	$window.location.reload();
       }
       
@@ -109,7 +110,7 @@ angular.module('Afrikik')
 
      */
     $scope.loginWithFB = function(){
-
+	console.log('Login With Facebook account')
         OpenFB.login('email,read_stream,publish_stream').then(
             function () {
                 OpenFB.get('/me').success(function (user) {

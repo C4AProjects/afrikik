@@ -3,21 +3,22 @@
 <ion-content class="has-header">
     <div class="afk-header-list">Community</div>
     
-    <div class="item item-input-inset" style="background-color: grey" ng-show="true">            
-        <label class="item-input-wrapper afk-search-bg" >            
-            <input type="text" placeholder="Add Comment Here" class="afk-search-bg" ng-model="data.message" maxlength="160" />
-        </label>    
-        <button class="button afk-btn-register"  style="margin:0px;" ng-click="postFeedCommunity(data.message, 'community'); data.message=''">
-        Post
-        </button>
+    <div class="item item-input-inset" style="background-color: grey" ng-show="true"> 
+		<div style="color:red; background:white" ng-show="data.message.length>50"> {{ data.message.length - 160}} </div>           
+                 <input placeholder="Add Comment Here" class="afk-search-bg" ng-model="data.message" maxlength="160" />
+            <button class="button afk-btn-register"  style="margin:0px;" ng-click="postFeedCommunity(data.message, 'community'); data.message=''">
+            Post
+            </button>
     </div>
+    
     <div class="afk-content-high">
     <ion-list>
        <ion-item ng-repeat="activity in communities" class="afk-bg-list item item-avatar">            
         <img class="afk-circle" ng-src="{{activity._user.picture? './images/avatars/' + activity._user.picture :'./images/avatars/default.png'}}" />
         <a class="afk-lnk-player-feed" ng-href="{{activity._user._id==user._id?'#':'#/private/member/'+activity._user._id}}">
             <span class="afk-feed">{{activity.message}}</span>
-            <span class="afk-obj-desc">Posted by <span class="afk-lnk-player-feed" >{{activity._user._id == user._id?'Me':activity._user.name||activity._user.username}}</span> on {{activity.createdAt|date:"EEEE MMM dd 'at' HH:mm 'GMT'"}}</span> 
+            <span class="afk-obj-desc">Posted by <span class="afk-lnk-player-feed" >{{activity._user._id == user._id?'Me':activity._user.name||activity._user.username}}</span>
+            <br/>on {{activity.createdAt|date:"EEEE MMM dd 'at' HH:mm 'GMT'"}}</span> 
         </a>
       </ion-item>              
     </ion-list>

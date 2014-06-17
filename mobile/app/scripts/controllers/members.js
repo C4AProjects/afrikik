@@ -9,16 +9,34 @@ Afrikik
                 var apiDir =  config.apiDir;
                                 
                 $scope.user = Global.getUser()
+                $scope.member = {}
+                
                 if ($stateParams._id) {
-                        $scope.member = MemberService.getById($stateParams._id);
+                       MemberService.getById($stateParams._id, function(data){
+                                $scope.member = data
+                                if ($scope.member&&$scope.member.following) {
+                                        $scope.member.friends = $scope.member.following.concat($scope.member.followers)
+                                }
+                                if ($scope.member&&$scope.member.subscribedPlayers) {
+                                        $scope.member.subscriptions = $scope.member.subscribedPlayers.concat($scope.member.subscribedTeams)
+                                }
+                        }, function(errors){
+                                console.log(errors)
+                        });
+                       
+                        
                 }
                                 
                 $scope.setCurrentMember = function(member){
                          $state.transitionTo('private.member', {_id: member._id})
                 }                        
                 
-                $scope.setCurrentPlayer = function(player){                        
-                        $state.transitionTo('private.player', {_id: $stateParams._id})
+                $scope.setCurrentItem = function(item){
+                        if (item.position) {
+                                $state.transitionTo('private.player', {_id: item._id})
+                        }else {                                
+                                $state.transitionTo('private.team', {_id: item._id})
+                        }
                 }
                 
                 $scope.subscribe = function(member){
@@ -131,13 +149,24 @@ console.log(settings)
                         $scope.user.authenticated = false;
                         Global.setUser($scope.user)
 			Global.setTopItems([]);
-			Global.setFeedsToCache([]);
+			Global.cleanAll();
                         $state.transitionTo('index')
                       //_gaq.push(['_trackEvent','Authentication', 'Logout', 'Regular Logout'])
                 }
                       
                 $scope.cleanCache = function(){
-                   Global.setTopItems([]) //
+                        
+                        $ionicLoading.show({
+                                template: '<i class="icon ion-loading-a"></i>'
+                        });
+                        Global.setTopItems([]); //
+                        Global.cleanAll();
+                        
+                        setTimeout(function(){
+                                $ionicLoading.hide();
+                        
+                        },1500)
+                        
                 }
                 
                 $scope.getPicItem = function(item){

@@ -35,15 +35,17 @@
             Search
             </button>
         </div>
-        <div style="text-align: center; font-size: 80px">           
-            <span ng-show="items.length==0"  class="icon ion-loading-a"></span>
+        <div style="text-align: center; font-size: 20px; color: white">           
+            <!--span ng-show="noResult && items.length==0"  class="icon ion-loading-a"></span-->
+            <span ng-show="items.length==0"><br/>No Results Found !</span>
         </div>
         <ion-list>
           <ion-item ng-repeat="item in items | filter:{name:searchName}" ng-click="setCurrentItem(item)" class="afk-bg-list item item-avatar item-button-right">
             <img ng-src="{{getPicItem(item)}}" class="afk-circle">              
             <a class="afk-lnk-detail" >
-              <span class="afk-obj-name">{{item.name}}</span>
-            <span class="afk-obj-desc">{{item.association}} {{item.club}}  {{item.clubcountry}} #{{item.no?' - N°: #' +item.no:''}}  {{item.position? ' - position: ' + item.position: ''}}</span>
+              <span class="afk-obj-name">{{item.name}}<h6>{{item.no?'# - N°: ' +item.no:''}}  {{item.position? ' - position: ' + item.position: ''}}</h6></span>
+            <span class="afk-obj-desc">
+            {{item.association}} {{item.club}}  {{item.clubcountry}} {{item.country}} </span>
               View Profile <i class="icon ion-ios7-arrow-forward"></i></a>
           </ion-item>   
         </ion-list>
@@ -67,8 +69,9 @@
           <ion-item ng-repeat="item in user.subscriptions" ng-click="setCurrentItem(item)" class="afk-bg-list item item-avatar item-button-right">
              <img ng-src="{{getPicItem(item)}}" class="afk-circle"> 
             <a class="afk-lnk-detail" >
-              <span class="afk-obj-name">{{item.name}}</span>
-            <span class="afk-obj-desc">{{item.association}} {{item.club}}  {{item.clubcountry}} {{item.no?' - N°: #' +item.no:''}}  {{item.position? ' - position: ' + item.position: ''}}</span>
+              <span class="afk-obj-name">{{item.name}}<h6>{{item.no?'# - N°: ' +item.no:''}}  {{item.position? ' - position: ' + item.position: ''}}</h6></span>
+            <span class="afk-obj-desc">
+            {{item.association}} {{item.club}}  {{item.clubcountry}} {{item.country}} </span>
               View Profile <i class="icon ion-ios7-arrow-forward"></i></a>
           </ion-item>   
         </ion-list>
