@@ -2,12 +2,11 @@
 
 Afrikik
         // A simple controller that fetches a list of data from a service
-        .controller('PlayerCtrl', function($ionicNavBarDelegate,$angularCacheFactory,$scope, $rootScope, $window, config, $state, $stateParams, $ionicSlideBoxDelegate, Global, PlayerService, TeamService, ActivityService) {
+        .controller('PlayerCtrl', function($timeout, $ionicNavBarDelegate,$angularCacheFactory,$scope, $rootScope, $window, config, $state, $stateParams, $ionicSlideBoxDelegate, Global, PlayerService, TeamService, ActivityService) {
                 
                 var apiDir =  config.apiDir;
                 
-                //var playersCache = $angularCacheFactory('playersCache');
-                
+                //var playersCache = $angularCacheFactory('playersCache');                
                 
                 $scope.user = $scope.user||Global.getUser()
        
@@ -27,11 +26,11 @@ Afrikik
                         
                 }
                 
-                var limit = 250; //maximum of result to cache
+                var limit = 50; //maximum of result to cache
                 
                 var cachedItems = Global.getTopItems();
                 
-                if (cachedItems && cachedItems.length> 0) {
+                if (cachedItems && cachedItems.length > 0) {
                         $scope.items = cachedItems;                        
                 }
                 else
@@ -149,6 +148,30 @@ Afrikik
                                 $scope.styleLocked = {'filter':'alpha(opacity=50)', 'opacity':0.5};
                         }
                         return test;
+                }
+                
+                $scope.stopScroll = false;  //
+                
+                $scope.loadMore = function() {                
+                  $timeout(function() {
+                    if (!$scope.stopScroll) {
+                        PlayerService.topItems($scope.user._id, function(data, responseHeaders) {                                
+                                if (data && data.length==0) {
+                                $scope.stopScroll=true
+                                }
+                                data.forEach(function(obj){
+                                    $scope.items.push(obj); 
+     
+                                })
+                                $scope.$broadcast('scroll.infiniteScrollComplete');
+                                if($scope.items.length<200){
+                                        Global.setTopItems($scope.items)
+                                }
+                        }, $scope.items.length, 15)                         
+                    }
+                    
+                  }, 1000);
+        
                 }
                 
                  $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){

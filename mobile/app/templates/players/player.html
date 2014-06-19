@@ -10,7 +10,7 @@
                 <span ng-click="unsubscribe(player)" class="icon ion-minus-circled" style="color: white; font-size: 20px; cursor:pointer" >Unfollow</span>
             </div>
             <center>
-                <img class="afk-circle" ng-src="{{getPicItem(player)}}" />                
+                <img class="afk-circle" ng-src="{{getPicItem(player)}}" ng-click="plus=!plus"/>                
             </center>
             <span class="icon ion-plus-circled" style="color: white"  ng-click="plus=!plus" ng-show="!plus">More</span>
             <span class="icon ion-ios7-minus" style="color: white" ng-click="plus=!plus" ng-show="plus">Less</span>
@@ -33,12 +33,12 @@
            
         </div>
     </div>
+    
     <div class="row" style="background-color: #4a4845;" ng-show="!isSubscribedOn(player)">
       <div class="col afk-align-center" style="height: 25px">
         <button class="button afk-btn afk-btn-register afk-member-subscribe-btn" ng-click="subscribe(player)">Subscribe</button>
       </div>
-    </div>
-    
+    </div>    
    
    <div style="background-color: grey">
     <div ng-style="styleLocked">
@@ -58,13 +58,12 @@
         <div class="afk-content" ng-show="lockInfo">
         <ion-list>
           <ion-item ng-repeat="activity in activities" ng-controller="ActivityCtrl" ng-click="setCurrentFeed(activity._id)" class="afk-bg-list item item-avatar item-icon-right">
-            <img ng-src="{{activity.picture? apiDir + activity.picture :activity.url_img||'./images/nopic-feed.png'}}" class="afk-circle">
+            <img ng-src="{{activity._player?getPicItem(activity._player):getPicItem(activity._team)}}" class="afk-circle">
             <a class="afk-lnk-detail" >
-                <span class="afk-obj-name"><i style="color: #f97c11">{{activity.feedType?activity.feedType +':':'-'}} </i> {{activity.message}}</span>
-                <span class="afk-obj-info" > <a class="afk-lnk-player-feed" ng-href="#/private/player/{{activity._player._id}}">{{activity._player.name}}</a>
-                <a class="afk-lnk-team-feed" ng-href="#/private/team/{{activity._player._id}}"> {{activity._player.name}}</a>    <h6>{{activity.createdAt|date:'HH:mm MM/dd/yyyy  - '}}          {{activity.comments.length}} comments</h6></span>
-                <i class="icon ion-arrow-right-b" style="font-size: 13px; color: lightgrey;"></i>
+                <span class="afk-feed"><i style="color: #f97c11">{{activity.feedType?'com':'-'}} </i> {{activity.title||activity.message}}</span>                
+                    <h6>{{activity.publish_date||activity.createdAt|date:'HH:mm  EEEE, MM/yyyy '}}   <br/>   {{activity.comments.length||0}} comments</h6>               
             </a>
+ <i class="icon ion-arrow-right-b" style="font-size: 11px; color: lightgrey;"></i>
           </ion-item>   
         </ion-list>
         <br/><br/>
@@ -116,14 +115,14 @@
                           <div class="col"><img src="images/stats/wins.png" style="max-height: 50px; max-width: 50px"></div>
                           <div class="col" style="text-align: center">
                             <h5>Wins </h5>
-                            <h4>{{player.wins||'-'}}</h4>
+                            <h4>{{stats.wins||'-'}}</h4>
                           </div>             
                         </div>
                         <div class="row">
                           <div class="col"><img src="images/stats/losses.png" style="max-height: 50px; max-width: 50px"></div>
                           <div class="col" style="text-align: center">
                             <h5>Losses </h5>
-                            <h4>{{player.losses||'-'}}</h4>
+                            <h4>{{stats.losses||'-'}}</h4>
                           </div>             
                         </div>                                               
                     </div>

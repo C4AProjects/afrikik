@@ -79,6 +79,10 @@ angular.module('Afrikik')
         $scope.$broadcast('slideBox.nextSlide');
       };
       
+      $scope.goToTour = function (index) {
+        $ionicSlideBoxDelegate.slide(index)
+      };
+      
       /*$scope.setCurrentPlayer = function(player){
 	    PlayerService.setCurrentPlayer(player)
 	    $state.go('private.member', {_id: member._id})

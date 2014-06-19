@@ -52,14 +52,14 @@
         <div class="afk-content">
         <ion-list>
           <ion-item ng-repeat="activity in activities" ng-controller="ActivityCtrl" ng-click="setCurrentFeed(activity._id)"  class="afk-bg-list item item-avatar item-icon-right">
-            <img ng-src="{{getPicItem(activity._team)}}" class="afk-circle">
-            <a class="afk-lnk-detail"  >
-                <span class="afk-obj-name"> {{activity.title||'No title'}}</span>
-                <span class="afk-obj-info" > <a class="afk-lnk-player-feed" ng-href="#/private/player/{{activity._player._id}}">{{activity._player.name}}</a>
-                <a class="afk-lnk-team-feed" ng-href="#/private/team/{{activity._player._id}}"> {{activity._team.name}}</a>
-                <h6>{{activity.createdAt|date:'HH:mm MM/dd/yyyy - '}}          {{activity.comments.length}} comments</h6></span>
-                <i class="icon ion-arrow-right-b" style="font-size: 12px; color: lightgrey;"></i>
+            <img ng-src="{{activity._player?getPicItem(activity._player):getPicItem(activity._team)}}" class="afk-circle">
+            <a class="afk-lnk-detail" >
+                <span class="afk-feed"><i style="color: #f97c11">{{activity.feedType?'com':'-'}} </i> {{activity.title||activity.message}}</span>
+                <!--span class="afk-obj-info" > <a class="afk-lnk-player-feed" ng-href="#/private/{{activity._player?'player/'+activity._player._id:'team/'+activity._team._id}}">{{activity._player?activity._player.name:activity._team.name}}</a-->
+                    <h6>{{activity.publish_date||activity.createdAt|date:'HH:mm  EEEE, MM/yyyy '}}   <br/>   {{activity.comments.length||0}} comments</h6><!--/span-->
+               
             </a>
+ <i class="icon ion-arrow-right-b" style="font-size: 11px; color: lightgrey;"></i>
           </ion-item>   
         </ion-list>
         <br/><br/>

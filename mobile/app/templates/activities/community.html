@@ -4,11 +4,11 @@
     <div class="afk-header-list">Community</div>
     
     <div class="item item-input-inset" style="background-color: grey" ng-show="true"> 
-		<div style="color:red; background:white" ng-show="data.message.length>50"> {{ data.message.length - 160}} </div>           
-                 <input placeholder="Add Comment Here" class="afk-search-bg" ng-model="data.message" maxlength="160" />
-            <button class="button afk-btn-register"  style="margin:0px;" ng-click="postFeedCommunity(data.message, 'community'); data.message=''">
+        <div style="color:red; background:white" ng-show="data.message.length>140"> {{ data.message.length - 160}} </div>           
+         <input placeholder="Add Comment Here" class="afk-search-bg" ng-model="data.message" maxlength="160" />
+        <button class="button afk-btn-register"  style="margin:0px;" ng-click="postFeedCommunity(data.message, 'community'); data.message=''">
             Post
-            </button>
+        </button>
     </div>
     
     <div class="afk-content-high">

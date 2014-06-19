@@ -152,13 +152,13 @@ angular.module('Afrikik')
 		  },
 		  isArray:false
 		},
-		'playersTeam':{
+		'playersTeam': {
 		  method:'GET',
-		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/teams/:teamId/players',
+		  url: config.host +  ":port/" + config.api_base_version + '/teams/:teamId/players',
 		  params:{
-		    id : Global.getUserId()		    
+		    
 		  },
-		  isArray:true
+		  isArray: true	    
 		}
     	}
     );
@@ -305,11 +305,13 @@ angular.module('Afrikik')
 	{
 	  'topItems':{
 		  method:'GET',
-		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/top/items?skip=:skip&limit=:limit',
+		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/top/items?skip=:skip&limit=:limit&skipTeam=:skip&limitTeam=:limit',
 		  params:{
 		    id : Global.getUserId(),
 		    skip:0,
-		    limit:30
+		    limit:30,
+		    skipTeam:0,
+		    limitTeam:5
 		  },
 		  isArray:true,
 		  ignoreLoadingBar: true

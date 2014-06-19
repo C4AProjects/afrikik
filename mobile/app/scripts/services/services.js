@@ -36,8 +36,8 @@ angular.module('Afrikik.services', [])
     cachedItems: function() {
       return cachedItems;
     },
-    topItems: function(userId, cb, skip, limit){
-        Search.topItems({id:userId, skip:skip , limit: limit}, cb)
+    topItems: function(userId, cb, skip, limit, skipTeam, limitTeam){
+        Search.topItems({id:userId, skip:skip , limit: limit, skipTeam:skipTeam||0 , limitTeam: limitTeam||5}, cb)
     },
     itemsByName: function(name, cb){      
       Search.query({name: name}, cb)
@@ -108,8 +108,8 @@ angular.module('Afrikik.services', [])
     unsubscribe: function(teamId){
       Team.unsubscribe({teamId: teamId},{})
     },
-    playersTeam: function(teamId){
-      Team.playersTeam({teamId: teamId})
+    playersTeam: function(teamId, cb, error){
+      Team.playersTeam({teamId: teamId}, cb, error)
     }
   };
 }])

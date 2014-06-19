@@ -32,6 +32,7 @@ Afrikik
                 }                        
                 
                 $scope.setCurrentItem = function(item){
+                        console.log('set current item')
                         if (item.position) {
                                 $state.transitionTo('private.player', {_id: item._id})
                         }else {                                

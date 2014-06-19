@@ -3,9 +3,17 @@
     <center><img src="./images/main-bg.png" style="opacity: 0.2;"></center>
   <ion-content padding="false" style="height: inherit;text-align: center">       
         <ion-slide-box>
-            <ion-slide scroll="false">                
-                <img src="./images/logo.png" class="afk-logo" style="padding-top: 50px"/>
-                <p style="padding-top: 5px">
+            <ion-slide scroll="false">
+                <div class="row">                   
+                        <div class="col">
+                            <h1 style="color:white;cursor: pointer" ng-click="goToTour(2)">View Tour
+                            <span class="icon ion-chevron-right" style="color:#db6f11"></span><span class="icon ion-chevron-right"></span>
+                            </h1>
+                            
+                        </div>                    
+                </div>
+                <img src="./images/logo.png" class="afk-logo" />
+                <p>
                     <h5 style="color: rgb(255,255,255); font-weight: bold">
                         HOME OF THE BESTS IN AFRICAN FOOTBALL
                     </h5>
@@ -55,12 +63,7 @@
                         </center>
                     </div> 
                     </div>
-    
-                    <div class="row">                   
-                        <div class="col">
-                            <button class="button button-block afk-btn afk-btn-register" ng-click="goToCreateAccount()">  Create Account   </button>
-                        </div>                    
-                    </div>
+                    
                     <div class="row" >
                         <div class="col">
                             <!--button class="button button-block afk-btn afk-btn-fb"  ng-click="loginWithFB()">Sign In With Facebook</button-->
@@ -70,13 +73,20 @@
                                 </button>
                         </div>                                    
                     </div>
+    
+                    <div class="row">                   
+                        <div class="col">
+                            <button class="button button-block afk-btn afk-btn-register" ng-click="goToCreateAccount()">  Create Account   </button>
+                        </div>                    
+                    </div>
+                                        
                 </div>
             </ion-slide>            
-            <ion-slide scroll="false" style="padding:1px 5% 20px 5%">
-                <div style="padding-top:20px;">
+            <ion-slide scroll="false">
+                <div style="padding-top:20px;padding-left: 15px;padding-right: 15px">
                     <button class="button button-block afk-btn afk-btn-fb">Create With Facebook</button>
                 </div>
-               <form name="RegisterForm" novalidate ng-submit="register()">
+               <form name="RegisterForm" novalidate ng-submit="register()" style="padding-left: 20px;padding-right: 20px">
                     <div class="afk-container-register">
                         <div class="afk-label">- OR -</div>
                         <div class="afk-label">Name</div>
@@ -95,6 +105,16 @@
                         <button class="button button-block afk-btn afk-btn-register">Continue</button>
                     </div>
                 </form>
+            </ion-slide>
+            
+            <ion-slide>
+                <img ng-src="./images/tour/tour-01.png" ng-click="goToTour(3)"/>
+            </ion-slide>
+            <ion-slide>
+                <img ng-src="./images/tour/tour-02.png" ng-click="goToTour(4)"/>
+            </ion-slide>
+            <ion-slide>
+                <img ng-src="./images/tour/tour-03.png" ng-click="goToTour(0)"/>
             </ion-slide>
             
           </ion-slide-box>

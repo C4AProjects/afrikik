@@ -24,7 +24,9 @@ Afrikik
                                 
                 if($stateParams._id){
                         $scope.team = TeamService.getById($stateParams._id);
-                        $scope.players = TeamService.playersTeam($stateParams._id)
+                        TeamService.playersTeam($stateParams._id, function(values){
+                                $scope.players = values
+                        })
                         $scope.activities = ActivityService.feedsTeam(callback, $stateParams._id, 0, limit)
                         $rootScope.menuLeft = false;
                 }                
