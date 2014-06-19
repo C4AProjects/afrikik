@@ -108,23 +108,32 @@ angular.module('Afrikik')
       });
     };
 
-    OpenFB.init('469144859882680');
-    /*
-            Facebook Login
-
-     */
     $scope.loginWithFB = function(){
-	console.log('Login With Facebook account')
-        OpenFB.login('email,read_stream,publish_stream').then(
+	   OpenFB.login('email,read_stream,publish_stream').then(
             function () {
-                OpenFB.get('/me').success(function (user) {
+		OpenFB.get('/me').success(function (user) {
                     	console.log(user);
 			$scope.user.email=user.email;
+			$scope.user.username=user.email;
+			Auth.loginWithFacebook($scope.user).then(function(loginResponse){
+			    var user = loginResponse.user; // loginResponse.access_token.user
+			    $rootScope.menuLeft = true;
+			    user.authenticated = true;
+			    window.user = user;		
+			    Global.setUser(user)	    
+			    if (user.subcribedPlayers&&user.subcribedPlayers.length>0) {
+			    $state.go('private.subscriptions')
+			    }else{
+				$state.go('private.search')
+			    }
+			    
+			    $scope.show('Connexion...', 1000)
+			})
                 });
 
             },
             function () {
-                console.log("OpenFB login failed",true);
+                console.log("OpenFB login failed");
             });
 
     }

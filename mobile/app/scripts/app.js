@@ -9,9 +9,11 @@ var apiServer;
 
 var Afrikik = angular.module('Afrikik', [ 'jmdobry.angular-cache','ionic','openfb', 'Afrikik.services', 'Afrikik.controllers', 'config', 'angularLocalStorage','ui.router','ngResource','infinite-scroll','pascalprecht.translate','underscore', 'angular-loading-bar','ngAnimate'])
 
-/*.run(function ($http, $rootScope, $state, $ionicPlatform, $window, OpenFB) {
+.run(function ($http, $rootScope, $state, $ionicPlatform, $window, OpenFB) {
      
-        OpenFB.init('1422514281357788');
+        OpenFB.init('469144859882680');
+        
+	window.openFB = OpenFB;
 
         $ionicPlatform.ready(function () {
             if (window.StatusBar) {
@@ -28,9 +30,9 @@ var Afrikik = angular.module('Afrikik', [ 'jmdobry.angular-cache','ionic','openf
 
         $rootScope.$on('OAuthException', function() {
             $state.go('index');
-        });
+        });*/
 
-    })*/
+    })
 
 
 .config(function($httpProvider, $stateProvider, $urlRouterProvider, envConfiguration, $angularCacheFactoryProvider, cfpLoadingBarProvider) {

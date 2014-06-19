@@ -80,11 +80,12 @@
         </div>
         <div class="afk-content">
         <ion-list>
-          <ion-item ng-repeat="player in players" class="afk-bg-list item item-avatar item-button-right">
+          <ion-item ng-repeat="player in players"  ng-click="setCurrentPlayer(player)" class="afk-bg-list item item-avatar item-button-right">
             <img ng-src="{{getPicItem(player)}}" class="afk-circle">            
-            <a class="afk-lnk-detail">
-              <span class="afk-obj-name">{{player.name}}</span>
-            <span class="afk-obj-desc">{{player.description}}</span>
+            <a class="afk-lnk-detail" >
+              <span class="afk-obj-name">{{player.name}}<h6>{{player.no?'# - N°: ' +player.no:''}}  {{player.position? ' - position: ' + player.position: ''}}</h6></span>
+            <span class="afk-obj-desc">
+            {{player.club}}  {{player.clubcountry}} {{player.country}} </span>
               View Profile <i class="icon ion-ios7-arrow-forward"></i></a>
           </ion-item>   
         </ion-list>   
