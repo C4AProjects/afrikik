@@ -66,9 +66,53 @@ exports.login = function(req, res){
         })
         }
     });
-
     
 }
+
+/**
+ *Login
+ */
+
+exports.loginWithFacebook = function(req, res){
+    var user1 = req.body;
+    User.findOne({
+        email: user1.email, provider:'facebook'
+    })
+        .populate('subscribedTeams subscribedPlayers following followers requests')//TODO
+        .exec(function(err, user) {
+        if (err) {
+             
+            res.json({
+               alerts:[{message:err}]
+            })
+        }
+        if (!user) {                        
+            //create user with provider equals FB
+            user1 = new User(req.body);
+            user1.provider = 'facebook';
+            user1.save(function(err,user){
+                if (err) {
+                    res.json({
+                        alerts:[{message:err}]
+                    })
+                }
+                res.json({
+                        success:true,
+                        user:user
+                })
+            })
+        }  
+        else
+        { 
+            res.json({
+               success:true,
+               user:user
+            })
+        }
+    });
+    
+}
+
 
 /**
  * Auth callback

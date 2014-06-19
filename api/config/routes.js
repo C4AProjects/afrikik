@@ -29,6 +29,7 @@ module.exports = function(app, passport, auth) {
     var users = require('../app/controllers/users');
  
     app.post('/api/v1/users/session', users.login);
+    app.post('/api/v1/users/session/facebook', users.loginWithFacebook);
     //app.post('/api/v1/users/session', passport.authenticate('local', { }), users.session);
  
     //Setting up the users api
