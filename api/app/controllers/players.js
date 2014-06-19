@@ -189,7 +189,8 @@ exports.topPlayersAndTeam = function(req, res){
     .find({'_id': {$nin: req.user.subscribedTeams}})
     .sort({rating:-1})
     .sort({name:1})
-    .limit(5)
+    .skip(req.query.skipTeam||0)
+    .limit(req.query.limitTeam||5)
     .exec(function(err, list){
        if(err) res.status(401).json({err: err})
        if (list) {
@@ -197,6 +198,7 @@ exports.topPlayersAndTeam = function(req, res){
         Player.find({'_id': {$nin: req.user.subscribedPlayers}})
         .sort({rating:-1})
         .sort({name:1})
+        .skip(req.query.skip||0)
         .limit(req.query.limit||20)
         .exec(function(err, list){
            if(err) res.status(401).json({err: err})
@@ -232,6 +234,27 @@ exports.getPlayersTeam = function(req, res){
   var user = req.user
   //if (user.subscribedTeams.indexOf(req.team._id)>=0) {
     Player.find({'_team': req.team})    
+    .exec(function(err, list){
+        if(err) res.status(401).json({err: err})        
+        res.status(200).json(list)
+    })     
+  /*}
+  else
+  {
+    res.status(401).json({err:  req.team._id + ' doesn\'t exist in subscribed team list!', subcribedTeams: user.subscribedTeams }) 
+  }*/
+}
+
+/************************************************************************************
+ *          Get all players's team for a user : /users/USER_ID/teams/TEAM_ID/players
+ **************************************************************************************/
+
+exports.getPlayersByTeamName = function(req, res){
+  var user = req.user
+    Player.find({'country': req.team.name})
+    .sort({rating:-1})
+    .sort({name:1})
+    .limit(req.query.limit||30)
     .exec(function(err, list){
         if(err) res.status(401).json({err: err})        
         res.status(200).json(list)

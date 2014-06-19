@@ -76,6 +76,7 @@ module.exports = function(app, passport, auth) {
     app.get('/api/v1/players/search/:name', players.searchByName );
     //app.get('/api/v1/players/:playerId/share', players.sharePlayerProfile);
     app.get('/api/v1/users/:userId/teams/:teamId/players', players.getPlayersTeam);
+    app.get('/api/v1/teams/:teamId/players', players.getPlayersByTeamName);
     app.get('/api/v1/search/:name', players.searchPlayersAndTeam)
     app.post('/api/v1/users/:userId/players/:playerId/comment', players.comment); //comment on player profile
     
