@@ -117,6 +117,7 @@ angular.module('Afrikik')
 			$scope.user.username=user.email;
 			Auth.loginWithFacebook($scope.user).then(function(loginResponse){
 			    var user = loginResponse.user; // loginResponse.access_token.user
+			    console.log('--------------Authenticated------------');
 			    $rootScope.menuLeft = true;
 			    user.authenticated = true;
 			    window.user = user;		
