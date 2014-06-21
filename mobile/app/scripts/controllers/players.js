@@ -38,7 +38,7 @@ Afrikik
                         PlayerService.topItems($scope.user._id, function(values, responseHeaders) {
                                 $scope.items = values;
                                 Global.setTopItems($scope.items) 
-                        }, 0, limit)                                                                                        
+                        }, 0, limit, 0, 5)                                                                                        
                         
                 }
                                                 
@@ -114,7 +114,7 @@ Afrikik
                          $scope.items = PlayerService.topItems($scope.user._id,function(values){
                                 $scope.items = values;                                
                                 Global.setTopItems($scope.items)                                                    
-                        });
+                        },0,limit,0,5);
                     }else{
                         PlayerService.itemsByName(name, function(values){
                                 $scope.items = values;                               
@@ -151,10 +151,12 @@ Afrikik
                 }
                 
                 $scope.stopScroll = false;  //
-                
-                $scope.loadMore = function() {                
+                $scope.skipTeam = 0;
+                $scope.loadMore = function() {
+                  
                   $timeout(function() {
                     if (!$scope.stopScroll) {
+                        $scope.skipTeam += 5;
                         PlayerService.topItems($scope.user._id, function(data, responseHeaders) {                                
                                 if (data && data.length==0) {
                                 $scope.stopScroll=true
@@ -167,7 +169,7 @@ Afrikik
                                 if($scope.items.length<200){
                                         Global.setTopItems($scope.items)
                                 }
-                        }, $scope.items.length, 15)                         
+                        }, $scope.items.length, 15, $scope.skipTeam, 5)                         
                     }
                     
                   }, 1000);

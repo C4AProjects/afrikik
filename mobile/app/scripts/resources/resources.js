@@ -305,7 +305,7 @@ angular.module('Afrikik')
 	{
 	  'topItems':{
 		  method:'GET',
-		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/top/items?skip=:skip&limit=:limit&skipTeam=:skip&limitTeam=:limit',
+		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/top/items?skip=:skip&limit=:limit&skipTeam=:skipTeam&limitTeam=:limitTeam',
 		  params:{
 		    id : Global.getUserId(),
 		    skip:0,

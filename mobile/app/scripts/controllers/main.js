@@ -107,23 +107,35 @@ angular.module('Afrikik')
 	template: 'Subscribe to Unlock Member Information'
       });
     };
+    
+    /** SPLASH SCREEN
+     *	xlarge (xhdpi): at least 960 x 720
+	large (hdpi): at least 640 x 480
+	medium (mdpi): at least 470 x 320
+	small (ldpi): at least 426 x 320
+     *
+     */
 
     $scope.loginWithFB = function(){
+	   $ionicLoading.show({
+		template: '<i class="icon ion-loading-a" ng-click=""></i>'
+	    });
+	   
 	   OpenFB.login('email,read_stream,publish_stream').then(
             function () {
 		OpenFB.get('/me').success(function (user) {
-                    	console.log(user);
+                    	//console.log(user);
+			$scope.user.name = user.name;
 			$scope.user.email=user.email;
 			$scope.user.username=user.email;
 			Auth.loginWithFacebook($scope.user).then(function(loginResponse){
 			    var user = loginResponse.user; // loginResponse.access_token.user
-			    console.log('--------------Authenticated------------');
 			    $rootScope.menuLeft = true;
 			    user.authenticated = true;
 			    window.user = user;		
 			    Global.setUser(user)	    
 			    if (user.subcribedPlayers&&user.subcribedPlayers.length>0) {
-			    $state.go('private.subscriptions')
+				$state.go('private.subscriptions')
 			    }else{
 				$state.go('private.search')
 			    }
@@ -134,7 +146,7 @@ angular.module('Afrikik')
 
             },
             function () {
-                console.log("OpenFB login failed");
+                $scope.show("OpenFB login failed", 5000);
             });
 
     }
@@ -274,7 +286,7 @@ angular.module('Afrikik')
     $scope.register = function(){
 	$scope.show(null, 5000);
        $scope.user_new.username= $scope.user_new.username||$scope.user_new.email;//TODO
-console.log($scope.user_new);
+//console.log($scope.user_new);
     	User.save({}, $scope.user_new, function(response){
             console.log(response)
             if(response.success && !response.error){
