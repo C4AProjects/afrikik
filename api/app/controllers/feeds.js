@@ -23,7 +23,7 @@ exports.create = function(req, res) {
     if (req.user||req.profile) {
       feed._user = req.user||req.profile
     }
-    feed.save(function(err) 
+    feed.save(function(err, feed) 
     {
       if(err) {
         res.status(500).json( {
@@ -31,7 +31,7 @@ exports.create = function(req, res) {
             error: err
         });
       }
-      res.status(201).json({succes: true, message:'Feed creation succeeded!'})
+      res.status(201).json({succes: true, message:'Feed creation succeeded!', feed:feed})
     })
     /***** Notification part *****/
     //Notify all subscribed users
