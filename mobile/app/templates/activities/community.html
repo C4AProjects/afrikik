@@ -3,12 +3,16 @@
 <ion-content class="has-header">
     <div class="afk-header-list">Community</div>
     
-    <div class="item item-input-inset" style="background-color: grey" ng-show="true"> 
-        <div style="color:red; background:white" ng-show="data.message.length>140"> {{ data.message.length - 160}} </div>           
-         <input placeholder="Add Comment Here" class="afk-search-bg" ng-model="data.message" maxlength="160" />
+    <div class="row" style="background-color: grey" ng-show="true"> 
+        <div class="col col-80">        
+        <textarea placeholder="Add Comment Here" class="afk-search-bg" ng-model="data.message" maxlength="160" >{{data.message}}</textarea>
+        <span style="color:red; background:white" ng-show="data.message.length>140"> {{ data.message.length - 160}} </span>           
+        </div>        
+        <div class="col col-20">
         <button class="button afk-btn-register"  style="margin:0px;" ng-click="postFeedCommunity(data.message, 'community'); data.message=''">
             Post
         </button>
+        </div>
     </div>
     
     <div class="afk-content-high">
