@@ -43,12 +43,17 @@ Afrikik
                 $scope.feed = {}
                 $scope.communities = []
                 
+                $scope.stopScrollComment = false;
+                
 
                 if ($stateParams._id) {
                         //console.log('params : '+ $stateParams._id)
                         $scope.feed = ActivityService.getByIdFromCache($stateParams._id)||ActivityService.getByFeedById($stateParams._id, function(feed){
                             $scope.feed = feed;
 			    ActivityService.getCommentsFeed($stateParams._id, 0, limit, function (comments){
+                                if (comments.length<10) {
+                                        $scope.stopScrollComment=true
+                                 }
                                  $scope.comments = comments;
 		                });                          
 		        });
@@ -207,12 +212,15 @@ Afrikik
                 
                  //infinite Scroll on scores
                 
-                $scope.stopScrollComment = false;  //
+                //$scope.stopScrollComment = false;  //
                 
                 $scope.loadMoreComments = function() {                
                   $timeout(function() {
                     if (!$scope.stopScrollComment) {
                         ActivityService.getCommentsFeed($stateParams._id, $scope.comments.length, limit, function (comments){
+                                 if (comments.length==0) {
+                                        $scope.stopScrollComment=true
+                                 }
                                  comments.forEach(function(obj){
                                		$scope.comments.push(obj);
                             	  })

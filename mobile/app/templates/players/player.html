@@ -61,7 +61,7 @@
             <img ng-src="{{activity._player?getPicItem(activity._player):getPicItem(activity._team)}}" class="afk-circle">
             <a class="afk-lnk-detail" >
                 <span class="afk-feed"><i style="color: #f97c11">{{activity.feedType?'com':'-'}} </i> {{activity.title||activity.message}}</span>                
-                    <h6>{{activity.publish_date||activity.createdAt|date:'HH:mm  EEEE, MM/yyyy '}}   <br/>   {{activity.comments.length||0}} comments</h6>               
+                    <h6>{{activity.publish_date||activity.createdAt|date:'HH:mm  EEEE dd - MMMM,yyyy '}}   <br/>   {{activity.comments.length||0}} comments</h6>               
             </a>
  <i class="icon ion-arrow-right-b" style="font-size: 11px; color: lightgrey;"></i>
           </ion-item>   

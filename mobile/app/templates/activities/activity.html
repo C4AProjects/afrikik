@@ -37,7 +37,9 @@
         </div>
     </ion-list>
     </div>
-        <ion-infinite-scroll on-infinite="loadMoreComments()" ng-if="!stopScrollComment"></ion-infinite-scroll>   
+     <div ng-show="comments.length>10">
+        <ion-infinite-scroll on-infinite="loadMoreComments()" ng-if="!stopScrollComment"></ion-infinite-scroll>
+     </div>  
     </ion-list>
    <br/><br/>
     </div>
