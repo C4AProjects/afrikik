@@ -144,9 +144,18 @@ module.exports = function(app, passport, auth) {
     app.post('/api/v1/users/:userId/matches', matches.create);
     app.put('/api/v1/users/:userId/matches/:matchId', matches.update);
     app.del('/api/v1/users/:userId/matches/:matchId', matches.destroy);
+    
+     //Stats Routes
+    var stats = require('../app/controllers/stats');    
+    app.get('/api/v1/users/:userId/stats/:statId', stats.show );
+    app.post('/api/v1/users/:userId/stats', stats.create);
+    app.put('/api/v1/users/:userId/stats/:statId', stats.update);
+    app.del('/api/v1/users/:userId/stats/:statId', stats.destroy);
 
     //Finish with setting up the userId param
-    app.param('userId', users.user); 
+    app.param('userId', users.user);
+    //Finish with setting up the statId param
+    app.param('statId', stats.stat);
     //Finish with setting up the playerId param
     app.param('playerId', players.player);
     //Finish with setting up the teamId param

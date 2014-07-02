@@ -1,21 +1,21 @@
 /**
- * This controller is for the Match object of the API, for security reasons
+ * This controller is for the Stat object of the API
  */
 
 var mongoose = require('mongoose')
   , _ = require('underscore')
-  , Match = mongoose.model('Match')
+  , Stat = mongoose.model('PlayerStat')
   , ObjectId = mongoose.Types.ObjectId
   , logger = require('winston')
   
 /************************************************************************************
- *         list all scores
+ *         list all stats
  **************************************************************************************/
 
-exports.scores = function(req, res) {
-    Match.find({})
-        .populate('_team1 _team2')
-        .sort({createdAt:-1})
+exports.stats = function(req, res) {
+    Stat.find({})
+        .populate('_player')
+        .sort({season:-1})
         .skip(req.query.skip||0)
         .limit(req.query.limit||50)  
         .exec(function(err, list) {
@@ -32,11 +32,11 @@ exports.scores = function(req, res) {
 };
 
 /**
- * Create a new match
+ * Create a new stat
  */
 exports.create = function(req, res) {
-    var match = new Match(req.body)           
-    match.save(function(err, match2) 
+    var stat = new Stat(req.body)           
+    stat.save(function(err, stat) 
     {
       if(err) {
         res.status(500).json( {
@@ -44,67 +44,66 @@ exports.create = function(req, res) {
             error: err
         });
       }
-      res.status(201).json({succes: true, message:'Match creation succeeded! :' + match2._id})
+      res.status(201).json({succes: true, message:'Stat creation succeeded! :' + stat._id})
     })
 };
 
 
 /**
- * Update a match
+ * Update a stat
  */
 exports.update = function(req, res){    
-    var match = req.match
-    match = _.extend(match, req.body)
-    logger.debug("Match to update %s ", match)
-    match.save(function(err, match) {
+    var stat = req.stat
+    stat = _.extend(stat, req.body)
+    stat.save(function(err, stat) {
         if (err) {
             res.status(500).json( {
                 success:false,
                 error: err
             });
         }
-        if(match)
+        if(stat)
         {
-            logger.debug("Match updated with success")
-            res.status(200).json(match)
+            logger.debug("Stat updated with success")
+            res.status(200).json(stat)
         }        
   })
 }
 
 /**
- *  Show match
+ *  Show Stat
  */
 exports.show = function(req, res) {    
-    Match.findOne({
-            _id: req.params.matchId
+    Stat.findOne({
+            _id: req.params.statId
         })
-        .populate('_team1 _team2')
-        .exec(function(err, match) {
+        .populate('_player')
+        .exec(function(err, stat) {
             if (err) {
                 res.status(500).json( {
                     success:false,
                     error: err
                 });
             } else {
-                res.json(match);
+                res.json(stat);
             }
     });
    
 };
 
 /**
- *  Remove match
+ *  Remove Stat
  */
 exports.destroy = function(req, res) {    
-    var match = req.match;
-    match.remove(function(err) {
+    var stat = req.stat;
+    stat.remove(function(err) {
         if (err) {
             res.status(500).json( {
                 success:false,
                 error: err
             });
         } else {
-            res.status(200).json({message: match._id.toString + 'succesfully removed !'});
+            res.status(200).json({message: 'Stat succesfully removed !'});
         }
     });
    
@@ -112,28 +111,28 @@ exports.destroy = function(req, res) {
 
 
 /**
- * Find match by id param
+ * Find stat by id param
  */
-exports.match = function(req, res, next, id) {
-    logger.debug('Match id parameter: %s', id)
+exports.stat = function(req, res, next, id) {
+    logger.debug('Stat id parameter: %s', id)
     if(id)
     {
-        Match.findOne({
+        Stat.findOne({
             _id: new ObjectId(id)
         })
-        .exec(function(err, match) {
+        .exec(function(err, stat) {
             if (err){
               res.status(500).json( {
                 success:false,
                 error: err
               })}
-            if (!match) 
+            if (!stat) 
             {
               res.status(401).json({
-                    error:"Invalid match"
+                    error:"Invalid stat"
                 });
             }
-            req.match = match;
+            req.stat = stat;
             next();
         });
     }

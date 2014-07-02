@@ -34,6 +34,13 @@ var PlayerSchema = new Schema({
                 ,losses: Number
                 ,yellows: Number
                 ,reds: Number
+                ,current_stat: {
+                                minutes : String,
+                                redc : String,
+                                games : String,
+                                goals : String,                               
+                                yellowc : String
+                }
 })
 
 

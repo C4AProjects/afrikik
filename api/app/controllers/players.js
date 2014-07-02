@@ -318,7 +318,8 @@ exports.comment = function(req, res) {
  *   Player stats
  *******************************************************************************/
 exports.stats = function(req, res) {
-    PlayerStat.find({'_player': req.player._id})    
+    PlayerStat.find({'_player': req.player._id})
+    .sort({season:-1})
     .exec(function(err, list){
         if(err) res.status(401).json({err: err})        
         res.status(200).json(list)
