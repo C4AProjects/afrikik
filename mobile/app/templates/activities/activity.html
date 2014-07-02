@@ -1,18 +1,24 @@
 <ion-view >
     
-<ion-content class="has-header">
-    <div class="afk-header-list">{{feed.title||'No title'}}</div>    
-    <div>
-        <img   style="float: left;margin: 0 6px 6px 0;" ng-src="{{feed.image||feed.url_img}}"/>
-        <span>{{feed.message}}</span>        
+<ion-content class="has-header">   
+    <div >
+        <img   style="float: left;margin: 0 6px 0 0; " ng-src="{{feed.image||feed.url_img}}"/>
+        <h3>{{feed.title||'No title'}}</h3>
+        <h5>{{feed.message}}</h5>        
         <div>
         <!--a ng-href="{{feed.link}}">Source</a-->
+        <h6 style="color: #666666;display: block"> {{feed.publish_date||feed.createdAt|date:" MM/dd/yyyy 'at' HH:mm 'GMT'"}} </h6>
         </div>
     </div>
+    <div class="row" ng-controller="SocialMedia" style="background-color: #666666">
+        <div class="col col-90" style="text-align: center">            
+            <img src="./images/social-media/facebook.png" height="65px" ng-click="shareFB(feed.title)"/>
+            <img src="./images/social-media/twitter.png" height="65px" ng-click="shareOnTW(feed.title, feed.image||feed.url_img, feed.link)"/>
+            <!--img src="./images/social-media/whatsapp.jpg" height="45px" ng-click="shareOnWA(feed.title, feed.image||feed.url_img, feed.link)"/-->
+        </div>            
+    </div>
     
-    <br/>
-    
-     <div class="row" style="background-color: grey" ng-show="true"> 
+     <div class="row" style="background-color: #666666" ng-show="true"> 
         <div class="col col-80">        
         <textarea placeholder="Add Comment Here" class="afk-search-bg" ng-model="data.message" maxlength="160" >{{data.message}}</textarea>
         <span style="color:red; background:white" ng-show="data.message.length>140"> {{ data.message.length - 160}} </span>           

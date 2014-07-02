@@ -81,7 +81,7 @@
             <a class="afk-menu-tab2">FRIENDS</a>
           </div>
         </div>
-        <div class="afk-content-high" style="background-color: grey;">         
+        <div class="afk-content-high" style="background-color: #666666;">         
         <ion-list>
           <ion-item ng-repeat="item in user.subscriptions track by $index" ng-click="setCurrentItem(item)" class="afk-bg-list item item-avatar item-button-right">
              <img ng-src="{{getPicItem(item)}}" class="afk-circle"> 
@@ -106,7 +106,7 @@
             <a class="afk-menu-tab2 afk-menu-tab-active">FRIENDS</a>
           </div>
         </div>
-        <div class="afk-content-high" style="background-color: grey;">
+        <div class="afk-content-high" style="background-color: #666666;">
         <ion-list>
           <ion-item ng-repeat="member in user.friends" ng-click="setCurrentMember(member)" class="afk-bg-list item item-avatar item-button-right">
             <img ng-src="./images/avatars/{{member.picture||'default.png'}}" class="afk-circle"> 

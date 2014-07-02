@@ -115,6 +115,9 @@ angular.module('Afrikik')
 	small (ldpi): at least 426 x 320
      *
      */
+    
+    
+
 
     $scope.loginWithFB = function(){
 	   $ionicLoading.show({

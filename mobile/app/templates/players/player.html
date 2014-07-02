@@ -40,7 +40,7 @@
       </div>
     </div>    
    
-   <div style="background-color: grey">
+   <div style="background-color: #666666">
     <div ng-style="styleLocked">
     <ion-slide-box style="background-color: #4a4845; padding-top: 0px" >      
       <ion-slide>              
@@ -105,26 +105,28 @@
                 <div class="col">
                     <div class="list">
                         <div class="row">
+                          <div class="col"><img src="images/stats/losses.png" style="max-height: 50px; max-width: 50px"></div>
+                          <div class="col" style="text-align: center">
+                            <h5>Games </h5>
+                            <h4>{{stats.games||'-'}}</h4>
+                          </div>             
+                        </div>
+                        
+                        <div class="row">
+                          <div class="col"><img src="images/stats/wins.png" style="max-height: 50px; max-width: 50px"></div>
+                          <div class="col" style="text-align: center">
+                            <h5>Minutes </h5>
+                            <h4>{{stats.minutes||'-'}}</h4>
+                          </div>             
+                        </div>
+                                  
+                        <div class="row">
                           <div class="col"><img src="images/stats/goals.png" style="max-height: 50px; max-width: 50px"></div>
                           <div class="col" style="text-align: center">
                             <h5>Goals </h5>
                             <h4>{{stats.goals||'-'}}</h4>
                           </div>             
-                        </div>
-                        <div class="row">
-                          <div class="col"><img src="images/stats/wins.png" style="max-height: 50px; max-width: 50px"></div>
-                          <div class="col" style="text-align: center">
-                            <h5>Wins </h5>
-                            <h4>{{stats.wins||'-'}}</h4>
-                          </div>             
-                        </div>
-                        <div class="row">
-                          <div class="col"><img src="images/stats/losses.png" style="max-height: 50px; max-width: 50px"></div>
-                          <div class="col" style="text-align: center">
-                            <h5>Losses </h5>
-                            <h4>{{stats.losses||'-'}}</h4>
-                          </div>             
-                        </div>                                               
+                        </div>                                                        
                     </div>
                 </div>
                 <div class="col">

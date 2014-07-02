@@ -69,7 +69,7 @@
           </div>
         </div>
         
-        <!--div class="item item-input-inset" style="background-color: grey" ng-show="showScore">            
+        <!--div class="item item-input-inset" style="background-color: #666666" ng-show="showScore">            
             <label class="item-input-wrapper afk-search-bg" >            
                 <input type="text" placeholder="Add Comment Here" class="afk-search-bg" ng-model="data.message" maxlength="160" />
             </label>    
@@ -85,23 +85,37 @@
         </div>
         <ion-list>
           <ion-item ng-repeat="activity in scores" class="afk-item-score" >
-            <h6> {{activity.dateMatch||activity.createdAt|date:"EEEE MMM dd , yyyy ' - ' HH:mm 'GMT'"}}</h6> 
-                <div class="afk-row-score">
-                    <div class="afk-col-score col-48" style="text-align: center">
-                         <span class="afk-feed" >{{activity._team1.name}} </span>
-                         <img ng-src="{{getPicItem(activity._team1)}}" style="max-height: 17px"/>
+            <!--h6> {{activity.dateMatch||activity.createdAt|date:"EEEE MMM dd , yyyy ' - ' HH:mm 'GMT'"}}</h6-->               
+                <div class="row" style="width: 100%">
+                    <div class="col col-75">
+                       <div class="row" style="padding-bottom: 0;">
+                            <div class="col col-25">
+                                <img ng-src="{{getPicItem(activity._team1)}}" style="width: 90%"/>
+                            </div>
+                            <div class="col col-65">
+                                <span class="afk-feed-score" ng-class="{'afk-feed-score-winner': activity.scoreTeam1>activity.scoreTeam2}">{{activity._team1.name||activity.no_afrik_team1}} </span>
+                            </div>
+                            <div class="col col-10">
+                                <span class="afk-feed-score" ng-class="{'afk-feed-score-winner': activity.scoreTeam1>activity.scoreTeam2}">{{activity.scoreTeam1}}</span>
+                            </div>
+                       </div>
+                       <div class="row" style="padding-top: 0;padding-bottom: 0;">
+                            <div class="col col-25">
+                                <img ng-src="{{getPicItem(activity._team2)}}" style="width: 90%"/>
+                            </div>
+                            <div class="col col-65">
+                                <span class="afk-feed-score"  ng-class="{'afk-feed-score-winner': activity.scoreTeam1<activity.scoreTeam2}" >{{activity._team2.name||activity.no_afrik_team2}} </span>
+                            </div>
+                            <div class="col col-10">
+                                <span class="afk-feed-score" ng-class="{'afk-feed-score-winner': activity.scoreTeam1<activity.scoreTeam2}" >{{activity.scoreTeam2}}</span>
+                            </div>
+                       </div>
                     </div>
-                    <div class="afk-col-score col-1" style="text-align: right; font-weight: bold;">
-                        {{activity.scoreTeam1}} -
-                    </div>                
-                    <div class="afk-col-score col-1" style="text-align: left; font-weight: bold;">
-                         {{activity.scoreTeam2}}
+                    <div class="col col-25" style="border-left: solid;border-left-color: grey;text-align: center;font-weight: bold;">
+                        <span style="height: 100%;vertical-align: middle">
+                        <br/>{{activity.status?activity.status:'--'}}
+                        </span>
                     </div>
-                    <div class="afk-col-score col-48" style="text-align: center">
-                        
-                        <span class="afk-feed">{{ activity._team2.name }} </span>
-                         <img ng-src="{{getPicItem(activity._team2)}}" style="max-height: 17px">
-                    </div>                
                 </div>
            </ion-item>      
         </ion-list>
@@ -158,7 +172,7 @@
           </div>
         </div>
         
-        <div class="row" style="background-color: grey" ng-show="true"> 
+        <div class="row" style="background-color: #666666" ng-show="true"> 
             <div class="col col-80">        
             <textarea placeholder="Add Comment Here" class="afk-search-bg" ng-model="data.message" maxlength="160" >{{data.message}}</textarea>
             <span style="color:red; background:white" ng-show="data.message.length>140"> {{ data.message.length - 160}} </span>           
@@ -176,7 +190,7 @@
             <a class="afk-lnk-player-feed" ng-href="{{activity._user._id==user._id?'#':'#/private/member/'+activity._user._id}}">
                 <span class="afk-feed">{{activity.message}}</span>
                 <span class="afk-obj-desc">Posted by <span class="afk-lnk-player-feed" >{{activity._user._id == user._id?'Me':activity._user.name||activity._user.username}}</span> <br/> on {{activity.createdAt|date:"EEEE MMM dd 'at' HH:mm 'GMT'"}}</span> 
-            </a>
+            </a>            
           </ion-item>              
         </ion-list>
          <br/><br/>

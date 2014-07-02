@@ -51,7 +51,7 @@ Afrikik
                         $scope.feed = ActivityService.getByIdFromCache($stateParams._id)||ActivityService.getByFeedById($stateParams._id, function(feed){
                             $scope.feed = feed;
 			    ActivityService.getCommentsFeed($stateParams._id, 0, limit, function (comments){
-                                if (comments.length<10) {
+                                if(comments.length<limit) {
                                         $scope.stopScrollComment=true
                                  }
                                  $scope.comments = comments;
