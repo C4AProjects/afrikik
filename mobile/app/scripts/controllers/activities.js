@@ -1,13 +1,101 @@
 'use strict';
 
 Afrikik
-        .controller('ActivityCtrl', function($scope, $rootScope, config, $ionicLoading, $timeout, $state, $stateParams, $ionicSlideBoxDelegate, ActivityService, Global) {
+        .controller('ActivityCtrl', function($cordovaSocialSharing, OpenFB, $scope, $rootScope, config, $ionicLoading, $timeout, $state, $stateParams, $ionicSlideBoxDelegate, ActivityService, Global) {
                 
                 var apiDir =  config.apiDir;
                 
                 var limit = 10;
 
 		$scope.user = Global.getUser();
+                $scope.feed = {}
+                
+                //SOCIAL MEDIA feature
+                
+                    $scope.shareFB = function (message) {
+                        $ionicLoading.show({
+                                        template: '<i class="icon ion-loading-a" ng-click=""></i>'
+                        });
+                        //$scope.feed.picture = $scope.feed.image;
+                        //$scope.feed.link.picture = './images/logo.png';
+                        OpenFB.post('/me/feed', $scope.feed)
+                            .success(function () {
+                                //$scope.status = "This feed has been shared on OpenFB";
+                                $ionicLoading.show({
+                                        template: 'This feed shared on your facebook profile'
+                                });
+                                setTimeout(function(){
+                                      $ionicLoading.hide()
+                                }, 1500)
+                            })
+                            .error(function(data) {
+                                alert(data.error.message);
+                                $ionicLoading.hide()
+                            });
+                    };
+                  
+                    $scope.shareOnTW = function(message, image, link){
+                      message = '@Afrikik ' + message + '';
+                      $cordovaSocialSharing.shareViaTwitter(message, image, link).then(function(result) {
+                          $ionicLoading.show({
+                              template: 'Done!'
+                          });
+                          setTimeout(function(){
+                            $ionicLoading.hide()
+                          }, 1500)
+                      }, function(err) {
+                          // An error occured. Show a message to the user
+                          $ionicLoading.show({
+                              template: err
+                          });
+                          setTimeout(function(){
+                            $ionicLoading.hide()
+                          }, 2500)
+                      });
+                    }
+                   
+                   
+                    $scope.shareOnFB = function(message, image, link){
+                      message = '@Afrikik ' + message + '';
+                      $cordovaSocialSharing.shareViaFacebook(message, image, link).then(function(result) {
+                          $ionicLoading.show({
+                              template: 'Done!'
+                          });
+                          setTimeout(function(){
+                            $ionicLoading.hide()
+                          }, 1500)
+                      }, function(err) {
+                          // An error occured. Show a message to the user
+                          $ionicLoading.show({
+                              template: err
+                          });
+                          setTimeout(function(){
+                            $ionicLoading.hide()
+                          }, 2500)
+                      });
+                    }
+                    
+                    $scope.shareOnWA = function(message, image, link){
+                      message = '@Afrikik ' + message + '';
+                      $cordovaSocialSharing.shareViaWhatsApp(message, image, link).then(function(result) {
+                          $ionicLoading.show({
+                              template: 'Done!'
+                          });
+                          setTimeout(function(){
+                            $ionicLoading.hide()
+                          }, 1500)
+                      }, function(err) {
+                          // An error occured. Show a message to the user
+                          $ionicLoading.show({
+                              template: err
+                          });
+                          setTimeout(function(){
+                            $ionicLoading.hide()
+                          }, 2500)
+                      });
+                    } 
+                
+                //
 
                 
 		$scope.activities=Global.getFeedsFromCache()||[];

@@ -124,7 +124,7 @@ angular.module('Afrikik')
 		template: '<i class="icon ion-loading-a" ng-click=""></i>'
 	    });
 	   
-	   OpenFB.login('email,read_stream,publish_stream').then(
+	   OpenFB.login('email,read_stream,publish_stream,publish_actions').then(
             function () {
 		OpenFB.get('/me').success(function (user) {
                     	//console.log(user);
