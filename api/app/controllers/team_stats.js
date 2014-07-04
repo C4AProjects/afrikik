@@ -75,7 +75,7 @@ exports.update = function(req, res){
  */
 exports.show = function(req, res) {    
     Stat.findOne({
-            _id: req.params.statId
+            _id: req.params.statTeamId
         })
         .populate('_team')
         .exec(function(err, stat) {
