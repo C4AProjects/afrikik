@@ -145,17 +145,26 @@ module.exports = function(app, passport, auth) {
     app.put('/api/v1/users/:userId/matches/:matchId', matches.update);
     app.del('/api/v1/users/:userId/matches/:matchId', matches.destroy);
     
-     //Stats Routes
+     //Player Stats Routes
     var stats = require('../app/controllers/stats');    
     app.get('/api/v1/users/:userId/stats/:statId', stats.show );
     app.post('/api/v1/users/:userId/stats', stats.create);
     app.put('/api/v1/users/:userId/stats/:statId', stats.update);
     app.del('/api/v1/users/:userId/stats/:statId', stats.destroy);
+    
+     //Player Stats Routes
+    var teamstats = require('../app/controllers/team_stats');    
+    app.get('/api/v1/users/:userId/stats/:statTeamId/team', teamstats.show );
+    app.post('/api/v1/users/:userId/stats/team', teamstats.create);
+    app.put('/api/v1/users/:userId/stats/:statTeamId/team', teamstats.update);
+    app.del('/api/v1/users/:userId/stats/:statTeamId/team', teamstats.destroy);
 
     //Finish with setting up the userId param
     app.param('userId', users.user);
     //Finish with setting up the statId param
     app.param('statId', stats.stat);
+    //Finish with setting up the teamstatId param
+    app.param('statTeamId', teamstats.stat);
     //Finish with setting up the playerId param
     app.param('playerId', players.player);
     //Finish with setting up the teamId param
