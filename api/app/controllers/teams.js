@@ -8,7 +8,7 @@ var mongoose = require('mongoose')
   , logger = require('winston')
   , ObjectId = mongoose.Types.ObjectId
   ,  Comment = mongoose.model('Comment')
-
+, TeamStat = mongoose.model('TeamStat')
 /**
  * Create a new team
  */
@@ -193,6 +193,16 @@ exports.comment = function(req, res) {
   })
 }
 
+/***************************************************************************
+ *   Team stats
+ *******************************************************************************/
+exports.stats = function(req, res) {
+    TeamStat.findOne({'_team': req.team._id})    
+    .exec(function(err, stat){
+        if(err) res.status(401).json({err: err})        
+        res.status(200).json(stat)
+    })     
+};
 
 
 

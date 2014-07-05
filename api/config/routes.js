@@ -96,6 +96,8 @@ module.exports = function(app, passport, auth) {
     //app.get('/api/v1/teams/:teamId/share', teams.shareTeamProfile);
     app.post('/api/v1/users/:userId/teams/:teamId/comment', teams.comment); //comment on team profile
     
+    app.get('/api/v1/teams/:teamId/stats', teams.stats);
+    
     //Feed Routes
     var feeds = require('../app/controllers/feeds');    
     app.post('/api/v1/users/:userId/feeds', feeds.create);
