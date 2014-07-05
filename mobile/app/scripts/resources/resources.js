@@ -159,6 +159,14 @@ angular.module('Afrikik')
 		    
 		  },
 		  isArray: true	    
+		},
+		'stats': {
+		  method:'GET',
+		  url: config.host +  ":port/" + config.api_base_version + '/teams/:teamId/stats',
+		  params:{
+		    
+		  },
+		  isArray: false	    
 		}
     	}
     );

@@ -119,52 +119,27 @@
           </ion-item>   
         </ion-list-->
         <div class="afk-content">
-         <div class="row">
-                <div class="col">
-                    <div class="list">
-                        <div class="row">
-                          <div class="col"><img src="images/stats/goals.png" style="max-height: 50px; max-width: 50px"></div>
-                          <div class="col" style="text-align: center">
-                            <h5>Goals </h5>
-                            <h4>{{player.goals||'-'}}</h4>
-                          </div>             
-                        </div>
-                        <div class="row">
-                          <div class="col"><img src="images/stats/wins.png" style="max-height: 50px; max-width: 50px"></div>
-                          <div class="col" style="text-align: center">
-                            <h5>Wins </h5>
-                            <h4>{{player.wins||'-'}}</h4>
-                          </div>             
-                        </div>
-                        <div class="row">
-                          <div class="col"><img src="images/stats/losses.png" style="max-height: 50px; max-width: 50px"></div>
-                          <div class="col" style="text-align: center">
-                            <h5>Losses </h5>
-                            <h4>{{player.losses||'-'}}</h4>
-                          </div>             
-                        </div>                                               
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="list">                        
-                        <div class="row">
-                          <div class="col"><img src="images/stats/reds.png" style="max-height: 50px; max-width: 50px"></div>
-                          <div class="col" style="text-align: center">
-                            <h5>Red cards </h5>
-                            <h4>{{player.reds||'-'}}</h4>
-                          </div>             
-                        </div>
-                        <div class="row">
-                          <div class="col"><img src="images/stats/yellows.png" style="max-height: 50px; max-width: 50px"></div>
-                          <div class="col" style="text-align: center">
-                            <h5>Yellow cards </h5>
-                            <h4>{{player.yellows||'-'}}</h4>
-                          </div>             
-                        </div>                        
-                    </div>
-                </div>
-         </div>
-            </div>              
+            <p>Nickname</p>
+            <ul ng-repeat="nname in stat.nickname">
+                <li>nname</li>
+            </ul>
+            <p>Achievements</p>
+            Bronze
+            <ul ng-repeat="achiev in stat.achievements.bronze">
+                <li>achiev</li>
+            </ul>
+            Silver
+            <ul ng-repeat="achiev in stat.achievements.silver">
+                <li>achiev</li>
+            </ul>
+            Gold
+            <ul ng-repeat="achiev in stat.achievements.gold">
+                <li>achiev</li>
+            </ul>
+            <p>World Cup appearances</p>
+            <ul ng-repeat="wc in stat.wcappearances">
+                <li>wc</li>
+            </ul>
         </div>
       </ion-slide>
     </ion-slide-box>  

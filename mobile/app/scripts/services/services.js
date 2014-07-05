@@ -110,6 +110,9 @@ angular.module('Afrikik.services', [])
     },
     playersTeam: function(teamId, cb, error){
       Team.playersTeam({teamId: teamId}, cb, error)
+    },
+    getStats: function(teamId, cb){
+      Team.stats({teamId: teamId}, cb)
     }
   };
 }])

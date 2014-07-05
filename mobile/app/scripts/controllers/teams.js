@@ -21,7 +21,9 @@ Afrikik
                 function callback(data){
                      $scope.communities = data                                  
                 }
-                                
+                
+                $scope.stats= {}
+                  
                 if($stateParams._id){
                         $scope.team = TeamService.getById($stateParams._id);
                         TeamService.playersTeam($stateParams._id, function(values){
@@ -29,6 +31,9 @@ Afrikik
                         })
                         $scope.activities = ActivityService.feedsTeam(callback, $stateParams._id, 0, limit)
                         $rootScope.menuLeft = false;
+                        TeamService.getStats($stateParams._id, function(data){
+                                $scope.stats = data
+                        })
                 }                
                                
                 
