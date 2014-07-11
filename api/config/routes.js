@@ -71,7 +71,7 @@ module.exports = function(app, passport, auth) {
     var players = require('../app/controllers/players');
     app.get('/api/v1/players', players.all );
     app.get('/api/v1/players/:playerId', players.show );
-    app.post('/api/v1/players/', players.create);
+    app.post('/api/v1/players', players.create);
     app.put('/api/v1/players/:playerId', players.update);
     app.del('/api/v1/players/:playerId', players.destroy);
     app.get('/api/v1/players/search/:name', players.searchByName );
