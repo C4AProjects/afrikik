@@ -18,24 +18,39 @@ Afrikik
                         });
                         //$scope.feed.picture = $scope.feed.image;
                         //$scope.feed.link.picture = './images/logo.png';
-                        OpenFB.post('/me/feed', $scope.feed)
-                            .success(function () {
-                                //$scope.status = "This feed has been shared on OpenFB";
-                                $ionicLoading.show({
-                                        template: 'This feed shared on your facebook profile'
+                        OpenFB.login('email,read_stream,publish_stream,publish_actions').then(
+                                function () {
+                                    var feed = $scope.feed;
+                                    feed.message = 'Afrikik.com ' + message;
+                                    OpenFB.post('/me/feed', feed)
+                                        .success(function () {
+                                            //$scope.status = "This feed has been shared on OpenFB";
+                                            $ionicLoading.show({
+                                                    template: 'This feed shared on your facebook profile'
+                                            });
+                                            setTimeout(function(){
+                                                  $ionicLoading.hide()
+                                            }, 1500)
+                                        })
+                                        .error(function(data) {
+                                            alert(data.error.message);
+                                            $ionicLoading.hide()
+                                        });
+                    
+                                },
+                                function () {
+                                    $scope.show("OpenFB login failed", 5000);
                                 });
-                                setTimeout(function(){
-                                      $ionicLoading.hide()
-                                }, 1500)
-                            })
-                            .error(function(data) {
-                                alert(data.error.message);
-                                $ionicLoading.hide()
-                            });
-                    };
+                    
+                    }
+                        
+                   
                   
                     $scope.shareOnTW = function(message, image, link){
-                      message = '@Afrikik ' + message + '';
+                      message = 'Afrikik.com ' + message + '';
+                      if (message.length<140) {
+                        message += ' @OfficialAfrikik';
+                      }
                       $cordovaSocialSharing.shareViaTwitter(message, image, link).then(function(result) {
                           $ionicLoading.show({
                               template: 'Done!'
@@ -76,7 +91,7 @@ Afrikik
                     }
                     
                     $scope.shareOnWA = function(message, image, link){
-                      message = '@Afrikik ' + message + '';
+                      message = '@OfficialAfrikik ' + message + '';
                       $cordovaSocialSharing.shareViaWhatsApp(message, image, link).then(function(result) {
                           $ionicLoading.show({
                               template: 'Done!'

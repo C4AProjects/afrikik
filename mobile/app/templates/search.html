@@ -40,7 +40,8 @@
             <span ng-show="items.length==0"><br/>No Results Found !</span>
         </div>
         <ion-list>
-          <ion-item ng-repeat="item in items | filter:{name:searchName}" ng-click="setCurrentItem(item)" class="afk-bg-list item item-avatar item-button-right">
+          <!-- item in items | filter:{name:searchName} | filterOnServer:{name:searchName}-->
+          <ion-item ng-repeat="item in items | filter:{name:searchName}  track by $index" ng-click="setCurrentItem(item)" class="afk-bg-list item item-avatar item-button-right">
             <img ng-src="{{getPicItem(item)}}" class="afk-circle">              
             <a class="afk-lnk-detail" >
               <span class="afk-obj-name">{{item.name}}<h6>{{item.no?'# - N°: ' +item.no:''}}  {{item.position? ' - position: ' + item.position: ''}}</h6></span>

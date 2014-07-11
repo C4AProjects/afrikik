@@ -24,5 +24,19 @@ Afrikik.filter('capitalize', function() {
     
     
   };
+})
+.filter('filterOnServer', function(PlayerService, TeamService) {
+    
+  return function(array) {
+    if (array && array.length!=0) { //an issue with array length greater than 10 elements
+        return array;
+    }else {
+        PlayerService.itemsByName(name, function(values){
+                                return values;                               
+                        })||TeamService.itemsByName(name, function(values){
+                                return values;                               
+                        })
+    }
+  }
 });
 

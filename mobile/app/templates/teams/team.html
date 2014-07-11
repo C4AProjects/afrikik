@@ -119,27 +119,44 @@
           </ion-item>   
         </ion-list-->
         <div class="afk-content">
-            <p>Nickname</p>
-            <ul ng-repeat="nname in stat.nickname">
-                <li>nname</li>
-            </ul>
-            <p>Achievements</p>
-            Bronze
-            <ul ng-repeat="achiev in stat.achievements.bronze">
-                <li>achiev</li>
-            </ul>
-            Silver
-            <ul ng-repeat="achiev in stat.achievements.silver">
-                <li>achiev</li>
-            </ul>
-            Gold
-            <ul ng-repeat="achiev in stat.achievements.gold">
-                <li>achiev</li>
-            </ul>
-            <p>World Cup appearances</p>
-            <ul ng-repeat="wc in stat.wcappearances">
-                <li>wc</li>
-            </ul>
+            <div class="row" style="background-color: #666666; color: white;font-weight: bold;">
+                <div class="col" style=" text-align: center">Nickname</div>
+            </div>
+            <div style="padding: 15px">
+                <ul ng-repeat="nname in stat.nickname">
+                    <li>{{nname}}</li>
+                </ul>
+            </div>
+            
+            
+            <div class="row" style="background-color: #666666; color: white;font-weight: bold;">
+                <div class="col" style=" text-align: center">Achievements</div>
+            </div>
+            <div style="padding: 15px">
+                    <span style="background-color: #666666; color: white;font-weight: bold;">Bronze</span>
+                    <ul ng-repeat="achiev in stat.achievements.bronze">
+                        <li>- {{achiev}}</li>
+                    </ul>
+                    <span style="background-color: #666666; color: white;font-weight: bold;">Silver</span>
+                    <ul ng-repeat="achiev in stat.achievements.silver">
+                        <li>- {{achiev}}</li>
+                    </ul>
+                    <span style="background-color: #666666; color: white;font-weight: bold;">Gold</span>
+                    <ul ng-repeat="achiev in stat.achievements.gold">
+                        <li> - {{achiev}}</li>
+                    </ul>
+            </div>        
+           
+            <div ng-show="team.nationalTeam" class="row" style="background-color: #666666; color: white;font-weight: bold;">
+                <div class="col" style=" text-align: center">World Cup Appearances</div>
+            </div>
+                
+            <div ng-show="team.nationalTeam" style="padding: 15px">
+                <ul ng-repeat="wc in stat.wcappearances">
+                    <li> - {{wc}}</li>
+                </ul>
+            </div>
+           
         </div>
       </ion-slide>
     </ion-slide-box>  

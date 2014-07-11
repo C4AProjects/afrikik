@@ -22,7 +22,7 @@ Afrikik
                      $scope.communities = data                                  
                 }
                 
-                $scope.stats= {}
+                $scope.stat= {}
                   
                 if($stateParams._id){
                         $scope.team = TeamService.getById($stateParams._id);
@@ -32,7 +32,7 @@ Afrikik
                         $scope.activities = ActivityService.feedsTeam(callback, $stateParams._id, 0, limit)
                         $rootScope.menuLeft = false;
                         TeamService.getStats($stateParams._id, function(data){
-                                $scope.stats = data
+                                $scope.stat = data
                         })
                 }                
                                

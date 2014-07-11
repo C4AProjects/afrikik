@@ -106,6 +106,10 @@ Afrikik
                         $state.transitionTo('private.player', {_id: player._id})
                 }
                 
+                $scope.filterSearch = function(name){
+                      var x = _.filter($scope.items, function(item){ return item.name.contains(name) })
+                }
+                
                 $scope.search = function(name){
                     /*$scope.items = _.filter(PlayerService.allItems(),  function(item){
                         return (item.name.toLowerCase().indexOf(name.toLowerCase()) >= 0)

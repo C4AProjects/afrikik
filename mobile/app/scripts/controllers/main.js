@@ -129,10 +129,16 @@ angular.module('Afrikik')
 		OpenFB.get('/me').success(function (user) {
                     	//console.log(user);
 			$scope.user.name = user.name;
-			$scope.user.email=user.email;
+			$scope.user.email= user.email;
 			$scope.user.username=user.email;
 			Auth.loginWithFacebook($scope.user).then(function(loginResponse){
 			    var user = loginResponse.user; // loginResponse.access_token.user
+			    if (!user) {
+				$ionicLoading.show({
+				    template: 'An error encountered!'
+				});
+				return;
+			    }
 			    $rootScope.menuLeft = true;
 			    user.authenticated = true;
 			    window.user = user;		
