@@ -100,7 +100,7 @@ module.exports = {
             
         },
         appStore:{
-            androidAppDownloadUrl:"http://afrikik.com",
+            androidAppDownloadUrl:"https://play.google.com/store/apps/details?id=com.c4a.Afrikik",
             iOsAppDownloadUrl:"http://afrikik.com"
         },
         app: {
@@ -108,7 +108,7 @@ module.exports = {
             app_port:2014,
             appUrl: 'http://localapi.afrikik.com:' + this.app_port,
             appStore:{
-                androidAppDownloadUrl:"http://afrikik.com",
+                androidAppDownloadUrl:"https://play.google.com/store/apps/details?id=com.c4a.Afrikik",
                 iOsAppDownloadUrl: "http://afrikik.com"
             }
         },
@@ -154,7 +154,7 @@ module.exports = {
             
         },
         appStore:{
-            androidAppDownloadUrl:"http://afrikik.com",
+            androidAppDownloadUrl:"https://play.google.com/store/apps/details?id=com.c4a.Afrikik",
             iOsAppDownloadUrl:"http://afrikik.com"
         },
         app: {
@@ -162,7 +162,7 @@ module.exports = {
             app_port:2014,
             appUrl: 'http://afrikik.heroku.com',
             appStore:{
-                androidAppDownloadUrl:"http://afrikik.com",
+                androidAppDownloadUrl:"https://play.google.com/store/apps/details?id=com.c4a.Afrikik",
                 iOsAppDownloadUrl:"http://afrikik.com"
             }
         },
@@ -207,7 +207,7 @@ module.exports = {
             
         },
         appStore:{
-            androidAppDownloadUrl:"http://afrikik.com",
+            androidAppDownloadUrl:"https://play.google.com/store/apps/details?id=com.c4a.Afrikik",
             iOsAppDownloadUrl:"http://afrikik.com"
         },
         app: {
@@ -215,7 +215,7 @@ module.exports = {
             app_port:2014,
             appUrl: 'http://afrikik.com',
             appStore:{
-                androidAppDownloadUrl:"http://afrikik.com",
+                androidAppDownloadUrl:"https://play.google.com/store/apps/details?id=com.c4a.Afrikik",
                 iOsAppDownloadUrl:"http://afrikik.com"
             }
         },
