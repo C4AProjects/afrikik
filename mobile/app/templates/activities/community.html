@@ -9,7 +9,7 @@
         <span style="color:red; background:white" ng-show="data.message.length>140"> {{ data.message.length - 160}} </span>           
         </div>        
         <div class="col col-20">
-        <button class="button afk-btn-register"  style="margin:0px;" ng-click="postFeedCommunity(data.message, 'community'); data.message=''">
+        <button class="button afk-btn-register" ng-disabled="data.message.length>160"  style="margin:0px;" ng-click="postFeedCommunity(data.message, 'community'); data.message=''">
             Post
         </button>
         </div>
