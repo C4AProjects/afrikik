@@ -63,7 +63,7 @@ exports.show = function(req, res) {
  *  Get all players
  */
 exports.all = function(req, res) {
-    Team.find({})
+    Team.find(req.query)
       .limit(req.query.limit||50)  
       .exec(function(err, list) {
           if (err) {
