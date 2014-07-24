@@ -73,7 +73,7 @@ module.exports = function(app, passport, auth) {
     app.get('/api/v1/players/:playerId', players.show );
     app.post('/api/v1/players', players.create);
     app.put('/api/v1/players/:playerId', players.update);
-    //app.del('/api/v1/players/:playerId', players.destroy);
+    app.del('/api/v1/players/:playerId', players.destroy);
     app.get('/api/v1/players/search/:name', players.searchByName );
     //app.get('/api/v1/players/:playerId/share', players.sharePlayerProfile);
     app.get('/api/v1/users/:userId/teams/:teamId/players', players.getPlayersTeam);
