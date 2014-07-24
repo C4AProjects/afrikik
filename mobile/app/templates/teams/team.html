@@ -133,18 +133,43 @@
                 <div class="col" style=" text-align: center">Achievements</div>
             </div>
             <div style="padding: 15px">
-                    <span style="background-color: #666666; color: white;font-weight: bold;">Bronze</span>
-                    <ul ng-repeat="achiev in stat.achievements.bronze">
-                        <li>- {{achiev}}</li>
-                    </ul>
-                    <span style="background-color: #666666; color: white;font-weight: bold;">Silver</span>
-                    <ul ng-repeat="achiev in stat.achievements.silver">
-                        <li>- {{achiev}}</li>
-                    </ul>
-                    <span style="background-color: #666666; color: white;font-weight: bold;">Gold</span>
-                    <ul ng-repeat="achiev in stat.achievements.gold">
-                        <li> - {{achiev}}</li>
-                    </ul>
+                    <div class="row">
+                        <div >
+                            <div class="col col-15 afk-gold"> </div>
+                        </div>
+                        <div class="col col-85" >
+                            <span style="font-size: 18px;font-weight: bold;padding-top: 15px; padding-left: 10px;">Gold Medals</span>                            
+                            <ul ng-repeat="achiev in stat.achievements.gold">
+                                <li> - {{achiev}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="row">
+                        <div >
+                            <div class="col col-15 afk-silver"> </div>
+                        </div>
+                        <div class="col col-85" >
+                            <span style="font-size: 18px;font-weight: bold;padding-top: 15px; padding-left: 10px;">Silver Medals</span>                            
+                            <ul ng-repeat="achiev in stat.achievements.silver">
+                                <li> - {{achiev}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div >
+                            <div class="col col-15 afk-bronze"> </div>
+                        </div>
+                        <div class="col col-85" >
+                            <span style="font-size: 18px;font-weight: bold;padding-top: 15px; padding-left: 10px;">Bronze Medals</span>                            
+                            <ul ng-repeat="achiev in stat.achievements.bronze">
+                                <li> - {{achiev}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
             </div>        
            
             <div ng-show="team.nationalTeam" class="row" style="background-color: #666666; color: white;font-weight: bold;">

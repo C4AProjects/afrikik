@@ -406,6 +406,44 @@ input.afk-input {
     background-position:center;
 }
 
+.afk-grey {  
+  -webkit-border-radius: 50%; 
+  -moz-border-radius: 50%; 
+   border-radius: 50%;
+   width: 100px;
+   height: 100px;
+   background-color: #e5e5e5;
+   position: fixed;
+   left: -50px;
+}
+
+.afk-gold {
+  -webkit-border-radius: 50%; 
+  -moz-border-radius: 50%; 
+   border-radius: 50%;
+   width: 45px;
+   height: 45px;
+   background-color: #ffbe2c;
+}
+
+.afk-silver {
+  -webkit-border-radius: 50%; 
+  -moz-border-radius: 50%; 
+   border-radius: 50%;
+   width: 45px;
+   height: 45px;
+   background-color: #dbdbdb;
+}
+
+.afk-bronze {
+  -webkit-border-radius: 50%; 
+  -moz-border-radius: 50%; 
+   border-radius: 50%;
+   width: 45px;
+   height: 45px;
+   background-color: #db863b;
+}
+
 @media screen and (max-device-width: 640px){
     .fade-bar {
         height: 20px;
@@ -413,6 +451,8 @@ input.afk-input {
         position: fixed;
         z-index: 9999;
         opacity: 0;
-        background-color: #000;
+        background-color: #000000;
     }
 }
+
+
