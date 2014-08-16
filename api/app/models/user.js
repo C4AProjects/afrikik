@@ -42,6 +42,7 @@ var UserSchema = new Schema({
     requests: [{type: Schema.ObjectId, ref: 'User'}], // friend requests user have to accept
     status: {type: String, enum: ['A', 'P', 'D'], default: 'P' } // A: Activated, P: Pending, D: Disabled
     , 'picture': String
+    , isAdmin: Boolean
 });
 
 UserSchema.plugin(timestamps);

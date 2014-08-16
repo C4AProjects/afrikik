@@ -249,7 +249,11 @@ exports.feedsTeam = function(req, res){
 
 
 exports.all = function(req, res){
-  Feed.find({$or:[{'_player': {$in: req.user.subscribedPlayers}},{'_team': {$in: req.user.subscribedTeams}}],'feedType': {$ne: 'community'}})
+  var q = {$or:[{'_player': {$in: req.user.subscribedPlayers}},{'_team': {$in: req.user.subscribedTeams}}],'feedType': {$ne: 'community'}}
+  if (req.user.isAdmin) {
+    q = {'feedType': {$ne: 'community'}}
+  }
+Feed.find(q)
   .populate('_user _player _team comments')
   .sort('-publish_date')
   .sort('-createdAt')
