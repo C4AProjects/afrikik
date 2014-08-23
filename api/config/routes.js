@@ -107,7 +107,7 @@ module.exports = function(app, passport, auth) {
     app.get('/api/v1/users/:userId/score/feeds', feeds.scoreFeeds);
     app.get('/api/v1/users/:userId/community/feeds', feeds.communityFeeds);
     app.put('/api/v1/users/:userId/feeds/:feedId', feeds.update);
-    //app.del('/api/v1/users/:userId/feeds/:feedId', feeds.destroy);
+    app.del('/api/v1/users/:userId/feeds/:feedId', feeds.destroy);
     app.post('/api/v1/users/:userId/feeds/:feedId/comment', feeds.comment); // comment on feed
     app.get('/api/v1/users/:userId/teams/:teamId/feeds', feeds.feedsTeam);
     app.get('/api/v1/users/:userId/players/:playerId/feeds', feeds.feedsPlayer);
