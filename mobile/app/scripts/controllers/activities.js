@@ -113,21 +113,21 @@ Afrikik
                 //
 
                 
-		$scope.activities=Global.getFeedsFromCache()||[];
+		$scope.activities= [];//Global.getFeedsFromCache()||[];
 		if($scope.activities && $scope.activities.length>0){
 			var cacheDate=Global.getFeedsFromCacheDate();
 			var diff = Math.round(Math.abs((cacheDate - Date.now())/(30000)));//30mins
 			if(diff>30){
 				ActivityService.feedsSubscribed(function(values){			
 					$scope.activities = values;
-					Global.setFeedsToCache(values);					
+					//Global.setFeedsToCache(values);					
 		
 				}, Global.getUserId(), 0 , limit);
 			}
 		}else{
 			ActivityService.feedsSubscribed(function(values){			
 					$scope.activities = values;
-					Global.setFeedsToCache(values);					
+					//Global.setFeedsToCache(values);					
 		
 				}, Global.getUserId(), 0 , limit);
 		}
@@ -212,7 +212,7 @@ Afrikik
                         if (item&&item.img_url) {
                                 return item.img_url
                         }
-                        if (item.picture=='nopic-player.png') {
+                        if (item.picture && item.picture=='nopic-player.png') {
                                 return './images/nopic-player.png';
                         }
                         return  (item.picture)? apiDir + item.picture : './images/nopic-player.png';
