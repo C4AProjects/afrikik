@@ -205,6 +205,7 @@ module.exports = function(app, passport, auth) {
     //Home route
     var apiIndex = require('../app/controllers/index');
     app.get('/', apiIndex.index);
+    app.get('/ping', apiIndex.ping);
     app.get('/admin', admins.render);
 
 };

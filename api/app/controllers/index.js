@@ -25,3 +25,7 @@ exports.index = function(req, res) {
         refreshToken:req.session.refreshToken ?  JSON.stringify(req.session.refreshToken) : 'undefined'
     })
 };
+
+exports.ping = function(req, res) {
+   res.end('Api is Up.')
+}

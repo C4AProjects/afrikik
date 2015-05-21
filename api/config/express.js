@@ -20,7 +20,9 @@ module.exports = function (app, config, passport) {
   }))
   app.use(express.favicon())
   app.use(express.static(config.root + '/public'))
-
+  //app.use('trust proxy', true);  
+  //app.use(express.logger('default'))
+  app.use(express.logger(':req[X-Forwarded-For] - - [:date] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"'))
   // don't use logger for test env
   if (process.env.NODE_ENV !== 'test') {
     app.use(express.logger('dev'))
