@@ -1,0 +1,125 @@
+<ion-view>
+
+    <ion-content has-header="true" >        
+    
+    <!--div class="row afk-member-profile" style="background-image: url('./images/profile-bg.png');">
+        <div class="col" style="height: auto;text-align: center">         
+          <div class="row">
+            <div class="col">
+                 <center><img class="afk-circle" ng-src="./images/avatars/{{user.picture||'default.png'}}" /></center>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col" style="padding-bottom: 15px;padding-top: 1px">
+              <h3 id="name">{{user.name}}</h3>
+              <h6 id="summary">Member Since {{user.createdAt|date:'yyyy'}} <br/>
+              {{user.subscriptions.length}} Subscriptions - {{user.following.length}} Friends
+              <br/>
+              </h6>
+            </div>
+          </div>            
+        </div>
+    </div-->
+    
+    <ion-slide-box style="background-color: #4a4845;">      
+      <ion-slide >              
+        <div class="row" style="border-color: #4a4845;">
+          <div class="col afk-align-center">
+            <a class="afk-menu-tab2 afk-menu-tab-active">SETTINGS</a>
+          </div>
+          <div class="col afk-align-center" ng-click="go(1)">
+            <a class="afk-menu-tab2">MY SUBSCRIPTIONS</a>
+          </div>
+          <div class="col afk-align-center" ng-click="go(2)">
+            <a class="afk-menu-tab2">FRIENDS</a>
+          </div>
+        </div>            
+        <div class="afk-player-activity afk-content-high" style="background-color: grey;">
+            <div style="text-align: center" ng-show="showAvatars">
+            <ion-radio ng-repeat="avatar in avatars" ng-model="user.picture" ng-value="avatar" style="display: inline-block;max-height: 80px;max-width:80px">
+                <img ng-src="./images/avatars/{{avatar}}" class="afk-circle" style="max-height: 60px;max-width:60px">
+            </ion-radio>
+            </div>
+            
+            <form name="ProfileForm" ng-submit="update({name:user.name, picture:user.picture})">
+                <center>
+                    <img class="afk-circle" ng-src="./images/avatars/{{user.picture||'default.png'}}"  ng-click="showAvatars=!showAvatars" />
+                    <div style="text-align: center; font-weight: bold; color: white" ng-show="!showAvatars" ng-click="showAvatars=!showAvatars">
+                        Tape Avatar to change it! <span style="font-size: 14px" class="icon ion-compose afk-comment"></span>
+                    </div>
+                    <h3 id="name" ng-click="show=!show">{{user.name}}<span style="font-size: 14px" class="icon ion-compose afk-comment"></span></h3>
+                    <h6 id="summary">Member Since {{user.createdAt|date:'yyyy'}} <br/>
+                    </h6>
+                <div ng-show="show">
+                    <input class="afk-input" type="text" ng-model="user.name" placeholder="Your name"></div>
+                    <button class="button afk-btn afk-btn-register" >Save changes</button>
+                </center>
+            </form>
+            <div style="text-align: center">
+                <br/>
+            <button class="button afk-btn afk-btn-register"   style="margin:0px;" ng-click="logout(); ">
+            Logout
+            </button>
+            <button class="button afk-btn afk-btn-register"  style="margin:0px;" ng-click="cleanCache(); ">
+            Clean Cache Data
+            </button>
+            </div>
+            <br/>
+            <br/>
+        </div>
+      </ion-slide>
+      
+      <ion-slide ng-controller="PlayerCtrl">              
+        <div class="row" style="border-color: #4a4845;">
+          <div class="col afk-align-center">
+            <a class="afk-menu-tab2" ng-click="go(0)">SETTINGS</a>
+          </div>
+          <div class="col afk-align-center">
+            <a class="afk-menu-tab2 afk-menu-tab-active">MY SUBSCRIPTIONS</a>
+          </div>
+          <div class="col afk-align-center" ng-click="go(2)">
+            <a class="afk-menu-tab2">FRIENDS</a>
+          </div>
+        </div>
+        <div class="afk-content-high" style="background-color: grey;">         
+        <ion-list>
+          <ion-item ng-repeat="item in user.subscriptions track by $index" class="afk-bg-list item item-avatar item-button-right">
+             <img ng-src="{{getPicItem(item)}}" class="afk-circle"> 
+            <a class="afk-lnk-detail" ng-click="setCurrentItem(item)">
+              <span class="afk-obj-name">{{item.name}}</span>
+             <span class="afk-obj-desc">{{item.association}} {{item.club}}  {{item.clubcountry}} {{item.no?' - N°: #' +item.no:''}}  {{item.position? ' - position: ' + item.position: ''}}</span>
+              View Profile <i class="icon ion-ios7-arrow-forward"></i></a>
+          </ion-item>   
+        </ion-list>
+        </div>
+      </ion-slide>
+      
+      <ion-slide>              
+        <div class="row" style="border-color: #4a4845;">
+          <div class="col afk-align-center" ng-click="go(0)">
+            <a class="afk-menu-tab2">SETTINGS</a>
+          </div>
+          <div class="col afk-align-center" ng-click="go(1)">
+            <a class="afk-menu-tab2">MY SUBSCRIPTIONS </a> 
+          </div>
+          <div class="col afk-align-center">
+            <a class="afk-menu-tab2 afk-menu-tab-active">FRIENDS</a>
+          </div>
+        </div>
+        <div class="afk-content-high" style="background-color: grey;">
+        <ion-list>
+          <ion-item ng-repeat="member in user.friends" ng-click="setCurrentMember(member)" class="afk-bg-list item item-avatar item-button-right">
+            <img ng-src="./images/avatars/{{member.picture||'default.png'}}" class="afk-circle"> 
+            <a class="afk-lnk-detail"  >
+              <span class="afk-obj-name">{{member.name}}</span>
+            <span class="afk-obj-desc">{{member.description}}</span>
+              View Profile <i class="icon ion-ios7-arrow-forward"></i></a>
+          </ion-item>   
+        </ion-list>
+        </div>
+      </ion-slide>
+    </ion-slide-box>  
+        
+    </ion-content>
+
+</ion-view>

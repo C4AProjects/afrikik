@@ -127,6 +127,19 @@ width: 100%;
   white-space: pre-wrap;
 }
 
+.afk-feed-score {
+  font-family: sans-serif;
+  font-size: 18px;
+  color: black;
+}
+
+.afk-feed-score-winner {
+  font-family: sans-serif;
+  font-size: 18px;
+  color: black;
+  font-weight: bold;
+}
+
 .afk-obj-info{
   font-size: 10px;  
   color: grey;
@@ -250,7 +263,7 @@ input.afk-input {
    border-radius: 50%;
    max-width: 125px;
    max-height: 125px;
-   border:  inset;
+   border: hidden;
 }
 
 .afk-bold{
@@ -264,7 +277,7 @@ input.afk-input {
   -moz-border-radius: 50%; 
    border-radius: 50%;
    
-   border: inset;
+   border: hidden;
 }
 
 .afk-member-profile {
@@ -374,12 +387,14 @@ input.afk-input {
 }
 .afk-content{
   min-height: 200px;
+  height: 100%;
   margin-bottom: 5px;
   background-color: white;
 }
 
 .afk-content-high{
   min-height: 400px;
+  height: 100%;
   margin-bottom: 5px;
   background-color: white;
 }
@@ -391,6 +406,44 @@ input.afk-input {
     background-position:center;
 }
 
+.afk-grey {  
+  -webkit-border-radius: 50%; 
+  -moz-border-radius: 50%; 
+   border-radius: 50%;
+   width: 100px;
+   height: 100px;
+   background-color: #e5e5e5;
+   position: fixed;
+   left: -50px;
+}
+
+.afk-gold {
+  -webkit-border-radius: 50%; 
+  -moz-border-radius: 50%; 
+   border-radius: 50%;
+   width: 45px;
+   height: 45px;
+   background-color: #ffbe2c;
+}
+
+.afk-silver {
+  -webkit-border-radius: 50%; 
+  -moz-border-radius: 50%; 
+   border-radius: 50%;
+   width: 45px;
+   height: 45px;
+   background-color: #dbdbdb;
+}
+
+.afk-bronze {
+  -webkit-border-radius: 50%; 
+  -moz-border-radius: 50%; 
+   border-radius: 50%;
+   width: 45px;
+   height: 45px;
+   background-color: #db863b;
+}
+
 @media screen and (max-device-width: 640px){
     .fade-bar {
         height: 20px;
@@ -398,6 +451,8 @@ input.afk-input {
         position: fixed;
         z-index: 9999;
         opacity: 0;
-        background-color: #000;
+        background-color: #000000;
     }
 }
+
+

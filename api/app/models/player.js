@@ -15,6 +15,7 @@ var PlayerSchema = new Schema({
                 img_url: {type:String, required:false},
                 description: String,
                 dob: {type:Date},
+                birth_place : String,
                 country: {type:String}, // the value may be from country collections
                 club: {type:String, default:'Unknown'},
                 clubcountry: {type:String, default:'Unknown'},
@@ -33,6 +34,13 @@ var PlayerSchema = new Schema({
                 ,losses: Number
                 ,yellows: Number
                 ,reds: Number
+                ,current_stat: {
+                                minutes : String,
+                                redc : String,
+                                games : String,
+                                goals : String,                               
+                                yellowc : String
+                }
 })
 
 

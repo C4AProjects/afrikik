@@ -8,6 +8,8 @@ var mongoose = require('mongoose')
 var MatchSchema = new Schema({
                 _team1: {type: Schema.Types.ObjectId, ref: 'Team' },
                 _team2: {type: Schema.Types.ObjectId, ref: 'Team' }, // Opponent team
+                no_afrik_team1:String,
+                no_afrik_team2:String,
                 playersTeam1: [{type: Schema.Types.ObjectId, ref: 'Player' }],
                 playersTeam2: [{type: Schema.Types.ObjectId, ref: 'Player' }],
                 referees: [{type: String }],
@@ -21,6 +23,7 @@ var MatchSchema = new Schema({
                 ,score: String // 2:1
                 ,scoreTeam1: Number
                 ,scoreTeam2: Number
+                ,status: String
 })
 
 MatchSchema.plugin(timestamps,MongooseRattle)

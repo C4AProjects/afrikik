@@ -9,12 +9,17 @@ angular.module('Afrikik.services', [])
   var currentMember = {};
 
   return {
-    getById: function(memberId){      
-      var member = Member.get({id:memberId})
-      return member;
+    getById: function(memberId, cb){      
+      Member.get({id:memberId}, cb)
     },
     update: function(member, success, error){
       Member.update({}, member, success, error )
+    },
+    subscribe: function(memberId, cb){
+       Member.subscribe({memberId: memberId},{}, cb)
+    },
+    unsubscribe: function(memberId, cb){
+      Member.unsubscribe({memberId: memberId},{}, cb)
     }
   };
 }])
@@ -31,11 +36,11 @@ angular.module('Afrikik.services', [])
     cachedItems: function() {
       return cachedItems;
     },
-    topItems: function(userId, cb){
-        Search.topItems({id:userId}, cb)
+    topItems: function(userId, cb, skip, limit, skipTeam, limitTeam){
+        Search.topItems({id:userId, skip:skip , limit: limit, skipTeam:skipTeam||0 , limitTeam: limitTeam||5}, cb)
     },
-    itemsByName: function(name){      
-      return cachedItems = Search.query({name: name})
+    itemsByName: function(name, cb){      
+      Search.query({name: name}, cb)
     },
     getById: function(playerId){
       //console.log('and looking for from the API....')
@@ -55,8 +60,10 @@ angular.module('Afrikik.services', [])
        Player.subscribe({playerId: playerId},{})
     },
     unsubscribe: function(playerId){
-      console.log('Player Id :' + playerId)
       Player.unsubscribe({playerId: playerId},{})
+    },
+    getStats: function(playerId, cb){
+      Player.stats({playerId: playerId}, cb)
     }
   };
 }])
@@ -80,8 +87,8 @@ angular.module('Afrikik.services', [])
     topItems: function(){      
       return cachedItems = Search.topItems({})
     },
-    itemsByName: function(name){      
-      return cachedItems = Search.query({name: name})
+    itemsByName: function(name, cb){      
+      Search.query({name: name}, cb)
     },
     getById: function(teamId){
       var team = Team.get({id:teamId})
@@ -101,18 +108,34 @@ angular.module('Afrikik.services', [])
     unsubscribe: function(teamId){
       Team.unsubscribe({teamId: teamId},{})
     },
-    playersTeam: function(teamId){
-      Team.playersTeam({teamId: teamId})
+    playersTeam: function(teamId, cb, error){
+      Team.playersTeam({teamId: teamId}, cb, error)
+    },
+    getStats: function(teamId, cb){
+      Team.stats({teamId: teamId}, cb)
     }
   };
 }])
 
-.factory('ActivityService', ['Activity', function(Activity) {
+.factory('ActivityService', ['Activity','Global', function(Activity, Global) {
 
   var feeds = [];
 
   return {
-        
+    getByIdFromCache: function(itemId){      
+       return _.find(Global.getFeedsFromCache(), function(item){
+        return item._id == itemId
+      })
+    },
+    feedsItem: function(itemId) {
+      Activity.feedsPlayer({playerId:itemId}, function(feeds){
+	if(feeds && feeds.length>0) return feeds;
+	Activity.feedsTeam({teamId:itemId}, function(feeds){
+		return feeds;
+	});
+	})
+	
+    },
     feedsPlayer: function(playerId) {
       return feeds = Activity.feedsPlayer({playerId:playerId});
     },
@@ -140,26 +163,22 @@ angular.module('Afrikik.services', [])
       return Activity.commentsFriends({id:userId})
     },
     commentFeed: function(comment, cb){
-      return Activity.commentFeed({feedId:comment._feed._id}, {message:comment.message}, cb)
+      Activity.commentFeed({feedId:comment._feed._id}, {message:comment.message}, cb)
     },
-    'getCommentsFeed': function(cb, id, skip, limit){
-     Activity.getCommentsFeed({feedId: id, skip: skip, limit: limit}, cb, 
-      function(err){
-        console.log(err)
-      })
+    'getCommentsFeed': function( feedId, skip, limit, cb){
+     Activity.getCommentsFeed({feedId: feedId, skip: skip, limit: limit}, cb)
     },
     create: function(feed, cb){
         return Activity.save({},feed, cb)
     },
     feedsSubscribed: function(cb,userId, skip, limit){
-      return Activity.feedsSubcribed({skip:skip, limit:limit}, cb);
+      Activity.feedsSubcribed({ skip:skip, limit:limit}, cb);
     },
     getScoreFeeds : function(cb,userId, skip, limit){
-      return Activity.scoreFeeds({skip:skip, limit:limit}, cb);
+       Activity.scoreFeeds({skip:skip, limit:limit}, cb);
     },
     getCommunityFeeds : function(cb,userId, skip, limit){
-      console.log('param ' + skip +'  '+ limit)
-      return Activity.communityFeeds({skip:skip, limit:limit}, cb);
+      Activity.communityFeeds({skip:skip, limit:limit}, cb);
     }
     
   };
@@ -208,29 +227,6 @@ angular.module('Afrikik.services', [])
     };
 })
 
-
-.factory('MediaService', function($resource, $q){
-    var music = $resource('https://itunes.apple.com/:action',
-        { action: "search", callback: 'JSON_CALLBACK'},
-        { 'get':  {method: 'JSONP'} });
-
-
-    return {
-        search: function(query,type,limit) {
-            var q = $q.defer();
-
-            music.get({
-                term: query, media: type, limit: limit
-            }, function(resp) {
-                q.resolve(resp);
-            }, function(err) {
-                q.reject(err);
-            })
-
-            return q.promise;
-        }
-    }
-})
 
 // Shared data from settings needed by different controllers
 .service('SettingsService', function() {

@@ -28,6 +28,23 @@ angular.module('Afrikik')
 		  isArray:false
 		},
 		'get': {method:'GET', isArray: false}
+		,
+		'subscribe':{
+		  method: 'POST',
+		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/subscribe/members/:memberId',
+		  params:{
+		    id : Global.getUserId()		  
+		  },
+		  isArray:false
+		},
+		'unsubscribe':{
+		  method: 'POST',
+		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/unsubscribe/members/:memberId',
+		  params:{
+		    id : Global.getUserId()		  
+		  },
+		  isArray:false
+		}
     	}
     );
     
@@ -56,6 +73,14 @@ angular.module('Afrikik')
 		  },
 		  isArray: false,
 		  ignoreLoadingBar: true
+		},
+		'stats': {
+		  method:'GET',
+		  url: config.host +  ":port/" + config.api_base_version + '/players/:playerId/stats',
+		  params:{
+		    
+		  },
+		  isArray: true	    
 		},
 		'comment': {
 		  method:'POST',
@@ -127,13 +152,21 @@ angular.module('Afrikik')
 		  },
 		  isArray:false
 		},
-		'playersTeam':{
+		'playersTeam': {
 		  method:'GET',
-		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/teams/:teamId/players',
+		  url: config.host +  ":port/" + config.api_base_version + '/teams/:teamId/players',
 		  params:{
-		    id : Global.getUserId()		    
+		    
 		  },
-		  isArray:true
+		  isArray: true	    
+		},
+		'stats': {
+		  method:'GET',
+		  url: config.host +  ":port/" + config.api_base_version + '/teams/:teamId/stats',
+		  params:{
+		    
+		  },
+		  isArray: false	    
 		}
     	}
     );
@@ -198,7 +231,7 @@ angular.module('Afrikik')
 		},
 		'getCommentsFeed':{
 		  method:'GET',
-		  url: config.host +  ":port/" + config.api_base_version + '/feeds/:feedId/feedcomments?skip=:skip&limit=:limit',
+		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/feeds/:feedId/comments?skip=:skip&limit=:limit',
 		  params:{
 		    id : Global.getUserId(),		    	  
 		  },
@@ -280,11 +313,13 @@ angular.module('Afrikik')
 	{
 	  'topItems':{
 		  method:'GET',
-		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/top/items',
+		  url: config.host +  ":port/" + config.api_base_version + '/users/:id/top/items?skip=:skip&limit=:limit&skipTeam=:skipTeam&limitTeam=:limitTeam',
 		  params:{
 		    id : Global.getUserId(),
 		    skip:0,
-		    limit:30
+		    limit:30,
+		    skipTeam:0,
+		    limitTeam:5
 		  },
 		  isArray:true,
 		  ignoreLoadingBar: true

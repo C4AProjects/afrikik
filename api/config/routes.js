@@ -29,6 +29,7 @@ module.exports = function(app, passport, auth) {
     var users = require('../app/controllers/users');
  
     app.post('/api/v1/users/session', users.login);
+    app.post('/api/v1/users/session/facebook', users.loginWithFacebook);
     //app.post('/api/v1/users/session', passport.authenticate('local', { }), users.session);
  
     //Setting up the users api
@@ -55,6 +56,8 @@ module.exports = function(app, passport, auth) {
     app.get('/api/v1/users/search/:name', members.searchByName );
     app.post('/api/v1/users/:userId/subscribe/players/:playerId', members.subscribeToPlayer);
     app.post('/api/v1/users/:userId/subscribe/teams/:teamId', members.subscribeToTeam);
+    app.post('/api/v1/users/:userId/subscribe/members/:memberId', members.subscribeToMember);
+    app.post('/api/v1/users/:userId/unsubscribe/members/:memberId', members.unsubscribeFromMember);
     app.post('/api/v1/users/:userId/unsubscribe/players/:playerId', members.unsubscribeFromPlayer);
     app.post('/api/v1/users/:userId/unsubscribe/teams/:teamId', members.unsubscribeFromTeam);
     app.get('/api/v1/users/:userId/friends/requests', members.getFriendRequests);
@@ -68,16 +71,19 @@ module.exports = function(app, passport, auth) {
     var players = require('../app/controllers/players');
     app.get('/api/v1/players', players.all );
     app.get('/api/v1/players/:playerId', players.show );
-    app.post('/api/v1/players/', players.create);
+    app.post('/api/v1/players', players.create);
     app.put('/api/v1/players/:playerId', players.update);
     app.del('/api/v1/players/:playerId', players.destroy);
     app.get('/api/v1/players/search/:name', players.searchByName );
     //app.get('/api/v1/players/:playerId/share', players.sharePlayerProfile);
     app.get('/api/v1/users/:userId/teams/:teamId/players', players.getPlayersTeam);
+    app.get('/api/v1/teams/:teamId/players', players.getPlayersByTeamName);
     app.get('/api/v1/search/:name', players.searchPlayersAndTeam)
     app.post('/api/v1/users/:userId/players/:playerId/comment', players.comment); //comment on player profile
     
     app.get('/api/v1/users/:userId/top/items', players.topPlayersAndTeam);
+    
+    app.get('/api/v1/players/:playerId/stats', players.stats);
     
     //Team Routes
     var teams = require('../app/controllers/teams');
@@ -85,10 +91,12 @@ module.exports = function(app, passport, auth) {
     app.get('/api/v1/teams/:teamId', teams.show );
     app.post('/api/v1/teams', teams.create);
     app.put('/api/v1/teams/:teamId', teams.update);
-    app.del('/api/v1/teams/:teamId', teams.destroy);
+    //app.del('/api/v1/teams/:teamId', teams.destroy);
     app.get('/api/v1/teams/search/:name', teams.searchByName );
     //app.get('/api/v1/teams/:teamId/share', teams.shareTeamProfile);
     app.post('/api/v1/users/:userId/teams/:teamId/comment', teams.comment); //comment on team profile
+    
+    app.get('/api/v1/teams/:teamId/stats', teams.stats);
     
     //Feed Routes
     var feeds = require('../app/controllers/feeds');    
@@ -103,6 +111,8 @@ module.exports = function(app, passport, auth) {
     app.post('/api/v1/users/:userId/feeds/:feedId/comment', feeds.comment); // comment on feed
     app.get('/api/v1/users/:userId/teams/:teamId/feeds', feeds.feedsTeam);
     app.get('/api/v1/users/:userId/players/:playerId/feeds', feeds.feedsPlayer);
+    
+    app.get('/api/v1/players/:playerId/feeds', feeds.feedsPlayer);
 
     //Notification Routes
     var notifications = require('../app/controllers/notifications');        
@@ -124,7 +134,7 @@ module.exports = function(app, passport, auth) {
     var comments = require('../app/controllers/comments');
     app.get('/api/v1/users/:userId/friends/comments', comments.commentsFriends);
     app.get('/api/v1/users/:userId/comments/:commentId', comments.show);
-    app.get('/api/v1/feeds/:feedId/feedcomments', comments.getCommentsByFeed);
+    app.get('/api/v1/users/:userId/feeds/:thefeedId/comments', comments.getCommentsByFeed);
     app.get('/api/v1/users/:userId/teams/:teamId/comments', comments.getCommentsByTeam);
     app.get('/api/v1/users/:userId/players/:playerId/comments', comments.getCommentsByPlayer);
     
@@ -135,10 +145,28 @@ module.exports = function(app, passport, auth) {
     app.get('/api/v1/users/:userId/matches/:matchId', matches.show );
     app.post('/api/v1/users/:userId/matches', matches.create);
     app.put('/api/v1/users/:userId/matches/:matchId', matches.update);
-    app.del('/api/v1/users/:userId/matches/:matchId', matches.destroy);
+    //app.del('/api/v1/users/:userId/matches/:matchId', matches.destroy);
+    
+     //Player Stats Routes
+    var stats = require('../app/controllers/stats');    
+    app.get('/api/v1/users/:userId/stats/:statId', stats.show );
+    app.post('/api/v1/users/:userId/stats', stats.create);
+    app.put('/api/v1/users/:userId/stats/:statId', stats.update);
+    //app.del('/api/v1/users/:userId/stats/:statId', stats.destroy);
+    
+     //Player Stats Routes
+    var teamstats = require('../app/controllers/team_stats');    
+    app.get('/api/v1/users/:userId/stats/:statTeamId/team', teamstats.show );
+    app.post('/api/v1/users/:userId/stats/team', teamstats.create);
+    app.put('/api/v1/users/:userId/stats/:statTeamId/team', teamstats.update);
+    //app.del('/api/v1/users/:userId/stats/:statTeamId/team', teamstats.destroy);
 
     //Finish with setting up the userId param
-    app.param('userId', users.user); 
+    app.param('userId', users.user);
+    //Finish with setting up the statId param
+    app.param('statId', stats.stat);
+    //Finish with setting up the teamstatId param
+    app.param('statTeamId', teamstats.stat);
     //Finish with setting up the playerId param
     app.param('playerId', players.player);
     //Finish with setting up the teamId param

@@ -1,0 +1,42 @@
+<ion-view >
+    
+<ion-content class="has-header">
+    <div class="afk-header-list">{{feed.title||'No title'}}</div>    
+    <div>
+        <img   style="float: left;margin: 0 6px 6px 0;" ng-src="{{feed.image||feed.url_img}}"/>
+        <span>{{feed.message}}</span>        
+        <div>
+        <!--a ng-href="{{feed.link}}">Source</a-->
+        </div>
+    </div>
+    
+    <br/>
+    <div>
+    <br/> <br/>
+    <a ng-href="#/private/feeds" class="afk-lnk-team-feed" > All Activities </a>
+    <span style="float: right;color: green"> {{ comments.length }} Comments </span> 
+     <div class="item item-input-inset" style="background-color: grey"> 
+<div style="color:red; background:white" ng-show="data.message.length>50"> {{ data.message.length - 160}}</div>           
+               <textarea rows="2" style="width:80%" placeholder="Add Comment Here" class="afk-search-bg" ng-model="data.message" maxlength="160" />
+        <button class="button afk-btn-register"  style="margin:0px;" ng-click="comment(data.message); data.message=''">
+        Post
+        </button>
+    </div>
+    <ion-list>
+        <ion-item ng-repeat="comment in comments" class="afk-bg-list item item-avatar">
+            <img class="afk-circle" ng-src="{{comment._user.picture? './images/avatars/' + comment._user.picture :'./images/avatars/default.png'}}" />            
+          <a class="afk-lnk-detail">            
+             <span class="afk-feed">{{comment.message}}</span>
+            <span class="afk-obj-desc">Posted by {{comment.username}} on {{comment.createdAt|date:"EEEE MMM dd 'at' HH:mm 'GMT'"}}</span> 
+          </a>
+        </ion-item>
+        <div ng-show="stopScrollComment && comments.length>10" >
+            <center>No more results to show!!!</center>
+        </div>
+    
+        <ion-infinite-scroll on-infinite="loadMoreComments()" ng-if="!stopScrollComment"></ion-infinite-scroll>   
+    </ion-list>
+   <br/><br/>
+    </div>
+  </ion-content>
+</ion-view>

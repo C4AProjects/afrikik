@@ -21,12 +21,19 @@ Afrikik
                 function callback(data){
                      $scope.communities = data                                  
                 }
-                                
+                
+                $scope.stat= {}
+                  
                 if($stateParams._id){
                         $scope.team = TeamService.getById($stateParams._id);
-                        $scope.players = TeamService.playersTeam($stateParams._id)
+                        TeamService.playersTeam($stateParams._id, function(values){
+                                $scope.players = values
+                        })
                         $scope.activities = ActivityService.feedsTeam(callback, $stateParams._id, 0, limit)
                         $rootScope.menuLeft = false;
+                        TeamService.getStats($stateParams._id, function(data){
+                                $scope.stat = data
+                        })
                 }                
                                
                 
@@ -46,6 +53,7 @@ Afrikik
                         TeamService.subscribe(team._id)
                         $scope.user.subscribedTeams.push(team)
                         Global.setUser($scope.user);
+                        Global.cleanAll();
                         $scope.isSubscribedOn();
                 }
                 
@@ -60,14 +68,13 @@ Afrikik
                         })
                         $scope.user.subscribedTeams = list;
                         Global.setUser($scope.user);
+                        Global.cleanAll();
                         $scope.isSubscribedOn();
                         
                 }
+        
                 
-                
-                
-                $scope.setCurrentPlayer = function(player){
-                        PlayerService.setCurrentPlayer(player)
+                $scope.setCurrentPlayer = function(player){                       
                         $state.transitionTo('private.player', {_id: player._id})
                 }                        
                  
@@ -82,9 +89,12 @@ Afrikik
                                 return item.img_url
                         }
                         if (item.picture=='nopic-team.png') {
-                                return './images/nopic-team.png';
+                                return './images/nopic-player.png';
                         }
-                        return  (item.picture)? apiDir + item.picture :'./images/nopic-team.png';
+                        if (item.picture=='nopic-player.png') {
+                                return './images/nopic-player.png';
+                        }
+                        return  (item.picture)? apiDir + item.picture :'./images/nopic-player.png';
                 }
                  
                 $scope.styleLocked = {};

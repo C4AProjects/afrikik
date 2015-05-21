@@ -15,9 +15,9 @@ angular.module('Afrikik')
 			this.user = localStorage.get(config[env].localStorageUserKey)
 			if (this.user) {
 			    this.user.menuLeft = true;
-			    this.user.subscriptions = this.user.subscribedPlayers
+			    this.user.subscriptions = this.user.subscribedPlayers||[]
 			    this.user.subscriptions = this.user.subscriptions.concat(this.user.subscribedTeams)
-			    this.user.friends = this.user.following
+			    this.user.friends = this.user.following||[]
 			    this.user.friends = this.user.friends.concat(this.user.followers)
 			}
 			window.user = this.user
@@ -38,7 +38,20 @@ angular.module('Afrikik')
 	    	},
 	    	getTopItems:function(){
 			 return  localStorage.get('topItemsPlayersAndTeams');			
-	    	}
+	    	},
+		setFeedsToCache:function(items){
+	    		localStorage.set('subscribedFeedsInCache', items);
+			localStorage.set('subscribedFeedsInCacheDate', Date.now());
+	    	},
+	    	getFeedsFromCache:function(){
+			 return  localStorage.get('subscribedFeedsInCache');			
+	    	},
+		getFeedsFromCacheDate:function(){
+			 return  localStorage.get('subscribedFeedsInCacheDate');			
+	    	},
+		cleanAll : function(){
+		    localStorage.set('subscribedFeedsInCache', []);
+		}
 
 	    };
 	    return global;

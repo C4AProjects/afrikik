@@ -9,16 +9,35 @@ Afrikik
                 var apiDir =  config.apiDir;
                                 
                 $scope.user = Global.getUser()
+                $scope.member = {}
+                
                 if ($stateParams._id) {
-                        $scope.member = MemberService.getById($stateParams._id);
+                       MemberService.getById($stateParams._id, function(data){
+                                $scope.member = data
+                                if ($scope.member&&$scope.member.following) {
+                                        $scope.member.friends = $scope.member.following.concat($scope.member.followers)
+                                }
+                                if ($scope.member&&$scope.member.subscribedPlayers) {
+                                        $scope.member.subscriptions = $scope.member.subscribedPlayers.concat($scope.member.subscribedTeams)
+                                }
+                        }, function(errors){
+                                console.log(errors)
+                        });
+                       
+                        
                 }
                                 
                 $scope.setCurrentMember = function(member){
                          $state.transitionTo('private.member', {_id: member._id})
                 }                        
                 
-                $scope.setCurrentPlayer = function(player){                        
-                        $state.transitionTo('private.player', {_id: $stateParams._id})
+                $scope.setCurrentItem = function(item){
+                        console.log('set current item')
+                        if (item.position) {
+                                $state.transitionTo('private.player', {_id: item._id})
+                        }else {                                
+                                $state.transitionTo('private.team', {_id: item._id})
+                        }
                 }
                 
                 $scope.subscribe = function(member){
@@ -30,7 +49,33 @@ Afrikik
                 $scope.go = function(index){               
                       $ionicSlideBoxDelegate.slide(index)
                 }
+
+		$scope.subscribe = function(member){
+                        MemberService.subscribe(member._id, function(values){
+			     $scope.user.following.push(member)
+			     Global.setUser($scope.user);
+			     $scope.isFriend ()
+			})                     
+                }
+                
+                $scope.unsubscribe = function(member){
+                        MemberService.unsubscribe(member._id, function(values){
+			var list = []
+                        $scope.user.following.forEach(function(item, index){
+                                if (item._id!=member._id) {
+                                        list.push(item)                                                
+                                }                                
+                        })
+                        $scope.user.following = list;
+                        Global.setUser($scope.user);
+                        $scope.isFriend ()
+			})
+                        
+                        
+                }
+
                 $scope.styleLocked = {};                
+
                 $scope.isFriend = function(member){
                         var testOK = false;
                         $scope.styleLocked = {};
@@ -84,11 +129,14 @@ Afrikik
         
                 }
                 
-                $scope.update = function(user){
+                $scope.update = function(settings){
                         $ionicLoading.show({
                                 template: '<i class="icon ion-loading-a"></i>'
                         });
-                        MemberService.update({name:user.name, picture:user.picture}, function(value){
+console.log(settings)
+                        MemberService.update(settings, function(value){
+				$scope.user.name = settings.name;
+				$scope.user.picture = settings.picture;
                                 Global.setUser($scope.user)
                                 $ionicLoading.hide()
                         },
@@ -101,20 +149,37 @@ Afrikik
                         $scope.user.password = '';
                         $scope.user.authenticated = false;
                         Global.setUser($scope.user)
+			Global.setTopItems([]);
+			Global.cleanAll();
                         $state.transitionTo('index')
                       //_gaq.push(['_trackEvent','Authentication', 'Logout', 'Regular Logout'])
                 }
                       
                 $scope.cleanCache = function(){
-                   Global.setTopItems([]) //
+                        
+                        $ionicLoading.show({
+                                template: '<i class="icon ion-loading-a"></i>'
+                        });
+                        Global.setTopItems([]); //
+                        Global.cleanAll();
+                        
+                        setTimeout(function(){
+                                $ionicLoading.hide();
+                        
+                        },1500)
+                        
                 }
                 
                 $scope.getPicItem = function(item){
                         if (item&&item.img_url) {
                                 return item.img_url
                         }
-                        return  (item.picture)? apiDir + item.picture : './images/avatars/default.png';
+                        if (item.picture=='nopic-player.png') {
+                                return './images/nopic-player.png';
+                        }
+                        return  (item.picture)? apiDir + item.picture :  './images/nopic-player.png';
                 }
+                
                                 
                                 
         })

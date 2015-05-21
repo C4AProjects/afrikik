@@ -15,7 +15,7 @@ var mongoose = require('mongoose')
 exports.scores = function(req, res) {
     Match.find({})
         .populate('_team1 _team2')
-        .sort('-createdAt')
+        .sort({createdAt:-1})
         .skip(req.query.skip||0)
         .limit(req.query.limit||50)  
         .exec(function(err, list) {
@@ -97,15 +97,14 @@ exports.show = function(req, res) {
  */
 exports.destroy = function(req, res) {    
     var match = req.match;
-
-    Match.remove(function(err) {
+    match.remove(function(err) {
         if (err) {
             res.status(500).json( {
                 success:false,
                 error: err
             });
         } else {
-            res.status(204).json({message: match._id.toString + 'succesfully removed !'});
+            res.status(200).json({message: match._id.toString + 'succesfully removed !'});
         }
     });
    

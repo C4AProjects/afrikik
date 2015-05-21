@@ -18,6 +18,7 @@ var FeedSchema = new Schema({
                 ,url_img: String
                 ,dateFrom: {type:Date, default:Date.now}
                 ,feedType:String //Score, general, NEW, UPDATE
+                , 'publish_date': {type:Date, default:Date.now}
 })
 
 FeedSchema.plugin(timestamps,MongooseRattle)

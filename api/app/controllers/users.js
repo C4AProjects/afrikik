@@ -47,15 +47,15 @@ exports.login = function(req, res){
             res.status(403).json( {
                 alerts: [{message:'Unknown user'}]
             });
-        }
-        if (user.status==='P') {
+        }else
+        if (user.status ==='P') {
             res.status(403).json( {
-                alerts: [{message:'You have to confirm your registration before continuing!'}]
+                alerts: [{message:'You have to confirm your registration before continuing!'}], shouldConfirm: true
             });
         }
         else if (!user.authenticate(user1.password)) {
             res.status(403).json( {
-                alerts: [{message:'Invalid password'}]
+                alerts: [{message:'Invalid password'}], mayForgetPassword: true
             });
         }
         
@@ -66,9 +66,53 @@ exports.login = function(req, res){
         })
         }
     });
-
     
 }
+
+/**
+ *Login
+ */
+
+exports.loginWithFacebook = function(req, res){
+    var user1 = req.body;
+    User.findOne({
+        email: user1.email, provider:'facebook'
+    })
+        .populate('subscribedTeams subscribedPlayers following followers requests')//TODO
+        .exec(function(err, user) {
+        if (err) {
+             
+            res.json({
+               alerts:[{message:err}]
+            })
+        }
+        if (!user) {                        
+            //create user with provider equals FB
+            user1 = new User(req.body);
+            user1.provider = 'facebook';
+            user1.save(function(err,user){
+                if (err) {
+                    res.json({
+                        alerts:[{message:err}]
+                    })
+                }
+                res.json({
+                        success:true,
+                        user:user
+                })
+            })
+        }  
+        else
+        { 
+            res.json({
+               success:true,
+               user:user
+            })
+        }
+    });
+    
+}
+
 
 /**
  * Auth callback
@@ -131,11 +175,31 @@ exports.session = function(req, res) {
 /**
  * Register a new user
  */
+
+function validateEmail(email) { 
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}
+
 exports.create = function(req, res) {
     var user = new User(req.body);
+if(!validateEmail(user.email)){
+return res.status(200).json({success:false,error:'Invalid email address, please enter a valid email before continuing',  code: "10000" })
+}
     user.provider = 'local';
-    
-    user.save(function(err, user) 
+    User.findOne({email:user.email})
+	.exec(function(err, user2){
+	if (err) {
+		    res.status(400).json({
+		        success:false,
+		        error: err,
+		    });
+        }
+		if(user2){
+		return res.status(200).json({success:false,error:'An user with this email is already is registered ',  code: "11000" })
+		}
+
+user.save(function(err, user) 
     {
         if (err) {
             res.json({
@@ -156,6 +220,7 @@ exports.create = function(req, res) {
         
         var values ={
             email:user.email,
+            clearPassword: req.body.password,
             subject:emailSubject,
             confirmationUrl:req.protocol + "://" + req.get('host') + "/users/confirm/" + confirmcode.code
         }
@@ -177,6 +242,8 @@ exports.create = function(req, res) {
         })      
  
     });
+	})
+    
 };
 
 /**
@@ -250,12 +317,9 @@ exports.confirm = function(req, res) {
  * Update a user
  */
 exports.update = function(req, res){
-    console.dir(req.body)
-    var user = req.profile||req.user
-
-    user = _.extend(user, req.body)
-    console.log('UPDATED NAME ' +user.name)
-    logger.debug("User to update %s ", user)
+    //console.dir(req.body)
+    var user = req.profile||req.user;
+    user = _.extend(user, req.body)    
     user.save(function(err, user2) {
         if (err) {
             res.status(500).json( {
@@ -263,10 +327,10 @@ exports.update = function(req, res){
                 error: err
             });
         }
-        if(user2)
+        else
         {
             logger.debug("WE updated the user")
-            res.status(200).json(user2)
+            res.status(200).json(user)
         }
         
   })
@@ -467,7 +531,10 @@ exports.confirm = function(req, res) {
         if(!confirmcode) return res.status(400).json({errors: 'This token is no longer valid'  });
         User.findOne({email: confirmcode.user.email, status:'P'})
         .exec(function(err, user){
-           if(err) res.status(400).json({errors:err}); 
+           if(err) res.status(400).json({errors:err});
+           if (!user) {
+            return res.redirect('/confirmation/index.html');
+           }
            user.status = 'A';
            user.save(function(err){
                 if(err) res.status(400).json({errors:err});
@@ -508,19 +575,38 @@ exports.sendEmailCode = function(req, res){
         .exec(function(err, user) {
             if (err) return next(err);
             if (!user) return next(new Error('Failed to load User ' + id));
-            var confirmcode = new ConfirmCode({code: utils.uid(26), user:user});
+            confirmcode = new ConfirmCode({code: utils.uid(26), user: user});
+            confirmcode.user = user;
+            confirmcode.save(function(err){
+                if (err) {
+                    console.log(err)
+                }
+            });
+            var emailSubject ='Registration to Afrikik';
+            email_template = "registration";
+            
             var values ={
                 email:user.email,
-                subject:'This is a test email from Tonsorious',
+                subject:emailSubject,
                 confirmationUrl:req.protocol + "://" + req.get('host') + "/users/confirm/" + confirmcode.code
             }
-            mailer.sendEmail("welcome", values, function(err, message, html, text){
+            mailer.sendEmail(email_template, values, function(err, message, html, text){
                 if(err){
-                     logger.debug("Error Sending Email: %s ",err);
-                    res.status(400).json({success:false, errors: 'Error in sending email ' + err});
+                    logger.error('error','confirmation email could not be sent to user %s', user.email )
+                      res.json({
+                        success:true,
+                        verificationEmailNotSent:true
+                    });
                 }
-                logger.debug("Email Sent! Response Status: %s, html:%s, text:%s", message, html, text)
-            });  
+                else
+                {
+                    logger.debug("Email Sent! Response Status: %s, html:%s, text:%s", message, html, text)
+                    res.json({
+                        success:true
+                    });
+                }
+            })
+              
             return res.status(200).json({success:true,message: 'An email is sending to ' + user.email });
         });
 }

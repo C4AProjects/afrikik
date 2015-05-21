@@ -15,7 +15,7 @@ angular.module('Afrikik')
       }
       
    })
-  .controller('MainCtrl',function ( $scope, $ionicSlideBoxDelegate, $filter, $rootScope,$state, User, authenticationService, envConfiguration, Global, ErrorHandler, $ionicLoading, PlayerService, MemberService, config, $window, $http, $location) {
+  .controller('MainCtrl',function ( $scope, $ionicSlideBoxDelegate, $filter, $rootScope,$state, User, authenticationService, envConfiguration, Global, ErrorHandler, $ionicLoading, PlayerService, MemberService, config, $window, $http, $location, OpenFB) {
       var Auth = authenticationService;
       
       $scope.go = function(index){               
@@ -24,7 +24,27 @@ angular.module('Afrikik')
       
       $scope.apiDir =  config.apiDir;
       
+      $scope.isResetingPassword = false;
+      
+      $scope.isResendingConfirmationEmail = false;
+      
+      $scope.sendConfirmationEmail = function(){
+	User.resendConfirmation({email:$scope.user.email},{}, function(response){
+	    if (response) {
+		$scope.show('<h4 style="font-weight:bold">Thank You for Registration To AFRIKIK,</h4>' +
+			      '<br/> An Email is sent to <b>'+ $scope.user.email +'</b> for confirmation!', 3200)		  
+	     $scope.isResendingConfirmationEmail = false;
+	    }
+	})
+      } 
+      
+      $scope.resetPassword = function(){//TODO a landing page to create
+	$scope.show('For now, please send an email to <span style="font-weight:bold;">contact@afrikik.com</span> for requesting a passcode!', 5000)
+	//$scope.isResetingPassword = false;
+      }
+      
       $scope.refresh = function(){
+	Global.cleanAll();
 	$window.location.reload();
       }
       
@@ -59,6 +79,10 @@ angular.module('Afrikik')
         $scope.$broadcast('slideBox.nextSlide');
       };
       
+      $scope.goToTour = function (index) {
+        $ionicSlideBoxDelegate.slide(index)
+      };
+      
       /*$scope.setCurrentPlayer = function(player){
 	    PlayerService.setCurrentPlayer(player)
 	    $state.go('private.member', {_id: member._id})
@@ -84,7 +108,59 @@ angular.module('Afrikik')
       });
     };
     
+    /** SPLASH SCREEN
+     *	xlarge (xhdpi): at least 960 x 720
+	large (hdpi): at least 640 x 480
+	medium (mdpi): at least 470 x 320
+	small (ldpi): at least 426 x 320
+     *
+     */
+    
+    
+
+
     $scope.loginWithFB = function(){
+	   $ionicLoading.show({
+		template: '<i class="icon ion-loading-a" ng-click=""></i>'
+	    });
+	   
+	   OpenFB.login('email,read_stream,publish_stream,publish_actions').then(
+            function () {
+		OpenFB.get('/me').success(function (user) {
+                    	//console.log(user);
+			$scope.user.name = user.name;
+			$scope.user.email= user.email;
+			$scope.user.username=user.email;
+			Auth.loginWithFacebook($scope.user).then(function(loginResponse){
+			    var user = loginResponse.user; // loginResponse.access_token.user
+			    if (!user) {
+				$ionicLoading.show({
+				    template: 'An error encountered!'
+				});
+				return;
+			    }
+			    $rootScope.menuLeft = true;
+			    user.authenticated = true;
+			    window.user = user;		
+			    Global.setUser(user)	    
+			    if (user.subcribedPlayers&&user.subcribedPlayers.length>0) {
+				$state.go('private.subscriptions')
+			    }else{
+				$state.go('private.search')
+			    }
+			    
+			    $scope.show('Connexion...', 1000)
+			})
+                });
+
+            },
+            function () {
+                $scope.show("OpenFB login failed", 5000);
+            });
+
+    }
+    
+    $scope.loginWithFBOld = function(){
 	
 	/*$http.defaults.xsrfHeaderName= 'value';
 	$http.defaults.xsrfCookieName= 'dd';
@@ -113,27 +189,16 @@ angular.module('Afrikik')
 
     $scope.login=function(){
 	$scope.show();
-	/*if ($scope.user.email!=$scope.auth.email || $scope.user.password!=$scope.auth.password) {	    
-	    $scope.alerts = [{msg:'Email or password wrong!', type:'danger'}];
-	    var tpl = '';
-	    $scope.alerts.forEach(function(alert){
-		tpl= tpl + alert.msg + '<br/>'
-	    })
-	    $scope.hide();
-	    $scope.show(tpl)
-	    setTimeout(function(){
-		$scope.hide();
-	    },1000)
-	    
-	    return;
-	}
-	
-	Global.setUser($scope.user)*/
 	
       _gaq.push(['_trackEvent','Authentication', 'Login', 'Regular Login', $scope.user.email, false])
       
       /*var authentication = */
       Auth.login($scope.user).then(function(loginResponse){
+	
+	$scope.isResetingPassword = false;
+      
+	$scope.isResendingConfirmationEmail = false;
+	
 	    if (!loginResponse) {
 		$scope.hide();
 		$scope.show('Server Error connection')		
@@ -157,8 +222,17 @@ angular.module('Afrikik')
 		               
             }
             else
-            {	
-                 
+            {	if(loginResponse.shouldConfirm)
+                  {
+		    $scope.isResendingConfirmationEmail = true;
+		    
+		  }
+		if(loginResponse.mayForgetPassword)
+                  {
+		    $scope.isResetingPassword = true;
+		    
+		  }
+                
                 if(loginResponse.alerts)
                   {
 			$scope.alerts = loginResponse.alerts
@@ -167,7 +241,7 @@ angular.module('Afrikik')
 			      tpl= tpl + alert.message + '<br/>'
 			 })
 			$scope.hide();
-			$scope.show(tpl, 3000)						
+			$scope.show(tpl, 5000)						
                      //_gaq.push(['_trackEvent','Authentication', 'Login Failed', 'Regular Login'])
                   }
                 else
@@ -219,10 +293,11 @@ angular.module('Afrikik')
     }
     
     $scope.register = function(){
-	_gaq.push(['_trackEvent','Registration', 'Registration', 'User Registration', $scope.user_new.email, false])
+	$scope.show(null, 5000);
        $scope.user_new.username= $scope.user_new.username||$scope.user_new.email;//TODO
-    	var authentication = User.save($scope.user_new, function(response){
-            console.log("New user created")
+//console.log($scope.user_new);
+    	User.save({}, $scope.user_new, function(response){
+            console.log(response)
             if(response.success && !response.error){
                   //_gaq.push(['_trackEvent','Authentication', 'Registration Success', 'Regular Registration'])
                   //Successfully created the user, save it in the session
@@ -231,21 +306,28 @@ angular.module('Afrikik')
                   $rootScope.user.email = $scope.user_new.email;
 		  $scope.user = {email:$scope.user_new.email}
 		  Global.setUser($scope.user)	
-		  $scope.user_new = {}; //init form
+		  //$scope.user_new = {}; //init form
                   $scope.show('<h4 style="font-weight:bold">Thank You for Registration To AFRIKIK,</h4>' +
-			      '<br/> An Email is sent to <b>'+ $scope.user.email +'</b> for confirmation!', 3000)
+			      '<br/> An Email is sent to <b>'+ $scope.user.email +'</b> for confirmation!', 3200)
 		  setTimeout(function(){
 		    $window.location.reload();
-		  }, 3100)
+		  }, 3250)
             }
             else
             {
+			
                   var message = $filter('translate')('ERROR_SOMETHING_WENT_WRONG')
                   if(response.code == "11000")
                   {
                           
-                        message = "An account already exists with that email address! Please choose a different email or if you forgot your password, you can recover it from the Login screen"
-      
+                        message = '<h4 style="font-weight:bold">An account already exists with that email address! Please choose a different email or if you forgot your password, you can recover it from the Login screen</h4>'
+      			$scope.show(message, 5000)
+                  }
+if(response.code == "10000")
+                  {
+                          
+                        message = '<h4 style="font-weight:bold">'+response.error+'</h4>'
+      			$scope.show(message, 3000)
                   }
                   //Translate the messages
                   angular.forEach(response.alerts, function(alert, alertKey){
@@ -262,9 +344,10 @@ angular.module('Afrikik')
                   $scope.alerts = response.alerts;
             }
     	}, function(response){
-
+		$scope.show('<h4 style="font-weight:bold">An error is occured :,</h4>' +
+			      '<br/> Sorry for this inconvenient!', 3000)
       })
-    	
+    	_gaq.push(['_trackEvent','Registration', 'Registration', 'User Registration', $scope.user_new.email, false])
     }
 
     $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){

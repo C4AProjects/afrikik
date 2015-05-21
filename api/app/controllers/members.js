@@ -44,6 +44,28 @@ exports.searchByName = function(req, res){
     })
 }
 
+/************************************************************************************
+ *    <POST>  Member follows member : /users/USER_ID/subscribe/members/MEMBER_ID
+ **************************************************************************************/
+
+exports.subscribeToMember = function(req, res){
+    var user = req.user||req.profile;
+
+    if(user.following==null){
+        user.following = []
+    }
+
+    User.findOne({_id: new ObjectId(req.params.memberId)})
+        .exec(function(err, member){
+		if(err) res.status(401).json({err: err})
+		user.following.push(member._id);
+		user.save(function(err, _user){
+                if(err) res.status(401).json({err: err})
+                     res.status(200).json(_user)
+                })
+        })
+    
+}
 
 /************************************************************************************
  *    <POST>  Member subscribes to player : /users/USER_ID/subscribe/players/PLAYER_ID
@@ -93,6 +115,27 @@ exports.subscribeToTeam = function(req, res){
  *    <POST>  Member unsubscribes from player : /users/USER_ID/unsubscribe/players/PLAYER_ID
  **************************************************************************************/
 
+exports.unsubscribeFromMember = function(req, res){
+    var user = req.user||req.profile
+    if(user.following==null){
+        user.following = []
+        res.status(200).json(user)
+    }
+    else
+    {
+        user.following.remove(req.params.memberId)
+        user.save(function(err, user){
+           if(err) res.status(401).json({err: err})
+           res.status(200).json(user)
+        })
+        
+    }
+}
+
+/************************************************************************************
+ *    <POST>  Member unsubscribes from player : /users/USER_ID/unsubscribe/players/PLAYER_ID
+ **************************************************************************************/
+
 exports.unsubscribeFromPlayer = function(req, res){
     var user = req.user||req.profile
     if(user.subscribedPlayers==null){
@@ -102,9 +145,9 @@ exports.unsubscribeFromPlayer = function(req, res){
     else
     {
         user.subscribedPlayers.remove(req.params.playerId)
-        user.save(function(err, user){
+        user.save(function(err, _user){
            if(err) res.status(401).json({err: err})
-           res.status(200).json(user)
+           res.status(200).json(_user)
         })
         
     }

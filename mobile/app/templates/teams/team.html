@@ -16,13 +16,13 @@
             <div ng-show="!team.nationalTeam" class="col" style="padding-bottom: 15px;padding-top: 1px">
               <h3 id="name">{{team.name}}</h3>
               <h6 id="summary">{{team.description}}<br/>
-              Location: {{team.location||'[Unknown]'}}
+              Location: {{team.location||'[Unknown]'}} <br/>{{team.profile}}
               </h6>
             </div>
             <div ng-show="team.nationalTeam" class="col" style="padding-bottom: 15px;padding-top: 1px">
               <h3 id="name">{{team.name}}</h3>
               <h6 id="summary">{{team.description}}<br/>
-              {{team.association}} <br/> {{team.league}}
+              {{team.association}} <br/> {{team.league}}<br/> {{team.profile}}
               </h6>
             </div>
           </div>            
@@ -34,7 +34,7 @@
       </div>
     </div> 
    
-    <div style="background-color: grey">
+    <div style="background-color: #666666">
     <div ng-style="styleLocked">
     <ion-slide-box style="background-color: #4a4845; padding-top: 0px">       
       <ion-slide>              
@@ -51,15 +51,15 @@
         </div>
         <div class="afk-content">
         <ion-list>
-          <ion-item ng-repeat="activity in activities" class="afk-bg-list item item-avatar item-icon-right">
-            <img ng-src="{{getPicItem(activity._team)}}" class="afk-circle">
-            <a class="afk-lnk-detail" ng-controller="ActivityCtrl" ng-click="setCurrentFeed(activity._id)">
-                <span class="afk-obj-name"> {{activity.title||'No title'}}</span>
-                <span class="afk-obj-info" > <a class="afk-lnk-player-feed" ng-href="#/private/player/{{activity._player._id}}">{{activity._player.name}}</a>
-                <a class="afk-lnk-team-feed" ng-href="#/private/team/{{activity._player._id}}"> {{activity._team.name}}</a>
-                <h6>{{activity.createdAt|date:'HH:mm (MM/dd/yyyy)'}}          {{activity.comments.length}} comments</h6></span>
-                <i class="icon ion-arrow-right-b" style="font-size: 12px; color: lightgrey;"></i>
+          <ion-item ng-repeat="activity in activities" ng-controller="ActivityCtrl" ng-click="setCurrentFeed(activity._id)"  class="afk-bg-list item item-avatar item-icon-right">
+            <img ng-src="{{activity._player?getPicItem(activity._player):getPicItem(activity._team)}}" class="afk-circle">
+            <a class="afk-lnk-detail" >
+                <span class="afk-feed"><i style="color: #f97c11">{{activity.feedType?'com':'-'}} </i> {{activity.title||activity.message}}</span>
+                <!--span class="afk-obj-info" > <a class="afk-lnk-player-feed" ng-href="#/private/{{activity._player?'player/'+activity._player._id:'team/'+activity._team._id}}">{{activity._player?activity._player.name:activity._team.name}}</a-->
+                    <h6>{{activity.publish_date||activity.createdAt|date:'HH:mm  EEEE dd - MMMM,yyyy '}}   <br/>   {{activity.comments.length||0}} comments</h6><!--/span-->
+               
             </a>
+ <i class="icon ion-arrow-right-b" style="font-size: 11px; color: lightgrey;"></i>
           </ion-item>   
         </ion-list>
         <br/><br/>
@@ -80,11 +80,12 @@
         </div>
         <div class="afk-content">
         <ion-list>
-          <ion-item ng-repeat="player in players" class="afk-bg-list item item-avatar item-button-right">
+          <ion-item ng-repeat="player in players"  ng-click="setCurrentPlayer(player)" class="afk-bg-list item item-avatar item-button-right">
             <img ng-src="{{getPicItem(player)}}" class="afk-circle">            
-            <a class="afk-lnk-detail">
-              <span class="afk-obj-name">{{player.name}}</span>
-            <span class="afk-obj-desc">{{player.description}}</span>
+            <a class="afk-lnk-detail" >
+              <span class="afk-obj-name">{{player.name}}<h6>{{player.no?'# - N°: ' +player.no:''}}  {{player.position? ' - position: ' + player.position: ''}}</h6></span>
+            <span class="afk-obj-desc">
+            {{player.club}}  {{player.clubcountry}} {{player.country}} </span>
               View Profile <i class="icon ion-ios7-arrow-forward"></i></a>
           </ion-item>   
         </ion-list>   
@@ -103,7 +104,7 @@
             <a class="afk-menu-tab afk-menu-tab-active">STATS</a>
           </div>
         </div>
-         <!--div class="item item-input-inset" style="background-color: grey">            
+         <!--div class="item item-input-inset" style="background-color: #666666">            
             <label class="item-input-wrapper afk-search-bg" >            
                 <input type="text" placeholder="Add Comment Here" class="afk-search-bg" ng-model="request.query" />
             </label>    
@@ -118,52 +119,69 @@
           </ion-item>   
         </ion-list-->
         <div class="afk-content">
-         <div class="row">
-                <div class="col">
-                    <div class="list">
-                        <div class="row">
-                          <div class="col"><img src="images/stats/goals.png" style="max-height: 50px; max-width: 50px"></div>
-                          <div class="col" style="text-align: center">
-                            <h5>Goals </h5>
-                            <h4>{{player.goals||'-'}}</h4>
-                          </div>             
+            <div class="row" style="background-color: #666666; color: white;font-weight: bold;">
+                <div class="col" style=" text-align: center">Nickname</div>
+            </div>
+            <div style="padding: 15px">
+                <ul ng-repeat="nname in stat.nickname">
+                    <li>{{nname}}</li>
+                </ul>
+            </div>
+            
+            
+            <div class="row" style="background-color: #666666; color: white;font-weight: bold;">
+                <div class="col" style=" text-align: center">Achievements</div>
+            </div>
+            <div style="padding: 15px">
+                    <div class="row">
+                        <div >
+                            <div class="col col-15 afk-gold"> </div>
                         </div>
-                        <div class="row">
-                          <div class="col"><img src="images/stats/wins.png" style="max-height: 50px; max-width: 50px"></div>
-                          <div class="col" style="text-align: center">
-                            <h5>Wins </h5>
-                            <h4>{{player.wins||'-'}}</h4>
-                          </div>             
+                        <div class="col col-85" >
+                            <span style="font-size: 18px;font-weight: bold;padding-top: 15px; padding-left: 10px;">Gold Medals</span>                            
+                            <ul ng-repeat="achiev in stat.achievements.gold">
+                                <li> - {{achiev}}</li>
+                            </ul>
                         </div>
-                        <div class="row">
-                          <div class="col"><img src="images/stats/losses.png" style="max-height: 50px; max-width: 50px"></div>
-                          <div class="col" style="text-align: center">
-                            <h5>Losses </h5>
-                            <h4>{{player.losses||'-'}}</h4>
-                          </div>             
-                        </div>                                               
                     </div>
-                </div>
-                <div class="col">
-                    <div class="list">                        
-                        <div class="row">
-                          <div class="col"><img src="images/stats/reds.png" style="max-height: 50px; max-width: 50px"></div>
-                          <div class="col" style="text-align: center">
-                            <h5>Red cards </h5>
-                            <h4>{{player.reds||'-'}}</h4>
-                          </div>             
+                    
+                    
+                    <div class="row">
+                        <div >
+                            <div class="col col-15 afk-silver"> </div>
                         </div>
-                        <div class="row">
-                          <div class="col"><img src="images/stats/yellows.png" style="max-height: 50px; max-width: 50px"></div>
-                          <div class="col" style="text-align: center">
-                            <h5>Yellow cards </h5>
-                            <h4>{{player.yellows||'-'}}</h4>
-                          </div>             
-                        </div>                        
+                        <div class="col col-85" >
+                            <span style="font-size: 18px;font-weight: bold;padding-top: 15px; padding-left: 10px;">Silver Medals</span>                            
+                            <ul ng-repeat="achiev in stat.achievements.silver">
+                                <li> - {{achiev}}</li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-         </div>
-            </div>              
+                    
+                    <div class="row">
+                        <div >
+                            <div class="col col-15 afk-bronze"> </div>
+                        </div>
+                        <div class="col col-85" >
+                            <span style="font-size: 18px;font-weight: bold;padding-top: 15px; padding-left: 10px;">Bronze Medals</span>                            
+                            <ul ng-repeat="achiev in stat.achievements.bronze">
+                                <li> - {{achiev}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+            </div>        
+           
+            <div ng-show="team.nationalTeam" class="row" style="background-color: #666666; color: white;font-weight: bold;">
+                <div class="col" style=" text-align: center">World Cup Appearances</div>
+            </div>
+                
+            <div ng-show="team.nationalTeam" style="padding: 15px">
+                <ul ng-repeat="wc in stat.wcappearances">
+                    <li> - {{wc}}</li>
+                </ul>
+            </div>
+           
         </div>
       </ion-slide>
     </ion-slide-box>  

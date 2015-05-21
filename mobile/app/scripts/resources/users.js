@@ -18,6 +18,22 @@ angular.module('Afrikik')
 		    },
 		    url: config[env].host +  ":port/" + config[env].api_base_version + '/users/:id/me/'
 		  },
+		'save': {
+		  method:'POST',
+		  url: config[env].host +  ":port/" + config[env].api_base_version + '/users',
+		  params:{
+		    		    	  
+		  },
+		  isArray:false
+		 },
+		 'resendConfirmation': {
+		  method:'POST',
+		  url: config[env].host +  ":port/" + config[env].api_base_version + '/users/:id/emailcode/:email',
+		  params:{
+		    id:Global.getUserId()		    	  
+		  },
+		  isArray:false
+		},
 		  get:{
 		    method:'GET',
 		    params:{

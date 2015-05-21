@@ -1,36 +1,55 @@
 <ion-view >
     
-<ion-content class="has-header">
-    <div class="afk-header-list">{{feed.title||'No title'}}</div>    
-    <div>
-        <img   style="float: left;margin: 0 6px 6px 0;" ng-src="{{feed.image||feed.url_img}}"/>
-        <span>{{feed.message}}</span>        
+<ion-content class="has-header">   
+    <div style="margin: 15px 15px 15px 15px; ">
+        <img  style="float: left; margin: 0px 6px 6px 0px; "  ng-src="{{feed.image||feed.url_img}}"/>
+        <h3>{{feed.title}}</h3>
+        <h4>{{feed.message}}</h4>        
         <div>
         <!--a ng-href="{{feed.link}}">Source</a-->
+        <h6 style="color: #666666;display: block"> {{feed.publish_date||feed.createdAt|date:" MM/dd/yyyy 'at' HH:mm 'GMT'"}} </h6>
+        </div>
+    </div>
+    <div class="row" style="background-color: #666666">
+        <div class="col col-40" style="text-align: right">            
+            <img src="./images/social-media/facebook.png" height="65px" ng-click="shareFB(feed.title||feed.message)"/>
+         </div>
+        <div class="col col-10" style="text-align: center">            
+        </div>
+        <div class="col col-40" style="text-align: left">            
+            <img src="./images/social-media/twitter.png" height="65px" ng-click="shareOnTW(feed.title||feed.message, feed.image||feed.url_img, feed.link)"/>
+            <!--img src="./images/social-media/whatsapp.jpg" height="45px" ng-click="shareOnWA(feed.title, feed.image||feed.url_img, feed.link)"/-->
         </div>
     </div>
     
-    <br/>
-    <div>
-    <br/> <br/>
-    <a ng-href="#/private/feeds" class="afk-lnk-team-feed" > All Activities </a>
-    <span style="float: right;color: green"> {{ comments.length }} Comments </span> 
-     <div class="item item-input-inset" style="background-color: grey">            
-        <label class="item-input-wrapper afk-search-bg" >            
-            <input type="text" placeholder="Add Comment Here" class="afk-search-bg" ng-model="data.message" maxlength="160" />
-        </label>    
-        <button class="button afk-btn-register"  style="margin:0px;" ng-click="comment(data.message); data.message=''">
-        Post
+     <div class="row" style="background-color: #666666" ng-show="true"> 
+        <div class="col col-80">        
+        <textarea placeholder="Add Comment Here" class="afk-search-bg" ng-model="data.message" maxlength="160" >{{data.message}}</textarea>
+        <span style="color:red; background:white" ng-show="data.message.length>140"> {{ data.message.length - 160}} </span>           
+        </div>        
+        <div class="col col-20">
+        <button class="button afk-btn-register" ng-disabled="data.message.length>160"  style="margin:0px;" ng-click="comment(data.message); data.message=''">
+            Post
         </button>
+        </div>
     </div>
+     <div class="afk-content">
     <ion-list>
         <ion-item ng-repeat="comment in comments" class="afk-bg-list item item-avatar">
             <img class="afk-circle" ng-src="{{comment._user.picture? './images/avatars/' + comment._user.picture :'./images/avatars/default.png'}}" />            
           <a class="afk-lnk-detail">            
              <span class="afk-feed">{{comment.message}}</span>
-            <span class="afk-obj-desc">Posted by {{comment.username}} on {{comment.createdAt|date:"EEEE MMM dd 'at' HH:mm 'GMT'"}}</span> 
+            <span class="afk-obj-desc">Posted by {{comment.username}} <br/> on {{comment.createdAt|date:"EEEE MMM dd 'at' HH:mm 'GMT'"}}</span> 
           </a>
-        </ion-item>   
+        </ion-item>
+        <div ng-show="stopScrollComment && comments.length>10" >
+            <center>No more results to show!!!</center>
+        </div>
+    </ion-list>
+    </div>
+     <div ng-show="comments.length>10">
+        <ion-infinite-scroll on-infinite="loadMoreComments()" ng-if="!stopScrollComment"></ion-infinite-scroll>
+     </div>  
     </ion-list>
    <br/><br/>
     </div>

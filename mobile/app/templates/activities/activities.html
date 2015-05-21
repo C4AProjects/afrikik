@@ -18,19 +18,29 @@
             <a class="afk-menu-tab2" ng-click="go(2)">COMMUNITY</a>
           </div>
         </div>
+        
         <div class="afk-content-high">
-        <div style="text-align: center; font-size: 80px">           
-            <span ng-show="activities.length==0"  class="icon ion-loading-a"></span>
-        </div>
+	<div class="afk-obj-info" ng-show="user.subscriptions.length==0" style="font-size:16px;" >
+		You currently do not have feeds. Please subscribes to players or teams to see feeds. 
+	</div>
+<div class="afk-obj-info" ng-show="user.subscriptions.length>0 && activities.length==0" style="font-size:16px;" >
+		You currently do not have feeds.
+<button class="button afk-btn-register"  style="margin:0px;" ng-click="refresh()">Click Here To Refresh</button>
+	</div>
+        <!--div style="text-align: center; font-size: 80px" ng-show="activities.length==0 && msgNoFeeds.length==0">           
+            <span class="icon ion-loading-a"></span>
+        </div-->
+	
         <ion-list>
-          <ion-item ng-repeat="activity in activities" class="afk-bg-list item item-avatar item-icon-right">
+          <ion-item ng-repeat="activity in activities track by $index" class="afk-bg-list item item-avatar item-icon-right" ng-click="setCurrentFeed(activity._id)">
             <img ng-src="{{activity._player?getPicItem(activity._player):getPicItem(activity._team)}}" class="afk-circle">
-            <a class="afk-lnk-detail" ng-click="setCurrentFeed(activity._id)">
+            <a class="afk-lnk-detail" >
                 <span class="afk-feed"><i style="color: #f97c11">{{activity.feedType?'com':'-'}} </i> {{activity.title||activity.message}}</span>
-                <span class="afk-obj-info" > <a class="afk-lnk-player-feed" ng-href="#/private/{{activity._player?'player/'+activity._player._id:'team/'+activity._team._id}}">{{activity._player?activity._player.name:activity._team.name}}</a>
-                    {{activity.createdAt|date:'HH:mm (MM/dd/yyyy)'}}          {{activity.comments.length||0}} comments</span>
-                <i class="icon ion-arrow-right-b" style="font-size: 11px; color: lightgrey;"></i>
+                <!--span class="afk-obj-info" > <a class="afk-lnk-player-feed" ng-href="#/private/{{activity._player?'player/'+activity._player._id:'team/'+activity._team._id}}">{{activity._player?activity._player.name:activity._team.name}}</a-->
+                    <h6>{{activity.publish_date||activity.createdAt|date:'HH:mm  EEEE dd - MMMM,yyyy '}}   <br/>   {{activity.comments.length||0}} comments</h6><!--/span-->
+               
             </a>
+ <i class="icon ion-arrow-right-b" style="font-size: 11px; color: lightgrey;"></i>
           </ion-item>   
         </ion-list>
         </div>
@@ -59,7 +69,7 @@
           </div>
         </div>
         
-        <!--div class="item item-input-inset" style="background-color: grey" ng-show="showScore">            
+        <!--div class="item item-input-inset" style="background-color: #666666" ng-show="showScore">            
             <label class="item-input-wrapper afk-search-bg" >            
                 <input type="text" placeholder="Add Comment Here" class="afk-search-bg" ng-model="data.message" maxlength="160" />
             </label>    
@@ -75,23 +85,37 @@
         </div>
         <ion-list>
           <ion-item ng-repeat="activity in scores" class="afk-item-score" >
-            <h6> {{activity.dateMatch||activity.createdAt|date:"EEEE MMM dd , yyyy ' - ' HH:mm 'GMT'"}}</h6> 
-                <div class="afk-row-score">
-                    <div class="afk-col-score col-48" style="text-align: center">
-                         <span class="afk-feed" >{{activity._team1.name}} </span>
-                         <img ng-src="{{getPicItem(activity._team1)}}" style="max-height: 17px"/>
+            <!--h6> {{activity.dateMatch||activity.createdAt|date:"EEEE MMM dd , yyyy ' - ' HH:mm 'GMT'"}}</h6-->               
+                <div class="row" style="width: 100%">
+                    <div class="col col-75">
+                       <div class="row" style="padding-bottom: 0;">
+                            <div class="col col-25">
+                                <img ng-src="{{getPicItem(activity._team1)}}" style="width: 90%"/>
+                            </div>
+                            <div class="col col-65">
+                                <span class="afk-feed-score" ng-class="{'afk-feed-score-winner': activity.scoreTeam1>activity.scoreTeam2}">{{activity._team1.name||activity.no_afrik_team1}} </span>
+                            </div>
+                            <div class="col col-10">
+                                <span class="afk-feed-score" ng-class="{'afk-feed-score-winner': activity.scoreTeam1>activity.scoreTeam2}">{{activity.scoreTeam1}}</span>
+                            </div>
+                       </div>
+                       <div class="row" style="padding-top: 0;padding-bottom: 0;">
+                            <div class="col col-25">
+                                <img ng-src="{{getPicItem(activity._team2)}}" style="width: 90%"/>
+                            </div>
+                            <div class="col col-65">
+                                <span class="afk-feed-score"  ng-class="{'afk-feed-score-winner': activity.scoreTeam1<activity.scoreTeam2}" >{{activity._team2.name||activity.no_afrik_team2}} </span>
+                            </div>
+                            <div class="col col-10">
+                                <span class="afk-feed-score" ng-class="{'afk-feed-score-winner': activity.scoreTeam1<activity.scoreTeam2}" >{{activity.scoreTeam2}}</span>
+                            </div>
+                       </div>
                     </div>
-                    <div class="afk-col-score col-1" style="text-align: right; font-weight: bold;">
-                        {{activity.scoreTeam1}} -
-                    </div>                
-                    <div class="afk-col-score col-1" style="text-align: left; font-weight: bold;">
-                         {{activity.scoreTeam2}}
+                    <div class="col col-25" style="border-left: solid;border-left-color: grey;text-align: center;font-weight: bold;">
+                        <span style="height: 100%;vertical-align: middle">
+                        <br/>{{activity.status?activity.status:'--'}}
+                        </span>
                     </div>
-                    <div class="afk-col-score col-48" style="text-align: center">
-                        
-                        <span class="afk-feed">{{ activity._team2.name }} </span>
-                         <img ng-src="{{getPicItem(activity._team2)}}" style="max-height: 17px">
-                    </div>                
                 </div>
            </ion-item>      
         </ion-list>
@@ -148,13 +172,16 @@
           </div>
         </div>
         
-        <div class="item item-input-inset" style="background-color: grey" ng-show="true">            
-            <label class="item-input-wrapper afk-search-bg" >            
-                <input type="text" placeholder="Add Comment Here" class="afk-search-bg" ng-model="data.message" maxlength="160" />
-            </label>    
+        <div class="row" style="background-color: #666666" ng-show="true"> 
+            <div class="col col-80">        
+            <textarea placeholder="Add Comment Here" class="afk-search-bg" ng-model="data.message" maxlength="160" >{{data.message}}</textarea>
+            <span style="color:red; background:white" ng-show="data.message.length>140"> {{ data.message.length - 160}} </span>           
+            </div>        
+            <div class="col col-20">
             <button class="button afk-btn-register"  style="margin:0px;" ng-click="postFeedCommunity(data.message, 'community'); data.message=''">
-            Post
+                Post
             </button>
+            </div>
         </div>
         <div class="afk-content-high">
         <ion-list>
@@ -162,8 +189,8 @@
             <img class="afk-circle" ng-src="{{activity._user.picture? './images/avatars/' + activity._user.picture :'./images/avatars/default.png'}}" />
             <a class="afk-lnk-player-feed" ng-href="{{activity._user._id==user._id?'#':'#/private/member/'+activity._user._id}}">
                 <span class="afk-feed">{{activity.message}}</span>
-                <span class="afk-obj-desc">Posted by <span class="afk-lnk-player-feed" >{{activity._user._id == user._id?'Me':activity._user.name||activity._user.username}}</span> on {{activity.createdAt|date:"EEEE MMM dd 'at' HH:mm 'GMT'"}}</span> 
-            </a>
+                <span class="afk-obj-desc">Posted by <span class="afk-lnk-player-feed" >{{activity._user._id == user._id?'Me':activity._user.name||activity._user.username}}</span> <br/> on {{activity.createdAt|date:"EEEE MMM dd 'at' HH:mm 'GMT'"}}</span> 
+            </a>            
           </ion-item>              
         </ion-list>
          <br/><br/>

@@ -16,7 +16,7 @@
           </div>
         </div>
         
-        <div class="item item-input-inset" style="background-color: grey">
+        <div class="item item-input-inset" style="background-color: #666666">
             <!--label style="margin-right: 0px;">
                 <select ng-model="mediaTypes.type" class="afk-search-bg"  ng-change="search()">
                     <option value="all" selected>All Type</option>
@@ -35,19 +35,22 @@
             Search
             </button>
         </div>
-        <div style="text-align: center; font-size: 80px">           
-            <span ng-show="items.length==0"  class="icon ion-loading-a"></span>
+        <div style="text-align: center; font-size: 20px; color: white">           
+            <!--span ng-show="noResult && items.length==0"  class="icon ion-loading-a"></span-->
+            <span ng-show="items.length==0"><br/>No Results Found !</span>
         </div>
         <ion-list>
-          <ion-item ng-repeat="item in items | filter:{name:searchName}" class="afk-bg-list item item-avatar item-button-right">
+          <!-- item in items | filter:{name:searchName} | filterOnServer:{name:searchName}-->
+          <ion-item ng-repeat="item in items | filter:{name:searchName}  track by $index" ng-click="setCurrentItem(item)" class="afk-bg-list item item-avatar item-button-right">
             <img ng-src="{{getPicItem(item)}}" class="afk-circle">              
-            <a class="afk-lnk-detail" ng-click="setCurrentItem(item)">
-              <span class="afk-obj-name">{{item.name}}</span>
-            <span class="afk-obj-desc">{{item.association}} {{player.club}}  {{item.clubcountry}} #{{item.no?' - N°: #' +item.no:''}}  {{item.position? ' - position: ' + item.position: ''}}</span>
+            <a class="afk-lnk-detail" >
+              <span class="afk-obj-name">{{item.name}}<h6>{{item.no?'# - N°: ' +item.no:''}}  {{item.position? ' - position: ' + item.position: ''}}</h6></span>
+            <span class="afk-obj-desc">
+            {{item.association}} {{item.club}}  {{item.clubcountry}} {{item.country}} </span>
               View Profile <i class="icon ion-ios7-arrow-forward"></i></a>
           </ion-item>   
         </ion-list>
-        <!--ion-infinite-scroll on-infinite="loadMore()"></ion-infinite-scroll-->
+        <ion-infinite-scroll on-infinite="loadMore()" ng-if="!stopScroll"></ion-infinite-scroll>
       </ion-slide>
       
       <ion-slide ng-controller="PlayerCtrl">              
@@ -64,11 +67,12 @@
         </div>
         <div class="afk-content-high" style="background-color: white;">
         <ion-list>
-          <ion-item ng-repeat="item in user.subscriptions" class="afk-bg-list item item-avatar item-button-right">
+          <ion-item ng-repeat="item in user.subscriptions" ng-click="setCurrentItem(item)" class="afk-bg-list item item-avatar item-button-right">
              <img ng-src="{{getPicItem(item)}}" class="afk-circle"> 
-            <a class="afk-lnk-detail" ng-click="setCurrentItem(item)">
-              <span class="afk-obj-name">{{item.name}}</span>
-            <span class="afk-obj-desc">{{item.description||item.career}}</span>
+            <a class="afk-lnk-detail" >
+              <span class="afk-obj-name">{{item.name}}<h6>{{item.no?'# - N°: ' +item.no:''}}  {{item.position? ' - position: ' + item.position: ''}}</h6></span>
+            <span class="afk-obj-desc">
+            {{item.association}} {{item.club}}  {{item.clubcountry}} {{item.country}} </span>
               View Profile <i class="icon ion-ios7-arrow-forward"></i></a>
           </ion-item>   
         </ion-list>
@@ -91,9 +95,9 @@
           <br/>
           <!--The friends feature is currently being tested. It will be made available shortly. Thank you for your patience!-->
         <ion-list>
-          <ion-item ng-repeat="member in user.friends" class="afk-bg-list item item-avatar item-button-right">
+          <ion-item ng-repeat="member in user.friends" ng-click="setCurrentMember(member)" class="afk-bg-list item item-avatar item-button-right">
             <img ng-src="./images/avatars/{{member.picture||'default.png'}}" class="afk-circle"> 
-            <a class="afk-lnk-detail"  ng-click="setCurrentMember(member)">
+            <a class="afk-lnk-detail"  >
               <span class="afk-obj-name">{{member.name}}</span>
             <span class="afk-obj-desc">{{member.description}}</span>
               View Profile <i class="icon ion-ios7-arrow-forward"></i></a>

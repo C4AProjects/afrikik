@@ -74,6 +74,7 @@ if(process.env.NODE_ENV == "test" || process.env.NODE_ENV == "production")
 {
     mongoConfig = getEnvironmentMongoConfig();
 }
+//'mongodb://afrikik:afrikik@m-afrikik.c4adev.co.vu:27017/afrikik'
 
 var mongourl = generate_mongo_url(mongoConfig);
 
@@ -99,16 +100,16 @@ module.exports = {
             
         },
         appStore:{
-            androidAppDownloadUrl:"http://api.afrikik.com",
-            iOsAppDownloadUrl:"http://api.afrikik.com"
+            androidAppDownloadUrl:"https://play.google.com/store/apps/details?id=com.c4a.Afrikik",
+            iOsAppDownloadUrl:"http://afrikik.com"
         },
         app: {
             name: 'Afrikik Dev',
             app_port:2014,
             appUrl: 'http://localapi.afrikik.com:' + this.app_port,
             appStore:{
-                androidAppDownloadUrl:"http://api.afrikik.com",
-                iOsAppDownloadUrl: "http://api.afrikik.com"
+                androidAppDownloadUrl:"https://play.google.com/store/apps/details?id=com.c4a.Afrikik",
+                iOsAppDownloadUrl: "http://afrikik.com"
             }
         },
         facebook: {
@@ -153,16 +154,16 @@ module.exports = {
             
         },
         appStore:{
-            androidAppDownloadUrl:"http://api.afrikik.com",
-            iOsAppDownloadUrl:"http://api.afrikik.com"
+            androidAppDownloadUrl:"https://play.google.com/store/apps/details?id=com.c4a.Afrikik",
+            iOsAppDownloadUrl:"http://afrikik.com"
         },
         app: {
             name: 'Afrikik Staging API',
             app_port:2014,
             appUrl: 'http://afrikik.heroku.com',
             appStore:{
-                androidAppDownloadUrl:"http://api.afrikik.com",
-                iOsAppDownloadUrl:"http://api.afrikik.com"
+                androidAppDownloadUrl:"https://play.google.com/store/apps/details?id=com.c4a.Afrikik",
+                iOsAppDownloadUrl:"http://afrikik.com"
             }
         },
         facebook: {
@@ -206,16 +207,16 @@ module.exports = {
             
         },
         appStore:{
-            androidAppDownloadUrl:"http://api.afrikik.com",
-            iOsAppDownloadUrl:"http://api.afrikik.com"
+            androidAppDownloadUrl:"https://play.google.com/store/apps/details?id=com.c4a.Afrikik",
+            iOsAppDownloadUrl:"http://afrikik.com"
         },
         app: {
             name: 'Afrikik API',
             app_port:2014,
-            appUrl: 'http://api.afrikik.com',
+            appUrl: 'http://afrikik.com',
             appStore:{
-                androidAppDownloadUrl:"http://api.afrikik.com",
-                iOsAppDownloadUrl:"http://api.afrikik.com"
+                androidAppDownloadUrl:"https://play.google.com/store/apps/details?id=com.c4a.Afrikik",
+                iOsAppDownloadUrl:"http://afrikik.com"
             }
         },
         facebook: {

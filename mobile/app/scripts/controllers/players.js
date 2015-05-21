@@ -2,28 +2,35 @@
 
 Afrikik
         // A simple controller that fetches a list of data from a service
-        .controller('PlayerCtrl', function($ionicNavBarDelegate,$angularCacheFactory,$scope, $rootScope, $window, config, $state, $stateParams, $ionicSlideBoxDelegate, Global, PlayerService, ActivityService) {
+        .controller('PlayerCtrl', function($timeout, $ionicNavBarDelegate,$angularCacheFactory,$scope, $rootScope, $window, config, $state, $stateParams, $ionicSlideBoxDelegate, Global, PlayerService, TeamService, ActivityService) {
                 
                 var apiDir =  config.apiDir;
                 
-                //var playersCache = $angularCacheFactory('playersCache');
-                
+                //var playersCache = $angularCacheFactory('playersCache');                
                 
                 $scope.user = $scope.user||Global.getUser()
        
                 $rootScope.menuLeft = true;
                 
                 $scope.message = "";
+                
+                $scope.stats = {};
                                
                 if($stateParams._id){
-                        $scope.player = PlayerService.getByIdFromCache($stateParams._id)||PlayerService.getById($stateParams._id);
-                        $scope.activities = ActivityService.feedsPlayer($stateParams._id)
                         $rootScope.menuLeft = false;
+                        $scope.player = PlayerService.getByIdFromCache($stateParams._id)||PlayerService.getById($stateParams._id)
+                        $scope.activities = ActivityService.feedsPlayer($stateParams._id)
+                        PlayerService.getStats($stateParams._id, function(values){
+                                if(values.length>=1)$scope.stats = values[0]
+                        })
+                        
                 }
+                
+                var limit = 50; //maximum of result to cache
                 
                 var cachedItems = Global.getTopItems();
                 
-                if (cachedItems && cachedItems.length> 0) {
+                if (cachedItems && cachedItems.length > 0) {
                         $scope.items = cachedItems;                        
                 }
                 else
@@ -31,7 +38,7 @@ Afrikik
                         PlayerService.topItems($scope.user._id, function(values, responseHeaders) {
                                 $scope.items = values;
                                 Global.setTopItems($scope.items) 
-                        })                                                                                        
+                        }, 0, limit, 0, 5)                                                                                        
                         
                 }
                                                 
@@ -52,7 +59,7 @@ Afrikik
                         PlayerService.subscribe(player._id)
                         $scope.user.subscribedPlayers.push(player)
                         Global.setUser($scope.user);
-                        //$window.location.reload();
+                        Global.cleanAll();
                         $scope.isSubscribedOn();
                 }
                 
@@ -67,6 +74,7 @@ Afrikik
                         })
                         $scope.user.subscribedPlayers = list;
                         Global.setUser($scope.user);
+                        Global.cleanAll();
                         $scope.isSubscribedOn();
                         
                 }
@@ -96,19 +104,29 @@ Afrikik
                 
                 $scope.setSubscribedItem = function(player){
                         $state.transitionTo('private.player', {_id: player._id})
-                }                        
-                 
+                }
+                
+                $scope.filterSearch = function(name){
+                      var x = _.filter($scope.items, function(item){ return item.name.contains(name) })
+                }
+                
                 $scope.search = function(name){
                     /*$scope.items = _.filter(PlayerService.allItems(),  function(item){
                         return (item.name.toLowerCase().indexOf(name.toLowerCase()) >= 0)
                     })*/
                     if (!name||name.length==0) {
                          $scope.items = PlayerService.topItems($scope.user._id,function(values){
-                                $scope.items = values;
+                                $scope.items = values;                                
                                 Global.setTopItems($scope.items)                                                    
-                        });
+                        },0,limit,0,5);
                     }else{
-                        $scope.items = PlayerService.itemsByName(name);
+                        PlayerService.itemsByName(name, function(values){
+                                $scope.items = values;                               
+                        })||TeamService.itemsByName(name, function(values){
+                                $scope.items = values;                               
+                        });
+                        
+                        
                     }
                 }
                 
@@ -134,6 +152,32 @@ Afrikik
                                 $scope.styleLocked = {'filter':'alpha(opacity=50)', 'opacity':0.5};
                         }
                         return test;
+                }
+                
+                $scope.stopScroll = false;  //
+                $scope.skipTeam = 0;
+                $scope.loadMore = function() {
+                  
+                  $timeout(function() {
+                    if (!$scope.stopScroll) {
+                        $scope.skipTeam += 5;
+                        PlayerService.topItems($scope.user._id, function(data, responseHeaders) {                                
+                                if (data && data.length==0) {
+                                $scope.stopScroll=true
+                                }
+                                data.forEach(function(obj){
+                                    $scope.items.push(obj); 
+     
+                                })
+                                $scope.$broadcast('scroll.infiniteScrollComplete');
+                                if($scope.items.length<200){
+                                        Global.setTopItems($scope.items)
+                                }
+                        }, $scope.items.length, 15, $scope.skipTeam, 5)                         
+                    }
+                    
+                  }, 1000);
+        
                 }
                 
                  $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){

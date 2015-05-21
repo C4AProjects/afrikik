@@ -9,6 +9,7 @@ var mongoose = require('mongoose')
   , logger = require('winston')
   , ObjectId = mongoose.Types.ObjectId
   ,  Comment = mongoose.model('Comment')
+  , PlayerStat = mongoose.model('PlayerStat')
 
 /**
  * Create a new player
@@ -62,8 +63,8 @@ exports.show = function(req, res) {
 /**
  *  Get all players 
  */
-exports.all = function(req, res) {  
-    Player.find({})
+exports.all = function(req, res) {       
+    Player.find(req.query)
       .limit(req.query.limit||50)  
       .exec(function(err, list) {
           if (err) {
@@ -154,42 +155,26 @@ exports.searchByName = function(req, res){
 }
 
 exports.searchPlayersAndTeam = function(req, res){
-    var regex = new RegExp(req.params.name, 'gi')
-    , result = []
-    
+   var regex = new RegExp(req.params.name, 'gi')
+    , result = []    
     Player
     .find({name:regex})
-    //.sort({createdAt:-1})
-    .limit(req.query.limit||50)
     .exec(function(err, list){
        if(err) res.status(401).json({err: err})
        if (list) {
-        result= list
+       result= list
+	Team = mongoose.model('Team')
+	    //var regex = new RegExp(req.params.name, 'gi');
+	    Team.find({name:regex})     
+	    .exec(function(err, list2){
+	       if(err) res.status(401).json({err: err})
+	       if (list2) {        
+		result= result.concat(list2) //  concat with the players
+		res.status(200).json(result)
+	       }
+	})
        }
     })
-    
-    Team = mongoose.model('Team')
-    var regex = new RegExp(req.params.name, 'gi');
-    Team.find({name:regex})     
-    .limit(req.params.limit||10)
-    .exec(function(err, list){
-       if(err) res.status(401).json({err: err})
-       if (list) {
-        result.concat(list) //  concat with the players
-       }
-    })
-    //sort the results by name   
-    result.sort(function (a, b) {
-        if (a.name > b.name)
-          return 1;
-        if (a.name < b.name)
-          return -1;        
-        return 0;
-    })
-    //TODO async module will be used for this function
-    setTimeout(function(){
-      res.status(200).json(result)
-    }, 1000)
     
 }
 
@@ -203,13 +188,17 @@ exports.topPlayersAndTeam = function(req, res){
     Team
     .find({'_id': {$nin: req.user.subscribedTeams}})
     .sort({rating:-1})
-    .limit(5)
+    .sort({name:1})
+    .skip(req.query.skipTeam||0)
+    .limit(req.query.limitTeam||5)
     .exec(function(err, list){
        if(err) res.status(401).json({err: err})
        if (list) {
         result= list
         Player.find({'_id': {$nin: req.user.subscribedPlayers}})
         .sort({rating:-1})
+        .sort({name:1})
+        .skip(req.query.skip||0)
         .limit(req.query.limit||20)
         .exec(function(err, list){
            if(err) res.status(401).json({err: err})
@@ -245,6 +234,27 @@ exports.getPlayersTeam = function(req, res){
   var user = req.user
   //if (user.subscribedTeams.indexOf(req.team._id)>=0) {
     Player.find({'_team': req.team})    
+    .exec(function(err, list){
+        if(err) res.status(401).json({err: err})        
+        res.status(200).json(list)
+    })     
+  /*}
+  else
+  {
+    res.status(401).json({err:  req.team._id + ' doesn\'t exist in subscribed team list!', subcribedTeams: user.subscribedTeams }) 
+  }*/
+}
+
+/************************************************************************************
+ *          Get all players's team for a user : /users/USER_ID/teams/TEAM_ID/players
+ **************************************************************************************/
+
+exports.getPlayersByTeamName = function(req, res){
+  var user = req.user
+    Player.find({'country': req.team.name})
+    .sort({rating:-1})
+    .sort({name:1})
+    .limit(req.query.limit||30)
     .exec(function(err, list){
         if(err) res.status(401).json({err: err})        
         res.status(200).json(list)
@@ -303,5 +313,17 @@ exports.comment = function(req, res) {
   })
 }
 
+
+/***************************************************************************
+ *   Player stats
+ *******************************************************************************/
+exports.stats = function(req, res) {
+    PlayerStat.find({'_player': req.player._id})
+    .sort({season:-1})
+    .exec(function(err, list){
+        if(err) res.status(401).json({err: err})        
+        res.status(200).json(list)
+    })     
+};
 
 
